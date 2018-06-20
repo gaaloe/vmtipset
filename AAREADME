@@ -1,1 +1,4 @@
 g++ -I/usr/include/mpich main.cpp worker_code.cpp manager_code.cpp -lmpi
+#Minimi requirement:
+mpiexec -n 2 ./a.out
+mpiexec -n 8 ./a.out
