@@ -5,12 +5,12 @@
 enum e_team {rus, alg, eng, irn};
 enum e_person {sthrjo, stanny};
 #define SIZE_ROW 3
-// Must be 2^SIZE_ROW
-#define NR_COMBS 8
+//4*3
+#define NR_COMBS 24
 // semi1: rus - alg
 // semi2: eng - irn
 // final: rus/alg - eng/irn
-e_team game_result[SIZE_ROW] = {rus, eng, rus};
+e_team game_result[SIZE_ROW] = {rus, alg, rus};
 
 void manager_code( int numprocs )
 {
@@ -21,9 +21,26 @@ void manager_code( int numprocs )
     for ( i = 1; i < MIN( numprocs, NR_COMBS ); i++ ) {
         MPI_Send( game_result, SIZE_ROW, MPI_INT, i, i, MPI_COMM_WORLD );
         numsent++;
-        game_result[0] = (numsent % 2 == 0) ? rus : alg;
-        game_result[1] = ((numsent % 4)/2 == 0) ? eng : irn;
-        game_result[2] = ((numsent % 8)/4 == 0) ? game_result[0] : game_result[1];
+        switch (numsent % 4) {
+         case 0:
+           game_result[0] = rus;
+           game_result[1] = ((numsent/4) % 3 == 0) ? alg : ((numsent/4 % 3) == 1) ? eng : irn;
+           break;
+         case 1:
+           game_result[0] = alg;
+           game_result[1] = ((numsent/4) % 3 == 0) ? rus : ((numsent/4 % 3) == 1) ? eng : irn;
+           break;
+         case 2:
+           game_result[0] = eng;
+           game_result[1] = ((numsent/4) % 3 == 0) ? rus : ((numsent/4 % 3) == 1) ? alg : irn;
+           break;
+         case 3:
+           game_result[0] = irn;
+           game_result[1] = ((numsent/4) % 3 == 0) ? rus : ((numsent/4 % 3) == 1) ? alg : eng;
+           break;
+        }
+        assert(game_result[0] != game_result[1]);
+        game_result[2] = ((numsent/(4*3) % 2) == 0) ? game_result[0] : game_result[1];
     }
     if (NR_COMBS < numprocs) {
       for ( i = NR_COMBS; i < numprocs; i++ ) {
@@ -42,9 +59,26 @@ void manager_code( int numprocs )
             MPI_Send( game_result, SIZE_ROW, MPI_INT, sender,
                       numsent + 1, MPI_COMM_WORLD );
             numsent++;
-        game_result[0] = (numsent % 2 == 0) ? rus : alg;
-        game_result[1] = ((numsent % 4)/2 == 0) ? eng : irn;
-        game_result[2] = ((numsent % 8)/4 == 0) ? game_result[0] : game_result[1];
+        switch (numsent % 4) {
+         case 0:
+           game_result[0] = rus;
+           game_result[1] = ((numsent/4) % 3 == 0) ? alg : ((numsent/4 % 3) == 1) ? eng : irn;
+           break;
+         case 1:
+           game_result[0] = alg;
+           game_result[1] = ((numsent/4) % 3 == 0) ? rus : ((numsent/4 % 3) == 1) ? eng : irn;
+           break;
+         case 2:
+           game_result[0] = eng;
+           game_result[1] = ((numsent/4) % 3 == 0) ? rus : ((numsent/4 % 3) == 1) ? alg : irn;
+           break;
+         case 3:
+           game_result[0] = irn;
+           game_result[1] = ((numsent/4) % 3 == 0) ? rus : ((numsent/4 % 3) == 1) ? alg : eng;
+           break;
+        }
+        assert(game_result[0] != game_result[1]);
+        game_result[2] = ((numsent/(4*3) % 2) == 0) ? game_result[0] : game_result[1];
         }
         else                    /* no more work */
             MPI_Send( MPI_BOTTOM, 0, MPI_INT, sender, 0,
