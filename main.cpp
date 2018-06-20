@@ -1,5 +1,7 @@
 #include "mpi.h"
 
+extern void manager_code( int numprocs );
+extern void worker_code( void );
 int main( int argc, char *argv[] )
 {
     int numprocs, myrank;
