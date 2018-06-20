@@ -18,6 +18,9 @@ void worker_code( void )
         MPI_Recv( c, SIZE_ROW, MPI_INT, 0, MPI_ANY_TAG,
                   MPI_COMM_WORLD, &status );
         while ( status.MPI_TAG > 0 ) {
+#if 0
+std::cout << c[0]<< ' ' << c[1] << ' ' << c[2] << std::endl;
+#endif
             row = status.MPI_TAG - 1;
             dotp = sthrjo;
             MPI_Send( &dotp, 1, MPI_INT, 0, row + 1,

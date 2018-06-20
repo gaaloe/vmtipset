@@ -7,7 +7,10 @@ enum e_person {sthrjo, stanny};
 #define SIZE_ROW 3
 // Must be 2^SIZE_ROW
 #define NR_COMBS 8
-e_team game_result[SIZE_ROW] = {rus, alg, eng};
+// semi1: rus - alg
+// semi2: eng - irn
+// final: rus/alg - eng/irn
+e_team game_result[SIZE_ROW] = {rus, eng, rus};
 
 void manager_code( int numprocs )
 {
@@ -18,6 +21,9 @@ void manager_code( int numprocs )
     for ( i = 1; i < MIN( numprocs, NR_COMBS ); i++ ) {
         MPI_Send( game_result, SIZE_ROW, MPI_INT, i, i, MPI_COMM_WORLD );
         numsent++;
+        game_result[0] = (numsent % 2 == 0) ? rus : alg;
+        game_result[1] = ((numsent % 4)/2 == 0) ? eng : irn;
+        game_result[2] = ((numsent % 8)/4 == 0) ? game_result[0] : game_result[1];
     }
     if (NR_COMBS < numprocs) {
       for ( i = NR_COMBS; i < numprocs; i++ ) {
@@ -36,6 +42,9 @@ void manager_code( int numprocs )
             MPI_Send( game_result, SIZE_ROW, MPI_INT, sender,
                       numsent + 1, MPI_COMM_WORLD );
             numsent++;
+        game_result[0] = (numsent % 2 == 0) ? rus : alg;
+        game_result[1] = ((numsent % 4)/2 == 0) ? eng : irn;
+        game_result[2] = ((numsent % 8)/4 == 0) ? game_result[0] : game_result[1];
         }
         else                    /* no more work */
             MPI_Send( MPI_BOTTOM, 0, MPI_INT, sender, 0,
