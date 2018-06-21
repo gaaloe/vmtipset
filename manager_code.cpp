@@ -305,6 +305,41 @@ void construct_row(int numsent, cupResult_t* vals)
     break;
   }
   assert((*vals)[12] != (*vals)[13]);
+  // Group H: col, jpn, pol, sen
+#define WIN_H 4
+#define ND2_H 3
+#define MOD_H (MOD_G*WIN_H*ND2_H)
+  switch ((numsent/MOD_G) % WIN_H) {
+  case 0:
+    (*vals)[14] = col;
+    (*vals)[15] = ((numsent/(MOD_G*WIN_H) % ND2_H) == 0) ?
+      jpn : ((numsent/(MOD_G*WIN_H) % ND2_H) == 1) ?
+      pol :
+      sen;
+    break;
+  case 1:
+    (*vals)[14] = jpn;
+    (*vals)[15] = ((numsent/(MOD_G*WIN_H) % ND2_H) == 0) ?
+      col : ((numsent/(MOD_G*WIN_H) % ND2_H) == 1) ?
+      pol :
+      sen;
+    break;
+  case 2:
+    (*vals)[14] = pol;
+    (*vals)[15] = ((numsent/(MOD_G*WIN_H) % ND2_H) == 0) ?
+      col : ((numsent/(MOD_G*WIN_H) % ND2_H) == 1) ?
+      jpn :
+      sen;
+    break;
+  case 3:
+    (*vals)[14] = sen;
+    (*vals)[15] = ((numsent/(MOD_G*WIN_H) % ND2_H) == 0) ?
+      col : ((numsent/(MOD_G*WIN_H) % ND2_H) == 1) ?
+      jpn :
+      pol;
+    break;
+  }
+  assert((*vals)[14] != (*vals)[15]);
   // Slutspel, kvartsfinal:
   (*vals)[8] = ((numsent/MOD_D % 2) == 0) ? (*vals)[0] : (*vals)[1];
   (*vals)[9] = ((numsent/(MOD_D*2) % 2) == 0) ? (*vals)[2] : (*vals)[3];
