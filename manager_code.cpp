@@ -13,9 +13,15 @@ void manager_code( int numprocs )
   int numsent = 0;
   e_person dotp;
   MPI_Status status;
+  int count_win[16] = {0};
 
   for ( i = 1; i < MIN( numprocs, NR_COMBS ); i++ ) {
     construct_row(numsent, &game_result);
+    {
+      const enum e_team winnigTeam = game_result[SIZE_ROW-1];
+      assert(0 <= winnigTeam && winnigTeam < 16);
+      ++count_win[winnigTeam];
+    }
     MPI_Send( game_result, SIZE_ROW, MPI_INT, i, i, MPI_COMM_WORLD );
     numsent++;
   }
@@ -34,6 +40,11 @@ void manager_code( int numprocs )
     /* send another piece of work to this worker if there is one */
     if ( numsent < NR_COMBS ) {
       construct_row(numsent, &game_result);
+      {
+        const enum e_team winnigTeam = game_result[SIZE_ROW-1];
+        assert(0 <= winnigTeam && winnigTeam < 16);
+        ++count_win[winnigTeam];
+      }
       MPI_Send( game_result, SIZE_ROW, MPI_INT, sender,
 		numsent + 1, MPI_COMM_WORLD );
       numsent++;
@@ -43,6 +54,9 @@ void manager_code( int numprocs )
 		MPI_COMM_WORLD );
   }
   assert(numsent == NR_COMBS);
+  for (enum e_team i = (e_team)0; i < 16; ++i) {
+    assert(count_win[i] == NR_COMBS/16);
+  }
 }
 void construct_row(int numsent, cupResult_t* vals)
 {
@@ -203,4 +217,15 @@ void construct_row(int numsent, cupResult_t* vals)
   assert((*vals)[12] != (*vals)[13]);
   //Final:
   (*vals)[14] = ((numsent/(MOD_D*2*2*2*2*2*2) % 2) == 0) ? (*vals)[12] : (*vals)[13];
+}
+e_team operator++(e_team& that)
+{
+     that = static_cast<e_team>(static_cast<int>(that) + 1);
+     return that;
+}
+e_team operator++(e_team& that, int)
+{
+     e_team result = that;
+     ++that;
+     return result;
 }

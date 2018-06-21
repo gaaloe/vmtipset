@@ -7,4 +7,6 @@ enum e_team {rus, ksa, egy, uru,
 enum e_person {sthrjo, stanny};
 #define SIZE_ROW 15
 #define NR_COMBS (4*3*4*3*4*3*4*3*2*2*2*2*2*2*2)
+extern e_team operator++(e_team& that);
+extern e_team operator++(e_team& that, int);
 #endif
