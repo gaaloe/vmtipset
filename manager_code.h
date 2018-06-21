@@ -5,7 +5,8 @@ enum e_team {rus, ksa, egy, uru,
              fra, aus, per, den,
              arg, isl, cro, nga,
              crc, srb, bra, sui,
-             ger, mex, swe, kor};
+             ger, mex, swe, kor,
+             bel, pan, tun, eng};
 enum e_person {sthrjo, stanny};
 #define SIZE_ROW 15
 #define NR_COMBS (4*3*4*3*4*3*4*3*2*2*2*2*2*2*2)
