@@ -1,7 +1,7 @@
 #include <mpi.h>
 #include <iostream>
 #include <cassert>
-#define SIZE_ROW 13
+#define SIZE_ROW 11
 #define NR_COMBS 4*3*4*3*2*2
 enum e_team {rus, alg, eng, irn};
 enum e_person {sthrjo, stanny};
@@ -19,8 +19,8 @@ void worker_code( void )
         while ( status.MPI_TAG > 0 ) {
 #if 1
 std::cout << c[0]<< ' ' << c[1] << ' ' << c[2] << ' ';
-std::cout << c[3]<< ' ' << c[4] << ' ' << c[5] << ' ';
-std::cout << c[6];
+std::cout << c[3]<< ' ' << c[8] << ' ' << c[9] << ' ';
+std::cout << c[10];
 std::cout << std::endl;
 #endif
             row = status.MPI_TAG - 1;

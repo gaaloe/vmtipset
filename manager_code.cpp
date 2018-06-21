@@ -7,7 +7,7 @@ enum e_team {rus, ksa, egy, uru,
              fra, aus, per, den,
              arg, isl, cro, nga};
 enum e_person {sthrjo, stanny};
-#define SIZE_ROW (6+6+1)
+#define SIZE_ROW (2+2+2+2+2+1)
 #define NR_COMBS (4*3*4*3*2*2)
 typedef e_team cupResult_t[SIZE_ROW];
 e_team game_result[SIZE_ROW];
@@ -90,7 +90,7 @@ void construct_row(int numsent, cupResult_t* vals)
   // Group B:
 #define WIN_B 4
 #define ND2_B 3
-#define MOD_B (MOD_A*WIN_B*3)
+#define MOD_B (MOD_A*WIN_B*ND2_B)
   switch ((numsent/MOD_A) % WIN_B) {
   case 0:
     (*vals)[2] = mar;
@@ -122,10 +122,80 @@ void construct_row(int numsent, cupResult_t* vals)
     break;
   }
   assert((*vals)[2] != (*vals)[3]);
-  // Slutspel, semifinal:
-  (*vals)[4] = ((numsent/MOD_B % 2) == 0) ? (*vals)[0] : (*vals)[1];
-  (*vals)[5] = ((numsent/(MOD_B*2) % 2) == 0) ? (*vals)[2] : (*vals)[3];
+  // Group C: fra, aus, per, den,
+#define WIN_C 4
+#define ND2_C 3
+#define MOD_C (MOD_B*WIN_C*ND2_C)
+  switch ((numsent/MOD_B) % WIN_C) {
+  case 0:
+    (*vals)[4] = fra;
+    (*vals)[5] = ((numsent/(MOD_B*WIN_C) % ND2_C) == 0) ?
+      aus : ((numsent/(MOD_B*WIN_C) % ND2_C) == 1) ?
+      per :
+      den;
+    break;
+  case 1:
+    (*vals)[4] = aus;
+    (*vals)[5] = ((numsent/(MOD_B*WIN_C) % ND2_C) == 0) ?
+      fra : ((numsent/(MOD_B*WIN_C) % ND2_C) == 1) ?
+      per :
+      den;
+    break;
+  case 2:
+    (*vals)[4] = per;
+    (*vals)[5] = ((numsent/(MOD_B*WIN_C) % ND2_C) == 0) ?
+      fra : ((numsent/(MOD_B*WIN_C) % ND2_C) == 1) ?
+      aus :
+      den;
+    break;
+  case 3:
+    (*vals)[4] = den;
+    (*vals)[5] = ((numsent/(MOD_B*WIN_C) % ND2_C) == 0) ?
+      fra : ((numsent/(MOD_B*WIN_C) % ND2_C) == 1) ?
+      aus :
+      per;
+    break;
+  }
   assert((*vals)[4] != (*vals)[5]);
+  // Group D: arg, isl, cro, nga};
+#define WIN_D 4
+#define ND2_D 3
+#define MOD_D (MOD_C*WIN_D*ND2_D)
+  switch ((numsent/MOD_C) % WIN_D) {
+  case 0:
+    (*vals)[6] = arg;
+    (*vals)[7] = ((numsent/(MOD_C*WIN_D) % ND2_D) == 0) ?
+      isl : ((numsent/(MOD_C*WIN_D) % ND2_D) == 1) ?
+      cro :
+      nga;
+    break;
+  case 1:
+    (*vals)[6] = isl;
+    (*vals)[7] = ((numsent/(MOD_C*WIN_D) % ND2_D) == 0) ?
+      arg : ((numsent/(MOD_C*WIN_D) % ND2_D) == 1) ?
+      cro :
+      nga;
+    break;
+  case 2:
+    (*vals)[6] = cro;
+    (*vals)[7] = ((numsent/(MOD_C*WIN_D) % ND2_D) == 0) ?
+      arg : ((numsent/(MOD_C*WIN_D) % ND2_D) == 1) ?
+      isl :
+      nga;
+    break;
+  case 3:
+    (*vals)[6] = nga;
+    (*vals)[7] = ((numsent/(MOD_C*WIN_D) % ND2_D) == 0) ?
+      arg : ((numsent/(MOD_C*WIN_D) % ND2_D) == 1) ?
+      isl :
+      cro;
+    break;
+  }
+  assert((*vals)[4] != (*vals)[5]);
+  // Slutspel, semifinal:
+  (*vals)[8] = ((numsent/MOD_B % 2) == 0) ? (*vals)[0] : (*vals)[1];
+  (*vals)[9] = ((numsent/(MOD_B*2) % 2) == 0) ? (*vals)[2] : (*vals)[3];
+  assert((*vals)[8] != (*vals)[9]);
   //Slutspel, final:
-  (*vals)[6] = ((numsent/(MOD_B*2*2) % 2) == 0) ? (*vals)[4] : (*vals)[5];
+  (*vals)[10] = ((numsent/(MOD_B*2*2) % 2) == 0) ? (*vals)[8] : (*vals)[9];
 }
