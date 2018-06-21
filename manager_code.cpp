@@ -7,8 +7,8 @@ enum e_team {rus, ksa, egy, uru,
              fra, aus, per, den,
              arg, isl, cro, nga};
 enum e_person {sthrjo, stanny};
-#define SIZE_ROW (2+2+2+2+2+1)
-#define NR_COMBS (4*3*4*3*2*2)
+#define SIZE_ROW 15
+#define NR_COMBS (4*3*4*3*4*3*4*3*2*2*2*2*2*2*2)
 typedef e_team cupResult_t[SIZE_ROW];
 e_team game_result[SIZE_ROW];
 void construct_row(int numsent, cupResult_t* vals);
@@ -192,10 +192,21 @@ void construct_row(int numsent, cupResult_t* vals)
     break;
   }
   assert((*vals)[4] != (*vals)[5]);
-  // Slutspel, semifinal:
-  (*vals)[8] = ((numsent/MOD_B % 2) == 0) ? (*vals)[0] : (*vals)[1];
-  (*vals)[9] = ((numsent/(MOD_B*2) % 2) == 0) ? (*vals)[2] : (*vals)[3];
+  // Slutspel, kvartsfinal:
+  (*vals)[8] = ((numsent/MOD_D % 2) == 0) ? (*vals)[0] : (*vals)[1];
+  (*vals)[9] = ((numsent/(MOD_D*2) % 2) == 0) ? (*vals)[2] : (*vals)[3];
+  (*vals)[10] = ((numsent/(MOD_D*2*2) % 2) == 0) ? (*vals)[4] : (*vals)[5];
+  (*vals)[11] = ((numsent/(MOD_D*2*2*2) % 2) == 0) ? (*vals)[6] : (*vals)[7];
   assert((*vals)[8] != (*vals)[9]);
-  //Slutspel, final:
-  (*vals)[10] = ((numsent/(MOD_B*2*2) % 2) == 0) ? (*vals)[8] : (*vals)[9];
+  assert((*vals)[8] != (*vals)[10]);
+  assert((*vals)[8] != (*vals)[11]);
+  assert((*vals)[9] != (*vals)[10]);
+  assert((*vals)[9] != (*vals)[11]);
+  assert((*vals)[10] != (*vals)[11]);
+  // semifinal:
+  (*vals)[12] = ((numsent/(MOD_D*2*2*2*2) % 2) == 0) ? (*vals)[8] : (*vals)[9];
+  (*vals)[13] = ((numsent/(MOD_D*2*2*2*2*2) % 2) == 0) ? (*vals)[10] : (*vals)[11];
+  assert((*vals)[12] != (*vals)[13]);
+  //Final:
+  (*vals)[14] = ((numsent/(MOD_D*2*2*2*2*2*2) % 2) == 0) ? (*vals)[12] : (*vals)[13];
 }
