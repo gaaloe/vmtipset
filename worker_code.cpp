@@ -1,7 +1,7 @@
 #include <mpi.h>
 #include <iostream>
 #include <cassert>
-#define SIZE_ROW 7
+#define SIZE_ROW 13
 #define NR_COMBS 4*3*4*3*2*2
 enum e_team {rus, alg, eng, irn};
 enum e_person {sthrjo, stanny};
