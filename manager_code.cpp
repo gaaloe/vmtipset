@@ -1,14 +1,8 @@
 #include <mpi.h>
 #include <iostream>
 #include <cassert>
+#include "manager_code.h"
 #define MIN( x, y ) ((x) < (y) ? x : y)
-enum e_team {rus, ksa, egy, uru,
-             mar, irn, por, esp,
-             fra, aus, per, den,
-             arg, isl, cro, nga};
-enum e_person {sthrjo, stanny};
-#define SIZE_ROW 15
-#define NR_COMBS (4*3*4*3*4*3*4*3*2*2*2*2*2*2*2)
 typedef e_team cupResult_t[SIZE_ROW];
 e_team game_result[SIZE_ROW];
 void construct_row(int numsent, cupResult_t* vals);
