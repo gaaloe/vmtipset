@@ -199,7 +199,42 @@ void construct_row(int numsent, cupResult_t* vals)
       cro;
     break;
   }
-  assert((*vals)[4] != (*vals)[5]);
+  assert((*vals)[6] != (*vals)[7]);
+  // Group E: crc, srb, bra, sui};
+#define WIN_E 4
+#define ND2_E 3
+#define MOD_E (MOD_D*WIN_E*ND2_E)
+  switch ((numsent/MOD_D) % WIN_E) {
+  case 0:
+    (*vals)[8] = crc;
+    (*vals)[9] = ((numsent/(MOD_D*WIN_E) % ND2_E) == 0) ?
+      srb : ((numsent/(MOD_D*WIN_E) % ND2_E) == 1) ?
+      bra :
+      sui;
+    break;
+  case 1:
+    (*vals)[8] = srb;
+    (*vals)[9] = ((numsent/(MOD_D*WIN_E) % ND2_E) == 0) ?
+      crc : ((numsent/(MOD_D*WIN_E) % ND2_E) == 1) ?
+      bra :
+      sui;
+    break;
+  case 2:
+    (*vals)[8] = bra;
+    (*vals)[9] = ((numsent/(MOD_D*WIN_E) % ND2_E) == 0) ?
+      crc : ((numsent/(MOD_D*WIN_E) % ND2_E) == 1) ?
+      srb :
+      sui;
+    break;
+  case 3:
+    (*vals)[8] = sui;
+    (*vals)[9] = ((numsent/(MOD_D*WIN_E) % ND2_E) == 0) ?
+      crc : ((numsent/(MOD_D*WIN_E) % ND2_E) == 1) ?
+      srb :
+      bra;
+    break;
+  }
+  assert((*vals)[8] != (*vals)[9]);
   // Slutspel, kvartsfinal:
   (*vals)[8] = ((numsent/MOD_D % 2) == 0) ? (*vals)[0] : (*vals)[1];
   (*vals)[9] = ((numsent/(MOD_D*2) % 2) == 0) ? (*vals)[2] : (*vals)[3];

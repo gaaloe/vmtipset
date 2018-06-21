@@ -14,7 +14,7 @@ void worker_code( void )
     MPI_Recv( c, SIZE_ROW, MPI_INT, 0, MPI_ANY_TAG,
 	      MPI_COMM_WORLD, &status );
     while ( status.MPI_TAG > 0 ) {
-#if 1
+#if 0
       std::cout << c[0]<< ' ' << c[1] << ' ' << c[2] << ' ';
       std::cout << c[3]<< ' ' << c[4] << ' ' << c[5] << ' ';
       std::cout << c[6]<< ' ' << c[7] << ' ' << c[8] << ' ';
