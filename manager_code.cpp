@@ -5,12 +5,12 @@
 #define MIN( x, y ) ((x) < (y) ? x : y)
 typedef e_team cupResult_t[SIZE_ROW];
 e_team game_result[SIZE_ROW];
-void construct_row(int numsent, cupResult_t* vals);
+void construct_row(long numsent, cupResult_t* vals);
 
 void manager_code( int numprocs )
 {
   int i, sender, row;
-  int numsent = 0;
+  long numsent = 0;
   e_person dotp;
   MPI_Status status;
   int count_win[16] = {0};
@@ -26,13 +26,13 @@ void manager_code( int numprocs )
     numsent++;
   }
   if (NR_COMBS < numprocs) {
-    for ( i = NR_COMBS; i < numprocs; i++ ) {
-      MPI_Send( MPI_BOTTOM, 0, MPI_INT, i, 0,
+    for (long j = NR_COMBS; j < numprocs; j++ ) {
+      MPI_Send( MPI_BOTTOM, 0, MPI_INT, (int)j, 0,
 		MPI_COMM_WORLD );
     }
   }
   /* receive X back from workers */
-  for ( i = 0; i < NR_COMBS; i++ ) {
+  for (long j = 0; j < NR_COMBS; j++ ) {
     MPI_Recv( &dotp, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG,
 	      MPI_COMM_WORLD, &status );
     sender = status.MPI_SOURCE;
@@ -46,7 +46,7 @@ void manager_code( int numprocs )
         ++count_win[winnigTeam];
       }
       MPI_Send( game_result, SIZE_ROW, MPI_INT, sender,
-		numsent + 1, MPI_COMM_WORLD );
+		(numsent + 1)%200000000, MPI_COMM_WORLD );
       numsent++;
     }
     else                    /* no more work */
@@ -58,7 +58,7 @@ void manager_code( int numprocs )
     assert(count_win[i] == NR_COMBS/16);
   }
 }
-void construct_row(int numsent, cupResult_t* vals)
+void construct_row(long numsent, cupResult_t* vals)
 {
   // Group A:
 #define WIN_A 4
@@ -308,7 +308,7 @@ void construct_row(int numsent, cupResult_t* vals)
   // Group H: col, jpn, pol, sen
 #define WIN_H 4
 #define ND2_H 3
-#define MOD_H (MOD_G*WIN_H*ND2_H)
+#define MOD_H ((long)(MOD_G*WIN_H*ND2_H))
   switch ((numsent/MOD_G) % WIN_H) {
   case 0:
     (*vals)[14] = col;
@@ -340,23 +340,35 @@ void construct_row(int numsent, cupResult_t* vals)
     break;
   }
   assert((*vals)[14] != (*vals)[15]);
+  // Slutspel, Åttondelsfinal:
+  (*vals)[16] = ((numsent/MOD_H % 2) == 0) ? (*vals)[0] : (*vals)[1];
+  (*vals)[17] = ((numsent/(MOD_H*2) % 2) == 0) ? (*vals)[2] : (*vals)[3];
+  (*vals)[18] = ((numsent/(MOD_H*2*2) % 2) == 0) ? (*vals)[4] : (*vals)[5];
+  (*vals)[19] = ((numsent/(MOD_H*2*2*2) % 2) == 0) ? (*vals)[6] : (*vals)[7];
+  (*vals)[20] = ((numsent/(MOD_H*2*2*2*2) % 2) == 0) ? (*vals)[8] : (*vals)[9];
+  (*vals)[21] = ((numsent/(MOD_H*2*2*2*2*2) % 2) == 0) ? (*vals)[10] : (*vals)[11];
+  (*vals)[22] = ((numsent/(MOD_H*2*2*2*2*2*2) % 2) == 0) ? (*vals)[12] : (*vals)[13];
+  (*vals)[23] = ((numsent/(MOD_H*2*2*2*2*2*2*2) % 2) == 0) ? (*vals)[14] : (*vals)[15];
+#define MOD_8 (MOD_H*2*2*2*2*2*2*2*2)
   // Slutspel, kvartsfinal:
-  (*vals)[8] = ((numsent/MOD_D % 2) == 0) ? (*vals)[0] : (*vals)[1];
-  (*vals)[9] = ((numsent/(MOD_D*2) % 2) == 0) ? (*vals)[2] : (*vals)[3];
-  (*vals)[10] = ((numsent/(MOD_D*2*2) % 2) == 0) ? (*vals)[4] : (*vals)[5];
-  (*vals)[11] = ((numsent/(MOD_D*2*2*2) % 2) == 0) ? (*vals)[6] : (*vals)[7];
-  assert((*vals)[8] != (*vals)[9]);
-  assert((*vals)[8] != (*vals)[10]);
-  assert((*vals)[8] != (*vals)[11]);
-  assert((*vals)[9] != (*vals)[10]);
-  assert((*vals)[9] != (*vals)[11]);
-  assert((*vals)[10] != (*vals)[11]);
+  (*vals)[24] = ((numsent/MOD_8 % 2) == 0) ? (*vals)[16] : (*vals)[17];
+  (*vals)[25] = ((numsent/(MOD_8*2) % 2) == 0) ? (*vals)[18] : (*vals)[19];
+  (*vals)[26] = ((numsent/(MOD_8*2*2) % 2) == 0) ? (*vals)[20] : (*vals)[21];
+  (*vals)[27] = ((numsent/(MOD_8*2*2*2) % 2) == 0) ? (*vals)[22] : (*vals)[23];
+  assert((*vals)[24] != (*vals)[25]);
+  assert((*vals)[24] != (*vals)[26]);
+  assert((*vals)[24] != (*vals)[27]);
+  assert((*vals)[25] != (*vals)[26]);
+  assert((*vals)[25] != (*vals)[27]);
+  assert((*vals)[26] != (*vals)[27]);
+#define MOD_4 (MOD_8*2*2*2*2)
   // semifinal:
-  (*vals)[12] = ((numsent/(MOD_D*2*2*2*2) % 2) == 0) ? (*vals)[8] : (*vals)[9];
-  (*vals)[13] = ((numsent/(MOD_D*2*2*2*2*2) % 2) == 0) ? (*vals)[10] : (*vals)[11];
-  assert((*vals)[12] != (*vals)[13]);
+  (*vals)[27] = ((numsent/MOD_4 % 2) == 0) ? (*vals)[24] : (*vals)[25];
+  (*vals)[28] = ((numsent/(MOD_4*2) % 2) == 0) ? (*vals)[26] : (*vals)[27];
+  assert((*vals)[27] != (*vals)[28]);
+#define MOD_2 (MOD_4*2*2)
   //Final:
-  (*vals)[14] = ((numsent/(MOD_D*2*2*2*2*2*2) % 2) == 0) ? (*vals)[12] : (*vals)[13];
+  (*vals)[29] = ((numsent/MOD_2 % 2) == 0) ? (*vals)[27] : (*vals)[28];
 }
 e_team operator++(e_team& that)
 {
