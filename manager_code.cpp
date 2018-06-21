@@ -48,6 +48,12 @@ void manager_code( int numprocs )
       MPI_Send( game_result, SIZE_ROW, MPI_INT, sender,
 		(numsent + 1)%200000000, MPI_COMM_WORLD );
       numsent++;
+      {
+        if (numsent % 100000000 == 0) {
+           std::cout << __FILE__<<__LINE__<<' '<<numsent/100000000 << ' ';
+           std::cout << NR_COMBS/100000000 << std::endl;
+        }
+      }
     }
     else                    /* no more work */
       MPI_Send( MPI_BOTTOM, 0, MPI_INT, sender, 0,
