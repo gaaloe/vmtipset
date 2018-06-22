@@ -13,6 +13,7 @@ void manager_code( int numprocs )
   long numsent = 0;
   e_person dotp;
   MPI_Status status;
+  int count_eight[32] = {0};
   int count_quart[32] = {0};
   int count_semi[32] = {0};
   int count_final[32] = {0};
@@ -66,6 +67,22 @@ void manager_code( int numprocs )
       ++count_quart[quart6Team];
       ++count_quart[quart7Team];
       ++count_quart[quart8Team];
+      ++count_eight[game_result[0]];
+      ++count_eight[game_result[1]];
+      ++count_eight[game_result[2]];
+      ++count_eight[game_result[3]];
+      ++count_eight[game_result[4]];
+      ++count_eight[game_result[5]];
+      ++count_eight[game_result[6]];
+      ++count_eight[game_result[7]];
+      ++count_eight[game_result[8]];
+      ++count_eight[game_result[9]];
+      ++count_eight[game_result[10]];
+      ++count_eight[game_result[11]];
+      ++count_eight[game_result[12]];
+      ++count_eight[game_result[13]];
+      ++count_eight[game_result[14]];
+      ++count_eight[game_result[15]];
     }
     MPI_Send( game_result, SIZE_ROW, MPI_INT, i, i, MPI_COMM_WORLD );
     numsent++;
@@ -131,6 +148,22 @@ void manager_code( int numprocs )
       ++count_quart[quart6Team];
       ++count_quart[quart7Team];
       ++count_quart[quart8Team];
+      ++count_eight[game_result[0]];
+      ++count_eight[game_result[1]];
+      ++count_eight[game_result[2]];
+      ++count_eight[game_result[3]];
+      ++count_eight[game_result[4]];
+      ++count_eight[game_result[5]];
+      ++count_eight[game_result[6]];
+      ++count_eight[game_result[7]];
+      ++count_eight[game_result[8]];
+      ++count_eight[game_result[9]];
+      ++count_eight[game_result[10]];
+      ++count_eight[game_result[11]];
+      ++count_eight[game_result[12]];
+      ++count_eight[game_result[13]];
+      ++count_eight[game_result[14]];
+      ++count_eight[game_result[15]];
       }
       MPI_Send( game_result, SIZE_ROW, MPI_INT, sender,
 		(numsent + 1)%200000000, MPI_COMM_WORLD );
@@ -148,7 +181,7 @@ void manager_code( int numprocs )
   }
   assert(numsent == NR_COMBS);
   for (enum e_team i = (e_team)0; i < 32; ++i) {
-    std::cout << __FILE__<<__LINE__<<' '<<count_quart[i]<<std::endl;
+    std::cout << __FILE__<<__LINE__<<' '<<count_eight[i]<<std::endl;
     //assert(count_win[i] == NR_COMBS/32);
   }
 }
