@@ -13,14 +13,17 @@ void manager_code( int numprocs )
   long numsent = 0;
   e_person dotp;
   MPI_Status status;
+#if 0
   int count_eight[32] = {0};
   int count_quart[32] = {0};
   int count_semi[32] = {0};
   int count_final[32] = {0};
   int count_win[32] = {0};
+#endif
 
   for ( i = 1; i < MIN( numprocs, NR_COMBS ); i++ ) {
     construct_row(numsent, &game_result);
+#if 0
     {
       const enum e_team winnigTeam = game_result[30];
       assert(0 <= winnigTeam && winnigTeam < 32);
@@ -84,6 +87,7 @@ void manager_code( int numprocs )
       ++count_eight[game_result[14]];
       ++count_eight[game_result[15]];
     }
+#endif
     MPI_Send( game_result, SIZE_ROW, MPI_INT, i, i, MPI_COMM_WORLD );
     numsent++;
   }
@@ -102,6 +106,7 @@ void manager_code( int numprocs )
     /* send another piece of work to this worker if there is one */
     if ( numsent < NR_COMBS ) {
       construct_row(numsent, &game_result);
+#if 0
       {
         const enum e_team winnigTeam = game_result[30];
         assert(0 <= winnigTeam && winnigTeam < 32);
@@ -165,25 +170,28 @@ void manager_code( int numprocs )
       ++count_eight[game_result[14]];
       ++count_eight[game_result[15]];
       }
+#endif
       MPI_Send( game_result, SIZE_ROW, MPI_INT, sender,
 		(numsent + 1)%200000000, MPI_COMM_WORLD );
       numsent++;
-      {
-        if (numsent % 100000000 == 0) {
-	  std::cout << __FILE__<<__LINE__<<' '<<numsent/100000000 << ' ';
-	  std::cout << NR_COMBS/100000000 << std::endl;
-        }
+    {
+      if (numsent % 100000000 == 0) {
+       std::cout << __FILE__<<__LINE__<<' '<<numsent/100000000 << ' ';
+       std::cout << NR_COMBS/100000000 << std::endl;
       }
+    }
     }
     else                    /* no more work */
       MPI_Send( MPI_BOTTOM, 0, MPI_INT, sender, 0,
 		MPI_COMM_WORLD );
   }
   assert(numsent == NR_COMBS);
+#if 0
   for (enum e_team i = (e_team)0; i < 32; ++i) {
     std::cout << __FILE__<<__LINE__<<' '<<count_eight[i]<<std::endl;
     //assert(count_win[i] == NR_COMBS/32);
   }
+#endif
 }
 void construct_row(long numsent, cupResult_t* vals)
 {
@@ -255,7 +263,7 @@ void construct_row(long numsent, cupResult_t* vals)
   assert((*vals)[2] == mar || (*vals)[2] == irn || (*vals)[2] == por || (*vals)[2] == esp);
   assert((*vals)[3] == mar || (*vals)[3] == irn || (*vals)[3] == por || (*vals)[3] == esp);
   // Group C: fra, aus, per, den,
-#define MOD_C 6
+#define MOD_C (MOD_B*6)
   switch ((numsent/MOD_B) % MOD_C) {
   case 0:
     (*vals)[4] = fra;
@@ -322,7 +330,7 @@ void construct_row(long numsent, cupResult_t* vals)
   assert((*vals)[6] == arg || (*vals)[6] == isl || (*vals)[6] == cro || (*vals)[6] == nga);
   assert((*vals)[7] == arg || (*vals)[7] == isl || (*vals)[7] == cro || (*vals)[7] == nga);
   // Group E: crc, srb, bra, sui
-#define MOD_E 6
+#define MOD_E (MOD_D*6)
   switch ((numsent/MOD_D) % MOD_E) {
   case 0:
     (*vals)[8] = crc;
@@ -389,7 +397,7 @@ void construct_row(long numsent, cupResult_t* vals)
   assert((*vals)[10] == ger || (*vals)[10] == mex || (*vals)[10] == swe || (*vals)[10] == kor);
   assert((*vals)[11] == ger || (*vals)[11] == mex || (*vals)[11] == swe || (*vals)[11] == kor);
   // Group G: bel, pan, tun, eng
-#define MOD_G 6
+#define MOD_G (MOD_F*6)
   switch ((numsent/MOD_F) % MOD_G) {
   case 0:
     (*vals)[12] = bel;
