@@ -9,8 +9,8 @@ enum e_team {rus, ksa, egy, uru,
              bel, pan, tun, eng,
              col, jpn, pol, sen};
 enum e_person {sthrjo, stanny};
-#define SIZE_ROW 30
-#define NR_COMBS 14089640214528L
+#define SIZE_ROW 31
+#define NR_COMBS 2359296L
 extern e_team operator++(e_team& that);
 extern e_team operator++(e_team& that, int);
 #endif
