@@ -13,6 +13,8 @@ void manager_code( int numprocs )
   long numsent = 0;
   e_person dotp;
   MPI_Status status;
+  int count_quart[32] = {0};
+  int count_semi[32] = {0};
   int count_final[32] = {0};
   int count_win[32] = {0};
 
@@ -28,6 +30,42 @@ void manager_code( int numprocs )
       assert(0 <= finalist2Team && finalist2Team < 32);
       ++count_final[finalist1Team];
       ++count_final[finalist2Team];
+      const enum e_team semi1Team = game_result[24];
+      const enum e_team semi2Team = game_result[25];
+      const enum e_team semi3Team = game_result[26];
+      const enum e_team semi4Team = game_result[27];
+      assert(0 <= semi1Team && semi1Team < 32);
+      assert(0 <= semi2Team && semi2Team < 32);
+      assert(0 <= semi3Team && semi3Team < 32);
+      assert(0 <= semi4Team && semi4Team < 32);
+      ++count_semi[semi1Team];
+      ++count_semi[semi2Team];
+      ++count_semi[semi3Team];
+      ++count_semi[semi4Team];
+      const enum e_team quart1Team = game_result[16];
+      const enum e_team quart2Team = game_result[17];
+      const enum e_team quart3Team = game_result[18];
+      const enum e_team quart4Team = game_result[19];
+      const enum e_team quart5Team = game_result[20];
+      const enum e_team quart6Team = game_result[21];
+      const enum e_team quart7Team = game_result[22];
+      const enum e_team quart8Team = game_result[23];
+      assert(0 <= quart1Team && quart1Team < 32);
+      assert(0 <= quart2Team && quart2Team < 32);
+      assert(0 <= quart3Team && quart3Team < 32);
+      assert(0 <= quart4Team && quart4Team < 32);
+      assert(0 <= quart5Team && quart5Team < 32);
+      assert(0 <= quart6Team && quart6Team < 32);
+      assert(0 <= quart7Team && quart7Team < 32);
+      assert(0 <= quart8Team && quart8Team < 32);
+      ++count_quart[quart1Team];
+      ++count_quart[quart2Team];
+      ++count_quart[quart3Team];
+      ++count_quart[quart4Team];
+      ++count_quart[quart5Team];
+      ++count_quart[quart6Team];
+      ++count_quart[quart7Team];
+      ++count_quart[quart8Team];
     }
     MPI_Send( game_result, SIZE_ROW, MPI_INT, i, i, MPI_COMM_WORLD );
     numsent++;
@@ -57,6 +95,42 @@ void manager_code( int numprocs )
         assert(0 <= finalist2Team && finalist2Team < 32);
         ++count_final[finalist1Team];
         ++count_final[finalist2Team];
+      const enum e_team semi1Team = game_result[24];
+      const enum e_team semi2Team = game_result[25];
+      const enum e_team semi3Team = game_result[26];
+      const enum e_team semi4Team = game_result[27];
+      assert(0 <= semi1Team && semi1Team < 32);
+      assert(0 <= semi2Team && semi2Team < 32);
+      assert(0 <= semi3Team && semi3Team < 32);
+      assert(0 <= semi4Team && semi4Team < 32);
+      ++count_semi[semi1Team];
+      ++count_semi[semi2Team];
+      ++count_semi[semi3Team];
+      ++count_semi[semi4Team];
+      const enum e_team quart1Team = game_result[16];
+      const enum e_team quart2Team = game_result[17];
+      const enum e_team quart3Team = game_result[18];
+      const enum e_team quart4Team = game_result[19];
+      const enum e_team quart5Team = game_result[20];
+      const enum e_team quart6Team = game_result[21];
+      const enum e_team quart7Team = game_result[22];
+      const enum e_team quart8Team = game_result[23];
+      assert(0 <= quart1Team && quart1Team < 32);
+      assert(0 <= quart2Team && quart2Team < 32);
+      assert(0 <= quart3Team && quart3Team < 32);
+      assert(0 <= quart4Team && quart4Team < 32);
+      assert(0 <= quart5Team && quart5Team < 32);
+      assert(0 <= quart6Team && quart6Team < 32);
+      assert(0 <= quart7Team && quart7Team < 32);
+      assert(0 <= quart8Team && quart8Team < 32);
+      ++count_quart[quart1Team];
+      ++count_quart[quart2Team];
+      ++count_quart[quart3Team];
+      ++count_quart[quart4Team];
+      ++count_quart[quart5Team];
+      ++count_quart[quart6Team];
+      ++count_quart[quart7Team];
+      ++count_quart[quart8Team];
       }
       MPI_Send( game_result, SIZE_ROW, MPI_INT, sender,
 		(numsent + 1)%200000000, MPI_COMM_WORLD );
@@ -74,7 +148,7 @@ void manager_code( int numprocs )
   }
   assert(numsent == NR_COMBS);
   for (enum e_team i = (e_team)0; i < 32; ++i) {
-    std::cout << __FILE__<<__LINE__<<' '<<count_final[i]<<std::endl;
+    std::cout << __FILE__<<__LINE__<<' '<<count_quart[i]<<std::endl;
     //assert(count_win[i] == NR_COMBS/32);
   }
 }
