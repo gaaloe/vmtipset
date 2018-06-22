@@ -13,14 +13,21 @@ void manager_code( int numprocs )
   long numsent = 0;
   e_person dotp;
   MPI_Status status;
+  int count_final[32] = {0};
   int count_win[32] = {0};
 
   for ( i = 1; i < MIN( numprocs, NR_COMBS ); i++ ) {
     construct_row(numsent, &game_result);
     {
-      const enum e_team winnigTeam = game_result[SIZE_ROW-1];
+      const enum e_team winnigTeam = game_result[30];
       assert(0 <= winnigTeam && winnigTeam < 32);
       ++count_win[winnigTeam];
+      const enum e_team finalist1Team = game_result[28];
+      const enum e_team finalist2Team = game_result[29];
+      assert(0 <= finalist1Team && finalist1Team < 32);
+      assert(0 <= finalist2Team && finalist2Team < 32);
+      ++count_final[finalist1Team];
+      ++count_final[finalist2Team];
     }
     MPI_Send( game_result, SIZE_ROW, MPI_INT, i, i, MPI_COMM_WORLD );
     numsent++;
@@ -41,9 +48,15 @@ void manager_code( int numprocs )
     if ( numsent < NR_COMBS ) {
       construct_row(numsent, &game_result);
       {
-        const enum e_team winnigTeam = game_result[SIZE_ROW-1];
+        const enum e_team winnigTeam = game_result[30];
         assert(0 <= winnigTeam && winnigTeam < 32);
         ++count_win[winnigTeam];
+        const enum e_team finalist1Team = game_result[28];
+        const enum e_team finalist2Team = game_result[29];
+        assert(0 <= finalist1Team && finalist1Team < 32);
+        assert(0 <= finalist2Team && finalist2Team < 32);
+        ++count_final[finalist1Team];
+        ++count_final[finalist2Team];
       }
       MPI_Send( game_result, SIZE_ROW, MPI_INT, sender,
 		(numsent + 1)%200000000, MPI_COMM_WORLD );
@@ -61,7 +74,7 @@ void manager_code( int numprocs )
   }
   assert(numsent == NR_COMBS);
   for (enum e_team i = (e_team)0; i < 32; ++i) {
-    std::cout << __FILE__<<__LINE__<<' '<<count_win[i]<<std::endl;
+    std::cout << __FILE__<<__LINE__<<' '<<count_final[i]<<std::endl;
     //assert(count_win[i] == NR_COMBS/32);
   }
 }
