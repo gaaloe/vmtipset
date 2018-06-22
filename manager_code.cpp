@@ -13,13 +13,13 @@ void manager_code( int numprocs )
   long numsent = 0;
   e_person dotp;
   MPI_Status status;
-  int count_win[16] = {0};
+  int count_win[32] = {0};
 
   for ( i = 1; i < MIN( numprocs, NR_COMBS ); i++ ) {
     construct_row(numsent, &game_result);
     {
       const enum e_team winnigTeam = game_result[SIZE_ROW-1];
-      assert(0 <= winnigTeam && winnigTeam < 16);
+      assert(0 <= winnigTeam && winnigTeam < 32);
       ++count_win[winnigTeam];
     }
     MPI_Send( game_result, SIZE_ROW, MPI_INT, i, i, MPI_COMM_WORLD );
@@ -50,8 +50,8 @@ void manager_code( int numprocs )
       numsent++;
       {
         if (numsent % 100000000 == 0) {
-           std::cout << __FILE__<<__LINE__<<' '<<numsent/100000000 << ' ';
-           std::cout << NR_COMBS/100000000 << std::endl;
+	  std::cout << __FILE__<<__LINE__<<' '<<numsent/100000000 << ' ';
+	  std::cout << NR_COMBS/100000000 << std::endl;
         }
       }
     }
@@ -61,8 +61,8 @@ void manager_code( int numprocs )
   }
   assert(numsent == NR_COMBS);
   for (enum e_team i = (e_team)0; i < 32; ++i) {
-std::cout << __FILE__<<__LINE__<<' '<<count_win[i]<<std::endl;
-    assert(count_win[i] == NR_COMBS/32);
+    std::cout << __FILE__<<__LINE__<<' '<<count_win[i]<<std::endl;
+    //assert(count_win[i] == NR_COMBS/32);
   }
 }
 void construct_row(long numsent, cupResult_t* vals)
@@ -96,6 +96,8 @@ void construct_row(long numsent, cupResult_t* vals)
     break;
   }
   assert((*vals)[0] != (*vals)[1]);
+  assert((*vals)[0] == rus || (*vals)[0] == uru || (*vals)[0] == ksa || (*vals)[0] == egy);
+  assert((*vals)[1] == rus || (*vals)[1] == uru || (*vals)[1] == ksa || (*vals)[1] == egy);
   // Group B:
 #define WIN_B 4
 #define MOD_B (MOD_A*WIN_B*(WIN_B-1))
@@ -130,6 +132,8 @@ void construct_row(long numsent, cupResult_t* vals)
     break;
   }
   assert((*vals)[2] != (*vals)[3]);
+  assert((*vals)[2] == mar || (*vals)[2] == irn || (*vals)[2] == por || (*vals)[2] == esp);
+  assert((*vals)[3] == mar || (*vals)[3] == irn || (*vals)[3] == por || (*vals)[3] == esp);
   // Group C: fra, aus, per, den,
 #define MOD_C 6
   switch ((numsent/MOD_B) % MOD_C) {
@@ -159,7 +163,9 @@ void construct_row(long numsent, cupResult_t* vals)
     break;
   }
   assert((*vals)[4] != (*vals)[5]);
-  // Group D: arg, isl, cro, nga};
+  assert((*vals)[4] == fra || (*vals)[4] == aus || (*vals)[4] == per || (*vals)[4] == den);
+  assert((*vals)[5] == fra || (*vals)[5] == aus || (*vals)[5] == per || (*vals)[5] == den);
+  // Group D: arg, isl, cro, nga
 #define WIN_D 4
 #define MOD_D (MOD_C*WIN_D*(WIN_D-1))
   switch ((numsent/MOD_C) % WIN_D) {
@@ -193,7 +199,9 @@ void construct_row(long numsent, cupResult_t* vals)
     break;
   }
   assert((*vals)[6] != (*vals)[7]);
-  // Group E: crc, srb, bra, sui};
+  assert((*vals)[6] == arg || (*vals)[6] == isl || (*vals)[6] == cro || (*vals)[6] == nga);
+  assert((*vals)[7] == arg || (*vals)[7] == isl || (*vals)[7] == cro || (*vals)[7] == nga);
+  // Group E: crc, srb, bra, sui
 #define MOD_E 6
   switch ((numsent/MOD_D) % MOD_E) {
   case 0:
@@ -222,7 +230,7 @@ void construct_row(long numsent, cupResult_t* vals)
     break;
   }
   assert((*vals)[8] != (*vals)[9]);
-  // Group F:              ger, mex, swe, kor};
+  // Group F:              ger, mex, swe, kor
 #define WIN_F 4
 #define MOD_F (MOD_E*WIN_F*(WIN_F-1))
   switch ((numsent/MOD_E) % WIN_F) {
@@ -258,7 +266,7 @@ void construct_row(long numsent, cupResult_t* vals)
   assert((*vals)[10] != (*vals)[11]);
   // Group G: bel, pan, tun, eng
 #define MOD_G 6
-  switch ((numsent/MOD_G) % MOD_G) {
+  switch ((numsent/MOD_F) % MOD_G) {
   case 0:
     (*vals)[12] = bel;
     (*vals)[13] = pan;
@@ -349,17 +357,17 @@ void construct_row(long numsent, cupResult_t* vals)
   //Final:
   (*vals)[30] = ((numsent/MOD_2 % 2) == 0) ? (*vals)[28] : (*vals)[29];
 #if 0
-std::cout << __FILE__<<__LINE__<<' '<<MOD_2*2 << std::endl;
+  std::cout << __FILE__<<__LINE__<<' '<<MOD_2*2 << std::endl;
 #endif
 }
 e_team operator++(e_team& that)
 {
-     that = static_cast<e_team>(static_cast<int>(that) + 1);
-     return that;
+  that = static_cast<e_team>(static_cast<int>(that) + 1);
+  return that;
 }
 e_team operator++(e_team& that, int)
 {
-     e_team result = that;
-     ++that;
-     return result;
+  e_team result = that;
+  ++that;
+  return result;
 }
