@@ -12,8 +12,10 @@ enum e_team {rus, ksa, egy, uru,
              col, jpn, pol, sen};
 enum e_person {sthrjo, stanny};
 #define SIZE_ROW 32
-#define NR_COMBS 3522410053632L
-#define JUMP_HASH        32009L
+#define NR_COMBS 7044820107264L
+//It is probably good if JUMP_HASH is a prime number (?). See..
+//https://primes.utm.edu/lists/small/10000.txt
+#define JUMP_HASH        64007L
 extern e_team operator++(e_team& that);
 extern e_team operator++(e_team& that, int);
 extern std::ostream& operator<<(std::ostream& o, enum e_team);

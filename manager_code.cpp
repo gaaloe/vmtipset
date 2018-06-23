@@ -280,32 +280,36 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[2] == mar || (*vals)[2] == irn || (*vals)[2] == por || (*vals)[2] == esp);
   assert((*vals)[3] == mar || (*vals)[3] == irn || (*vals)[3] == por || (*vals)[3] == esp);
   // Group C: fra, aus, per, den,
-#define WIN_C 6
-#define MOD_C (MOD_B*WIN_C)
+#define WIN_C 4
+#define MOD_C (MOD_B*WIN_C*(WIN_C-1))
   switch ((hashRow/MOD_B) % WIN_C) {
   case 0:
     (*vals)[4] = fra;
-    (*vals)[5] = aus;
+    (*vals)[5] = ((hashRow/(MOD_B*WIN_C) % (WIN_C-1)) == 0) ?
+      aus : ((hashRow/(MOD_B*WIN_C) % (WIN_C-1)) == 1) ?
+      per :
+      den;
     break;
   case 1:
-    (*vals)[4] = fra;
-    (*vals)[5] = per;
+    (*vals)[4] = aus;
+    (*vals)[5] = ((hashRow/(MOD_B*WIN_C) % (WIN_C-1)) == 0) ?
+      fra : ((hashRow/(MOD_B*WIN_C) % (WIN_C-1)) == 1) ?
+      per :
+      den;
     break;
   case 2:
-    (*vals)[4] = fra;
-    (*vals)[5] = den;
+    (*vals)[4] = per;
+    (*vals)[5] = ((hashRow/(MOD_B*WIN_C) % (WIN_C-1)) == 0) ?
+      fra : ((hashRow/(MOD_B*WIN_C) % (WIN_C-1)) == 1) ?
+      aus :
+      den;
     break;
   case 3:
-    (*vals)[4] = aus;
-    (*vals)[5] = per;
-    break;
-  case 4:
-    (*vals)[4] = aus;
-    (*vals)[5] = den;
-    break;
-  case 5:
-    (*vals)[4] = per;
-    (*vals)[5] = den;
+    (*vals)[4] = den;
+    (*vals)[5] = ((hashRow/(MOD_B*WIN_C) % (WIN_C-1)) == 0) ?
+      fra : ((hashRow/(MOD_B*WIN_C) % (WIN_C-1)) == 1) ?
+      aus :
+      per;
     break;
   default:
     assert("Should not arrive here!"[0]==0);
@@ -527,8 +531,10 @@ void construct_row(long hashRow, cupResult_t* vals)
   //Final:
   (*vals)[30] = ((hashRow/MOD_2 % 2) == 0) ? p3t0 : p3t1;
   (*vals)[31] = ((hashRow/(MOD_2*2) % 2) == 0) ? (*vals)[28] : (*vals)[29];
-#if 0
-  std::cout << __FILE__<<__LINE__<<' '<<MOD_2*2*2 << std::endl;
+#ifndef NDEBUG
+  if (!(MOD_2*2*2 == NR_COMBS)) {
+    std::cout << __FILE__<<__LINE__<<' '<<MOD_2*2*2 << ' ' << NR_COMBS << std::endl;
+  }
 #endif
   assert(MOD_2*2*2 == NR_COMBS);
 }
