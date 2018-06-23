@@ -191,7 +191,7 @@ void manager_code( int numprocs )
   assert(numsent == NR_COMBS / JUMP_HASH);
 #if 1
   for (enum e_team i = (e_team)0; i < 32; ++i) {
-    std::cout << __FILE__<<__LINE__<<' '<<count_win[i]<<std::endl;
+    std::cout << __FILE__<<__LINE__<<' ' << i << ' ' <<count_win[i]<<std::endl;
   }
 #endif
 }
@@ -527,4 +527,45 @@ e_team operator++(e_team& that, int)
   e_team result = that;
   ++that;
   return result;
+}
+std::ostream& operator<<(std::ostream& o, enum e_team aTeam)
+{
+  switch(aTeam)
+    {
+    case rus: o << "rus"; break;
+    case ksa: o << "ksa"; break;
+    case egy: o << "egy"; break;
+    case uru: o << "uru"; break;
+    case mar: o << "mar"; break;
+    case irn: o << "irn"; break;
+    case por: o << "por"; break;
+    case esp: o << "esp"; break;
+    case fra: o << "fra"; break;
+    case aus: o << "aus"; break;
+    case per: o << "per"; break;
+    case den: o << "den"; break;
+    case arg: o << "arg"; break;
+    case isl: o << "isl"; break;
+    case cro: o << "cro"; break;
+    case nga: o << "nga"; break;
+    case crc: o << "crc"; break;
+    case srb: o << "srb"; break;
+    case bra: o << "bra"; break;
+    case sui: o << "sui"; break;
+    case ger: o << "ger"; break;
+    case mex: o << "mex"; break;
+    case swe: o << "swe"; break;
+    case kor: o << "kor"; break;
+    case bel: o << "bel"; break;
+    case pan: o << "pan"; break;
+    case tun: o << "tun"; break;
+    case eng: o << "eng"; break;
+    case col: o << "col"; break;
+    case jpn: o << "jpn"; break;
+    case pol: o << "pol"; break;
+    case sen: o << "sen"; break;
+    default:
+      assert("Should not happen!"[0]==0);
+    }
+    return o;
 }

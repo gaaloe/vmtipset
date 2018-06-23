@@ -1,5 +1,6 @@
 #ifndef manager_code_h
 #define manager_code_h
+#include <iostream>
 enum e_team {rus, ksa, egy, uru,
              mar, irn, por, esp,
              fra, aus, per, den,
@@ -14,4 +15,6 @@ enum e_person {sthrjo, stanny};
 #define JUMP_HASH        7919L
 extern e_team operator++(e_team& that);
 extern e_team operator++(e_team& that, int);
+extern std::ostream& operator<<(std::ostream& o, enum e_team);
+extern std::ostream& operator<<(std::ostream& o, enum e_person);
 #endif
