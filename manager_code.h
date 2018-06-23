@@ -1,3 +1,4 @@
+// -*-c++-*-
 #ifndef manager_code_h
 #define manager_code_h
 #include <iostream>

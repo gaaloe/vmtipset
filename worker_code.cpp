@@ -2,6 +2,45 @@
 #include <iostream>
 #include <cassert>
 #include "manager_code.h"
+enum e_team HRJO[32] = {
+  egy,
+  rus,
+  por,
+  esp,
+  den,
+  per,
+  arg,
+  cro,
+  bra,
+  sui,
+  ger,
+  mex,
+  bel,
+  eng,
+  sen,
+  pol,
+
+  esp,
+  por,
+  den,
+  arg,
+  bra,
+  ger,
+  bel,
+  sen,
+
+  esp,
+  den,
+  bra,
+  ger,
+
+  esp,
+  ger,
+
+  ger,
+
+  bra};
+
 void worker_code( void )
 {
   e_team c[SIZE_ROW];
