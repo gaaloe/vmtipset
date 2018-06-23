@@ -23,7 +23,7 @@ void worker_code( void )
 	      MPI_COMM_WORLD, &status );
     while ( status.MPI_TAG > 0 ) {
       int score_16 = 0;
-      for (e_team i = (e_team)0; i < (e_team)16; ++i, ++i) {
+      for (int i = 0; i < 16; i += 2) {
 	if (c[i] == HRJO[i]) {
 	  score_16 += 10;
 	} else if (c[i] == HRJO[i+1]) {
@@ -34,51 +34,33 @@ void worker_code( void )
 	} else if (c[i+1] == HRJO[i]) {
 	  score_16 += 7;
 	}
-#if 0
-	std::cout << c[i]<< ' ' << HRJO[i] << ' ';
-	std::cout << c[i+1]<< ' ' << HRJO[i+1] << ',';
-#endif
       }
-#if 0
-      std::cout << score_16 <<std::endl;
-#endif
       int score_8 = 0;
-      for (e_team i = (e_team)16; i < (e_team)(16+8); ++i) {
-	if (c[i] == HRJO[(e_team)16] || c[i] == HRJO[(e_team)17]
-	    || c[i] == HRJO[(e_team)18] || c[i] == HRJO[(e_team)19]
-	    || c[i] == HRJO[(e_team)20] || c[i] == HRJO[(e_team)21]
-	    || c[i] == HRJO[(e_team)22] || c[i] == HRJO[(e_team)23])
+      for (int i = 16; i < (16+8); ++i) {
+	if (c[i] == HRJO[16] || c[i] == HRJO[17]
+	    || c[i] == HRJO[18] || c[i] == HRJO[19]
+	    || c[i] == HRJO[20] || c[i] == HRJO[21]
+	    || c[i] == HRJO[22] || c[i] == HRJO[23])
 	  score_8 += 15;
-#if 0
-	std::cout << c[i]<< ' ' << HRJO[i] << ',';
-#endif
       }
-#if 0
-      std::cout << score_8 <<std::endl;
-#endif
       int score_4 = 0;
-      for (e_team i = (e_team)24; i < (e_team)(24+4); ++i) {
-	if (c[i] == HRJO[(e_team)24] || c[i] == HRJO[(e_team)25]
-	    || c[i] == HRJO[(e_team)26] || c[i] == HRJO[(e_team)27])
+      for (int i = 24; i < (24+4); ++i) {
+	if (c[i] == HRJO[24] || c[i] == HRJO[25]
+	    || c[i] == HRJO[26] || c[i] == HRJO[27])
 	  score_4 += 25; // Rätt semifinallag
-#if 0
-	std::cout << c[i]<< ' ' << HRJO[i] << ',';
-#endif
       }
-#if 0
-      std::cout << score_4 <<std::endl;
-#endif
       int score_2 = 0;
-      for (e_team i = (e_team)28; i < (e_team)(28+2); ++i) {
-	if (c[i] == HRJO[(e_team)28] || c[i] == HRJO[(e_team)29])
+      for (int i = 28; i < (28+2); ++i) {
+	if (c[i] == HRJO[28] || c[i] == HRJO[29])
 	  score_2 += 35; // Rätt finallag
-#if 0
-	std::cout << c[i]<< ' ' << HRJO[i] << ',';
-#endif
       }
-#if 0
-      std::cout << score_2 <<std::endl;
-#endif
+      int score_30 = 0;
+      if (c[30] == HRJO[30])
+	  score_30 = 20; // Rätt bronsvinnare
+      int score_50 = 0;
+      if (c[31] == HRJO[31])
+	  score_50 = 50; // Rätt världsmästare
+      const int score = score_16 + score_8 + score_4 + score_2 + score_30 + score_50;
       int tag = status.MPI_TAG;
       dotp[0] = sthrjo;
       MPI_Send( &dotp, 1, MPI_INT, 0, tag, MPI_COMM_WORLD );
