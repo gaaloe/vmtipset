@@ -11,6 +11,7 @@ void manager_code( int numprocs )
 {
   int i, sender, row;
   long numsent = 0;
+  long hashRow = 0;
   e_person dotp;
   MPI_Status status;
 #if 0
@@ -18,16 +19,16 @@ void manager_code( int numprocs )
   int count_quart[32] = {0};
   int count_semi[32] = {0};
   int count_final[32] = {0};
-  int count_win[32] = {0};
 #endif
+  int count_win[32] = {0};
 
-  for ( i = 1; i < MIN( numprocs, NR_COMBS ); i++ ) {
-    construct_row(numsent, &game_result);
-#if 0
+  for ( i = 1; i < MIN( numprocs, NR_COMBS / JUMP_HASH); i++ ) {
+    construct_row(hashRow, &game_result);
     {
       const enum e_team winnigTeam = game_result[30];
       assert(0 <= winnigTeam && winnigTeam < 32);
       ++count_win[winnigTeam];
+#if 0
       const enum e_team finalist1Team = game_result[28];
       const enum e_team finalist2Team = game_result[29];
       assert(0 <= finalist1Team && finalist1Team < 32);
@@ -86,31 +87,32 @@ void manager_code( int numprocs )
       ++count_eight[game_result[13]];
       ++count_eight[game_result[14]];
       ++count_eight[game_result[15]];
-    }
 #endif
+    }
     MPI_Send( game_result, SIZE_ROW, MPI_INT, i, i, MPI_COMM_WORLD );
     numsent++;
+    hashRow += JUMP_HASH;
   }
-  if (NR_COMBS < numprocs) {
-    for (long j = NR_COMBS; j < numprocs; j++ ) {
+  if (NR_COMBS / JUMP_HASH < numprocs) {
+    for (long j = NR_COMBS / JUMP_HASH; j < numprocs; j++ ) {
       MPI_Send( MPI_BOTTOM, 0, MPI_INT, (int)j, 0,
 		MPI_COMM_WORLD );
     }
   }
   /* receive X back from workers */
-  for (long j = 0; j < NR_COMBS; j++ ) {
+  for (long j = 0; j < NR_COMBS / JUMP_HASH; j++ ) {
     MPI_Recv( &dotp, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG,
 	      MPI_COMM_WORLD, &status );
     sender = status.MPI_SOURCE;
     row    = status.MPI_TAG - 1;
     /* send another piece of work to this worker if there is one */
-    if ( numsent < NR_COMBS ) {
-      construct_row(numsent, &game_result);
-#if 0
+    if ( numsent < NR_COMBS  / JUMP_HASH) {
+      construct_row(hashRow, &game_result);
       {
         const enum e_team winnigTeam = game_result[30];
         assert(0 <= winnigTeam && winnigTeam < 32);
         ++count_win[winnigTeam];
+#if 0
         const enum e_team finalist1Team = game_result[28];
         const enum e_team finalist2Team = game_result[29];
         assert(0 <= finalist1Team && finalist1Team < 32);
@@ -169,15 +171,16 @@ void manager_code( int numprocs )
       ++count_eight[game_result[13]];
       ++count_eight[game_result[14]];
       ++count_eight[game_result[15]];
-      }
 #endif
+      }
       MPI_Send( game_result, SIZE_ROW, MPI_INT, sender,
 		(numsent + 1)%200000000, MPI_COMM_WORLD );
       numsent++;
+      hashRow += JUMP_HASH;
     {
-      if (numsent % 100000000 == 0) {
-       std::cout << __FILE__<<__LINE__<<' '<<numsent/100000000 << ' ';
-       std::cout << NR_COMBS/100000000 << std::endl;
+      if (numsent % 1000000 == 0) {
+       std::cout << __FILE__<<__LINE__<<' '<<numsent/1000000 << ' ';
+       std::cout << (NR_COMBS/JUMP_HASH)/1000000 << std::endl;
       }
     }
     }
@@ -185,19 +188,18 @@ void manager_code( int numprocs )
       MPI_Send( MPI_BOTTOM, 0, MPI_INT, sender, 0,
 		MPI_COMM_WORLD );
   }
-  assert(numsent == NR_COMBS);
-#if 0
+  assert(numsent == NR_COMBS / JUMP_HASH);
+#if 1
   for (enum e_team i = (e_team)0; i < 32; ++i) {
-    std::cout << __FILE__<<__LINE__<<' '<<count_eight[i]<<std::endl;
-    //assert(count_win[i] == NR_COMBS/32);
+    std::cout << __FILE__<<__LINE__<<' '<<count_win[i]<<std::endl;
   }
 #endif
 }
-void construct_row(long numsent, cupResult_t* vals)
+void construct_row(long hashRow, cupResult_t* vals)
 {
   // Group A:
 #define MOD_A 6
-  switch (numsent % MOD_A) {
+  switch (hashRow % MOD_A) {
   case 0:
     (*vals)[0] = rus;
     (*vals)[1] = ksa;
@@ -229,32 +231,32 @@ void construct_row(long numsent, cupResult_t* vals)
   // Group B:
 #define WIN_B 4
 #define MOD_B (MOD_A*WIN_B*(WIN_B-1))
-  switch ((numsent/MOD_A) % WIN_B) {
+  switch ((hashRow/MOD_A) % WIN_B) {
   case 0:
     (*vals)[2] = mar;
-    (*vals)[3] = ((numsent/(MOD_A*WIN_B) % (WIN_B-1)) == 0) ?
-      irn : ((numsent/(MOD_A*WIN_B) % (WIN_B-1)) == 1) ?
+    (*vals)[3] = ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 0) ?
+      irn : ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 1) ?
       por :
       esp;
     break;
   case 1:
     (*vals)[2] = irn;
-    (*vals)[3] = ((numsent/(MOD_A*WIN_B) % (WIN_B-1)) == 0) ?
-      mar : ((numsent/(MOD_A*WIN_B) % (WIN_B-1)) == 1) ?
+    (*vals)[3] = ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 0) ?
+      mar : ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 1) ?
       por :
       esp;
     break;
   case 2:
     (*vals)[2] = por;
-    (*vals)[3] = ((numsent/(MOD_A*WIN_B) % (WIN_B-1)) == 0) ?
-      mar : ((numsent/(MOD_A*WIN_B) % (WIN_B-1)) == 1) ?
+    (*vals)[3] = ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 0) ?
+      mar : ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 1) ?
       irn :
       esp;
     break;
   case 3:
     (*vals)[2] = esp;
-    (*vals)[3] = ((numsent/(MOD_A*WIN_B) % (WIN_B-1)) == 0) ?
-      mar : ((numsent/(MOD_A*WIN_B) % (WIN_B-1)) == 1) ?
+    (*vals)[3] = ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 0) ?
+      mar : ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 1) ?
       irn :
       por;
     break;
@@ -264,7 +266,7 @@ void construct_row(long numsent, cupResult_t* vals)
   assert((*vals)[3] == mar || (*vals)[3] == irn || (*vals)[3] == por || (*vals)[3] == esp);
   // Group C: fra, aus, per, den,
 #define MOD_C (MOD_B*6)
-  switch ((numsent/MOD_B) % MOD_C) {
+  switch ((hashRow/MOD_B) % MOD_C) {
   case 0:
     (*vals)[4] = fra;
     (*vals)[5] = aus;
@@ -296,32 +298,32 @@ void construct_row(long numsent, cupResult_t* vals)
   // Group D: arg, isl, cro, nga
 #define WIN_D 4
 #define MOD_D (MOD_C*WIN_D*(WIN_D-1))
-  switch ((numsent/MOD_C) % WIN_D) {
+  switch ((hashRow/MOD_C) % WIN_D) {
   case 0:
     (*vals)[6] = arg;
-    (*vals)[7] = ((numsent/(MOD_C*WIN_D) % (WIN_D-1)) == 0) ?
-      isl : ((numsent/(MOD_C*WIN_D) % (WIN_D-1)) == 1) ?
+    (*vals)[7] = ((hashRow/(MOD_C*WIN_D) % (WIN_D-1)) == 0) ?
+      isl : ((hashRow/(MOD_C*WIN_D) % (WIN_D-1)) == 1) ?
       cro :
       nga;
     break;
   case 1:
     (*vals)[6] = isl;
-    (*vals)[7] = ((numsent/(MOD_C*WIN_D) % (WIN_D-1)) == 0) ?
-      arg : ((numsent/(MOD_C*WIN_D) % (WIN_D-1)) == 1) ?
+    (*vals)[7] = ((hashRow/(MOD_C*WIN_D) % (WIN_D-1)) == 0) ?
+      arg : ((hashRow/(MOD_C*WIN_D) % (WIN_D-1)) == 1) ?
       cro :
       nga;
     break;
   case 2:
     (*vals)[6] = cro;
-    (*vals)[7] = ((numsent/(MOD_C*WIN_D) % (WIN_D-1)) == 0) ?
-      arg : ((numsent/(MOD_C*WIN_D) % (WIN_D-1)) == 1) ?
+    (*vals)[7] = ((hashRow/(MOD_C*WIN_D) % (WIN_D-1)) == 0) ?
+      arg : ((hashRow/(MOD_C*WIN_D) % (WIN_D-1)) == 1) ?
       isl :
       nga;
     break;
   case 3:
     (*vals)[6] = nga;
-    (*vals)[7] = ((numsent/(MOD_C*WIN_D) % (WIN_D-1)) == 0) ?
-      arg : ((numsent/(MOD_C*WIN_D) % (WIN_D-1)) == 1) ?
+    (*vals)[7] = ((hashRow/(MOD_C*WIN_D) % (WIN_D-1)) == 0) ?
+      arg : ((hashRow/(MOD_C*WIN_D) % (WIN_D-1)) == 1) ?
       isl :
       cro;
     break;
@@ -331,7 +333,7 @@ void construct_row(long numsent, cupResult_t* vals)
   assert((*vals)[7] == arg || (*vals)[7] == isl || (*vals)[7] == cro || (*vals)[7] == nga);
   // Group E: crc, srb, bra, sui
 #define MOD_E (MOD_D*6)
-  switch ((numsent/MOD_D) % MOD_E) {
+  switch ((hashRow/MOD_D) % MOD_E) {
   case 0:
     (*vals)[8] = crc;
     (*vals)[9] = srb;
@@ -363,32 +365,32 @@ void construct_row(long numsent, cupResult_t* vals)
   // Group F:              ger, mex, swe, kor
 #define WIN_F 4
 #define MOD_F (MOD_E*WIN_F*(WIN_F-1))
-  switch ((numsent/MOD_E) % WIN_F) {
+  switch ((hashRow/MOD_E) % WIN_F) {
   case 0:
     (*vals)[10] = ger;
-    (*vals)[11] = ((numsent/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
-      mex : ((numsent/(MOD_E*WIN_F) % (WIN_F-1)) == 1) ?
+    (*vals)[11] = ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
+      mex : ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 1) ?
       swe :
       kor;
     break;
   case 1:
     (*vals)[10] = mex;
-    (*vals)[11] = ((numsent/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
-      ger : ((numsent/(MOD_E*WIN_F) % (WIN_F-1)) == 1) ?
+    (*vals)[11] = ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
+      ger : ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 1) ?
       swe :
       kor;
     break;
   case 2:
     (*vals)[10] = swe;
-    (*vals)[11] = ((numsent/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
-      ger : ((numsent/(MOD_E*WIN_F) % (WIN_F-1)) == 1) ?
+    (*vals)[11] = ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
+      ger : ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 1) ?
       mex :
       kor;
     break;
   case 3:
     (*vals)[10] = kor;
-    (*vals)[11] = ((numsent/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
-      ger : ((numsent/(MOD_E*WIN_F) % (WIN_F-1)) == 1) ?
+    (*vals)[11] = ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
+      ger : ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 1) ?
       mex :
       swe;
     break;
@@ -398,7 +400,7 @@ void construct_row(long numsent, cupResult_t* vals)
   assert((*vals)[11] == ger || (*vals)[11] == mex || (*vals)[11] == swe || (*vals)[11] == kor);
   // Group G: bel, pan, tun, eng
 #define MOD_G (MOD_F*6)
-  switch ((numsent/MOD_F) % MOD_G) {
+  switch ((hashRow/MOD_F) % MOD_G) {
   case 0:
     (*vals)[12] = bel;
     (*vals)[13] = pan;
@@ -430,32 +432,32 @@ void construct_row(long numsent, cupResult_t* vals)
   // Group H: col, jpn, pol, sen
 #define WIN_H 4
 #define MOD_H ((long)(MOD_G*WIN_H*(WIN_H-1)))
-  switch ((numsent/MOD_G) % WIN_H) {
+  switch ((hashRow/MOD_G) % WIN_H) {
   case 0:
     (*vals)[14] = col;
-    (*vals)[15] = ((numsent/(MOD_G*WIN_H) % (WIN_H-1)) == 0) ?
-      jpn : ((numsent/(MOD_G*WIN_H) % (WIN_H-1)) == 1) ?
+    (*vals)[15] = ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 0) ?
+      jpn : ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 1) ?
       pol :
       sen;
     break;
   case 1:
     (*vals)[14] = jpn;
-    (*vals)[15] = ((numsent/(MOD_G*WIN_H) % (WIN_H-1)) == 0) ?
-      col : ((numsent/(MOD_G*WIN_H) % (WIN_H-1)) == 1) ?
+    (*vals)[15] = ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 0) ?
+      col : ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 1) ?
       pol :
       sen;
     break;
   case 2:
     (*vals)[14] = pol;
-    (*vals)[15] = ((numsent/(MOD_G*WIN_H) % (WIN_H-1)) == 0) ?
-      col : ((numsent/(MOD_G*WIN_H) % (WIN_H-1)) == 1) ?
+    (*vals)[15] = ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 0) ?
+      col : ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 1) ?
       jpn :
       sen;
     break;
   case 3:
     (*vals)[14] = sen;
-    (*vals)[15] = ((numsent/(MOD_G*WIN_H) % (WIN_H-1)) == 0) ?
-      col : ((numsent/(MOD_G*WIN_H) % (WIN_H-1)) == 1) ?
+    (*vals)[15] = ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 0) ?
+      col : ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 1) ?
       jpn :
       pol;
     break;
@@ -464,20 +466,20 @@ void construct_row(long numsent, cupResult_t* vals)
   assert((*vals)[14] == col || (*vals)[14] == jpn || (*vals)[14] == pol || (*vals)[14] == sen);
   assert((*vals)[15] == col || (*vals)[15] == jpn || (*vals)[15] == pol || (*vals)[15] == sen);
   // Slutspel, Åttondelsfinal:
-  (*vals)[16] = ((numsent/MOD_H % 2) == 0) ? (*vals)[0] : (*vals)[1];
-  (*vals)[17] = ((numsent/(MOD_H*2) % 2) == 0) ? (*vals)[2] : (*vals)[3];
-  (*vals)[18] = ((numsent/(MOD_H*2*2) % 2) == 0) ? (*vals)[4] : (*vals)[5];
-  (*vals)[19] = ((numsent/(MOD_H*2*2*2) % 2) == 0) ? (*vals)[6] : (*vals)[7];
-  (*vals)[20] = ((numsent/(MOD_H*2*2*2*2) % 2) == 0) ? (*vals)[8] : (*vals)[9];
-  (*vals)[21] = ((numsent/(MOD_H*2*2*2*2*2) % 2) == 0) ? (*vals)[10] : (*vals)[11];
-  (*vals)[22] = ((numsent/(MOD_H*2*2*2*2*2*2) % 2) == 0) ? (*vals)[12] : (*vals)[13];
-  (*vals)[23] = ((numsent/(MOD_H*2*2*2*2*2*2*2) % 2) == 0) ? (*vals)[14] : (*vals)[15];
+  (*vals)[16] = ((hashRow/MOD_H % 2) == 0) ? (*vals)[0] : (*vals)[1];
+  (*vals)[17] = ((hashRow/(MOD_H*2) % 2) == 0) ? (*vals)[2] : (*vals)[3];
+  (*vals)[18] = ((hashRow/(MOD_H*2*2) % 2) == 0) ? (*vals)[4] : (*vals)[5];
+  (*vals)[19] = ((hashRow/(MOD_H*2*2*2) % 2) == 0) ? (*vals)[6] : (*vals)[7];
+  (*vals)[20] = ((hashRow/(MOD_H*2*2*2*2) % 2) == 0) ? (*vals)[8] : (*vals)[9];
+  (*vals)[21] = ((hashRow/(MOD_H*2*2*2*2*2) % 2) == 0) ? (*vals)[10] : (*vals)[11];
+  (*vals)[22] = ((hashRow/(MOD_H*2*2*2*2*2*2) % 2) == 0) ? (*vals)[12] : (*vals)[13];
+  (*vals)[23] = ((hashRow/(MOD_H*2*2*2*2*2*2*2) % 2) == 0) ? (*vals)[14] : (*vals)[15];
 #define MOD_8 (MOD_H*2*2*2*2*2*2*2*2)
   // Slutspel, kvartsfinal:
-  (*vals)[24] = ((numsent/MOD_8 % 2) == 0) ? (*vals)[16] : (*vals)[17];
-  (*vals)[25] = ((numsent/(MOD_8*2) % 2) == 0) ? (*vals)[18] : (*vals)[19];
-  (*vals)[26] = ((numsent/(MOD_8*2*2) % 2) == 0) ? (*vals)[20] : (*vals)[21];
-  (*vals)[27] = ((numsent/(MOD_8*2*2*2) % 2) == 0) ? (*vals)[22] : (*vals)[23];
+  (*vals)[24] = ((hashRow/MOD_8 % 2) == 0) ? (*vals)[16] : (*vals)[17];
+  (*vals)[25] = ((hashRow/(MOD_8*2) % 2) == 0) ? (*vals)[18] : (*vals)[19];
+  (*vals)[26] = ((hashRow/(MOD_8*2*2) % 2) == 0) ? (*vals)[20] : (*vals)[21];
+  (*vals)[27] = ((hashRow/(MOD_8*2*2*2) % 2) == 0) ? (*vals)[22] : (*vals)[23];
   assert((*vals)[24] != (*vals)[25]);
   assert((*vals)[24] != (*vals)[26]);
   assert((*vals)[24] != (*vals)[27]);
@@ -486,12 +488,12 @@ void construct_row(long numsent, cupResult_t* vals)
   assert((*vals)[26] != (*vals)[27]);
 #define MOD_4 (MOD_8*2*2*2*2)
   // semifinal:
-  (*vals)[28] = ((numsent/MOD_4 % 2) == 0) ? (*vals)[24] : (*vals)[25];
-  (*vals)[29] = ((numsent/(MOD_4*2) % 2) == 0) ? (*vals)[26] : (*vals)[27];
+  (*vals)[28] = ((hashRow/MOD_4 % 2) == 0) ? (*vals)[24] : (*vals)[25];
+  (*vals)[29] = ((hashRow/(MOD_4*2) % 2) == 0) ? (*vals)[26] : (*vals)[27];
   assert((*vals)[28] != (*vals)[29]);
 #define MOD_2 (MOD_4*2*2)
   //Final:
-  (*vals)[30] = ((numsent/MOD_2 % 2) == 0) ? (*vals)[28] : (*vals)[29];
+  (*vals)[30] = ((hashRow/MOD_2 % 2) == 0) ? (*vals)[28] : (*vals)[29];
 #if 0
   std::cout << __FILE__<<__LINE__<<' '<<MOD_2*2 << std::endl;
 #endif
