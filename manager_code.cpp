@@ -515,9 +515,9 @@ void construct_row(long hashRow, cupResult_t* vals)
   //Final:
   (*vals)[30] = ((hashRow/MOD_2 % 2) == 0) ? (*vals)[28] : (*vals)[29];
 #if 0
-  std::cout << __FILE__<<__LINE__<<' '<<MOD_2*2 << std::endl;
+  std::cout << __FILE__<<__LINE__<<' '<<MOD_2*2*2 << std::endl;
 #endif
-  assert(MOD_2*2 == NR_COMBS);
+  assert(MOD_2*2*2 == NR_COMBS);
 }
 e_team operator++(e_team& that)
 {
