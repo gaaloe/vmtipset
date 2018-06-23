@@ -197,6 +197,7 @@ void manager_code( int numprocs )
 }
 void construct_row(long hashRow, cupResult_t* vals)
 {
+  assert(0 <= hashRow && hashRow < NR_COMBS);
   // Group A:
 #define MOD_A 6
   switch (hashRow % MOD_A) {
