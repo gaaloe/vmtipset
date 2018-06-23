@@ -3,49 +3,18 @@
 #include <cassert>
 #include "manager_code.h"
 enum e_team HRJO[32] = {
-  egy,
-  rus,
-  por,
-  esp,
-  den,
-  per,
-  arg,
-  cro,
-  bra,
-  sui,
+  egy, rus, por, esp, den, per, arg, cro, bra, sui, ger, mex, bel, eng, sen, pol,
+  esp, por, den, arg, bra, ger, bel, sen,
+  esp, den, bra, ger,
+  esp, ger,
   ger,
-  mex,
-  bel,
-  eng,
-  sen,
-  pol,
-
-  esp,
-  por,
-  den,
-  arg,
-  bra,
-  ger,
-  bel,
-  sen,
-
-  esp,
-  den,
-  bra,
-  ger,
-
-  esp,
-  ger,
-
-  ger,
-
   bra};
 
 void worker_code( void )
 {
   e_team c[SIZE_ROW];
   int i, myrank;
-  e_person dotp;
+  e_person dotp[2];
   MPI_Status status;
 
   MPI_Comm_rank( MPI_COMM_WORLD, &myrank );
@@ -62,7 +31,7 @@ void worker_code( void )
       std::cout << std::endl;
 #endif
       int tag = status.MPI_TAG;
-      dotp = sthrjo;
+      dotp[0] = sthrjo;
       MPI_Send( &dotp, 1, MPI_INT, 0, tag, MPI_COMM_WORLD );
       MPI_Recv( c, SIZE_ROW, MPI_INT, 0, MPI_ANY_TAG,
 		MPI_COMM_WORLD, &status );

@@ -11,7 +11,7 @@ enum e_team {rus, ksa, egy, uru,
              bel, pan, tun, eng,
              col, jpn, pol, sen};
 enum e_person {sthrjo, stanny};
-#define SIZE_ROW 31
+#define SIZE_ROW 32
 #define NR_COMBS 1761205026816L
 #define JUMP_HASH        16001L
 extern e_team operator++(e_team& that);

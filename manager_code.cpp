@@ -12,7 +12,7 @@ void manager_code( int numprocs )
   int i, sender, row;
   long numsent = 0;
   long hashRow = 0;
-  e_person dotp;
+  e_person dotp[2];
   MPI_Status status;
 #if 0
   int count_eight[32] = {0};
@@ -101,10 +101,15 @@ void manager_code( int numprocs )
   }
   /* receive X back from workers */
   for (long j = 0; j < NR_COMBS / JUMP_HASH; j++ ) {
-    MPI_Recv( &dotp, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG,
+    dotp[0]=(e_person)-1;
+    MPI_Recv( &dotp, 2, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG,
 	      MPI_COMM_WORLD, &status );
+    assert(dotp[0]==sthrjo);
     sender = status.MPI_SOURCE;
     row    = status.MPI_TAG - 1;
+    int number = -1;
+    MPI_Get_count(&status, MPI_INT, &number);
+    assert(number == 1);
     /* send another piece of work to this worker if there is one */
     if ( numsent < NR_COMBS  / JUMP_HASH) {
       construct_row(hashRow, &game_result);
@@ -511,9 +516,12 @@ void construct_row(long hashRow, cupResult_t* vals)
   (*vals)[28] = ((hashRow/MOD_4 % 2) == 0) ? (*vals)[24] : (*vals)[25];
   (*vals)[29] = ((hashRow/(MOD_4*2) % 2) == 0) ? (*vals)[26] : (*vals)[27];
   assert((*vals)[28] != (*vals)[29]);
+  const enum e_team p3t0 = ((hashRow/MOD_4 % 2) == 1) ? (*vals)[24] : (*vals)[25];
+  const enum e_team p3t1 = ((hashRow/(MOD_4*2) % 2) == 1) ? (*vals)[26] : (*vals)[27];
 #define MOD_2 (MOD_4*2*2)
   //Final:
-  (*vals)[30] = ((hashRow/MOD_2 % 2) == 0) ? (*vals)[28] : (*vals)[29];
+  (*vals)[30] = ((hashRow/MOD_2 % 2) == 0) ? p3t0 : p3t1;
+  (*vals)[31] = ((hashRow/(MOD_2*2) % 2) == 0) ? (*vals)[28] : (*vals)[29];
 #if 0
   std::cout << __FILE__<<__LINE__<<' '<<MOD_2*2*2 << std::endl;
 #endif
