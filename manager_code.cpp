@@ -224,6 +224,8 @@ void construct_row(long hashRow, cupResult_t* vals)
     (*vals)[0] = egy;
     (*vals)[1] = uru;
     break;
+  default:
+    assert("Should not arrive here!"[0]==0);
   }
   assert((*vals)[0] != (*vals)[1]);
   assert((*vals)[0] == rus || (*vals)[0] == uru || (*vals)[0] == ksa || (*vals)[0] == egy);
@@ -260,13 +262,16 @@ void construct_row(long hashRow, cupResult_t* vals)
       irn :
       por;
     break;
+  default:
+    assert("Should not arrive here!"[0]==0);
   }
   assert((*vals)[2] != (*vals)[3]);
   assert((*vals)[2] == mar || (*vals)[2] == irn || (*vals)[2] == por || (*vals)[2] == esp);
   assert((*vals)[3] == mar || (*vals)[3] == irn || (*vals)[3] == por || (*vals)[3] == esp);
   // Group C: fra, aus, per, den,
-#define MOD_C (MOD_B*6)
-  switch ((hashRow/MOD_B) % MOD_C) {
+#define WIN_C 6
+#define MOD_C (MOD_B*WIN_C)
+  switch ((hashRow/MOD_B) % WIN_C) {
   case 0:
     (*vals)[4] = fra;
     (*vals)[5] = aus;
@@ -291,6 +296,8 @@ void construct_row(long hashRow, cupResult_t* vals)
     (*vals)[4] = per;
     (*vals)[5] = den;
     break;
+  default:
+    assert("Should not arrive here!"[0]==0);
   }
   assert((*vals)[4] != (*vals)[5]);
   assert((*vals)[4] == fra || (*vals)[4] == aus || (*vals)[4] == per || (*vals)[4] == den);
@@ -327,13 +334,16 @@ void construct_row(long hashRow, cupResult_t* vals)
       isl :
       cro;
     break;
+  default:
+    assert("Should not arrive here!"[0]==0);
   }
   assert((*vals)[6] != (*vals)[7]);
   assert((*vals)[6] == arg || (*vals)[6] == isl || (*vals)[6] == cro || (*vals)[6] == nga);
   assert((*vals)[7] == arg || (*vals)[7] == isl || (*vals)[7] == cro || (*vals)[7] == nga);
   // Group E: crc, srb, bra, sui
-#define MOD_E (MOD_D*6)
-  switch ((hashRow/MOD_D) % MOD_E) {
+#define WIN_E 6
+#define MOD_E (MOD_D*WIN_E)
+  switch ((hashRow/MOD_D) % WIN_E) {
   case 0:
     (*vals)[8] = crc;
     (*vals)[9] = srb;
@@ -358,6 +368,8 @@ void construct_row(long hashRow, cupResult_t* vals)
     (*vals)[8] = bra;
     (*vals)[9] = sui;
     break;
+  default:
+    assert("Should not arrive here!"[0]==0);
   }
   assert((*vals)[8] != (*vals)[9]);
   assert((*vals)[8] == crc || (*vals)[8] == srb || (*vals)[8] == bra || (*vals)[8] == sui);
@@ -394,13 +406,16 @@ void construct_row(long hashRow, cupResult_t* vals)
       mex :
       swe;
     break;
+  default:
+    assert("Should not arrive here!"[0]==0);
   }
   assert((*vals)[10] != (*vals)[11]);
   assert((*vals)[10] == ger || (*vals)[10] == mex || (*vals)[10] == swe || (*vals)[10] == kor);
   assert((*vals)[11] == ger || (*vals)[11] == mex || (*vals)[11] == swe || (*vals)[11] == kor);
   // Group G: bel, pan, tun, eng
-#define MOD_G (MOD_F*6)
-  switch ((hashRow/MOD_F) % MOD_G) {
+#define WIN_G 6
+#define MOD_G (MOD_F*WIN_G)
+  switch ((hashRow/MOD_F) % WIN_G) {
   case 0:
     (*vals)[12] = bel;
     (*vals)[13] = pan;
@@ -425,6 +440,8 @@ void construct_row(long hashRow, cupResult_t* vals)
     (*vals)[12] = tun;
     (*vals)[13] = eng;
     break;
+  default:
+    assert("Should not arrive here!"[0]==0);
   }
   assert((*vals)[12] != (*vals)[13]);
   assert((*vals)[12] == bel || (*vals)[12] == pan || (*vals)[12] == tun || (*vals)[12] == eng);
@@ -461,6 +478,8 @@ void construct_row(long hashRow, cupResult_t* vals)
       jpn :
       pol;
     break;
+  default:
+    assert("Should not arrive here!"[0]==0);
   }
   assert((*vals)[14] != (*vals)[15]);
   assert((*vals)[14] == col || (*vals)[14] == jpn || (*vals)[14] == pol || (*vals)[14] == sen);
