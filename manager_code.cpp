@@ -356,32 +356,36 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[6] == arg || (*vals)[6] == isl || (*vals)[6] == cro || (*vals)[6] == nga);
   assert((*vals)[7] == arg || (*vals)[7] == isl || (*vals)[7] == cro || (*vals)[7] == nga);
   // Group E: crc, srb, bra, sui
-#define WIN_E 6
-#define MOD_E (MOD_D*WIN_E)
+#define WIN_E 4
+#define MOD_E (MOD_D*WIN_E*(WIN_E-1))
   switch ((hashRow/MOD_D) % WIN_E) {
   case 0:
     (*vals)[8] = crc;
-    (*vals)[9] = srb;
+    (*vals)[9] = ((hashRow/(MOD_D*WIN_E) % (WIN_E-1)) == 0) ?
+      srb : ((hashRow/(MOD_D*WIN_E) % (WIN_E-1)) == 1) ?
+      bra :
+      sui;
     break;
   case 1:
-    (*vals)[8] = crc;
-    (*vals)[9] = bra;
+    (*vals)[8] = srb;
+    (*vals)[9] = ((hashRow/(MOD_D*WIN_E) % (WIN_E-1)) == 0) ?
+      crc : ((hashRow/(MOD_D*WIN_E) % (WIN_E-1)) == 1) ?
+      bra :
+      sui;
     break;
   case 2:
-    (*vals)[8] = crc;
-    (*vals)[9] = sui;
+    (*vals)[8] = bra;
+    (*vals)[9] = ((hashRow/(MOD_D*WIN_E) % (WIN_E-1)) == 0) ?
+      crc : ((hashRow/(MOD_D*WIN_E) % (WIN_E-1)) == 1) ?
+      srb :
+      sui;
     break;
   case 3:
-    (*vals)[8] = srb;
-    (*vals)[9] = bra;
-    break;
-  case 4:
-    (*vals)[8] = srb;
-    (*vals)[9] = sui;
-    break;
-  case 5:
-    (*vals)[8] = bra;
-    (*vals)[9] = sui;
+    (*vals)[8] = sui;
+    (*vals)[9] = ((hashRow/(MOD_D*WIN_E) % (WIN_E-1)) == 0) ?
+      crc : ((hashRow/(MOD_D*WIN_E) % (WIN_E-1)) == 1) ?
+      srb :
+      bra;
     break;
   default:
     assert("Should not arrive here!"[0]==0);
