@@ -22,6 +22,9 @@ void worker_code( void )
     MPI_Recv( c, SIZE_ROW, MPI_INT, 0, MPI_ANY_TAG,
 	      MPI_COMM_WORLD, &status );
     while ( status.MPI_TAG > 0 ) {
+      int score = 0;
+      for (e_team i = (e_team)0; i < (e_team)16; ++i) {
+      }
 #if 0
       std::cout << c[0]<< ' ' << c[1] << ' ' << c[2] << ' ';
       std::cout << c[3]<< ' ' << c[4] << ' ' << c[5] << ' ';
@@ -33,6 +36,7 @@ void worker_code( void )
       int tag = status.MPI_TAG;
       dotp[0] = sthrjo;
       MPI_Send( &dotp, 1, MPI_INT, 0, tag, MPI_COMM_WORLD );
+      //More job to do? Look at status.MPI_TAG
       MPI_Recv( c, SIZE_ROW, MPI_INT, 0, MPI_ANY_TAG,
 		MPI_COMM_WORLD, &status );
     }
