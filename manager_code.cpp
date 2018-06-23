@@ -203,32 +203,37 @@ void manager_code( int numprocs )
 void construct_row(long hashRow, cupResult_t* vals)
 {
   assert(0 <= hashRow && hashRow < NR_COMBS);
-  // Group A:
-#define MOD_A 6
-  switch (hashRow % MOD_A) {
+  // Group A: //rus, ksa, egy, uru
+#define WIN_A 4
+#define MOD_A (WIN_A*(WIN_A-1))
+  switch ((hashRow/MOD_A) % WIN_A) {
   case 0:
     (*vals)[0] = rus;
-    (*vals)[1] = ksa;
+    (*vals)[1] = ((hashRow/(MOD_A*WIN_A) % (WIN_A-1)) == 0) ?
+      ksa : ((hashRow/(MOD_A*WIN_A) % (WIN_A-1)) == 1) ?
+      egy :
+      uru;
     break;
   case 1:
-    (*vals)[0] = rus;
-    (*vals)[1] = egy;
+    (*vals)[0] = ksa;
+    (*vals)[1] = ((hashRow/(MOD_A*WIN_A) % (WIN_A-1)) == 0) ?
+      rus : ((hashRow/(MOD_A*WIN_A) % (WIN_A-1)) == 1) ?
+      egy :
+      uru;
     break;
   case 2:
-    (*vals)[0] = rus;
-    (*vals)[1] = uru;
+    (*vals)[0] = egy;
+    (*vals)[1] = ((hashRow/(MOD_A*WIN_A) % (WIN_A-1)) == 0) ?
+      rus : ((hashRow/(MOD_A*WIN_A) % (WIN_A-1)) == 1) ?
+      ksa :
+      uru;
     break;
   case 3:
-    (*vals)[0] = ksa;
-    (*vals)[1] = egy;
-    break;
-  case 4:
-    (*vals)[0] = ksa;
-    (*vals)[1] = uru;
-    break;
-  case 5:
-    (*vals)[0] = egy;
-    (*vals)[1] = uru;
+    (*vals)[0] = uru;
+    (*vals)[1] = ((hashRow/(MOD_A*WIN_A) % (WIN_A-1)) == 0) ?
+      rus : ((hashRow/(MOD_A*WIN_A) % (WIN_A-1)) == 1) ?
+      ksa :
+      egy;
     break;
   default:
     assert("Should not arrive here!"[0]==0);
