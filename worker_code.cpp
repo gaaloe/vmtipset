@@ -24,23 +24,37 @@ void worker_code( void )
     while ( status.MPI_TAG > 0 ) {
       int score_16 = 0;
       for (e_team i = (e_team)0; i < (e_team)16; ++i, ++i) {
-         if (c[i] == HRJO[i]) {
-           score_16 += 10;
-         } else if (c[i] == HRJO[i+1]) {
-           score_16 += 7;
-         }
-         if (c[i+1] == HRJO[i+1]) {
-           score_16 += 10;
-         } else if (c[i+1] == HRJO[i]) {
-           score_16 += 7;
-         }
+	if (c[i] == HRJO[i]) {
+	  score_16 += 10;
+	} else if (c[i] == HRJO[i+1]) {
+	  score_16 += 7;
+	}
+	if (c[i+1] == HRJO[i+1]) {
+	  score_16 += 10;
+	} else if (c[i+1] == HRJO[i]) {
+	  score_16 += 7;
+	}
 #if 0
-         std::cout << c[i]<< ' ' << HRJO[i] << ' ';
-         std::cout << c[i+1]<< ' ' << HRJO[i+1] << ',';
+	std::cout << c[i]<< ' ' << HRJO[i] << ' ';
+	std::cout << c[i+1]<< ' ' << HRJO[i+1] << ',';
 #endif
       }
 #if 0
       std::cout << score_16 <<std::endl;
+#endif
+      int score_8 = 0;
+      for (e_team i = (e_team)16; i < (e_team)(16+8); ++i) {
+	if (c[i] == HRJO[(e_team)16] || c[i] == HRJO[(e_team)17]
+	    || c[i] == HRJO[(e_team)18] || c[i] == HRJO[(e_team)19]
+	    || c[i] == HRJO[(e_team)20] || c[i] == HRJO[(e_team)21]
+	    || c[i] == HRJO[(e_team)22] || c[i] == HRJO[(e_team)23])
+	  score_8 += 15;
+#if 0
+	std::cout << c[i]<< ' ' << HRJO[i] << ',';
+#endif
+      }
+#if 0
+      std::cout << score_8 <<std::endl;
 #endif
       int tag = status.MPI_TAG;
       dotp[0] = sthrjo;
