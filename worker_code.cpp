@@ -56,6 +56,18 @@ void worker_code( void )
 #if 0
       std::cout << score_8 <<std::endl;
 #endif
+      int score_4 = 0;
+      for (e_team i = (e_team)24; i < (e_team)(24+4); ++i) {
+	if (c[i] == HRJO[(e_team)24] || c[i] == HRJO[(e_team)25]
+	    || c[i] == HRJO[(e_team)26] || c[i] == HRJO[(e_team)27])
+	  score_4 += 25;
+#if 0
+	std::cout << c[i]<< ' ' << HRJO[i] << ',';
+#endif
+      }
+#if 0
+      std::cout << score_4 <<std::endl;
+#endif
       int tag = status.MPI_TAG;
       dotp[0] = sthrjo;
       MPI_Send( &dotp, 1, MPI_INT, 0, tag, MPI_COMM_WORLD );
