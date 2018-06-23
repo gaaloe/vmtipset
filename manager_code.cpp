@@ -485,14 +485,14 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[14] == col || (*vals)[14] == jpn || (*vals)[14] == pol || (*vals)[14] == sen);
   assert((*vals)[15] == col || (*vals)[15] == jpn || (*vals)[15] == pol || (*vals)[15] == sen);
   // Slutspel, Åttondelsfinal:
-  (*vals)[16] = ((hashRow/MOD_H % 2) == 0) ? (*vals)[0] : (*vals)[1];
-  (*vals)[17] = ((hashRow/(MOD_H*2) % 2) == 0) ? (*vals)[2] : (*vals)[3];
-  (*vals)[18] = ((hashRow/(MOD_H*2*2) % 2) == 0) ? (*vals)[4] : (*vals)[5];
-  (*vals)[19] = ((hashRow/(MOD_H*2*2*2) % 2) == 0) ? (*vals)[6] : (*vals)[7];
-  (*vals)[20] = ((hashRow/(MOD_H*2*2*2*2) % 2) == 0) ? (*vals)[8] : (*vals)[9];
-  (*vals)[21] = ((hashRow/(MOD_H*2*2*2*2*2) % 2) == 0) ? (*vals)[10] : (*vals)[11];
-  (*vals)[22] = ((hashRow/(MOD_H*2*2*2*2*2*2) % 2) == 0) ? (*vals)[12] : (*vals)[13];
-  (*vals)[23] = ((hashRow/(MOD_H*2*2*2*2*2*2*2) % 2) == 0) ? (*vals)[14] : (*vals)[15];
+  (*vals)[16] = ((hashRow/MOD_H % 2) == 0) ? (*vals)[0] : (*vals)[3];
+  (*vals)[17] = ((hashRow/(MOD_H*2) % 2) == 0) ? (*vals)[2] : (*vals)[1];
+  (*vals)[18] = ((hashRow/(MOD_H*2*2) % 2) == 0) ? (*vals)[4] : (*vals)[7];
+  (*vals)[19] = ((hashRow/(MOD_H*2*2*2) % 2) == 0) ? (*vals)[6] : (*vals)[5];
+  (*vals)[20] = ((hashRow/(MOD_H*2*2*2*2) % 2) == 0) ? (*vals)[8] : (*vals)[11];
+  (*vals)[21] = ((hashRow/(MOD_H*2*2*2*2*2) % 2) == 0) ? (*vals)[10] : (*vals)[9];
+  (*vals)[22] = ((hashRow/(MOD_H*2*2*2*2*2*2) % 2) == 0) ? (*vals)[12] : (*vals)[15];
+  (*vals)[23] = ((hashRow/(MOD_H*2*2*2*2*2*2*2) % 2) == 0) ? (*vals)[14] : (*vals)[13];
 #define MOD_8 (MOD_H*2*2*2*2*2*2*2*2)
   // Slutspel, kvartsfinal:
   (*vals)[24] = ((hashRow/MOD_8 % 2) == 0) ? (*vals)[16] : (*vals)[17];
@@ -516,6 +516,7 @@ void construct_row(long hashRow, cupResult_t* vals)
 #if 0
   std::cout << __FILE__<<__LINE__<<' '<<MOD_2*2 << std::endl;
 #endif
+  assert(MOD_2*2 == NR_COMBS);
 }
 e_team operator++(e_team& that)
 {
