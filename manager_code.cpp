@@ -84,8 +84,8 @@ void construct_row(long hashRow, cupResult_t* vals)
     assert("Should not arrive here!"[0]==0);
   }
   assert((*vals)[0] != (*vals)[1]);
-  assert((*vals)[0] == rus || (*vals)[0] == uru || (*vals)[0] == ksa || (*vals)[0] == egy);
-  assert((*vals)[1] == rus || (*vals)[1] == uru || (*vals)[1] == ksa || (*vals)[1] == egy);
+  assert((*vals)[0] == rus || (*vals)[0] == uru);
+  assert((*vals)[1] == rus || (*vals)[1] == uru);
   // Group B:
 #define WIN_B 3
 #define MOD_B (MOD_A*WIN_B*(WIN_B-1))
@@ -112,8 +112,8 @@ void construct_row(long hashRow, cupResult_t* vals)
     assert("Should not arrive here!"[0]==0);
   }
   assert((*vals)[2] != (*vals)[3]);
-  assert((*vals)[2] == mar || (*vals)[2] == irn || (*vals)[2] == por || (*vals)[2] == esp);
-  assert((*vals)[3] == mar || (*vals)[3] == irn || (*vals)[3] == por || (*vals)[3] == esp);
+  assert((*vals)[2] == irn || (*vals)[2] == por || (*vals)[2] == esp);
+  assert((*vals)[3] == irn || (*vals)[3] == por || (*vals)[3] == esp);
   // Group C: fra, aus, per, den,
 #define WIN_C 3
 #define MOD_C (MOD_B*WIN_C*(WIN_C-1))
@@ -140,8 +140,8 @@ void construct_row(long hashRow, cupResult_t* vals)
     assert("Should not arrive here!"[0]==0);
   }
   assert((*vals)[4] != (*vals)[5]);
-  assert((*vals)[4] == fra || (*vals)[4] == aus || (*vals)[4] == per || (*vals)[4] == den);
-  assert((*vals)[5] == fra || (*vals)[5] == aus || (*vals)[5] == per || (*vals)[5] == den);
+  assert((*vals)[4] == fra || (*vals)[4] == aus || (*vals)[4] == den);
+  assert((*vals)[5] == fra || (*vals)[5] == aus || (*vals)[5] == den);
   // Group D: arg, isl, cro, nga
 #define WIN_D 4
 #define MOD_D (MOD_C*WIN_D*(WIN_D-1))
@@ -206,8 +206,8 @@ void construct_row(long hashRow, cupResult_t* vals)
     assert("Should not arrive here!"[0]==0);
   }
   assert((*vals)[8] != (*vals)[9]);
-  assert((*vals)[8] == crc || (*vals)[8] == srb || (*vals)[8] == bra || (*vals)[8] == sui);
-  assert((*vals)[9] == crc || (*vals)[9] == srb || (*vals)[9] == bra || (*vals)[9] == sui);
+  assert((*vals)[8] == srb || (*vals)[8] == bra || (*vals)[8] == sui);
+  assert((*vals)[9] == srb || (*vals)[9] == bra || (*vals)[9] == sui);
   // Group F:              ger, mex, swe, kor
 #define WIN_F 3
 #define MOD_F (MOD_E*WIN_F*(WIN_F-1))
@@ -234,8 +234,8 @@ void construct_row(long hashRow, cupResult_t* vals)
     assert("Should not arrive here!"[0]==0);
   }
   assert((*vals)[10] != (*vals)[11]);
-  assert((*vals)[10] == ger || (*vals)[10] == mex || (*vals)[10] == swe || (*vals)[10] == kor);
-  assert((*vals)[11] == ger || (*vals)[11] == mex || (*vals)[11] == swe || (*vals)[11] == kor);
+  assert((*vals)[10] == ger || (*vals)[10] == mex || (*vals)[10] == swe);
+  assert((*vals)[11] == ger || (*vals)[11] == mex || (*vals)[11] == swe);
   // Group G: bel, pan, tun, eng
 #define WIN_G 2
 #define MOD_G (MOD_F*WIN_G*(WIN_G-1))
@@ -252,8 +252,8 @@ void construct_row(long hashRow, cupResult_t* vals)
     assert("Should not arrive here!"[0]==0);
   }
   assert((*vals)[12] != (*vals)[13]);
-  assert((*vals)[12] == bel || (*vals)[12] == pan || (*vals)[12] == tun || (*vals)[12] == eng);
-  assert((*vals)[13] == bel || (*vals)[13] == pan || (*vals)[13] == tun || (*vals)[13] == eng);
+  assert((*vals)[12] == bel || (*vals)[12] == eng);
+  assert((*vals)[13] == bel || (*vals)[13] == eng);
   // Group H: col, jpn, pol, sen
 #define WIN_H 3
 #define MOD_H ((long)(MOD_G*WIN_H*(WIN_H-1)))
@@ -280,8 +280,8 @@ void construct_row(long hashRow, cupResult_t* vals)
     assert("Should not arrive here!"[0]==0);
   }
   assert((*vals)[14] != (*vals)[15]);
-  assert((*vals)[14] == col || (*vals)[14] == jpn || (*vals)[14] == pol || (*vals)[14] == sen);
-  assert((*vals)[15] == col || (*vals)[15] == jpn || (*vals)[15] == pol || (*vals)[15] == sen);
+  assert((*vals)[14] == col || (*vals)[14] == jpn || (*vals)[14] == sen);
+  assert((*vals)[15] == col || (*vals)[15] == jpn || (*vals)[15] == sen);
   // Slutspel, Åttondelsfinal:
   (*vals)[16] = ((hashRow/MOD_H % 2) == 0) ? (*vals)[0] : (*vals)[3];
   (*vals)[17] = ((hashRow/(MOD_H*2) % 2) == 0) ? (*vals)[2] : (*vals)[1];
