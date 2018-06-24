@@ -104,7 +104,7 @@ void manager_code( int numprocs )
     dotp[0]=(e_person)-1;
     MPI_Recv( &dotp, 2, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG,
 	      MPI_COMM_WORLD, &status );
-    assert(dotp[0]==sthrjo);
+    assert(dotp[0]==TEST);
     sender = status.MPI_SOURCE;
     row    = status.MPI_TAG - 1;
     int number = -1;
