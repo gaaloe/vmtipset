@@ -255,36 +255,26 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[12] == bel || (*vals)[12] == pan || (*vals)[12] == tun || (*vals)[12] == eng);
   assert((*vals)[13] == bel || (*vals)[13] == pan || (*vals)[13] == tun || (*vals)[13] == eng);
   // Group H: col, jpn, pol, sen
-#define WIN_H 4
+#define WIN_H 3
 #define MOD_H ((long)(MOD_G*WIN_H*(WIN_H-1)))
   switch ((hashRow/MOD_G) % WIN_H) {
   case 0:
     (*vals)[14] = col;
     (*vals)[15] = ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 0) ?
-      jpn : ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 1) ?
-      pol :
+      jpn :
       sen;
     break;
   case 1:
-    (*vals)[14] = jpn;
-    (*vals)[15] = ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 0) ?
-      col : ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 1) ?
-      pol :
-      sen;
-    break;
-  case 2:
-    (*vals)[14] = pol;
-    (*vals)[15] = ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 0) ?
-      col : ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 1) ?
-      jpn :
-      sen;
-    break;
-  case 3:
     (*vals)[14] = sen;
     (*vals)[15] = ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 0) ?
-      col : ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 1) ?
       jpn :
-      pol;
+      col;
+    break;
+  case 2:
+    (*vals)[14] = jpn;
+    (*vals)[15] = ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 0) ?
+      col :
+      sen;
     break;
   default:
     assert("Should not arrive here!"[0]==0);
