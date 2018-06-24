@@ -50,9 +50,9 @@ void manager_code( int numprocs )
       numsent++;
       hashRow += JUMP_HASH;
       {
-	if (numsent % 10000 == 0) {
-	  std::cout << __FILE__<<__LINE__<<' '<<numsent/10000 << ' ';
-	  std::cout << (NR_COMBS/JUMP_HASH)/10000 << std::endl;
+	if (numsent % 100000 == 0) {
+	  std::cout << __FILE__<<__LINE__<<' '<<numsent/100000 << ' ';
+	  std::cout << (NR_COMBS/JUMP_HASH)/100000 << std::endl;
 	}
       }
     }
