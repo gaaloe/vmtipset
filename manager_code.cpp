@@ -237,36 +237,16 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[10] == ger || (*vals)[10] == mex || (*vals)[10] == swe || (*vals)[10] == kor);
   assert((*vals)[11] == ger || (*vals)[11] == mex || (*vals)[11] == swe || (*vals)[11] == kor);
   // Group G: bel, pan, tun, eng
-#define WIN_G 4
+#define WIN_G 2
 #define MOD_G (MOD_F*WIN_G*(WIN_G-1))
   switch ((hashRow/MOD_F) % WIN_G) {
   case 0:
     (*vals)[12] = bel;
-    (*vals)[13] = ((hashRow/(MOD_F*WIN_G) % (WIN_G-1)) == 0) ?
-      pan : ((hashRow/(MOD_F*WIN_G) % (WIN_G-1)) == 1) ?
-      tun :
-      eng;
+    (*vals)[13] = eng;
     break;
   case 1:
-    (*vals)[12] = pan;
-    (*vals)[13] = ((hashRow/(MOD_F*WIN_G) % (WIN_G-1)) == 0) ?
-      bel : ((hashRow/(MOD_F*WIN_G) % (WIN_G-1)) == 1) ?
-      tun :
-      eng;
-    break;
-  case 2:
-    (*vals)[12] = tun;
-    (*vals)[13] = ((hashRow/(MOD_F*WIN_G) % (WIN_G-1)) == 0) ?
-      bel : ((hashRow/(MOD_F*WIN_G) % (WIN_G-1)) == 1) ?
-      pan :
-      eng;
-    break;
-  case 3:
     (*vals)[12] = eng;
-    (*vals)[13] = ((hashRow/(MOD_F*WIN_G) % (WIN_G-1)) == 0) ?
-      bel : ((hashRow/(MOD_F*WIN_G) % (WIN_G-1)) == 1) ?
-      pan :
-      tun;
+    (*vals)[13] = bel;
     break;
   default:
     assert("Should not arrive here!"[0]==0);
