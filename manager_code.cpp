@@ -50,9 +50,9 @@ void manager_code( int numprocs )
       numsent++;
       hashRow += JUMP_HASH;
       {
-	if (numsent % 100000 == 0) {
-	  std::cout << __FILE__<<__LINE__<<' '<<numsent/100000 << ' ';
-	  std::cout << (NR_COMBS/JUMP_HASH)/100000 << std::endl;
+	if (numsent % 10000 == 0) {
+	  std::cout << __FILE__<<__LINE__<<' '<<numsent/10000 << ' ';
+	  std::cout << (NR_COMBS/JUMP_HASH)/10000 << std::endl;
 	}
       }
     }
@@ -209,36 +209,26 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[8] == crc || (*vals)[8] == srb || (*vals)[8] == bra || (*vals)[8] == sui);
   assert((*vals)[9] == crc || (*vals)[9] == srb || (*vals)[9] == bra || (*vals)[9] == sui);
   // Group F:              ger, mex, swe, kor
-#define WIN_F 4
+#define WIN_F 3
 #define MOD_F (MOD_E*WIN_F*(WIN_F-1))
   switch ((hashRow/MOD_E) % WIN_F) {
   case 0:
     (*vals)[10] = ger;
     (*vals)[11] = ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
-      mex : ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 1) ?
       swe :
-      kor;
+      mex;
     break;
   case 1:
     (*vals)[10] = mex;
     (*vals)[11] = ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
-      ger : ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 1) ?
       swe :
-      kor;
+      ger;
     break;
   case 2:
     (*vals)[10] = swe;
     (*vals)[11] = ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
-      ger : ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 1) ?
       mex :
-      kor;
-    break;
-  case 3:
-    (*vals)[10] = kor;
-    (*vals)[11] = ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
-      ger : ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 1) ?
-      mex :
-      swe;
+      ger;
     break;
   default:
     assert("Should not arrive here!"[0]==0);
