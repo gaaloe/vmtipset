@@ -201,7 +201,7 @@ por, ger,
 bel,
 ger}
 /*STANNI*/,
-{uru, rus, esp, por, fra, dan, arg, isl, bra, crc, ger, swe, eng, bel, col, pol,
+{uru, rus, esp, por, fra, /*dan,*/ den, arg, isl, bra, crc, ger, swe, eng, bel, col, pol,
 uru, esp, fra, arg, bra, ger, eng, col,
 esp, fra, ger, col,
 fra, ger,
