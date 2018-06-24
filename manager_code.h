@@ -58,7 +58,7 @@ enum e_person {
   PATSI,
   OGLL};
 #define SIZE_ROW 32
-#define NR_COMBS 4696546738176L
+#define NR_COMBS 2348273369088L
 //It is probably good if JUMP_HASH is a prime number (?). See..
 //https://primes.utm.edu/lists/small/10000.txt
 #define JUMP_HASH        256757L

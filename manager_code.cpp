@@ -50,9 +50,9 @@ void manager_code( int numprocs )
       numsent++;
       hashRow += JUMP_HASH;
       {
-	if (numsent % 1000000 == 0) {
-	  std::cout << __FILE__<<__LINE__<<' '<<numsent/1000000 << ' ';
-	  std::cout << (NR_COMBS/JUMP_HASH)/1000000 << std::endl;
+	if (numsent % 100000 == 0) {
+	  std::cout << __FILE__<<__LINE__<<' '<<numsent/100000 << ' ';
+	  std::cout << (NR_COMBS/JUMP_HASH)/100000 << std::endl;
 	}
       }
     }
@@ -62,7 +62,7 @@ void manager_code( int numprocs )
   }
   assert(numsent == NR_COMBS / JUMP_HASH);
   for (int ii = 0; ii < 46; ++ii) {
-    std::cout << ii << ' ' << accum[ii] << std::endl;
+    std::cout << ii << ' ' << (int)accum[ii] << std::endl;
   }
 }
 void construct_row(long hashRow, cupResult_t* vals)
@@ -87,34 +87,24 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[0] == rus || (*vals)[0] == uru || (*vals)[0] == ksa || (*vals)[0] == egy);
   assert((*vals)[1] == rus || (*vals)[1] == uru || (*vals)[1] == ksa || (*vals)[1] == egy);
   // Group B:
-#define WIN_B 4
+#define WIN_B 3
 #define MOD_B (MOD_A*WIN_B*(WIN_B-1))
   switch ((hashRow/MOD_A) % WIN_B) {
   case 0:
-    (*vals)[2] = mar;
+    (*vals)[2] = irn;
     (*vals)[3] = ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 0) ?
-      irn : ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 1) ?
-      por :
+      por : 
       esp;
     break;
   case 1:
-    (*vals)[2] = irn;
-    (*vals)[3] = ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 0) ?
-      mar : ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 1) ?
-      por :
-      esp;
-    break;
-  case 2:
     (*vals)[2] = por;
     (*vals)[3] = ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 0) ?
-      mar : ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 1) ?
       irn :
       esp;
     break;
-  case 3:
+  case 2:
     (*vals)[2] = esp;
     (*vals)[3] = ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 0) ?
-      mar : ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 1) ?
       irn :
       por;
     break;
