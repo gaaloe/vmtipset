@@ -61,7 +61,7 @@ void manager_code( int numprocs )
 		MPI_COMM_WORLD );
   }
   assert(numsent == NR_COMBS / JUMP_HASH);
-  for (int ii = 0; ii < 46; ++ii) {
+  for (e_person ii = (e_person)0; ii < (e_person)46; ++ii) {
     std::cout << ii << ' ' << (int)accum[ii] << std::endl;
   }
 }
@@ -342,6 +342,17 @@ e_team operator++(e_team& that, int)
   ++that;
   return result;
 }
+e_person operator++(e_person& that)
+{
+  that = static_cast<e_person>(static_cast<int>(that) + 1);
+  return that;
+}
+e_person operator++(e_person& that, int)
+{
+  e_person result = that;
+  ++that;
+  return result;
+}
 std::ostream& operator<<(std::ostream& o, enum e_team aTeam)
 {
   switch(aTeam)
@@ -378,6 +389,61 @@ std::ostream& operator<<(std::ostream& o, enum e_team aTeam)
     case jpn: o << "jpn"; break;
     case pol: o << "pol"; break;
     case sen: o << "sen"; break;
+    default:
+      assert("Should not happen!"[0]==0);
+    }
+  return o;
+}
+std::ostream& operator<<(std::ostream& o, enum e_person aPerson)
+{
+  switch(aPerson)
+    {
+    case TEST: o << "TEST"; break;
+    case ANSE: o << "ANSE"; break;
+    case ANNY: o << "ANNY"; break;
+    case HEGR: o << "HEGR"; break;
+    case JOMA: o << "JOMA"; break;
+    case MXRE: o << "MXRE"; break;
+    case PEAL: o << "PEAL"; break;
+    case MIBJ: o << "MIBJ"; break;
+    case GUAS: o << "GUAS"; break;
+    case ADER: o << "ADER"; break;
+    case MYSJ: o << "MYSJ"; break;
+    case STJOEL: o << "STJOEL"; break;
+    case VIST: o << "VIST"; break;
+    case JASH: o << "JASH"; break;
+    case ADSU: o << "ADSU"; break;
+    case STMEBR: o << "STMEBR"; break;
+    case JAYSU: o << "JAYSU"; break;
+    case STJORY: o << "STJORY"; break;
+    case STJASU: o << "STJASU"; break;
+    case HESO: o << "HESO"; break;
+    case ULPE: o << "ULPE"; break;
+    case STUFJO: o << "STUFJO"; break;
+    case STASEK: o << "STASEK"; break;
+    case HKDY: o << "HKDY"; break;
+    case STJOKX: o << "STJOKX"; break;
+    case STBXWE: o << "STBXWE"; break;
+    case STMIBO: o << "STMIBO"; break;
+    case STWU: o << "STWU"; break;
+    case LILA: o << "LILA"; break;
+    case STANNI: o << "STANNI"; break;
+    case STSTAA: o << "STSTAA"; break;
+    case STKRBU: o << "STKRBU"; break;
+    case STTHWA: o << "STTHWA"; break;
+    case HRJO: o << "HRJO"; break;
+    case HENO: o << "HENO"; break;
+    case STONY: o << "STONY"; break;
+    case CLWF: o << "CLWF"; break;
+    case CKH: o << "CKH"; break;
+    case STANNAN: o << "STANNAN"; break;
+    case HANO: o << "HANO"; break;
+    case DASH: o << "DASH"; break;
+    case DAGR: o << "DAGR"; break;
+    case PESD: o << "PESD"; break;
+    case KJSV: o << "KJSV"; break;
+    case PATSI: o << "PATSI"; break;
+    case OGLL: o << "OGLL"; break;
     default:
       assert("Should not happen!"[0]==0);
     }

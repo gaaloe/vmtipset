@@ -64,6 +64,8 @@ enum e_person {
 #define JUMP_HASH        5003L
 extern e_team operator++(e_team& that);
 extern e_team operator++(e_team& that, int);
+extern e_person operator++(e_person& that);
+extern e_person operator++(e_person& that, int);
 extern std::ostream& operator<<(std::ostream& o, enum e_team);
 extern std::ostream& operator<<(std::ostream& o, enum e_person);
 #endif

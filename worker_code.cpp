@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cassert>
 #include "manager_code.h"
+// Redan ute: ksa, egy, mar, per, crc, kor, tun, pan
 enum e_team EXCEL[46][32] = {
   /*TEST*/
   {rus, ksa, mar, irn, fra, aus, arg, isl, crc, srb, ger, mex, bel, pan, col, jpn,
