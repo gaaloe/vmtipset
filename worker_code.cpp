@@ -331,7 +331,7 @@ void worker_code( void )
 {
   e_team c[SIZE_ROW];
   int i, myrank;
-  e_person dotp[2];
+  e_person dotp[32];
   MPI_Status status;
 
   MPI_Comm_rank( MPI_COMM_WORLD, &myrank );
@@ -339,6 +339,8 @@ void worker_code( void )
     MPI_Recv( c, SIZE_ROW, MPI_INT, 0, MPI_ANY_TAG,
 	      MPI_COMM_WORLD, &status );
     while ( status.MPI_TAG > 0 ) {
+      int bestPointSoFar = -1;
+      int nrTie = 0;
       for (int p = 0; p < 46; ++p) {
 	int score_16 = 0;
 	for (int i = 0; i < 16; i += 2) {
@@ -379,10 +381,18 @@ void worker_code( void )
 	if (c[31] == EXCEL[p][31])
 	  score_50 = 50; // Rätt världsmästare
 	const int score = score_16 + score_8 + score_4 + score_2 + score_30 + score_50;
+        if (score > bestPointSoFar) {
+          bestPointSoFar = score;
+          nrTie = 0;
+          dotp[0] = (e_person)p;
+        } else if (score == bestPointSoFar) {
+          dotp[++nrTie] = (e_person)p;
+        } else {
+          // Just chuck it away
+        }
       }
       int tag = status.MPI_TAG;
-      dotp[0] = TEST;
-      MPI_Send( &dotp, 1, MPI_INT, 0, tag, MPI_COMM_WORLD );
+      MPI_Send( &dotp, nrTie + 1, MPI_INT, 0, tag, MPI_COMM_WORLD );
       //More job to do? Look at status.MPI_TAG
       MPI_Recv( c, SIZE_ROW, MPI_INT, 0, MPI_ANY_TAG,
 		MPI_COMM_WORLD, &status );

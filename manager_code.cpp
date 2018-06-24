@@ -12,83 +12,11 @@ void manager_code( int numprocs )
   int i, sender, row;
   long numsent = 0;
   long hashRow = 0;
-  e_person dotp[2];
+  e_person dotp[46];
+  float accum[46] = {0};
   MPI_Status status;
-#if 0
-  int count_eight[32] = {0};
-  int count_quart[32] = {0};
-  int count_semi[32] = {0};
-  int count_final[32] = {0};
-#endif
-  int count_win[32] = {0};
-
   for ( i = 1; i < MIN( numprocs, NR_COMBS / JUMP_HASH); i++ ) {
     construct_row(hashRow, &game_result);
-    {
-      const enum e_team winnigTeam = game_result[30];
-      assert(0 <= winnigTeam && winnigTeam < 32);
-      ++count_win[winnigTeam];
-#if 0
-      const enum e_team finalist1Team = game_result[28];
-      const enum e_team finalist2Team = game_result[29];
-      assert(0 <= finalist1Team && finalist1Team < 32);
-      assert(0 <= finalist2Team && finalist2Team < 32);
-      ++count_final[finalist1Team];
-      ++count_final[finalist2Team];
-      const enum e_team semi1Team = game_result[24];
-      const enum e_team semi2Team = game_result[25];
-      const enum e_team semi3Team = game_result[26];
-      const enum e_team semi4Team = game_result[27];
-      assert(0 <= semi1Team && semi1Team < 32);
-      assert(0 <= semi2Team && semi2Team < 32);
-      assert(0 <= semi3Team && semi3Team < 32);
-      assert(0 <= semi4Team && semi4Team < 32);
-      ++count_semi[semi1Team];
-      ++count_semi[semi2Team];
-      ++count_semi[semi3Team];
-      ++count_semi[semi4Team];
-      const enum e_team quart1Team = game_result[16];
-      const enum e_team quart2Team = game_result[17];
-      const enum e_team quart3Team = game_result[18];
-      const enum e_team quart4Team = game_result[19];
-      const enum e_team quart5Team = game_result[20];
-      const enum e_team quart6Team = game_result[21];
-      const enum e_team quart7Team = game_result[22];
-      const enum e_team quart8Team = game_result[23];
-      assert(0 <= quart1Team && quart1Team < 32);
-      assert(0 <= quart2Team && quart2Team < 32);
-      assert(0 <= quart3Team && quart3Team < 32);
-      assert(0 <= quart4Team && quart4Team < 32);
-      assert(0 <= quart5Team && quart5Team < 32);
-      assert(0 <= quart6Team && quart6Team < 32);
-      assert(0 <= quart7Team && quart7Team < 32);
-      assert(0 <= quart8Team && quart8Team < 32);
-      ++count_quart[quart1Team];
-      ++count_quart[quart2Team];
-      ++count_quart[quart3Team];
-      ++count_quart[quart4Team];
-      ++count_quart[quart5Team];
-      ++count_quart[quart6Team];
-      ++count_quart[quart7Team];
-      ++count_quart[quart8Team];
-      ++count_eight[game_result[0]];
-      ++count_eight[game_result[1]];
-      ++count_eight[game_result[2]];
-      ++count_eight[game_result[3]];
-      ++count_eight[game_result[4]];
-      ++count_eight[game_result[5]];
-      ++count_eight[game_result[6]];
-      ++count_eight[game_result[7]];
-      ++count_eight[game_result[8]];
-      ++count_eight[game_result[9]];
-      ++count_eight[game_result[10]];
-      ++count_eight[game_result[11]];
-      ++count_eight[game_result[12]];
-      ++count_eight[game_result[13]];
-      ++count_eight[game_result[14]];
-      ++count_eight[game_result[15]];
-#endif
-    }
     MPI_Send( game_result, SIZE_ROW, MPI_INT, i, i, MPI_COMM_WORLD );
     numsent++;
     hashRow += JUMP_HASH;
@@ -102,103 +30,40 @@ void manager_code( int numprocs )
   /* receive X back from workers */
   for (long j = 0; j < NR_COMBS / JUMP_HASH; j++ ) {
     dotp[0]=(e_person)-1;
-    MPI_Recv( &dotp, 2, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG,
+    MPI_Recv( &dotp, 46, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG,
 	      MPI_COMM_WORLD, &status );
-    assert(dotp[0]==TEST);
+    assert(0 <= dotp[0] && dotp[0] < 46);
     sender = status.MPI_SOURCE;
     row    = status.MPI_TAG - 1;
     int number = -1;
     MPI_Get_count(&status, MPI_INT, &number);
-    assert(number == 1);
+    assert(1 <= number && number <= 46);
+    for (int ii = 0; ii < number; ++ii) {
+      assert(0 <= dotp[ii] && dotp[ii] < 46);
+      accum[dotp[ii]] += 1.0 / number;
+    }
     /* send another piece of work to this worker if there is one */
     if ( numsent < NR_COMBS  / JUMP_HASH) {
       construct_row(hashRow, &game_result);
-      {
-        const enum e_team winnigTeam = game_result[30];
-        assert(0 <= winnigTeam && winnigTeam < 32);
-        ++count_win[winnigTeam];
-#if 0
-        const enum e_team finalist1Team = game_result[28];
-        const enum e_team finalist2Team = game_result[29];
-        assert(0 <= finalist1Team && finalist1Team < 32);
-        assert(0 <= finalist2Team && finalist2Team < 32);
-        ++count_final[finalist1Team];
-        ++count_final[finalist2Team];
-      const enum e_team semi1Team = game_result[24];
-      const enum e_team semi2Team = game_result[25];
-      const enum e_team semi3Team = game_result[26];
-      const enum e_team semi4Team = game_result[27];
-      assert(0 <= semi1Team && semi1Team < 32);
-      assert(0 <= semi2Team && semi2Team < 32);
-      assert(0 <= semi3Team && semi3Team < 32);
-      assert(0 <= semi4Team && semi4Team < 32);
-      ++count_semi[semi1Team];
-      ++count_semi[semi2Team];
-      ++count_semi[semi3Team];
-      ++count_semi[semi4Team];
-      const enum e_team quart1Team = game_result[16];
-      const enum e_team quart2Team = game_result[17];
-      const enum e_team quart3Team = game_result[18];
-      const enum e_team quart4Team = game_result[19];
-      const enum e_team quart5Team = game_result[20];
-      const enum e_team quart6Team = game_result[21];
-      const enum e_team quart7Team = game_result[22];
-      const enum e_team quart8Team = game_result[23];
-      assert(0 <= quart1Team && quart1Team < 32);
-      assert(0 <= quart2Team && quart2Team < 32);
-      assert(0 <= quart3Team && quart3Team < 32);
-      assert(0 <= quart4Team && quart4Team < 32);
-      assert(0 <= quart5Team && quart5Team < 32);
-      assert(0 <= quart6Team && quart6Team < 32);
-      assert(0 <= quart7Team && quart7Team < 32);
-      assert(0 <= quart8Team && quart8Team < 32);
-      ++count_quart[quart1Team];
-      ++count_quart[quart2Team];
-      ++count_quart[quart3Team];
-      ++count_quart[quart4Team];
-      ++count_quart[quart5Team];
-      ++count_quart[quart6Team];
-      ++count_quart[quart7Team];
-      ++count_quart[quart8Team];
-      ++count_eight[game_result[0]];
-      ++count_eight[game_result[1]];
-      ++count_eight[game_result[2]];
-      ++count_eight[game_result[3]];
-      ++count_eight[game_result[4]];
-      ++count_eight[game_result[5]];
-      ++count_eight[game_result[6]];
-      ++count_eight[game_result[7]];
-      ++count_eight[game_result[8]];
-      ++count_eight[game_result[9]];
-      ++count_eight[game_result[10]];
-      ++count_eight[game_result[11]];
-      ++count_eight[game_result[12]];
-      ++count_eight[game_result[13]];
-      ++count_eight[game_result[14]];
-      ++count_eight[game_result[15]];
-#endif
-      }
       MPI_Send( game_result, SIZE_ROW, MPI_INT, sender,
 		(numsent + 1)%200000000, MPI_COMM_WORLD );
       numsent++;
       hashRow += JUMP_HASH;
-    {
-      if (numsent % 1000000 == 0) {
-       std::cout << __FILE__<<__LINE__<<' '<<numsent/1000000 << ' ';
-       std::cout << (NR_COMBS/JUMP_HASH)/1000000 << std::endl;
+      {
+	if (numsent % 1000000 == 0) {
+	  std::cout << __FILE__<<__LINE__<<' '<<numsent/1000000 << ' ';
+	  std::cout << (NR_COMBS/JUMP_HASH)/1000000 << std::endl;
+	}
       }
-    }
     }
     else                    /* no more work */
       MPI_Send( MPI_BOTTOM, 0, MPI_INT, sender, 0,
 		MPI_COMM_WORLD );
   }
   assert(numsent == NR_COMBS / JUMP_HASH);
-#if 1
-  for (enum e_team i = (e_team)0; i < 32; ++i) {
-    std::cout << __FILE__<<__LINE__<<' ' << i << ' ' <<count_win[i]<<std::endl;
+  for (int ii = 0; ii < 46; ++ii) {
+    std::cout << ii << ' ' << accum[ii] << std::endl;
   }
-#endif
 }
 void construct_row(long hashRow, cupResult_t* vals)
 {
@@ -596,5 +461,5 @@ std::ostream& operator<<(std::ostream& o, enum e_team aTeam)
     default:
       assert("Should not happen!"[0]==0);
     }
-    return o;
+  return o;
 }
