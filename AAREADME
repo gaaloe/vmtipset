@@ -13,3 +13,9 @@ g++ -ggdb -I ~/MiniCppUnit-2.5 -I/usr/include/mpich \
  worker_code.cpp \
  ~/MiniCppUnit-2.5/MiniCppUnit.cxx -lmpi;\
 ./a.out
+#
+#
+#1: Kompilera med -DNDEBUG -O2 -fprofile-generate 
+#2: Kör lite grann
+#3: Kolla att main.gcda skapats
+#4: Kompilera med -DNDEBUG -O2 -fprofile-use
