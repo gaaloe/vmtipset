@@ -393,6 +393,16 @@ void worker_code( void )
         }
       }
       int tag = status.MPI_TAG;
+#if 0
+      if (nrTie == 0 && dotp[0] == STMIBO && myrank==2 && c[31]==bra) {
+        // Exempel på en rad som gör att STMIBO vinner:
+        std::cout << __FILE__<<__LINE__<<' '<<myrank<<std::endl;
+        for (int ii = 0; ii < SIZE_ROW; ++ii) {
+          std::cout << c[ii] << ' ';
+        }
+        std::cout << std::endl << std::flush;
+      }
+#endif
       MPI_Send( &dotp, nrTie + 1, MPI_INT, 0, tag, MPI_COMM_WORLD );
       //More job to do? Look at status.MPI_TAG
       MPI_Recv( c, SIZE_ROW, MPI_INT, 0, MPI_ANY_TAG,
