@@ -116,31 +116,26 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[3] == irn || (*vals)[3] == por || (*vals)[3] == esp);
   // Group C: fra, aus, per, den,
 #define WIN_C 3
-#define MOD_C (MOD_B*WIN_C*(WIN_C-1))
+#define MOD_C (MOD_B*WIN_C)
+  //fra,aus fra,den, den,fra?
   switch ((hashRow/MOD_B) % WIN_C) {
   case 0:
     (*vals)[4] = fra;
-    (*vals)[5] = ((hashRow/(MOD_B*WIN_C) % (WIN_C-1)) == 0) ?
-      aus :
-      den;
+    (*vals)[5] = aus;
     break;
   case 1:
-    (*vals)[4] = aus;
-    (*vals)[5] = ((hashRow/(MOD_B*WIN_C) % (WIN_C-1)) == 0) ?
-      fra :
-      den;
+    (*vals)[4] = fra;
+    (*vals)[5] = den;
     break;
   case 2:
     (*vals)[4] = den;
-    (*vals)[5] = ((hashRow/(MOD_B*WIN_C) % (WIN_C-1)) == 0) ?
-      aus :
-      fra;
+    (*vals)[5] = fra;
     break;
   default:
     assert("Should not arrive here!"[0]==0);
   }
   assert((*vals)[4] != (*vals)[5]);
-  assert((*vals)[4] == fra || (*vals)[4] == aus || (*vals)[4] == den);
+  assert((*vals)[4] == fra || (*vals)[4] == den);
   assert((*vals)[5] == fra || (*vals)[5] == aus || (*vals)[5] == den);
   // Group D: arg, isl, cro, nga
 #define WIN_D 4
