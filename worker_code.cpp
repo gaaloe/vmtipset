@@ -361,6 +361,45 @@ int whoMatchesBest(const e_team c[SIZE_ROW], e_person dotp[32], int myrank)
   int bestPointSoFar = -1;
   int nrTie = 0;
   for (int p = 0; p < 46; ++p) {
+    const int score = personMatch((e_person)p, c, myrank);
+    if (score > bestPointSoFar) {
+      bestPointSoFar = score;
+      nrTie = 0;
+      dotp[0] = (e_person)p;
+    } else if (score == bestPointSoFar) {
+      dotp[++nrTie] = (e_person)p;
+    } else {
+      // Just chuck it away
+    }
+  }
+#if 0
+  if (nrTie == 0 && dotp[0] == STMIBO && myrank==2 && c[31]==bra) {
+    // Exempel på en rad som gör att STMIBO vinner:
+    std::cout << __FILE__<<__LINE__<<' '<<myrank<<std::endl;
+    for (int ii = 0; ii < 16; ++ii) {
+      std::cout << c[ii] << ' ';
+    }
+    std::cout << std::endl << std::flush;
+    for (int ii = 16; ii < 24; ++ii) {
+      std::cout << c[ii] << ' ';
+    }
+    std::cout << std::endl << std::flush;
+    for (int ii = 24; ii < 28; ++ii) {
+      std::cout << c[ii] << ' ';
+    }
+    std::cout << std::endl << std::flush;
+    for (int ii = 28; ii < 30; ++ii) {
+      std::cout << c[ii] << ' ';
+    }
+    std::cout << std::endl << std::flush;
+    std::cout << c[30] << ' '<< std::endl;
+    std::cout << c[31] << ' '<< std::endl;
+  }
+#endif
+  return nrTie + 1;
+}
+int personMatch(e_person p, const e_team c[SIZE_ROW], int myrank)
+{
     int score_16 = 0;
     for (int i = 0; i < 16; i += 2) {
       if (c[i] == EXCEL[p][i]) {
@@ -400,46 +439,7 @@ int whoMatchesBest(const e_team c[SIZE_ROW], e_person dotp[32], int myrank)
     if (c[31] == EXCEL[p][31])
       score_50 = 50; // Rätt världsmästare
     const int score = score_16 + score_8 + score_4 + score_2 + score_30 + score_50;
-#if 0
-    std::cout << __FILE__<<__LINE__<<' '<<score<<' '<<p<<std::endl;
-    if (p==STMIBO)
-      assert(score==295);
-#endif
-    if (score > bestPointSoFar) {
-      bestPointSoFar = score;
-      nrTie = 0;
-      dotp[0] = (e_person)p;
-    } else if (score == bestPointSoFar) {
-      dotp[++nrTie] = (e_person)p;
-    } else {
-      // Just chuck it away
-    }
-  }
-#if 0
-  if (nrTie == 0 && dotp[0] == STMIBO && myrank==2 && c[31]==bra) {
-    // Exempel på en rad som gör att STMIBO vinner:
-    std::cout << __FILE__<<__LINE__<<' '<<myrank<<std::endl;
-    for (int ii = 0; ii < 16; ++ii) {
-      std::cout << c[ii] << ' ';
-    }
-    std::cout << std::endl << std::flush;
-    for (int ii = 16; ii < 24; ++ii) {
-      std::cout << c[ii] << ' ';
-    }
-    std::cout << std::endl << std::flush;
-    for (int ii = 24; ii < 28; ++ii) {
-      std::cout << c[ii] << ' ';
-    }
-    std::cout << std::endl << std::flush;
-    for (int ii = 28; ii < 30; ++ii) {
-      std::cout << c[ii] << ' ';
-    }
-    std::cout << std::endl << std::flush;
-    std::cout << c[30] << ' '<< std::endl;
-    std::cout << c[31] << ' '<< std::endl;
-  }
-#endif
-  return nrTie + 1;
+    return score;
 }
 std::ostream& operator<<(std::ostream& o, enum e_team aTeam)
 {
