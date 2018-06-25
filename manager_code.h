@@ -68,4 +68,5 @@ extern e_person operator++(e_person& that);
 extern e_person operator++(e_person& that, int);
 extern std::ostream& operator<<(std::ostream& o, enum e_team);
 extern std::ostream& operator<<(std::ostream& o, enum e_person);
+extern int whoMatchesBest(const e_team c[SIZE_ROW], e_person dotp[32], int myrank);
 #endif

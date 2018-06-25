@@ -4,3 +4,12 @@ mpiexec -n 2 ./a.out
 mpiexec -n 8 ./a.out
 #Spara utmatningen i tmp, sedan:
 sort --key=2,2gr tmp > tmp2
+#
+# See https://minicppunit.soft112.com/download.html for download
+# of MiniCppUnit-2.5:
+g++ -ggdb -I ~/MiniCppUnit-2.5 -I/usr/include/mpich \
+ TestsRunner.cpp \
+ unitTests.cpp \
+ worker_code.cpp \
+ ~/MiniCppUnit-2.5/MiniCppUnit.cxx -lmpi;\
+./a.out

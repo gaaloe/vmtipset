@@ -2,7 +2,6 @@
 #include <iostream>
 #include <cassert>
 #include "manager_code.h"
-int whoMatchesBest(const e_team c[SIZE_ROW], e_person dotp[32], int myrank);
 // Redan ute: ksa, egy, mar, per, crc, kor, tun, pan, pol
 enum e_team EXCEL[46][32] = {
   /*TEST*/
@@ -442,19 +441,6 @@ int whoMatchesBest(const e_team c[SIZE_ROW], e_person dotp[32], int myrank)
 #endif
   return nrTie + 1;
 }
-#if 0
-int main()
-{
-  e_team c[32] = {rus, uru, esp, irn, fra, aus, nga, cro,
-		  srb, bra, swe, mex, eng, bel, col, jpn,
-		  irn, uru, cro, aus, mex, bra, jpn, bel,
-		  uru, cro, bra, jpn, uru, bra, cro, bra };
-  e_person dotp[32];
-  const int siz = whoMatchesBest(c, dotp, 2);
-  assert(siz == 1);
-  assert(dotp[0] == STMIBO);
-}
-#endif
 std::ostream& operator<<(std::ostream& o, enum e_team aTeam)
 {
   switch(aTeam)
