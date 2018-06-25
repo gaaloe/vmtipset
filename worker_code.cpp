@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cassert>
 #include "manager_code.h"
+int whoMatchesBest(const e_team c[SIZE_ROW], e_person dotp[32], int myrank);
 // Redan ute: ksa, egy, mar, per, crc, kor, tun, pan, pol
 enum e_team EXCEL[46][32] = {
   /*TEST*/
@@ -340,70 +341,9 @@ void worker_code( void )
     MPI_Recv( c, SIZE_ROW, MPI_INT, 0, MPI_ANY_TAG,
 	      MPI_COMM_WORLD, &status );
     while ( status.MPI_TAG > 0 ) {
-      int bestPointSoFar = -1;
-      int nrTie = 0;
-      for (int p = 0; p < 46; ++p) {
-	int score_16 = 0;
-	for (int i = 0; i < 16; i += 2) {
-	  if (c[i] == EXCEL[p][i]) {
-	    score_16 += 10;
-	  } else if (c[i] == EXCEL[p][i+1]) {
-	    score_16 += 7;
-	  }
-	  if (c[i+1] == EXCEL[p][i+1]) {
-	    score_16 += 10;
-	  } else if (c[i+1] == EXCEL[p][i]) {
-	    score_16 += 7;
-	  }
-	}
-	int score_8 = 0;
-	for (int i = 16; i < (16+8); ++i) {
-	  if (c[i] == EXCEL[p][16] || c[i] == EXCEL[p][17]
-	      || c[i] == EXCEL[p][18] || c[i] == EXCEL[p][19]
-	      || c[i] == EXCEL[p][20] || c[i] == EXCEL[p][21]
-	      || c[i] == EXCEL[p][22] || c[i] == EXCEL[p][23])
-	    score_8 += 15;
-	}
-	int score_4 = 0;
-	for (int i = 24; i < (24+4); ++i) {
-	  if (c[i] == EXCEL[p][24] || c[i] == EXCEL[p][25]
-	      || c[i] == EXCEL[p][26] || c[i] == EXCEL[p][27])
-	    score_4 += 25; // Rätt semifinallag
-	}
-	int score_2 = 0;
-	for (int i = 28; i < (28+2); ++i) {
-	  if (c[i] == EXCEL[p][28] || c[i] == EXCEL[p][29])
-	    score_2 += 35; // Rätt finallag
-	}
-	int score_30 = 0;
-	if (c[30] == EXCEL[p][30])
-	  score_30 = 20; // Rätt bronsvinnare
-	int score_50 = 0;
-	if (c[31] == EXCEL[p][31])
-	  score_50 = 50; // Rätt världsmästare
-	const int score = score_16 + score_8 + score_4 + score_2 + score_30 + score_50;
-        if (score > bestPointSoFar) {
-          bestPointSoFar = score;
-          nrTie = 0;
-          dotp[0] = (e_person)p;
-        } else if (score == bestPointSoFar) {
-          dotp[++nrTie] = (e_person)p;
-        } else {
-          // Just chuck it away
-        }
-      }
+      int siz = whoMatchesBest(c, dotp, myrank);
       int tag = status.MPI_TAG;
-#if 0
-      if (nrTie == 0 && dotp[0] == STMIBO && myrank==2 && c[31]==bra) {
-        // Exempel på en rad som gör att STMIBO vinner:
-        std::cout << __FILE__<<__LINE__<<' '<<myrank<<std::endl;
-        for (int ii = 0; ii < SIZE_ROW; ++ii) {
-          std::cout << c[ii] << ' ';
-        }
-        std::cout << std::endl << std::flush;
-      }
-#endif
-      MPI_Send( &dotp, nrTie + 1, MPI_INT, 0, tag, MPI_COMM_WORLD );
+      MPI_Send( &dotp, siz, MPI_INT, 0, tag, MPI_COMM_WORLD );
       //More job to do? Look at status.MPI_TAG
       MPI_Recv( c, SIZE_ROW, MPI_INT, 0, MPI_ANY_TAG,
 		MPI_COMM_WORLD, &status );
@@ -417,3 +357,142 @@ void worker_code( void )
   }
 }
 
+int whoMatchesBest(const e_team c[SIZE_ROW], e_person dotp[32], int myrank)
+{
+  int bestPointSoFar = -1;
+  int nrTie = 0;
+  for (int p = 0; p < 46; ++p) {
+    int score_16 = 0;
+    for (int i = 0; i < 16; i += 2) {
+      if (c[i] == EXCEL[p][i]) {
+	score_16 += 10;
+      } else if (c[i] == EXCEL[p][i+1]) {
+	score_16 += 7;
+      }
+      if (c[i+1] == EXCEL[p][i+1]) {
+	score_16 += 10;
+      } else if (c[i+1] == EXCEL[p][i]) {
+	score_16 += 7;
+      }
+    }
+    int score_8 = 0;
+    for (int i = 16; i < (16+8); ++i) {
+      if (c[i] == EXCEL[p][16] || c[i] == EXCEL[p][17]
+	  || c[i] == EXCEL[p][18] || c[i] == EXCEL[p][19]
+	  || c[i] == EXCEL[p][20] || c[i] == EXCEL[p][21]
+	  || c[i] == EXCEL[p][22] || c[i] == EXCEL[p][23])
+	score_8 += 15;
+    }
+    int score_4 = 0;
+    for (int i = 24; i < (24+4); ++i) {
+      if (c[i] == EXCEL[p][24] || c[i] == EXCEL[p][25]
+	  || c[i] == EXCEL[p][26] || c[i] == EXCEL[p][27])
+	score_4 += 25; // Rätt semifinallag
+    }
+    int score_2 = 0;
+    for (int i = 28; i < (28+2); ++i) {
+      if (c[i] == EXCEL[p][28] || c[i] == EXCEL[p][29])
+	score_2 += 35; // Rätt finallag
+    }
+    int score_30 = 0;
+    if (c[30] == EXCEL[p][30])
+      score_30 = 20; // Rätt bronsvinnare
+    int score_50 = 0;
+    if (c[31] == EXCEL[p][31])
+      score_50 = 50; // Rätt världsmästare
+    const int score = score_16 + score_8 + score_4 + score_2 + score_30 + score_50;
+#if 0
+    std::cout << __FILE__<<__LINE__<<' '<<score<<' '<<p<<std::endl;
+    if (p==STMIBO)
+      assert(score==295);
+#endif
+    if (score > bestPointSoFar) {
+      bestPointSoFar = score;
+      nrTie = 0;
+      dotp[0] = (e_person)p;
+    } else if (score == bestPointSoFar) {
+      dotp[++nrTie] = (e_person)p;
+    } else {
+      // Just chuck it away
+    }
+  }
+#if 0
+  if (nrTie == 0 && dotp[0] == STMIBO && myrank==2 && c[31]==bra) {
+    // Exempel på en rad som gör att STMIBO vinner:
+    std::cout << __FILE__<<__LINE__<<' '<<myrank<<std::endl;
+    for (int ii = 0; ii < 16; ++ii) {
+      std::cout << c[ii] << ' ';
+    }
+    std::cout << std::endl << std::flush;
+    for (int ii = 16; ii < 24; ++ii) {
+      std::cout << c[ii] << ' ';
+    }
+    std::cout << std::endl << std::flush;
+    for (int ii = 24; ii < 28; ++ii) {
+      std::cout << c[ii] << ' ';
+    }
+    std::cout << std::endl << std::flush;
+    for (int ii = 28; ii < 30; ++ii) {
+      std::cout << c[ii] << ' ';
+    }
+    std::cout << std::endl << std::flush;
+    std::cout << c[30] << ' '<< std::endl;
+    std::cout << c[31] << ' '<< std::endl;
+  }
+#endif
+  return nrTie + 1;
+}
+#if 0
+int main()
+{
+  e_team c[32] = {rus, uru, esp, irn, fra, aus, nga, cro,
+		  srb, bra, swe, mex, eng, bel, col, jpn,
+		  irn, uru, cro, aus, mex, bra, jpn, bel,
+		  uru, cro, bra, jpn, uru, bra, cro, bra };
+  e_person dotp[32];
+  const int siz = whoMatchesBest(c, dotp, 2);
+  assert(siz == 1);
+  assert(dotp[0] == STMIBO);
+}
+#endif
+std::ostream& operator<<(std::ostream& o, enum e_team aTeam)
+{
+  switch(aTeam)
+    {
+    case rus: o << "rus"; break;
+    case ksa: o << "ksa"; break;
+    case egy: o << "egy"; break;
+    case uru: o << "uru"; break;
+    case mar: o << "mar"; break;
+    case irn: o << "irn"; break;
+    case por: o << "por"; break;
+    case esp: o << "esp"; break;
+    case fra: o << "fra"; break;
+    case aus: o << "aus"; break;
+    case per: o << "per"; break;
+    case den: o << "den"; break;
+    case arg: o << "arg"; break;
+    case isl: o << "isl"; break;
+    case cro: o << "cro"; break;
+    case nga: o << "nga"; break;
+    case crc: o << "crc"; break;
+    case srb: o << "srb"; break;
+    case bra: o << "bra"; break;
+    case sui: o << "sui"; break;
+    case ger: o << "ger"; break;
+    case mex: o << "mex"; break;
+    case swe: o << "swe"; break;
+    case kor: o << "kor"; break;
+    case bel: o << "bel"; break;
+    case pan: o << "pan"; break;
+    case tun: o << "tun"; break;
+    case eng: o << "eng"; break;
+    case col: o << "col"; break;
+    case jpn: o << "jpn"; break;
+    case pol: o << "pol"; break;
+    case sen: o << "sen"; break;
+    default:
+      assert("Should not happen!"[0]==0);
+    }
+  return o;
+}

@@ -326,47 +326,6 @@ e_person operator++(e_person& that, int)
   ++that;
   return result;
 }
-std::ostream& operator<<(std::ostream& o, enum e_team aTeam)
-{
-  switch(aTeam)
-    {
-    case rus: o << "rus"; break;
-    case ksa: o << "ksa"; break;
-    case egy: o << "egy"; break;
-    case uru: o << "uru"; break;
-    case mar: o << "mar"; break;
-    case irn: o << "irn"; break;
-    case por: o << "por"; break;
-    case esp: o << "esp"; break;
-    case fra: o << "fra"; break;
-    case aus: o << "aus"; break;
-    case per: o << "per"; break;
-    case den: o << "den"; break;
-    case arg: o << "arg"; break;
-    case isl: o << "isl"; break;
-    case cro: o << "cro"; break;
-    case nga: o << "nga"; break;
-    case crc: o << "crc"; break;
-    case srb: o << "srb"; break;
-    case bra: o << "bra"; break;
-    case sui: o << "sui"; break;
-    case ger: o << "ger"; break;
-    case mex: o << "mex"; break;
-    case swe: o << "swe"; break;
-    case kor: o << "kor"; break;
-    case bel: o << "bel"; break;
-    case pan: o << "pan"; break;
-    case tun: o << "tun"; break;
-    case eng: o << "eng"; break;
-    case col: o << "col"; break;
-    case jpn: o << "jpn"; break;
-    case pol: o << "pol"; break;
-    case sen: o << "sen"; break;
-    default:
-      assert("Should not happen!"[0]==0);
-    }
-  return o;
-}
 std::ostream& operator<<(std::ostream& o, enum e_person aPerson)
 {
   switch(aPerson)
