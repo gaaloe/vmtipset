@@ -50,9 +50,10 @@ void manager_code( int numprocs )
       numsent++;
       hashRow += JUMP_HASH;
       {
-	if (numsent % 1000000 == 0) {
-	  std::cout << __FILE__<<__LINE__<<' '<<numsent/1000000 << ' ';
-	  std::cout << (NR_COMBS/JUMP_HASH)/1000000 << std::endl;
+        const int modul = 1000000;
+	if (numsent % modul == 0) {
+	  std::cout << __FILE__<<__LINE__<<' '<<numsent/modul << ' ';
+	  std::cout << (NR_COMBS/JUMP_HASH)/modul << std::endl;
 	}
       }
     }
@@ -69,23 +70,9 @@ void construct_row(long hashRow, cupResult_t* vals)
 {
   assert(0 <= hashRow && hashRow < NR_COMBS);
   // Group A: //rus, ksa, egy, uru
-#define WIN_A 2
-#define MOD_A (WIN_A*(WIN_A-1))
-  switch ((hashRow/MOD_A) % WIN_A) {
-  case 0:
-    (*vals)[0] = rus;
-    (*vals)[1] = uru;
-    break;
-  case 1:
-    (*vals)[0] = uru;
-    (*vals)[1] = rus;
-    break;
-  default:
-    assert("Should not arrive here!"[0]==0);
-  }
-  assert((*vals)[0] != (*vals)[1]);
-  assert((*vals)[0] == rus || (*vals)[0] == uru);
-  assert((*vals)[1] == rus || (*vals)[1] == uru);
+#define MOD_A 1
+  (*vals)[0] = uru;
+  (*vals)[1] = rus;
   // Group B:
 #define WIN_B 3
 #define MOD_B (MOD_A*WIN_B*(WIN_B-1))

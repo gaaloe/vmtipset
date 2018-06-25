@@ -58,10 +58,10 @@ enum e_person {
   PATSI,
   OGLL};
 #define SIZE_ROW 32
-#define NR_COMBS 4076863488L
+#define NR_COMBS 2038431744L
 //It is probably good if JUMP_HASH is a prime number (?). See..
 //https://primes.utm.edu/lists/small/10000.txt
-#define JUMP_HASH        149L
+#define JUMP_HASH        73L
 extern e_team operator++(e_team& that);
 extern e_team operator++(e_team& that, int);
 extern e_person operator++(e_person& that);
