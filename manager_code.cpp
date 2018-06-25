@@ -50,9 +50,9 @@ void manager_code( int numprocs )
       numsent++;
       hashRow += JUMP_HASH;
       {
-	if (numsent % 100000 == 0) {
-	  std::cout << __FILE__<<__LINE__<<' '<<numsent/100000 << ' ';
-	  std::cout << (NR_COMBS/JUMP_HASH)/100000 << std::endl;
+	if (numsent % 1000000 == 0) {
+	  std::cout << __FILE__<<__LINE__<<' '<<numsent/1000000 << ' ';
+	  std::cout << (NR_COMBS/JUMP_HASH)/1000000 << std::endl;
 	}
       }
     }
@@ -139,35 +139,23 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[5] == fra || (*vals)[5] == aus || (*vals)[5] == den);
   // Group D: arg, isl, cro, nga
 #define WIN_D 4
-#define MOD_D (MOD_C*WIN_D*(WIN_D-1))
+#define MOD_D (MOD_C*WIN_D)
   switch ((hashRow/MOD_C) % WIN_D) {
   case 0:
-    (*vals)[6] = arg;
-    (*vals)[7] = ((hashRow/(MOD_C*WIN_D) % (WIN_D-1)) == 0) ?
-      isl : ((hashRow/(MOD_C*WIN_D) % (WIN_D-1)) == 1) ?
-      cro :
-      nga;
+    (*vals)[6] = nga;
+    (*vals)[7] = cro;
     break;
   case 1:
-    (*vals)[6] = isl;
-    (*vals)[7] = ((hashRow/(MOD_C*WIN_D) % (WIN_D-1)) == 0) ?
-      arg : ((hashRow/(MOD_C*WIN_D) % (WIN_D-1)) == 1) ?
-      cro :
-      nga;
+    (*vals)[6] = cro;
+    (*vals)[7] = nga;
     break;
   case 2:
     (*vals)[6] = cro;
-    (*vals)[7] = ((hashRow/(MOD_C*WIN_D) % (WIN_D-1)) == 0) ?
-      arg : ((hashRow/(MOD_C*WIN_D) % (WIN_D-1)) == 1) ?
-      isl :
-      nga;
+    (*vals)[7] = isl;
     break;
   case 3:
-    (*vals)[6] = nga;
-    (*vals)[7] = ((hashRow/(MOD_C*WIN_D) % (WIN_D-1)) == 0) ?
-      arg : ((hashRow/(MOD_C*WIN_D) % (WIN_D-1)) == 1) ?
-      isl :
-      cro;
+    (*vals)[6] = cro;
+    (*vals)[7] = arg;
     break;
   default:
     assert("Should not arrive here!"[0]==0);

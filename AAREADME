@@ -2,3 +2,5 @@ g++ -I/usr/include/mpich main.cpp worker_code.cpp manager_code.cpp -lmpi
 #Minimi requirement:
 mpiexec -n 2 ./a.out
 mpiexec -n 8 ./a.out
+#Spara utmatningen i tmp, sedan:
+sort --key=2,2gr tmp > tmp2
