@@ -51,7 +51,7 @@ void manager_code( int numprocs )
       const int sendTag = (numsent%200000000) + 1;
       assert(sendTag != 0);
       MPI_Send( game_result, SIZE_ROW, MPI_INT, sender,
-		 sendTag, MPI_COMM_WORLD );
+		sendTag, MPI_COMM_WORLD );
       numsent++;
       hashRow += JUMP_HASH;
       {
@@ -68,15 +68,20 @@ void manager_code( int numprocs )
   }
   assert(numsent == NR_COMBS / JUMP_HASH);
   {
-  std::ios init(NULL);
-  init.copyfmt(std::cout);
-  for (e_person ii = (e_person)0; ii < (e_person)46; ++ii) {
-    std::cout << ii << ' ';
+    std::ios init(NULL);
+    init.copyfmt(std::cout);
+    double sum = 0;
+    for (e_person ii = (e_person)0; ii < (e_person)46; ++ii) {
+      std::cout << std::setw( 11 ) << ii << ' ';
+      std::cout << std::fixed << std::setw( 11 ) << std::setprecision( 1 );
+      std::cout << (long)accum[ii] << std::endl;
+      std::cout.copyfmt(init); // restore default formatting
+      sum += accum[ii];
+    }
+    std::cout << std::setw( 11 ) << "sum:" << ' ';
     std::cout << std::fixed << std::setw( 11 ) << std::setprecision( 1 );
-    std::cout << (long)accum[ii] << std::endl;
-    // restore default formatting
-    std::cout.copyfmt(init);
-  }
+    std::cout << sum << std::endl;
+    std::cout.copyfmt(init); // restore default formatting
   }
 }
 void construct_row(long hashRow, cupResult_t* vals)
@@ -91,25 +96,11 @@ void construct_row(long hashRow, cupResult_t* vals)
   (*vals)[2] = esp;
   (*vals)[3] = por;
   // Group C: fra, aus, per, den,
-#define WIN_C 3
+#define WIN_C 1
 #define MOD_C (MOD_B*WIN_C)
   //fra,aus fra,den, den,fra?
-  switch ((hashRow/MOD_B) % WIN_C) {
-  case 0:
-    (*vals)[4] = fra;
-    (*vals)[5] = aus;
-    break;
-  case 1:
-    (*vals)[4] = fra;
-    (*vals)[5] = den;
-    break;
-  case 2:
-    (*vals)[4] = den;
-    (*vals)[5] = fra;
-    break;
-  default:
-    assert("Should not arrive here!"[0]==0);
-  }
+  (*vals)[4] = fra;
+  (*vals)[5] = den;
   assert((*vals)[4] != (*vals)[5]);
   assert((*vals)[4] == fra || (*vals)[4] == den);
   assert((*vals)[5] == fra || (*vals)[5] == aus || (*vals)[5] == den);

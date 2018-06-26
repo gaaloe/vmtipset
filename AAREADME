@@ -3,7 +3,7 @@ g++ -I/usr/include/mpich main.cpp worker_code.cpp manager_code.cpp -lmpi
 mpiexec -n 2 ./a.out
 mpiexec -n 8 ./a.out
 #Spara utmatningen i tmp, sedan:
-sort --key=2,2gr tmp > tmp2
+sort --key=2,2gr tmp > tmp2.txt
 #
 # See https://minicppunit.soft112.com/download.html for download
 # of MiniCppUnit-2.5:

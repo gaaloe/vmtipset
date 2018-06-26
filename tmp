@@ -1,51 +1,47 @@
-TEST       18558
-ANSE     1705601
-ANNY     5846915
-HEGR      640498
-JOMA    14835303
-MXRE           0
-PEAL     5116084
-MIBJ    44123374
-GUAS      473688
-ADER     8058124
-MYSJ    23014106
-STJOEL     2168918
-VIST       87295
-JASH       94160
-ADSU     3073529
-STMEBR           0
-JAYSU      156747
-STJORY       22093
-STJASU      600066
-HESO      320766
-ULPE     4628234
-STUFJO    15388579
-STASEK      115113
-HKDY    20205873
-STJOKX    93516121
-STBXWE     4951195
-STMIBO     9550062
-STWU    15960863
-LILA     1723932
-STANNI      741659
-STSTAA    38168160
-STKRBU     1726844
-STTHWA     2454174
-HRJO       49888
-HENO           0
-STONY     3209359
-CLWF      850814
-CKH     1012122
-STANNAN       62034
-HANO     4615242
-DASH     7463378
-DAGR     2043914
-PESD       20169
-KJSV        1639
-PATSI           0
-OGLL      923410
-
-real	6m8.586s
-user	48m26.515s
-sys	0m12.916s
+       TEST         390
+       ANSE      606949
+       ANNY     2442035
+       HEGR      234987
+       JOMA     1388035
+       MXRE           0
+       PEAL     1501150
+       MIBJ    15970382
+       GUAS      118649
+       ADER     2882201
+       MYSJ    11219504
+     STJOEL      761297
+       VIST       22724
+       JASH       38184
+       ADSU      383891
+     STMEBR           0
+      JAYSU       41453
+     STJORY        7170
+     STJASU      221266
+       HESO       80151
+       ULPE     1013132
+     STUFJO     4911057
+     STASEK       40011
+       HKDY     6858329
+     STJOKX    33589646
+     STBXWE     1119286
+     STMIBO     1921837
+       STWU     4473504
+       LILA      655609
+     STANNI      289098
+     STSTAA    14143549
+     STKRBU      481165
+     STTHWA      886388
+       HRJO        6307
+       HENO           0
+      STONY      823276
+       CLWF      217119
+        CKH      312187
+    STANNAN       40692
+       HANO      787629
+       DASH     1803967
+       DAGR      780873
+       PESD           0
+       KJSV         126
+      PATSI           0
+       OGLL      170982
 
