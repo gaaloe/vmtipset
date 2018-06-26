@@ -1,5 +1,6 @@
 #include <mpi.h>
 #include <iostream>
+#include <iomanip>
 #include <cassert>
 #include "manager_code.h"
 #define MIN( x, y ) ((x) < (y) ? x : y)
@@ -13,7 +14,7 @@ void manager_code( int numprocs )
   long numsent = 0;
   long hashRow = 0;
   e_person dotp[46];
-  float accum[46] = {0};
+  double accum[46] = {0};
   MPI_Status status;
   for ( i = 1; i < MIN( numprocs, NR_COMBS / JUMP_HASH); i++ ) {
     construct_row(hashRow, &game_result);
@@ -66,8 +67,16 @@ void manager_code( int numprocs )
 		MPI_COMM_WORLD );
   }
   assert(numsent == NR_COMBS / JUMP_HASH);
+  {
+  std::ios init(NULL);
+  init.copyfmt(std::cout);
   for (e_person ii = (e_person)0; ii < (e_person)46; ++ii) {
-    std::cout << ii << ' ' << (int)accum[ii] << std::endl;
+    std::cout << ii << ' ';
+    std::cout << std::fixed << std::setw( 11 ) << std::setprecision( 1 );
+    std::cout << (long)accum[ii] << std::endl;
+    // restore default formatting
+    std::cout.copyfmt(init);
+  }
   }
 }
 void construct_row(long hashRow, cupResult_t* vals)
