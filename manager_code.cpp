@@ -17,7 +17,9 @@ void manager_code( int numprocs )
   MPI_Status status;
   for ( i = 1; i < MIN( numprocs, NR_COMBS / JUMP_HASH); i++ ) {
     construct_row(hashRow, &game_result);
-    MPI_Send( game_result, SIZE_ROW, MPI_INT, i, i, MPI_COMM_WORLD );
+    const int sendTag = i;
+    assert(sendTag != 0);
+    MPI_Send( game_result, SIZE_ROW, MPI_INT, i, sendTag, MPI_COMM_WORLD );
     numsent++;
     hashRow += JUMP_HASH;
   }
@@ -45,8 +47,10 @@ void manager_code( int numprocs )
     /* send another piece of work to this worker if there is one */
     if ( numsent < NR_COMBS  / JUMP_HASH) {
       construct_row(hashRow, &game_result);
+      const int sendTag = (numsent%200000000) + 1;
+      assert(sendTag != 0);
       MPI_Send( game_result, SIZE_ROW, MPI_INT, sender,
-		(numsent + 1)%200000000, MPI_COMM_WORLD );
+		 sendTag, MPI_COMM_WORLD );
       numsent++;
       hashRow += JUMP_HASH;
       {
