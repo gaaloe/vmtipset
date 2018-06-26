@@ -70,4 +70,5 @@ extern std::ostream& operator<<(std::ostream& o, enum e_team);
 extern std::ostream& operator<<(std::ostream& o, enum e_person);
 extern int whoMatchesBest(const e_team c[SIZE_ROW], e_person dotp[32], int myrank);
 extern int personMatch(e_person p, const e_team c[SIZE_ROW], int myrank);
+extern const int scoreFromGroups[46];
 #endif
