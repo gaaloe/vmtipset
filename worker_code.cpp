@@ -481,13 +481,15 @@ int personMatch(e_person p, const e_team c[SIZE_ROW], int myrank)
       if (c[i] == EXCEL[p][28] || c[i] == EXCEL[p][29])
 	score_2 += 35; // Rätt finallag
     }
-    int score_30 = 0;
+    int score_20 = 0;
     if (c[30] == EXCEL[p][30])
-      score_30 = 20; // Rätt bronsvinnare
+      score_20 = 20; // Rätt bronsvinnare
     int score_50 = 0;
     if (c[31] == EXCEL[p][31])
       score_50 = 50; // Rätt världsmästare
-    const int score = score_16 + score_8 + score_4 + score_2 + score_30 + score_50;
+    const int score
+       = scoreFromGroups[p] +
+         score_16 + score_8 + score_4 + score_2 + score_20 + score_50;
     return score;
 }
 std::ostream& operator<<(std::ostream& o, enum e_team aTeam)

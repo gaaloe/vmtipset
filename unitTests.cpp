@@ -31,7 +31,7 @@ public:
 		    irn, uru, cro, aus, mex, bra, jpn, bel,
 		    uru, cro, bra, jpn, uru, bra, cro, bra };
     const int score = personMatch(STMIBO, c, 2);
-    ASSERT(score == 295);
+    ASSERT(score == 295 + scoreFromGroups[STMIBO]);
   }
 };
 REGISTER_FIXTURE( upperLeftIndented );
@@ -57,7 +57,7 @@ public:
        cro,
        bra};
     const int score = personMatch(STMIBO, c, 2);
-    ASSERT(score == 520);
+    ASSERT(score == 520 + scoreFromGroups[STMIBO]);
     e_person dotp[32];
     const int siz = whoMatchesBest(c, dotp, 2);
     ASSERT(siz == 1);
