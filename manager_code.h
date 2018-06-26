@@ -61,7 +61,7 @@ enum e_person {
 #define NR_COMBS 339738624L
 //It is probably good if JUMP_HASH is a prime number (?). See..
 //https://primes.utm.edu/lists/small/10000.txt
-#define JUMP_HASH        3L
+#define JUMP_HASH        1L
 extern e_team operator++(e_team& that);
 extern e_team operator++(e_team& that, int);
 extern e_person operator++(e_person& that);
