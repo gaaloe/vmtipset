@@ -74,33 +74,9 @@ void construct_row(long hashRow, cupResult_t* vals)
   (*vals)[0] = uru;
   (*vals)[1] = rus;
   // Group B:
-#define WIN_B 3
-#define MOD_B (MOD_A*WIN_B*(WIN_B-1))
-  switch ((hashRow/MOD_A) % WIN_B) {
-  case 0:
-    (*vals)[2] = irn;
-    (*vals)[3] = ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 0) ?
-      por : 
-      esp;
-    break;
-  case 1:
-    (*vals)[2] = por;
-    (*vals)[3] = ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 0) ?
-      irn :
-      esp;
-    break;
-  case 2:
-    (*vals)[2] = esp;
-    (*vals)[3] = ((hashRow/(MOD_A*WIN_B) % (WIN_B-1)) == 0) ?
-      irn :
-      por;
-    break;
-  default:
-    assert("Should not arrive here!"[0]==0);
-  }
-  assert((*vals)[2] != (*vals)[3]);
-  assert((*vals)[2] == irn || (*vals)[2] == por || (*vals)[2] == esp);
-  assert((*vals)[3] == irn || (*vals)[3] == por || (*vals)[3] == esp);
+#define MOD_B 1
+  (*vals)[2] = esp;
+  (*vals)[3] = por;
   // Group C: fra, aus, per, den,
 #define WIN_C 3
 #define MOD_C (MOD_B*WIN_C)
