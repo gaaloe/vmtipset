@@ -72,13 +72,13 @@ void manager_code( int numprocs )
     init.copyfmt(std::cout);
     double sum = 0;
     for (e_person ii = (e_person)0; ii < (e_person)46; ++ii) {
-      std::cout << std::setw( 11 ) << ii << ' ';
+      std::cout << std::setw( 7 ) << ii << ' ';
       std::cout << std::fixed << std::setw( 11 ) << std::setprecision( 1 );
       std::cout << (long)accum[ii] << std::endl;
       std::cout.copyfmt(init); // restore default formatting
       sum += accum[ii];
     }
-    std::cout << std::setw( 11 ) << "sum:" << ' ';
+    std::cout << std::setw( 7 ) << "sum:" << ' ';
     std::cout << std::fixed << std::setw( 11 ) << std::setprecision( 1 );
     std::cout << sum << std::endl;
     std::cout.copyfmt(init); // restore default formatting
@@ -105,28 +105,10 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[4] == fra || (*vals)[4] == den);
   assert((*vals)[5] == fra || (*vals)[5] == aus || (*vals)[5] == den);
   // Group D: arg, isl, cro, nga
-#define WIN_D 4
+#define WIN_D 1
 #define MOD_D (MOD_C*WIN_D)
-  switch ((hashRow/MOD_C) % WIN_D) {
-  case 0:
-    (*vals)[6] = nga;
-    (*vals)[7] = cro;
-    break;
-  case 1:
-    (*vals)[6] = cro;
-    (*vals)[7] = nga;
-    break;
-  case 2:
-    (*vals)[6] = cro;
-    (*vals)[7] = isl;
-    break;
-  case 3:
-    (*vals)[6] = cro;
-    (*vals)[7] = arg;
-    break;
-  default:
-    assert("Should not arrive here!"[0]==0);
-  }
+  (*vals)[6] = cro;
+  (*vals)[7] = arg;
   assert((*vals)[6] != (*vals)[7]);
   assert((*vals)[6] == arg || (*vals)[6] == isl || (*vals)[6] == cro || (*vals)[6] == nga);
   assert((*vals)[7] == arg || (*vals)[7] == isl || (*vals)[7] == cro || (*vals)[7] == nga);
