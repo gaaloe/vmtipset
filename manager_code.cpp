@@ -74,7 +74,10 @@ void manager_code( int numprocs )
     for (e_person ii = (e_person)0; ii < (e_person)46; ++ii) {
       std::cout << std::setw( 7 ) << ii << ' ';
       std::cout << std::fixed << std::setw( 11 ) << std::setprecision( 1 );
-      std::cout << (long)accum[ii] << std::endl;
+      std::cout << (long)accum[ii] << ' ';
+      std::cout << std::fixed << std::setw( 5 ) << std::setprecision( 1 );
+      std::cout << (accum[ii] / NR_COMBS) * 100;
+      std::cout << std::endl;
       std::cout.copyfmt(init); // restore default formatting
       sum += accum[ii];
     }
