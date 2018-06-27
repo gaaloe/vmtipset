@@ -90,19 +90,10 @@ ger};
     ASSERT(245 == personMatch(TEST, c, 2));
     ASSERT(499 == personMatch(ANSE, c, 2));
     ASSERT(493 == personMatch(ANNY, c, 2));
-#if 0
-    ASSERT(416 == personMatch(HEGR, c, 2));
-#endif
-    const int score = personMatch(VIST, c, 2);
-    ASSERT(score == 559);
-    const int scoreOGLL = personMatch(OGLL, c, 2);
-    ASSERT(scoreOGLL == 561);
-    const int scoreMYSJ = personMatch(MYSJ, c, 2);
-    ASSERT(scoreMYSJ == 560);
-    e_person dotp[32];
-    const int siz = whoMatchesBest(c, dotp, 2);
-    ASSERT(siz == 1);
-    ASSERT(dotp[0] == OGLL);
+    ASSERT(430 == personMatch(HEGR, c, 2));
+    ASSERT(534 == personMatch(JOMA, c, 2));
+    ASSERT(438 == personMatch(MXRE, c, 2));
+    ASSERT(497 == personMatch(PEAL, c, 2));
   }
 };
 REGISTER_FIXTURE( whyVISTbad );
