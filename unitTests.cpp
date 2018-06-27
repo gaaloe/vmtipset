@@ -65,3 +65,36 @@ public:
   }
 };
 REGISTER_FIXTURE( exactLeftIndented );
+
+class whyVISTbad : public TestFixture<whyVISTbad>
+{
+  void setUp() {
+  }
+  void tearDown() {
+  }
+public:
+  TEST_FIXTURE( whyVISTbad )
+  {
+    TEST_CASE( stmibo );
+  }
+  void stmibo()
+  {
+    e_team c[32] =
+{uru, rus, esp, por, fra, den, cro, arg, sui, bra, ger, swe, bel, eng, col, jpn, 
+por, esp, arg, den, sui, ger, bel, eng, 
+por, arg, ger, eng, 
+arg, ger, 
+por, 
+ger}; 
+
+    const int score = personMatch(VIST, c, 2);
+    ASSERT(score == 559);
+    const int scoreOGLL = personMatch(OGLL, c, 2);
+    ASSERT(scoreOGLL == 561);
+    e_person dotp[32];
+    const int siz = whoMatchesBest(c, dotp, 2);
+    ASSERT(siz == 1);
+    ASSERT(dotp[0] == OGLL);
+  }
+};
+REGISTER_FIXTURE( whyVISTbad );
