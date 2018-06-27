@@ -94,6 +94,7 @@ ger};
     ASSERT(534 == personMatch(JOMA, c, 2));
     ASSERT(438 == personMatch(MXRE, c, 2));
     ASSERT(497 == personMatch(PEAL, c, 2));
+    ASSERT(561 == personMatch(OGLL, c, 2)); // EXCEL-arket visar 25 p för lite, för por.
   }
 };
 REGISTER_FIXTURE( whyVISTbad );
