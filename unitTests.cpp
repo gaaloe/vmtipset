@@ -115,6 +115,12 @@ public:
     };
     ASSERT(517 == personMatch(STONY, c, 2));
     ASSERT(508 == personMatch(STJOKX, c, 2));
+    ASSERT(508 == personMatch(MIBJ, c, 2));
+    ASSERT(511 == personMatch(STBXWE, c, 2));
+    e_person dotp[32];
+    const int siz = whoMatchesBest(c, dotp, 2);
+    ASSERT(siz == 1);
+    ASSERT(dotp[0] == STONY);
   }
 };
 REGISTER_FIXTURE( whySTONY );
