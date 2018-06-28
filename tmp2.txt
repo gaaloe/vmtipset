@@ -1,30 +1,27 @@
- STJOKX       58788  44.9%
-   MIBJ       19753  15.1%
-   ADER       13461  10.3%
- STSTAA        8689   6.6%
-   JOMA        5463   4.2%
-   HKDY        4458   3.4%
-   ANNY        4328   3.3%
-   STWU        3214   2.5%
- STBXWE        3108   2.4%
-   MYSJ        2641   2.0%
- STJOEL        1005   0.8%
- STKRBU         866   0.7%
- STUFJO         830   0.6%
-   DAGR         754   0.6%
-  JAYSU         501   0.4%
-   ANSE         471   0.4%
- STMIBO         466   0.4%
-    CKH         441   0.3%
-   HEGR         429   0.3%
-   ADSU         380   0.3%
-   HANO         365   0.3%
-   PEAL         330   0.3%
-   DASH         143   0.1%
- STTHWA          92   0.1%
-   HESO          68   0.1%
-   GUAS          20   0.0%
-  STONY           4   0.0%
+ STJOKX       15587  23.8%
+   MYSJ       14397  22.0%
+ STSTAA        8663  13.2%
+   ADER        6404   9.8%
+   MIBJ        6191   9.4%
+   ANNY        3772   5.8%
+ STBXWE        3714   5.7%
+   HKDY        1987   3.0%
+   JOMA        1376   2.1%
+   STWU         871   1.3%
+ STMIBO         479   0.7%
+    CKH         417   0.6%
+   DASH         388   0.6%
+ STJOEL         299   0.5%
+   DAGR         230   0.4%
+   ADSU         170   0.3%
+   PEAL         159   0.2%
+   HESO         112   0.2%
+  JAYSU          76   0.1%
+   GUAS          64   0.1%
+   HANO          52   0.1%
+   HEGR          49   0.1%
+ STTHWA          44   0.1%
+   ANSE          32   0.0%
    CLWF           0   0.0%
    HENO           0   0.0%
    HRJO           0   0.0%
@@ -40,8 +37,11 @@ STANNAN           0   0.0%
  STASEK           0   0.0%
  STJASU           0   0.0%
  STJORY           0   0.0%
+ STKRBU           0   0.0%
  STMEBR           0   0.0%
+  STONY           0   0.0%
+ STUFJO           0   0.0%
    TEST           0   0.0%
    ULPE           0   0.0%
    VIST           0   0.0%
-   sum:    131072.0
+   sum:     65536.0
