@@ -5,7 +5,10 @@
 #include "manager_code.h"
 #define MIN( x, y ) ((x) < (y) ? x : y)
 typedef e_team cupResult_t[SIZE_ROW];
-e_team game_result[SIZE_ROW];
+#define GRIDX 8
+e_team game_result[GRIDX][SIZE_ROW];
+int grIdx = 0;
+int save_grIdx[8] = {0};
 void construct_row(long numsent, cupResult_t* vals);
 
 void manager_code( int numprocs )
@@ -17,10 +20,12 @@ void manager_code( int numprocs )
   double accum[46] = {0};
   MPI_Status status;
   for ( i = 1; i < MIN( numprocs, NR_COMBS / JUMP_HASH); i++ ) {
-    construct_row(hashRow, &game_result);
-    const int sendTag = i;
+    construct_row(hashRow, &game_result[grIdx]);
+    const int sendTag = grIdx + 1;
     assert(sendTag != 0);
-    MPI_Send( game_result, SIZE_ROW, MPI_INT, i, sendTag, MPI_COMM_WORLD );
+    MPI_Send( game_result[grIdx], SIZE_ROW, MPI_INT, i, sendTag, MPI_COMM_WORLD );
+    save_grIdx[i] = grIdx;
+    ++grIdx %= GRIDX;
     numsent++;
     hashRow += JUMP_HASH;
   }
@@ -38,6 +43,7 @@ void manager_code( int numprocs )
     assert(0 <= dotp[0] && dotp[0] < 46);
     sender = status.MPI_SOURCE;
     row    = status.MPI_TAG - 1;
+    assert(save_grIdx[sender] == row);
     int number = -1;
     MPI_Get_count(&status, MPI_INT, &number);
     assert(1 <= number && number <= 46);
@@ -47,11 +53,13 @@ void manager_code( int numprocs )
     }
     /* send another piece of work to this worker if there is one */
     if ( numsent < NR_COMBS  / JUMP_HASH) {
-      construct_row(hashRow, &game_result);
-      const int sendTag = (numsent%200000000) + 1;
+      construct_row(hashRow, &game_result[grIdx]);
+      const int sendTag = grIdx + 1;
       assert(sendTag != 0);
-      MPI_Send( game_result, SIZE_ROW, MPI_INT, sender,
+      MPI_Send( game_result[grIdx], SIZE_ROW, MPI_INT, sender,
 		sendTag, MPI_COMM_WORLD );
+      save_grIdx[sender] = grIdx;
+      ++grIdx %= GRIDX;
       numsent++;
       hashRow += JUMP_HASH;
       {
@@ -117,15 +125,15 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[7] == arg || (*vals)[7] == isl || (*vals)[7] == cro || (*vals)[7] == nga);
   // Group E: crc, srb, bra, sui
 #define MOD_E (MOD_D)
-    (*vals)[8] = bra;
-    (*vals)[9] = sui;
+  (*vals)[8] = bra;
+  (*vals)[9] = sui;
   assert((*vals)[8] != (*vals)[9]);
   assert((*vals)[8] == srb || (*vals)[8] == bra || (*vals)[8] == sui);
   assert((*vals)[9] == srb || (*vals)[9] == bra || (*vals)[9] == sui);
   // Group F:              ger, mex, swe, kor
 #define MOD_F (MOD_E)
-    (*vals)[10] = swe;
-    (*vals)[11] = mex;
+  (*vals)[10] = swe;
+  (*vals)[11] = mex;
   assert((*vals)[10] != (*vals)[11]);
   assert((*vals)[10] == ger || (*vals)[10] == mex || (*vals)[10] == swe);
   assert((*vals)[11] == ger || (*vals)[11] == mex || (*vals)[11] == swe);
@@ -149,8 +157,8 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[13] == bel || (*vals)[13] == eng);
   // Group H: col, jpn, pol, sen
 #define MOD_H ((long)(MOD_G))
-    (*vals)[14] = col;
-    (*vals)[15] = jpn;
+  (*vals)[14] = col;
+  (*vals)[15] = jpn;
   assert((*vals)[14] != (*vals)[15]);
   assert((*vals)[14] == col || (*vals)[14] == jpn || (*vals)[14] == sen);
   assert((*vals)[15] == col || (*vals)[15] == jpn || (*vals)[15] == sen);
