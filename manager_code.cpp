@@ -5,10 +5,10 @@
 #include "manager_code.h"
 #define MIN( x, y ) ((x) < (y) ? x : y)
 typedef e_team cupResult_t[SIZE_ROW];
-#define GRIDX 8
+#define GRIDX 100
 e_team game_result[GRIDX][SIZE_ROW];
 int grIdx = 0;
-int save_grIdx[8] = {0};
+int save_grIdx[8] = {-1, -1, -1, -1, -1, -1, -1, -1};
 void construct_row(long numsent, cupResult_t* vals);
 
 void manager_code( int numprocs )
@@ -44,6 +44,7 @@ void manager_code( int numprocs )
     sender = status.MPI_SOURCE;
     row    = status.MPI_TAG - 1;
     assert(save_grIdx[sender] == row);
+    save_grIdx[sender] = -1;
     int number = -1;
     MPI_Get_count(&status, MPI_INT, &number);
     assert(1 <= number && number <= 46);
@@ -59,7 +60,25 @@ void manager_code( int numprocs )
       MPI_Send( game_result[grIdx], SIZE_ROW, MPI_INT, sender,
 		sendTag, MPI_COMM_WORLD );
       save_grIdx[sender] = grIdx;
-      ++grIdx %= GRIDX;
+      for (;;) {
+        ++grIdx %= GRIDX;
+        int ii = 1; 
+        for (; ii < 8; ++ii) {
+          if (save_grIdx[ii] == grIdx) {
+	    break; // Not OK!
+          }
+        }
+        if (ii == 8) {
+          // OK to use this 'grIdx'
+          break;
+        }
+      }
+#ifndef NDEBUG
+      // The new 'grIdx' is ready to use, it is not outstanding in any CPU
+      for (int ii = 0; ii < 8; ++ii) {
+         assert(save_grIdx[ii] != grIdx);
+      }
+#endif
       numsent++;
       hashRow += JUMP_HASH;
       {
