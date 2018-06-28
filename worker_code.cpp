@@ -371,7 +371,7 @@ const int scoreFromGroups[46] = {
   /*HANO*/ 159,
   /*DASH*/ 260,
   /*DAGR*/ 214,
-  /*PESD*/ 176,
+  /*PESD*/ 207,
   /*KJSV*/ 176,
   /*PATSI*/ 200,
   /*OGLL*/ 241
