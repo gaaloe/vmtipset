@@ -422,9 +422,10 @@ int whoMatchesBest(const e_team c[SIZE_ROW], e_person dotp[32], int myrank)
     }
   }
 #if 0
-  if (nrTie == 0 && dotp[0] == STMIBO && myrank==2 && c[31]==bra) {
+  if (nrTie == 0 && dotp[0] == STONY && myrank==2) {
     // Exempel på en rad som gör att STMIBO vinner:
     std::cout << __FILE__<<__LINE__<<' '<<myrank<<std::endl;
+#if 1
     for (int ii = 0; ii < 16; ++ii) {
       std::cout << c[ii] << ' ';
     }
@@ -443,6 +444,7 @@ int whoMatchesBest(const e_team c[SIZE_ROW], e_person dotp[32], int myrank)
     std::cout << std::endl << std::flush;
     std::cout << c[30] << ' '<< std::endl;
     std::cout << c[31] << ' '<< std::endl;
+#endif
   }
 #endif
   return nrTie + 1;
