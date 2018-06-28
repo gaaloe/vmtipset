@@ -22,7 +22,7 @@ public:
     e_person dotp[32];
     const int siz = whoMatchesBest(c, dotp, 2);
     ASSERT(siz == 1);
-    ASSERT(dotp[0] == STMIBO);
+    ASSERT(dotp[0] == MIBJ);
   }
   void stmibo()
   {
@@ -87,14 +87,7 @@ arg, ger,
 por, 
 ger}; 
 
-    ASSERT(245 == personMatch(TEST, c, 2));
-    ASSERT(499 == personMatch(ANSE, c, 2));
-    ASSERT(493 == personMatch(ANNY, c, 2));
-    ASSERT(430 == personMatch(HEGR, c, 2));
-    ASSERT(534 == personMatch(JOMA, c, 2));
-    ASSERT(438 == personMatch(MXRE, c, 2));
-    ASSERT(497 == personMatch(PEAL, c, 2));
-    ASSERT(561 == personMatch(OGLL, c, 2)); // EXCEL-arket visar 25 p för lite, för por.
+    ASSERT(253 == personMatch(TEST, c, 2));
   }
 };
 REGISTER_FIXTURE( whyVISTbad );

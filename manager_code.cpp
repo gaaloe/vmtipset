@@ -55,7 +55,7 @@ void manager_code( int numprocs )
       numsent++;
       hashRow += JUMP_HASH;
       {
-        const int modul = 1000000;
+        const int modul = 10000;
 	if (numsent % modul == 0) {
 	  std::cout << __FILE__<<__LINE__<<' '<<numsent/modul << ' ';
 	  std::cout << (NR_COMBS/JUMP_HASH)/modul << std::endl;
@@ -76,7 +76,7 @@ void manager_code( int numprocs )
       std::cout << std::fixed << std::setw( 11 ) << std::setprecision( 1 );
       std::cout << (long)accum[ii] << ' ';
       std::cout << std::fixed << std::setw( 5 ) << std::setprecision( 1 );
-      std::cout << (accum[ii] / NR_COMBS) * 100;
+      std::cout << (accum[ii] / NR_COMBS) * 100 << '%';
       std::cout << std::endl;
       std::cout.copyfmt(init); // restore default formatting
       sum += accum[ii];
@@ -116,58 +116,16 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[6] == arg || (*vals)[6] == isl || (*vals)[6] == cro || (*vals)[6] == nga);
   assert((*vals)[7] == arg || (*vals)[7] == isl || (*vals)[7] == cro || (*vals)[7] == nga);
   // Group E: crc, srb, bra, sui
-#define WIN_E 3
-#define MOD_E (MOD_D*WIN_E*(WIN_E-1))
-  switch ((hashRow/MOD_D) % WIN_E) {
-  case 0:
-    (*vals)[8] = sui;
-    (*vals)[9] = ((hashRow/(MOD_D*WIN_E) % (WIN_E-1)) == 0) ?
-      bra :
-      srb;
-    break;
-  case 1:
-    (*vals)[8] = srb;
-    (*vals)[9] = ((hashRow/(MOD_D*WIN_E) % (WIN_E-1)) == 0) ?
-      bra :
-      sui;
-    break;
-  case 2:
+#define MOD_E (MOD_D)
     (*vals)[8] = bra;
-    (*vals)[9] = ((hashRow/(MOD_D*WIN_E) % (WIN_E-1)) == 0) ?
-      srb :
-      sui;
-    break;
-  default:
-    assert("Should not arrive here!"[0]==0);
-  }
+    (*vals)[9] = sui;
   assert((*vals)[8] != (*vals)[9]);
   assert((*vals)[8] == srb || (*vals)[8] == bra || (*vals)[8] == sui);
   assert((*vals)[9] == srb || (*vals)[9] == bra || (*vals)[9] == sui);
   // Group F:              ger, mex, swe, kor
-#define WIN_F 3
-#define MOD_F (MOD_E*WIN_F*(WIN_F-1))
-  switch ((hashRow/MOD_E) % WIN_F) {
-  case 0:
-    (*vals)[10] = ger;
-    (*vals)[11] = ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
-      swe :
-      mex;
-    break;
-  case 1:
-    (*vals)[10] = mex;
-    (*vals)[11] = ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
-      swe :
-      ger;
-    break;
-  case 2:
+#define MOD_F (MOD_E)
     (*vals)[10] = swe;
-    (*vals)[11] = ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
-      mex :
-      ger;
-    break;
-  default:
-    assert("Should not arrive here!"[0]==0);
-  }
+    (*vals)[11] = mex;
   assert((*vals)[10] != (*vals)[11]);
   assert((*vals)[10] == ger || (*vals)[10] == mex || (*vals)[10] == swe);
   assert((*vals)[11] == ger || (*vals)[11] == mex || (*vals)[11] == swe);
