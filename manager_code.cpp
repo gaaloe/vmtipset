@@ -13,7 +13,7 @@ void construct_row(long numsent, cupResult_t* vals);
 
 void manager_code( int numprocs )
 {
-  int i, sender, row;
+  int i, sender, receiveGrIdx;
   long numsent = 0;
   long hashRow = 0;
   e_person dotp[46];
@@ -42,8 +42,8 @@ void manager_code( int numprocs )
 	      MPI_COMM_WORLD, &status );
     assert(0 <= dotp[0] && dotp[0] < 46);
     sender = status.MPI_SOURCE;
-    row    = status.MPI_TAG - 1;
-    assert(save_grIdx[sender] == row);
+    receiveGrIdx = status.MPI_TAG - 1;
+    assert(save_grIdx[sender] == receiveGrIdx);
     save_grIdx[sender] = -1;
     int number = -1;
     MPI_Get_count(&status, MPI_INT, &number);
@@ -51,6 +51,12 @@ void manager_code( int numprocs )
     for (int ii = 0; ii < number; ++ii) {
       assert(0 <= dotp[ii] && dotp[ii] < 46);
       accum[dotp[ii]] += 1.0 / number;
+#ifndef NDEBUG
+      // Perform a 'smoke test'
+      const int score1 = personMatch(dotp[ii], game_result[receiveGrIdx], 2);
+      const int scoreN = personMatch((e_person)(4711%46), game_result[receiveGrIdx], 2);
+      assert(score1 >= scoreN);
+#endif
     }
     /* send another piece of work to this worker if there is one */
     if ( numsent < NR_COMBS  / JUMP_HASH) {
@@ -76,7 +82,7 @@ void manager_code( int numprocs )
 #ifndef NDEBUG
       // The new 'grIdx' is ready to use, it is not outstanding in any CPU
       for (int ii = 0; ii < 8; ++ii) {
-         assert(save_grIdx[ii] != grIdx);
+	assert(save_grIdx[ii] != grIdx);
       }
 #endif
       numsent++;
