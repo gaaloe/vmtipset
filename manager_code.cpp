@@ -194,20 +194,9 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[10] == ger || (*vals)[10] == mex || (*vals)[10] == swe);
   assert((*vals)[11] == ger || (*vals)[11] == mex || (*vals)[11] == swe);
   // Group G: bel, pan, tun, eng
-#define WIN_G 2
-#define MOD_G (MOD_F*WIN_G*(WIN_G-1))
-  switch ((hashRow/MOD_F) % WIN_G) {
-  case 0:
+#define MOD_G (MOD_F)
     (*vals)[12] = bel;
     (*vals)[13] = eng;
-    break;
-  case 1:
-    (*vals)[12] = eng;
-    (*vals)[13] = bel;
-    break;
-  default:
-    assert("Should not arrive here!"[0]==0);
-  }
   assert((*vals)[12] != (*vals)[13]);
   assert((*vals)[12] == bel || (*vals)[12] == eng);
   assert((*vals)[13] == bel || (*vals)[13] == eng);
