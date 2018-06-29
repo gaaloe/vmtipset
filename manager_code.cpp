@@ -101,7 +101,30 @@ void manager_code( int numprocs )
            case sui: fifaScore += 1179; break;
            case fra: fifaScore += 1166; break;
            case esp: fifaScore += 1162; break;
+           case pol: fifaScore += 1128; break;
+           case per: fifaScore += 1106; break;
+           case den: fifaScore += 1054; break;
+           case eng: fifaScore += 1040; break;
+           case tun: fifaScore += 1012; break;
+           case mex: fifaScore += 1008; break;
+           case col: fifaScore += 989; break;
+           case uru: fifaScore += 976; break;
+           case cro: fifaScore += 975; break;
+           case isl: fifaScore += 930; break;
+           case swe: fifaScore += 889; break;
+           case crc: fifaScore += 858; break;
+           case sen: fifaScore += 825; break;
+           case aus: fifaScore += 700; break;
+           case mar: fifaScore += 681; break;
+           case egy: fifaScore += 636; break;
+           case nga: fifaScore += 635; break;
+           case pan: fifaScore += 574; break;
+           case jpn: fifaScore += 528; break;
+           case kor: fifaScore += 520; break;
+           case rus: fifaScore += 493; break;
+           case ksa: fifaScore += 462; break;
            default:
+               assert("Should not happen!"[0]==0);
                break;
          }
       }
