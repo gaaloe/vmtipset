@@ -58,8 +58,8 @@ void manager_code( int numprocs )
       assert(score1 >= scoreN);
 #endif
 #if 0
-      if (dotp[ii] == STONY) {
-	// Exempel på en rad som gör att STONY vinner:
+      if (dotp[ii] == ANSE) {
+	// Exempel på en rad som gör att ANSE vinner:
         const int score1 = personMatch(dotp[ii], game_result[receiveGrIdx], 2);
 	std::cout << __FILE__<<__LINE__<<' '<< score1 << ' '<< "1/" << number<<' ' << accum[dotp[ii]] << std::endl;
 	for (int ii = 0; ii < 16; ++ii) {
