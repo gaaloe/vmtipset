@@ -91,8 +91,8 @@ void manager_code( int numprocs )
       }
 #endif
       int fifaScore = 0;
-      for (int ii = 17; ii < 32; ++ii) {
-         switch(game_result[receiveGrIdx][ii]) {
+      for (int jj = 17; jj < 32; ++jj) {
+         switch(game_result[receiveGrIdx][jj]) {
            case ger: fifaScore += 1544; break;
            case bra: fifaScore += 1384; break;
            case bel: fifaScore += 1346; break;
@@ -128,6 +128,10 @@ void manager_code( int numprocs )
                break;
          }
       }
+      if (fifaScore > fifaScoreEffort[dotp[ii]]) {
+         fifaScoreEffort[dotp[ii]] = fifaScore;
+      }
+      assert (fifaScore <= fifaScoreEffort[dotp[ii]]);
     }
     /* send another piece of work to this worker if there is one */
     if ( numsent < NR_COMBS  / JUMP_HASH) {
