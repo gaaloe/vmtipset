@@ -22,7 +22,7 @@ public:
     e_person dotp[32];
     const int siz = whoMatchesBest(c, dotp, 2);
     ASSERT(siz == 1);
-    ASSERT(dotp[0] == MIBJ);
+    ASSERT(dotp[0] == STMIBO);
   }
   void stmibo()
   {
@@ -86,41 +86,38 @@ public:
        arg, ger, 
        por, 
        ger}; 
-
-    ASSERT(253 == personMatch(TEST, c, 2));
+    ASSERT(255 == personMatch(TEST, c, 2));
   }
 };
 REGISTER_FIXTURE( whyVISTbad );
 
-class whySTONY : public TestFixture<whySTONY>
+class whyANSE : public TestFixture<whyANSE>
 {
   void setUp() {
   }
   void tearDown() {
   }
 public:
-  TEST_FIXTURE( whySTONY )
+  TEST_FIXTURE( whyANSE )
   {
     TEST_CASE( matchTheBest );
   }
   void matchTheBest()
   {
     e_team c[32] = {
-      uru, rus, esp, por, fra, den, cro, arg, bra, sui, swe, mex, bel, eng, sen, col, 
-      uru, rus, arg, den, bra, sui, col, eng, 
-      rus, arg, bra, eng, 
-      rus, bra, 
-      eng, 
-      bra 
+uru,rus,esp,por,fra,den,cro,arg,bra,sui,swe,mex,bel,eng,col,jpn,
+por, esp, fra, den, bra, sui, jpn, eng, 
+fra, esp, bra, eng, 
+bra, esp, 
+fra, 
+bra 
     };
-    ASSERT(517 == personMatch(STONY, c, 2));
-    ASSERT(508 == personMatch(STJOKX, c, 2));
-    ASSERT(508 == personMatch(MIBJ, c, 2));
-    ASSERT(511 == personMatch(STBXWE, c, 2));
+    ASSERT(616 == personMatch(ANSE, c, 2));
+    ASSERT(613 == personMatch(STJOKX, c, 2));
     e_person dotp[32];
     const int siz = whoMatchesBest(c, dotp, 2);
     ASSERT(siz == 1);
-    ASSERT(dotp[0] == STONY);
+    ASSERT(dotp[0] == ANSE);
   }
 };
-REGISTER_FIXTURE( whySTONY );
+REGISTER_FIXTURE( whyANSE );
