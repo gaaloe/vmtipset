@@ -1,5 +1,4 @@
 #include <mpi.h>
-#include <iostream>
 #include <cassert>
 #include "manager_code.h"
 // Redan ute: ksa, egy, mar, per, crc, kor, tun, pan, pol
@@ -421,32 +420,6 @@ int whoMatchesBest(const e_team c[SIZE_ROW], e_person dotp[32], int myrank)
       // Just chuck it away
     }
   }
-#if 0
-  if (nrTie == 0 && dotp[0] == STONY && myrank==2) {
-    // Exempel på en rad som gör att STMIBO vinner:
-    std::cout << __FILE__<<__LINE__<<' '<<myrank<<std::endl;
-#if 1
-    for (int ii = 0; ii < 16; ++ii) {
-      std::cout << c[ii] << ' ';
-    }
-    std::cout << std::endl << std::flush;
-    for (int ii = 16; ii < 24; ++ii) {
-      std::cout << c[ii] << ' ';
-    }
-    std::cout << std::endl << std::flush;
-    for (int ii = 24; ii < 28; ++ii) {
-      std::cout << c[ii] << ' ';
-    }
-    std::cout << std::endl << std::flush;
-    for (int ii = 28; ii < 30; ++ii) {
-      std::cout << c[ii] << ' ';
-    }
-    std::cout << std::endl << std::flush;
-    std::cout << c[30] << ' '<< std::endl;
-    std::cout << c[31] << ' '<< std::endl;
-#endif
-  }
-#endif
   return nrTie + 1;
 }
 int personMatch(e_person p, const e_team c[SIZE_ROW], int myrank)
