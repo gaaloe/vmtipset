@@ -1,47 +1,47 @@
- STJOKX       15587  23.8%
-   MYSJ       14397  22.0%
- STSTAA        8663  13.2%
-   ADER        6404   9.8%
-   MIBJ        6191   9.4%
-   ANNY        3772   5.8%
- STBXWE        3714   5.7%
-   HKDY        1987   3.0%
-   JOMA        1376   2.1%
-   STWU         871   1.3%
- STMIBO         479   0.7%
-    CKH         417   0.6%
-   DASH         388   0.6%
- STJOEL         299   0.5%
-   DAGR         230   0.4%
-   ADSU         170   0.3%
-   PEAL         159   0.2%
-   HESO         112   0.2%
-  JAYSU          76   0.1%
-   GUAS          64   0.1%
-   HANO          52   0.1%
-   HEGR          49   0.1%
- STTHWA          44   0.1%
-   ANSE          32   0.0%
-   CLWF           0   0.0%
-   HENO           0   0.0%
-   HRJO           0   0.0%
-   JASH           0   0.0%
-   KJSV           0   0.0%
-   LILA           0   0.0%
-   MXRE           0   0.0%
-   OGLL           0   0.0%
-  PATSI           0   0.0%
-   PESD           0   0.0%
-STANNAN           0   0.0%
- STANNI           0   0.0%
- STASEK           0   0.0%
- STJASU           0   0.0%
- STJORY           0   0.0%
- STKRBU           0   0.0%
- STMEBR           0   0.0%
-  STONY           0   0.0%
- STUFJO           0   0.0%
-   TEST           0   0.0%
-   ULPE           0   0.0%
-   VIST           0   0.0%
+ STJOKX       15587  23.8% por esp den bra bel sui eng por bra eng esp por esp bra por 
+   MYSJ       14397  22.0% por esp den bra bel sui eng arg bra sui esp bra sui arg bra 
+ STSTAA        8663  13.2% por esp den bra bel sui eng por bra sui esp bra sui por bra 
+   ADER        6404   9.8% por esp cro bra bel sui eng arg bel sui esp arg sui bel arg 
+   MIBJ        6191   9.4% por esp den bra bel sui col por bra sui esp bra sui por bra 
+   ANNY        3772   5.8% por esp den bra bel sui eng por bel sui esp bel sui por bel 
+ STBXWE        3714   5.7% por esp den bra bel sui col arg bra col esp bra esp arg bra 
+   HKDY        1987   3.0% por esp den bra bel sui eng por bel sui esp bel esp por esp 
+   JOMA        1376   2.1% uru esp den bra bel sui eng fra bra sui esp bra sui fra bra 
+   STWU         871   1.3% uru esp den mex bel sui col fra bel sui esp bel sui fra bel 
+ STMIBO         479   0.7% por esp cro bra bel sui eng arg bra eng cro bra eng arg bra 
+    CKH         417   0.6% por esp den bra bel sui eng arg bra sui den arg sui bra arg 
+   DASH         388   0.6% por esp cro bra bel sui eng por bel sui cro bel sui por sui 
+ STJOEL         299   0.5% por esp cro bra jpn sui col arg bra sui cro arg sui bra arg 
+   DAGR         230   0.4% por esp den bra bel sui col arg bra sui esp arg sui bra arg 
+   ADSU         170   0.3% por rus den mex bel sui col por mex sui den por sui den por 
+   PEAL         159   0.2% uru esp cro bra bel sui eng arg bel eng cro bel eng cro eng 
+   HESO         112   0.2% uru esp den bra bel sui col arg bra sui esp arg sui bra sui 
+  JAYSU          76   0.1% por esp den bra jpn sui eng arg bra sui den arg sui bra arg 
+   GUAS          64   0.1% por esp den mex bel sui col arg mex sui esp mex esp arg mex 
+   HANO          52   0.1% uru esp den mex jpn sui col fra jpn sui den jpn den sui jpn 
+   HEGR          49   0.1% por esp den bra bel sui eng arg bel sui esp arg sui bel arg 
+ STTHWA          44   0.1% por esp den bra bel sui col fra bra sui esp fra sui bra sui 
+   ANSE          32   0.0% por esp den bra bel sui eng fra bra sui esp bra sui fra bra 
+   CLWF           0   0.0% 
+   HENO           0   0.0% 
+   HRJO           0   0.0% 
+   JASH           0   0.0% 
+   KJSV           0   0.0% 
+   LILA           0   0.0% 
+   MXRE           0   0.0% 
+   OGLL           0   0.0% 
+  PATSI           0   0.0% 
+   PESD           0   0.0% 
+STANNAN           0   0.0% 
+ STANNI           0   0.0% 
+ STASEK           0   0.0% 
+ STJASU           0   0.0% 
+ STJORY           0   0.0% 
+ STKRBU           0   0.0% 
+ STMEBR           0   0.0% 
+  STONY           0   0.0% 
+ STUFJO           0   0.0% 
+   TEST           0   0.0% 
+   ULPE           0   0.0% 
+   VIST           0   0.0% 
    sum:     65536.0
