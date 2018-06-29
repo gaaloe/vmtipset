@@ -1,27 +1,27 @@
- STJOKX       15587  23.8% por esp den bra bel sui eng por bra eng esp por esp bra por 
-   MYSJ       14397  22.0% por esp den bra bel sui eng arg bra sui esp bra sui arg bra 
- STSTAA        8663  13.2% por esp den bra bel sui eng por bra sui esp bra sui por bra 
-   ADER        6404   9.8% por esp cro bra bel sui eng arg bel sui esp arg sui bel arg 
-   MIBJ        6191   9.4% por esp den bra bel sui col por bra sui esp bra sui por bra 
-   ANNY        3772   5.8% por esp den bra bel sui eng por bel sui esp bel sui por bel 
- STBXWE        3714   5.7% por esp den bra bel sui col arg bra col esp bra esp arg bra 
-   HKDY        1987   3.0% por esp den bra bel sui eng por bel sui esp bel esp por esp 
-   JOMA        1376   2.1% uru esp den bra bel sui eng fra bra sui esp bra sui fra bra 
-   STWU         871   1.3% uru esp den mex bel sui col fra bel sui esp bel sui fra bel 
- STMIBO         479   0.7% por esp cro bra bel sui eng arg bra eng cro bra eng arg bra 
-    CKH         417   0.6% por esp den bra bel sui eng arg bra sui den arg sui bra arg 
-   DASH         388   0.6% por esp cro bra bel sui eng por bel sui cro bel sui por sui 
- STJOEL         299   0.5% por esp cro bra jpn sui col arg bra sui cro arg sui bra arg 
-   DAGR         230   0.4% por esp den bra bel sui col arg bra sui esp arg sui bra arg 
-   ADSU         170   0.3% por rus den mex bel sui col por mex sui den por sui den por 
-   PEAL         159   0.2% uru esp cro bra bel sui eng arg bel eng cro bel eng cro eng 
-   HESO         112   0.2% uru esp den bra bel sui col arg bra sui esp arg sui bra sui 
-  JAYSU          76   0.1% por esp den bra jpn sui eng arg bra sui den arg sui bra arg 
-   GUAS          64   0.1% por esp den mex bel sui col arg mex sui esp mex esp arg mex 
-   HANO          52   0.1% uru esp den mex jpn sui col fra jpn sui den jpn den sui jpn 
-   HEGR          49   0.1% por esp den bra bel sui eng arg bel sui esp arg sui bel arg 
- STTHWA          44   0.1% por esp den bra bel sui col fra bra sui esp fra sui bra sui 
-   ANSE          32   0.0% por esp den bra bel sui eng fra bra sui esp bra sui fra bra 
+ STJOKX       15587  23.8% por esp fra den bra sui bel eng, por esp bra eng, por esp bra por 
+   MYSJ       14397  22.0% por esp arg den bra sui bel eng, arg esp bra sui, bra sui arg bra 
+ STSTAA        8663  13.2% por esp fra den bra sui bel eng, por esp bra sui, bra sui por bra 
+   ADER        6404   9.8% por esp arg cro bra sui bel eng, arg esp bel sui, arg sui bel arg 
+   MIBJ        6191   9.4% por esp fra den bra sui bel col, por esp bra sui, bra sui por bra 
+   ANNY        3772   5.8% por esp fra den bra sui bel eng, por esp bel sui, bel sui por bel 
+ STBXWE        3714   5.7% por esp arg den bra sui bel col, arg esp bra col, bra esp arg bra 
+   HKDY        1987   3.0% por esp fra den bra sui bel eng, por esp bel sui, bel esp por esp 
+   JOMA        1376   2.1% uru esp fra den bra sui bel eng, fra esp bra sui, bra sui fra bra 
+   STWU         871   1.3% uru esp fra den mex sui bel col, fra esp bel sui, bel sui fra bel 
+ STMIBO         479   0.7% por esp arg cro bra sui bel eng, arg cro bra eng, bra eng arg bra 
+    CKH         417   0.6% por esp arg den bra sui bel eng, arg den bra sui, arg sui bra arg 
+   DASH         388   0.6% por esp fra cro bra sui bel eng, por cro bel sui, bel sui por sui 
+ STJOEL         299   0.5% por esp arg cro bra sui jpn col, arg cro bra sui, arg sui bra arg 
+   DAGR         230   0.4% por esp arg den bra sui bel col, arg esp bra sui, arg sui bra arg 
+   ADSU         170   0.3% por rus fra den mex sui bel col, por den mex sui, por sui den por 
+   PEAL         159   0.2% uru esp arg cro bra sui bel eng, arg cro bel eng, bel eng cro eng 
+   HESO         112   0.2% uru esp arg den bra sui bel col, arg esp bra sui, arg sui bra sui 
+  JAYSU          76   0.1% por esp arg den bra sui jpn eng, arg den bra sui, arg sui bra arg 
+   GUAS          64   0.1% por esp arg den mex sui bel col, arg esp mex sui, mex esp arg mex 
+   HANO          52   0.1% uru esp fra den mex sui jpn col, fra den jpn sui, jpn den sui jpn 
+   HEGR          49   0.1% por esp arg den bra sui bel eng, arg esp bel sui, arg sui bel arg 
+ STTHWA          44   0.1% por esp fra den bra sui bel col, fra esp bra sui, fra sui bra sui 
+   ANSE          32   0.0% por esp fra den bra sui bel eng, fra esp bra sui, bra sui fra bra 
    CLWF           0   0.0% 
    HENO           0   0.0% 
    HRJO           0   0.0% 
@@ -41,7 +41,7 @@ STANNAN           0   0.0%
  STMEBR           0   0.0% 
   STONY           0   0.0% 
  STUFJO           0   0.0% 
-   TEST           0   0.0% 
+TESTEST           0   0.0% 
    ULPE           0   0.0% 
    VIST           0   0.0% 
    sum:     65536.0

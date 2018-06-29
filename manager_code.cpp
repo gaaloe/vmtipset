@@ -190,7 +190,19 @@ void manager_code( int numprocs )
       std::cout << std::fixed << std::setw( 5 ) << std::setprecision( 1 );
       std::cout << (accum[ii] / NR_COMBS) * 100 << '%' << ' ';
       if (accum[ii] > 0.0) {
-	for (int jj = 17; jj < 32; ++jj) {
+	  std::cout << bestEffort[ii][17] << ' ';
+	  std::cout << bestEffort[ii][18] << ' ';
+	  std::cout << bestEffort[ii][16] << ' ';
+	  std::cout << bestEffort[ii][19] << ' ';
+	  std::cout << bestEffort[ii][20] << ' ';
+	  std::cout << bestEffort[ii][22] << ' ';
+	  std::cout << bestEffort[ii][21] << ' ';
+	  std::cout << bestEffort[ii][23] << ',' << ' ';
+	  std::cout << bestEffort[ii][24] << ' ';
+	  std::cout << bestEffort[ii][27] << ' ';
+	  std::cout << bestEffort[ii][25] << ' ';
+	  std::cout << bestEffort[ii][26] << ',' << ' ';
+	for (int jj = 28; jj < 32; ++jj) {
 	  std::cout << bestEffort[ii][jj] << ' ';
 	}
       }
