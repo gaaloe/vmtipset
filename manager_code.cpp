@@ -10,6 +10,8 @@ e_team game_result[GRIDX][SIZE_ROW];
 int grIdx = 0;
 int save_grIdx[8] = {-1, -1, -1, -1, -1, -1, -1, -1};
 void construct_row(long numsent, cupResult_t* vals);
+e_team bestEffort[46][SIZE_ROW] = {(e_team)0};
+int fifaScoreEffort[46] = {0};
 
 void manager_code( int numprocs )
 {
@@ -88,6 +90,21 @@ void manager_code( int numprocs )
 	std::cout << game_result[receiveGrIdx][31] << ' '<< std::endl;
       }
 #endif
+      int fifaScore = 0;
+      for (int ii = 17; ii < 32; ++ii) {
+         switch(game_result[receiveGrIdx][ii]) {
+           case ger: fifaScore += 1544; break;
+           case bra: fifaScore += 1384; break;
+           case bel: fifaScore += 1346; break;
+           case por: fifaScore += 1306; break;
+           case arg: fifaScore += 1254; break;
+           case sui: fifaScore += 1179; break;
+           case fra: fifaScore += 1166; break;
+           case esp: fifaScore += 1162; break;
+           default:
+               break;
+         }
+      }
     }
     /* send another piece of work to this worker if there is one */
     if ( numsent < NR_COMBS  / JUMP_HASH) {
