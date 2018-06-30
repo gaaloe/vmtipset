@@ -312,16 +312,18 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[28] != (*vals)[29]);
   const enum e_team p3t1 = ((hashRow/MOD_28 % 2) == 1) ? (*vals)[26] : (*vals)[27];
 #define MOD_29 (MOD_28*2)
-  //Final:
+  //Tredjeplats:
   (*vals)[30] = ((hashRow/MOD_29 % 2) == 0) ? p3t0 : p3t1;
 #define MOD_30 (MOD_29*2)
+  //Final:
   (*vals)[31] = ((hashRow/MOD_30 % 2) == 0) ? (*vals)[28] : (*vals)[29];
+#define MOD_31 (MOD_30*2)
 #ifndef NDEBUG
-  if (!(MOD_30*2 == NR_COMBS)) {
-    std::cout << __FILE__<<__LINE__<<' '<<MOD_30*2 << ' ' << NR_COMBS << std::endl;
+  if (!(MOD_31 == NR_COMBS)) {
+    std::cout << __FILE__<<__LINE__<<' '<<MOD_31 << ' ' << NR_COMBS << std::endl;
   }
 #endif
-  assert(MOD_30*2 == NR_COMBS);
+  assert(MOD_31 == NR_COMBS);
 }
 e_team operator++(e_team& that)
 {
