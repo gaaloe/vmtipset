@@ -274,14 +274,21 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[15] == col || (*vals)[15] == jpn || (*vals)[15] == sen);
   // Slutspel, Åttondelsfinal:
   (*vals)[16] = ((hashRow/MOD_H % 2) == 0) ? (*vals)[4] : (*vals)[7]; // CD
-  (*vals)[17] = ((hashRow/(MOD_H*2) % 2) == 0) ? (*vals)[0] : (*vals)[3]; // AB
-  (*vals)[18] = ((hashRow/(MOD_H*2*2) % 2) == 0) ? (*vals)[2] : (*vals)[1]; // AB
-  (*vals)[19] = ((hashRow/(MOD_H*2*2*2) % 2) == 0) ? (*vals)[6] : (*vals)[5]; // CD
-  (*vals)[20] = ((hashRow/(MOD_H*2*2*2*2) % 2) == 0) ? (*vals)[8] : (*vals)[11]; // EF
-  (*vals)[21] = ((hashRow/(MOD_H*2*2*2*2*2) % 2) == 0) ? (*vals)[12] : (*vals)[15]; // GH
-  (*vals)[22] = ((hashRow/(MOD_H*2*2*2*2*2*2) % 2) == 0) ? (*vals)[10] : (*vals)[9]; // EF
-  (*vals)[23] = ((hashRow/(MOD_H*2*2*2*2*2*2*2) % 2) == 0) ? (*vals)[14] : (*vals)[13]; // GH
-#define MOD_8 (MOD_H*2*2*2*2*2*2*2*2)
+#define MOD_16 (MOD_H*2)
+  (*vals)[17] = ((hashRow/MOD_16 % 2) == 0) ? (*vals)[0] : (*vals)[3]; // AB
+#define MOD_17 (MOD_16*2)
+  (*vals)[18] = ((hashRow/MOD_17 % 2) == 0) ? (*vals)[2] : (*vals)[1]; // AB
+#define MOD_18 (MOD_17*2)
+  (*vals)[19] = ((hashRow/MOD_18 % 2) == 0) ? (*vals)[6] : (*vals)[5]; // CD
+#define MOD_19 (MOD_18*2)
+  (*vals)[20] = ((hashRow/MOD_19 % 2) == 0) ? (*vals)[8] : (*vals)[11]; // EF
+#define MOD_20 (MOD_19*2)
+  (*vals)[21] = ((hashRow/MOD_20 % 2) == 0) ? (*vals)[12] : (*vals)[15]; // GH
+#define MOD_21 (MOD_20*2)
+  (*vals)[22] = ((hashRow/MOD_21 % 2) == 0) ? (*vals)[10] : (*vals)[9]; // EF
+#define MOD_22 (MOD_21*2)
+  (*vals)[23] = ((hashRow/MOD_22 % 2) == 0) ? (*vals)[14] : (*vals)[13]; // GH
+#define MOD_8 (MOD_22*2)
   // Slutspel, kvartsfinal:
   (*vals)[24] = ((hashRow/MOD_8 % 2) == 0) ? (*vals)[16] : (*vals)[17]; // ABCD
   (*vals)[25] = ((hashRow/(MOD_8*2) % 2) == 0) ? (*vals)[20] : (*vals)[21]; // EFGH
