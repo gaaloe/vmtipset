@@ -288,35 +288,40 @@ void construct_row(long hashRow, cupResult_t* vals)
   (*vals)[22] = ((hashRow/MOD_21 % 2) == 0) ? (*vals)[10] : (*vals)[9]; // EF
 #define MOD_22 (MOD_21*2)
   (*vals)[23] = ((hashRow/MOD_22 % 2) == 0) ? (*vals)[14] : (*vals)[13]; // GH
-#define MOD_8 (MOD_22*2)
+#define MOD_23 (MOD_22*2)
   // Slutspel, kvartsfinal:
-  (*vals)[24] = ((hashRow/MOD_8 % 2) == 0) ? (*vals)[16] : (*vals)[17]; // ABCD
-  (*vals)[25] = ((hashRow/(MOD_8*2) % 2) == 0) ? (*vals)[20] : (*vals)[21]; // EFGH
-  (*vals)[26] = ((hashRow/(MOD_8*2*2) % 2) == 0) ? (*vals)[22] : (*vals)[23]; // EFGH
-  (*vals)[27] = ((hashRow/(MOD_8*2*2*2) % 2) == 0) ? (*vals)[18] : (*vals)[19]; // ABCD
+  (*vals)[24] = ((hashRow/MOD_23 % 2) == 0) ? (*vals)[16] : (*vals)[17]; // ABCD
+#define MOD_24 (MOD_23*2)
+  (*vals)[25] = ((hashRow/MOD_24 % 2) == 0) ? (*vals)[20] : (*vals)[21]; // EFGH
+#define MOD_25 (MOD_24*2)
+  (*vals)[26] = ((hashRow/MOD_25 % 2) == 0) ? (*vals)[22] : (*vals)[23]; // EFGH
+#define MOD_26 (MOD_25*2)
+  (*vals)[27] = ((hashRow/MOD_26 % 2) == 0) ? (*vals)[18] : (*vals)[19]; // ABCD
+#define MOD_27 (MOD_26*2)
   assert((*vals)[24] != (*vals)[25]);
   assert((*vals)[24] != (*vals)[26]);
   assert((*vals)[24] != (*vals)[27]);
   assert((*vals)[25] != (*vals)[26]);
   assert((*vals)[25] != (*vals)[27]);
   assert((*vals)[26] != (*vals)[27]);
-#define MOD_4 (MOD_8*2*2*2*2)
   // semifinal:
-  (*vals)[28] = ((hashRow/MOD_4 % 2) == 0) ? (*vals)[24] : (*vals)[25];
-  (*vals)[29] = ((hashRow/(MOD_4*2) % 2) == 0) ? (*vals)[26] : (*vals)[27];
+  (*vals)[28] = ((hashRow/MOD_27 % 2) == 0) ? (*vals)[24] : (*vals)[25];
+  const enum e_team p3t0 = ((hashRow/MOD_27 % 2) == 1) ? (*vals)[24] : (*vals)[25];
+#define MOD_28 (MOD_27*2)
+  (*vals)[29] = ((hashRow/MOD_28 % 2) == 0) ? (*vals)[26] : (*vals)[27];
   assert((*vals)[28] != (*vals)[29]);
-  const enum e_team p3t0 = ((hashRow/MOD_4 % 2) == 1) ? (*vals)[24] : (*vals)[25];
-  const enum e_team p3t1 = ((hashRow/(MOD_4*2) % 2) == 1) ? (*vals)[26] : (*vals)[27];
-#define MOD_2 (MOD_4*2*2)
+  const enum e_team p3t1 = ((hashRow/MOD_28 % 2) == 1) ? (*vals)[26] : (*vals)[27];
+#define MOD_29 (MOD_28*2)
   //Final:
-  (*vals)[30] = ((hashRow/MOD_2 % 2) == 0) ? p3t0 : p3t1;
-  (*vals)[31] = ((hashRow/(MOD_2*2) % 2) == 0) ? (*vals)[28] : (*vals)[29];
+  (*vals)[30] = ((hashRow/MOD_29 % 2) == 0) ? p3t0 : p3t1;
+#define MOD_30 (MOD_29*2)
+  (*vals)[31] = ((hashRow/MOD_30 % 2) == 0) ? (*vals)[28] : (*vals)[29];
 #ifndef NDEBUG
-  if (!(MOD_2*2*2 == NR_COMBS)) {
-    std::cout << __FILE__<<__LINE__<<' '<<MOD_2*2*2 << ' ' << NR_COMBS << std::endl;
+  if (!(MOD_30*2 == NR_COMBS)) {
+    std::cout << __FILE__<<__LINE__<<' '<<MOD_30*2 << ' ' << NR_COMBS << std::endl;
   }
 #endif
-  assert(MOD_2*2*2 == NR_COMBS);
+  assert(MOD_30*2 == NR_COMBS);
 }
 e_team operator++(e_team& that)
 {
