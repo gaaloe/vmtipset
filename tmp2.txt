@@ -1,15 +1,14 @@
- STJOKX        5588  34.1% uru esp fra den bra sui bel eng, fra esp bra sui, fra sui bra sui 
-   MYSJ        3910  23.9% uru esp fra den bra sui bel eng, fra esp bra sui, bra sui esp bra 
-   MIBJ        1667  10.2% uru esp fra cro bra sui bel col, fra cro bra sui, bra sui fra bra 
- STBXWE        1431   8.7% uru esp fra den bra sui bel col, fra esp bra sui, bra sui fra bra 
-   JOMA        1376   8.4% uru esp fra den bra sui bel eng, fra esp bra sui, bra sui fra bra 
-   ANNY         608   3.7% uru esp fra den bra sui bel eng, fra esp bel sui, bel sui fra bel 
-   HKDY         483   3.0% uru esp fra den bra sui bel eng, fra esp bel sui, bel esp sui esp 
- STSTAA         456   2.8% uru esp fra den bra sui bel eng, fra den bra sui, bra sui den bra 
-   STWU         360   2.2% uru esp fra den mex sui bel col, fra esp bel sui, bel sui fra bel 
- STMIBO         212   1.3% uru esp fra cro bra sui bel eng, fra cro bra eng, bra eng fra bra 
-   DASH         168   1.0% uru esp fra cro bra sui bel eng, fra cro bra sui, fra sui bra sui 
-   ADER          60   0.4% uru rus fra cro mex swe bel eng, uru cro bel swe, bel cro swe cro 
-   HANO          44   0.3% uru esp fra den mex sui jpn col, fra den jpn sui, jpn den sui jpn 
- STTHWA          20   0.1% uru esp fra den bra sui bel col, fra esp bra sui, fra sui bra sui 
-   sum:     16384.0
+ STJOKX        2684  32.8% uru rus fra den bra sui bel eng, fra den bra sui, fra sui bra sui 
+   MYSJ        1926  23.5% uru rus fra den bra sui bel eng, fra den bra sui, bra sui den sui 
+   MIBJ        1068  13.0% uru rus fra cro bra sui bel col, fra cro bra sui, bra sui fra bra 
+   JOMA         694   8.5% uru rus fra den bra sui bel eng, fra den bra sui, bra sui fra bra 
+ STBXWE         552   6.7% uru rus fra den bra sui bel col, fra den bra sui, bra sui fra bra 
+ STSTAA         294   3.6% uru rus fra den bra sui bel eng, fra den bra sui, bra sui den bra 
+   ANNY         288   3.5% uru rus fra den bra sui bel eng, fra den bel sui, bel sui fra bel 
+   STWU         270   3.3% uru rus fra den bra sui bel col, fra den bel sui, bel sui fra bel 
+ STMIBO         196   2.4% uru rus fra den bra sui bel eng, fra den bra eng, bra eng fra bra 
+   DASH         112   1.4% uru rus fra cro bra sui bel eng, fra cro bra sui, fra sui bra sui 
+   ADER          60   0.7% uru rus fra cro mex swe bel eng, uru cro bel swe, bel cro swe cro 
+   HANO          40   0.5% uru rus fra den bra sui jpn col, fra den jpn sui, jpn den sui jpn 
+ STTHWA           8   0.1% uru rus fra den bra sui bel col, fra den bra sui, fra sui bra sui 
+   sum:      8192.0

@@ -280,8 +280,8 @@ void construct_row(long hashRow, cupResult_t* vals)
 #define MOD_16 (MOD_H*1)
   (*vals)[17] = uru; // AB
 #define MOD_17 (MOD_16*1)
-  (*vals)[18] = ((hashRow/MOD_17 % 2) == 0) ? (*vals)[2] : (*vals)[1]; // AB
-#define MOD_18 (MOD_17*2)
+  (*vals)[18] = rus; // AB
+#define MOD_18 (MOD_17*1)
   (*vals)[19] = ((hashRow/MOD_18 % 2) == 0) ? (*vals)[6] : (*vals)[5]; // CD
 #define MOD_19 (MOD_18*2)
   (*vals)[20] = ((hashRow/MOD_19 % 2) == 0) ? (*vals)[8] : (*vals)[11]; // EF
