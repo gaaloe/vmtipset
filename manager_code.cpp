@@ -166,13 +166,16 @@ void manager_code( int numprocs )
 #endif
       numsent++;
       hashRow += JUMP_HASH;
+#if 0
       {
+        // Show a heartbeat while calculating...
         const int modul = 10000;
 	if (numsent % modul == 0) {
 	  std::cout << __FILE__<<__LINE__<<' '<<numsent/modul << ' ';
 	  std::cout << (NR_COMBS/JUMP_HASH)/modul << std::endl;
 	}
       }
+#endif
     }
     else                    /* no more work */
       MPI_Send( MPI_BOTTOM, 0, MPI_INT, sender, 0,
@@ -273,10 +276,10 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[14] == col || (*vals)[14] == jpn || (*vals)[14] == sen);
   assert((*vals)[15] == col || (*vals)[15] == jpn || (*vals)[15] == sen);
   // Slutspel, Åttondelsfinal:
-  (*vals)[16] = ((hashRow/MOD_H % 2) == 0) ? (*vals)[4] : (*vals)[7]; // CD
-#define MOD_16 (MOD_H*2)
-  (*vals)[17] = ((hashRow/MOD_16 % 2) == 0) ? (*vals)[0] : (*vals)[3]; // AB
-#define MOD_17 (MOD_16*2)
+  (*vals)[16] = fra; // CD
+#define MOD_16 (MOD_H*1)
+  (*vals)[17] = uru; // AB
+#define MOD_17 (MOD_16*1)
   (*vals)[18] = ((hashRow/MOD_17 % 2) == 0) ? (*vals)[2] : (*vals)[1]; // AB
 #define MOD_18 (MOD_17*2)
   (*vals)[19] = ((hashRow/MOD_18 % 2) == 0) ? (*vals)[6] : (*vals)[5]; // CD
