@@ -13,6 +13,29 @@ void construct_row(long numsent, cupResult_t* vals);
 e_team bestEffort[46][SIZE_ROW] = {(e_team)0};
 int fifaScoreEffort[46] = {0};
 
+#if defined(__GNUC__)
+#  pragma GCC push_options
+#  pragma GCC optimize ("O1")
+#endif 
+//See https://en.wikipedia.org/wiki/Kahan_summation_algorithm
+inline void KahanSum(double value, double & sum, double & correction)
+{
+  double term = value - correction;
+  double temp = sum + term;
+  correction = (temp - sum) - term;
+  sum = temp; 
+}
+double KahanSum(const double * ptr, size_t size)
+{
+  double sum = 0, correction = 0;
+  for(size_t i = 0; i < size; ++i)
+    KahanSum(ptr[i], sum, correction);
+  return sum;
+}
+#if defined(__GNUC__)
+#  pragma GCC pop_options
+#endif 
+
 void manager_code( int numprocs )
 {
   int i, sender, receiveGrIdx;
@@ -20,6 +43,7 @@ void manager_code( int numprocs )
   long hashRow = 0;
   e_person dotp[46];
   double accum[46] = {0};
+  double kahanCorr[46] = {0};
   MPI_Status status;
   for ( i = 1; i < MIN( numprocs, NR_COMBS / JUMP_HASH); i++ ) {
     construct_row(hashRow, &game_result[grIdx]);
@@ -52,7 +76,8 @@ void manager_code( int numprocs )
     assert(1 <= number && number <= 46);
     for (int ii = 0; ii < number; ++ii) {
       assert(0 <= dotp[ii] && dotp[ii] < 46);
-      accum[dotp[ii]] += 1.0 / number;
+      // Use Kahan sum, not "accum[dotp[ii]] += 1.0 / number";
+      KahanSum(1.0 / number, accum[dotp[ii]], kahanCorr[dotp[ii]]);
 #ifndef NDEBUG
       // Perform a 'smoke test'
       const int score1 = personMatch(dotp[ii], game_result[receiveGrIdx], 2);
@@ -182,37 +207,44 @@ void manager_code( int numprocs )
 		MPI_COMM_WORLD );
   }
   assert(numsent == NR_COMBS / JUMP_HASH);
+  for (e_person ii = (e_person)0; ii < (e_person)46; ++ii) {
+      KahanSum(0.0, accum[ii], kahanCorr[ii]);
+      assert(kahanCorr[ii] == 0.0);
+  }
   {
     std::ios init(NULL);
     init.copyfmt(std::cout);
     double sum = 0;
+    double kahanCorr = 0;
     for (e_person ii = (e_person)0; ii < (e_person)46; ++ii) {
       std::cout << std::setw( 7 ) << ii << ' ';
-      std::cout << std::fixed << std::setw( 11 ) << std::setprecision( 1 );
-      std::cout << (long)accum[ii] << ' ';
+      std::cout << std::fixed << std::setw( 11 ) << std::setprecision( 0 );
+      std::cout << accum[ii] << ' ';
       std::cout << std::fixed << std::setw( 5 ) << std::setprecision( 1 );
       std::cout << (accum[ii] / NR_COMBS) * 100 << '%' << ' ';
       if (accum[ii] > 0.0) {
-	  std::cout << bestEffort[ii][17] << ' ';
-	  std::cout << bestEffort[ii][18] << ' ';
-	  std::cout << bestEffort[ii][16] << ' ';
-	  std::cout << bestEffort[ii][19] << ' ';
-	  std::cout << bestEffort[ii][20] << ' ';
-	  std::cout << bestEffort[ii][22] << ' ';
-	  std::cout << bestEffort[ii][21] << ' ';
-	  std::cout << bestEffort[ii][23] << ',' << ' ';
-	  std::cout << bestEffort[ii][24] << ' ';
-	  std::cout << bestEffort[ii][27] << ' ';
-	  std::cout << bestEffort[ii][25] << ' ';
-	  std::cout << bestEffort[ii][26] << ',' << ' ';
+	std::cout << bestEffort[ii][17] << ' ';
+	std::cout << bestEffort[ii][18] << ' ';
+	std::cout << bestEffort[ii][16] << ' ';
+	std::cout << bestEffort[ii][19] << ' ';
+	std::cout << bestEffort[ii][20] << ' ';
+	std::cout << bestEffort[ii][22] << ' ';
+	std::cout << bestEffort[ii][21] << ' ';
+	std::cout << bestEffort[ii][23] << ',' << ' ';
+	std::cout << bestEffort[ii][24] << ' ';
+	std::cout << bestEffort[ii][27] << ' ';
+	std::cout << bestEffort[ii][25] << ' ';
+	std::cout << bestEffort[ii][26] << ',' << ' ';
 	for (int jj = 28; jj < 32; ++jj) {
 	  std::cout << bestEffort[ii][jj] << ' ';
 	}
       }
       std::cout << std::endl;
       std::cout.copyfmt(init); // restore default formatting
-      sum += accum[ii];
+      //sum += accum[ii];
+      KahanSum(accum[ii], sum, kahanCorr);
     }
+    KahanSum(0.0, sum, kahanCorr);
     std::cout << std::setw( 7 ) << "sum:" << ' ';
     std::cout << std::fixed << std::setw( 11 ) << std::setprecision( 1 );
     std::cout << sum << std::endl;
