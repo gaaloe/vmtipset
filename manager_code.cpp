@@ -304,8 +304,8 @@ void construct_row(long hashRow, cupResult_t* vals)
 #define MOD_18 (MOD_17*1)
   (*vals)[19] = cro; // CD
 #define MOD_19 (MOD_18*1)
-  (*vals)[20] = ((hashRow/MOD_19 % 2) == 0) ? (*vals)[8] : (*vals)[11]; // EF
-#define MOD_20 (MOD_19*2)
+  (*vals)[20] = bra; // EF
+#define MOD_20 (MOD_19*1)
   (*vals)[21] = ((hashRow/MOD_20 % 2) == 0) ? (*vals)[12] : (*vals)[15]; // GH
 #define MOD_21 (MOD_20*2)
   (*vals)[22] = ((hashRow/MOD_21 % 2) == 0) ? (*vals)[10] : (*vals)[9]; // EF
