@@ -25,13 +25,6 @@ inline void KahanSum(double value, double & sum, double & correction)
   correction = (temp - sum) - term;
   sum = temp; 
 }
-double KahanSum(const double * ptr, size_t size)
-{
-  double sum = 0, correction = 0;
-  for(size_t i = 0; i < size; ++i)
-    KahanSum(ptr[i], sum, correction);
-  return sum;
-}
 #if defined(__GNUC__)
 #  pragma GCC pop_options
 #endif 
@@ -207,10 +200,6 @@ void manager_code( int numprocs )
 		MPI_COMM_WORLD );
   }
   assert(numsent == NR_COMBS / JUMP_HASH);
-  for (e_person ii = (e_person)0; ii < (e_person)46; ++ii) {
-      KahanSum(0.0, accum[ii], kahanCorr[ii]);
-      assert(kahanCorr[ii] == 0.0);
-  }
   {
     std::ios init(NULL);
     init.copyfmt(std::cout);
@@ -244,7 +233,6 @@ void manager_code( int numprocs )
       //sum += accum[ii];
       KahanSum(accum[ii], sum, kahanCorr);
     }
-    KahanSum(0.0, sum, kahanCorr);
     std::cout << std::setw( 7 ) << "sum:" << ' ';
     std::cout << std::fixed << std::setw( 11 ) << std::setprecision( 1 );
     std::cout << sum << std::endl;
