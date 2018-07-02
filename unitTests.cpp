@@ -121,3 +121,29 @@ bra
   }
 };
 REGISTER_FIXTURE( whyANSE );
+class testTop5 : public TestFixture<testTop5>
+{
+  void setUp() {
+  }
+  void tearDown() {
+  }
+public:
+  TEST_FIXTURE( testTop5 )
+  {
+    TEST_CASE( matchTheBest );
+  }
+  void matchTheBest()
+  {
+    e_team c[32] = {
+uru,rus,esp,por,fra,den,cro,arg,bra,sui,swe,mex,bel,eng,col,jpn,
+por, esp, fra, den, bra, sui, jpn, eng, 
+fra, esp, bra, eng, 
+bra, esp, 
+fra, 
+bra 
+    };
+    e_person dotp[46];
+    const int siz = top5best(c, dotp, 2);
+  }
+};
+REGISTER_FIXTURE( testTop5 );

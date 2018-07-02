@@ -1,5 +1,6 @@
 #include <mpi.h>
 #include <cassert>
+#include <algorithm>    // std::sort()
 #include "manager_code.h"
 // Redan ute: ksa, egy, mar, per, crc, kor, tun, pan, pol
 enum e_team EXCEL[46][32] = {
@@ -403,7 +404,27 @@ void worker_code( void )
     assert(status.MPI_TAG == 0); // Proper end-of-execution
   }
 }
-
+struct s_pair {
+     e_person person;
+     int score;
+};
+static bool sortPointerToInt(const s_pair left, const s_pair right)
+{
+  return (left.score != right.score) ? left.score > right.score : left.person < right.person;
+}
+int top5best(const e_team c[SIZE_ROW], e_person dotp[46], int myrank)
+{
+  struct s_pair pairs[46];
+  for (int p = 0; p < 46; ++p) {
+    pairs[p].person = (e_person)p;
+    pairs[p].score = personMatch((e_person)p, c, myrank);
+  }
+  std::sort(&pairs[0], &pairs[46], sortPointerToInt);
+  // Count the 5 best e_person:
+  for (int ii = 0; ii < 5; ++ii) {
+    assert(pairs[ii].score >= pairs[ii+1].score);
+  }
+}
 int whoMatchesBest(const e_team c[SIZE_ROW], e_person dotp[32], int myrank)
 {
   int bestPointSoFar = -1;
