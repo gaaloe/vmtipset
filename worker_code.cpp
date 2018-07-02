@@ -421,9 +421,24 @@ int top5best(const e_team c[SIZE_ROW], e_person dotp[46], int myrank)
   }
   std::sort(&pairs[0], &pairs[46], sortPointerToInt);
   // Count the 5 best e_person:
+  int fiveOrMore = 0;
   for (int ii = 0; ii < 5; ++ii) {
     assert(pairs[ii].score >= pairs[ii+1].score);
+    dotp[fiveOrMore++] = pairs[ii].person;
   }
+  assert(fiveOrMore == 5);
+  for (int ii = 5; ii < 46; ++ii) {
+    assert(pairs[ii-1].score >= pairs[ii].score);
+    if (pairs[ii-1].score == pairs[ii].score) {
+      dotp[fiveOrMore++] = pairs[ii].person;
+    } else {
+      break;
+    }
+  }
+  assert(5 <= fiveOrMore && fiveOrMore <= 46);
+  assert(((5 == fiveOrMore) && (pairs[4].score > pairs[5].score))
+     || ((fiveOrMore > 5) && (pairs[4].score == pairs[5].score)));
+  return fiveOrMore;
 }
 int whoMatchesBest(const e_team c[SIZE_ROW], e_person dotp[32], int myrank)
 {

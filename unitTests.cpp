@@ -142,8 +142,15 @@ bra, esp,
 fra, 
 bra 
     };
-    e_person dotp[46];
+    e_person dotp[46] = {(e_person)0};
     const int siz = top5best(c, dotp, 2);
+    ASSERT(siz == 5);
+    ASSERT(dotp[0] == ANSE);
+    ASSERT(dotp[1] == STJOKX);
+    ASSERT(dotp[2] == MYSJ);
+    ASSERT(dotp[3] == STSTAA);
+    ASSERT(dotp[4] == PESD);
+    ASSERT(dotp[5] == (e_person)0);
   }
 };
 REGISTER_FIXTURE( testTop5 );
