@@ -105,12 +105,12 @@ public:
   void matchTheBest()
   {
     e_team c[32] = {
-uru,rus,esp,por,fra,den,cro,arg,bra,sui,swe,mex,bel,eng,col,jpn,
-por, esp, fra, den, bra, sui, jpn, eng, 
-fra, esp, bra, eng, 
-bra, esp, 
-fra, 
-bra 
+      uru,rus,esp,por,fra,den,cro,arg,bra,sui,swe,mex,bel,eng,col,jpn,
+      por, esp, fra, den, bra, sui, jpn, eng, 
+      fra, esp, bra, eng, 
+      bra, esp, 
+      fra, 
+      bra 
     };
     ASSERT(616 == personMatch(ANSE, c, 2));
     ASSERT(613 == personMatch(STJOKX, c, 2));
@@ -131,16 +131,17 @@ public:
   TEST_FIXTURE( testTop5 )
   {
     TEST_CASE( matchTheBest );
+    TEST_CASE( testHKDY  );
   }
   void matchTheBest()
   {
     e_team c[32] = {
-uru,rus,esp,por,fra,den,cro,arg,bra,sui,swe,mex,bel,eng,col,jpn,
-por, esp, fra, den, bra, sui, jpn, eng, 
-fra, esp, bra, eng, 
-bra, esp, 
-fra, 
-bra 
+      uru,rus,esp,por,fra,den,cro,arg,bra,sui,swe,mex,bel,eng,col,jpn,
+      por, esp, fra, den, bra, sui, jpn, eng, 
+      fra, esp, bra, eng, 
+      bra, esp, 
+      fra, 
+      bra 
     };
     e_person dotp[46] = {(e_person)0};
     const int siz = top5best(c, dotp, 2);
@@ -151,6 +152,31 @@ bra
     ASSERT(dotp[3] == STSTAA);
     ASSERT(dotp[4] == PESD);
     ASSERT(dotp[5] == (e_person)0);
+  }
+  void testHKDY ()
+  {
+    e_team c[32] = {
+      uru,rus,esp,por,fra,den,cro,arg,bra,sui,swe,mex,bel,eng,col,jpn,
+      uru, rus, fra, cro, mex, swe, bel, col,
+      uru, cro, bel, col,
+      uru, col,
+      bel,
+      col
+    };
+    e_person dotp[46] = {(e_person)0};
+    const int siz = top5best(c, dotp, 2);
+    ASSERT(siz == 5);
+    ASSERT(dotp[0] == MIBJ);
+    ASSERT(dotp[1] == STSTAA);
+    ASSERT(dotp[2] == STBXWE);
+    ASSERT(dotp[3] == MYSJ);
+    ASSERT(dotp[4] == HKDY);
+    ASSERT(dotp[5] == (e_person)0);
+    ASSERT(464 == personMatch(MIBJ, c, 2));
+    ASSERT(461 == personMatch(STSTAA, c, 2));
+    ASSERT(452 == personMatch(STBXWE, c, 2));
+    ASSERT(450 == personMatch(MYSJ, c, 2));
+    ASSERT(449 == personMatch(HKDY, c, 2));
   }
 };
 REGISTER_FIXTURE( testTop5 );
