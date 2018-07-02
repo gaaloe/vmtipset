@@ -1,0 +1,20 @@
+ STJOKX         693  16.9% uru rus fra cro bra sui bel eng, fra cro bra sui, fra sui bra sui 
+   MYSJ         668  16.3% uru rus fra cro bra sui bel eng, fra cro bel sui, bel sui fra bel 
+   JOMA         653  16.0% uru rus fra cro bra sui bel eng, fra cro bra sui, bra sui fra bra 
+   MIBJ         472  11.5% uru rus fra cro bra sui bel eng, fra cro bra sui, bra sui fra bra 
+   DASH         433  10.6% uru rus fra cro bra sui bel eng, fra cro bra sui, fra sui bra sui 
+ STBXWE         327   8.0% uru rus fra cro bra sui bel col, fra cro bra sui, bra sui fra bra 
+ STSTAA         293   7.2% uru rus fra cro bra sui bel eng, fra cro bra sui, bra sui fra bra 
+ STMIBO         126   3.1% uru rus fra cro bra sui bel eng, fra cro bra sui, bra sui fra bra 
+ STTHWA          92   2.3% uru rus fra cro bra sui bel col, fra cro bra sui, fra sui bra sui 
+   ANNY          82   2.0% uru rus fra cro bra sui bel eng, fra cro bel sui, bel sui fra bel 
+   ADER          73   1.8% uru rus fra cro bra swe bel eng, uru cro bel swe, bel cro swe cro 
+   STWU          68   1.7% uru rus fra cro bra sui bel eng, fra cro bel sui, bel sui fra bel 
+   PEAL          28   0.7% uru rus fra cro bra sui bel eng, uru cro bel eng, bel eng cro eng 
+   CLWF          21   0.5% uru rus fra cro bra sui bel col, fra cro bra sui, fra sui bra fra 
+   HEGR          21   0.5% uru rus fra cro bra sui bel eng, fra cro bel sui, bel sui fra bel 
+   HANO          13   0.3% uru rus fra cro bra sui jpn eng, fra cro jpn sui, jpn sui fra jpn 
+   ANSE          12   0.3% uru rus fra cro bra sui bel eng, fra cro bra sui, bra sui fra bra 
+ STJORY           9   0.2% uru rus fra cro bra sui bel col, fra cro bel sui, fra sui bel sui 
+   HKDY           3   0.1% uru rus fra cro mex swe bel col, uru cro bel col, uru col bel col 
+   sum:      4096.0
