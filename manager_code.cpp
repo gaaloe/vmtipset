@@ -308,8 +308,8 @@ void construct_row(long hashRow, cupResult_t* vals)
 #define MOD_20 (MOD_19*1)
   (*vals)[21] = bel; // GH
 #define MOD_21 (MOD_20*1)
-  (*vals)[22] = ((hashRow/MOD_21 % 2) == 0) ? (*vals)[10] : (*vals)[9]; // EF
-#define MOD_22 (MOD_21*2)
+  (*vals)[22] = swe; // EF
+#define MOD_22 (MOD_21*1)
   (*vals)[23] = ((hashRow/MOD_22 % 2) == 0) ? (*vals)[14] : (*vals)[13]; // GH
 #define MOD_23 (MOD_22*2)
   // Slutspel, kvartsfinal:

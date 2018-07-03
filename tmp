@@ -1,14 +1,14 @@
    TEST           0   0.0% 
    ANSE           0   0.0% 
-   ANNY          88   8.6% uru rus fra cro bra sui bel eng, fra cro bel sui, bel sui fra bel 
+   ANNY          32   6.2% uru rus fra cro bra swe bel eng, fra cro bel eng, bel eng fra bel 
    HEGR           0   0.0% 
-   JOMA          65   6.3% uru rus fra cro bra sui bel eng, fra cro bra sui, bra sui fra bra 
+   JOMA          28   5.5% uru rus fra cro bra swe bel eng, fra cro bra swe, bra cro fra bra 
    MXRE           0   0.0% 
    PEAL           0   0.0% 
-   MIBJ         218  21.3% uru rus fra cro bra sui bel col, fra cro bra sui, bra sui fra bra 
+   MIBJ         104  20.3% uru rus fra cro bra swe bel col, fra cro bra col, bra col fra bra 
    GUAS           0   0.0% 
    ADER           0   0.0% 
-   MYSJ         192  18.8% uru rus fra cro bra sui bel eng, fra cro bra sui, bra sui cro sui 
+   MYSJ          96  18.8% uru rus fra cro bra swe bel eng, fra cro bra swe, bra cro swe cro 
  STJOEL           0   0.0% 
    VIST           0   0.0% 
    JASH           0   0.0% 
@@ -22,13 +22,13 @@
  STUFJO           0   0.0% 
  STASEK           0   0.0% 
    HKDY           0   0.0% 
- STJOKX         254  24.8% uru rus fra cro bra sui bel eng, fra cro bra eng, fra eng bra fra 
+ STJOKX         172  33.6% uru rus fra cro bra swe bel eng, fra cro bra eng, fra eng bra fra 
  STBXWE           0   0.0% 
- STMIBO          50   4.9% uru rus fra cro bra sui bel eng, fra cro bra sui, bra sui cro bra 
-   STWU          40   3.9% uru rus fra cro bra sui bel col, fra cro bel sui, bel sui fra bel 
+ STMIBO          22   4.3% uru rus fra cro bra swe bel eng, fra cro bra eng, bra eng fra bra 
+   STWU          32   6.2% uru rus fra cro bra swe bel col, fra cro bel col, bel col fra bel 
    LILA           0   0.0% 
  STANNI           0   0.0% 
- STSTAA          61   6.0% uru rus fra cro bra sui bel eng, fra cro bra sui, bra cro sui bra 
+ STSTAA          26   5.1% uru rus fra cro bra swe bel eng, fra cro bra swe, bra cro swe bra 
  STKRBU           0   0.0% 
  STTHWA           0   0.0% 
    HRJO           0   0.0% 
@@ -38,10 +38,10 @@
     CKH           0   0.0% 
 STANNAN           0   0.0% 
    HANO           0   0.0% 
-   DASH          56   5.5% uru rus fra cro bra sui bel eng, fra cro bra sui, fra sui bra sui 
+   DASH           0   0.0% 
    DAGR           0   0.0% 
    PESD           0   0.0% 
    KJSV           0   0.0% 
   PATSI           0   0.0% 
    OGLL           0   0.0% 
-   sum:      1024.0
+   sum:       512.0
