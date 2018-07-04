@@ -1,9 +1,7 @@
- STJOKX         172  33.6% uru rus fra cro bra swe bel eng, fra cro bra eng, fra eng bra fra 
-   MIBJ         104  20.3% uru rus fra cro bra swe bel col, fra cro bra col, bra col fra bra 
-   MYSJ          96  18.8% uru rus fra cro bra swe bel eng, fra cro bra swe, bra cro swe cro 
-   ANNY          32   6.2% uru rus fra cro bra swe bel eng, fra cro bel eng, bel eng fra bel 
-   STWU          32   6.2% uru rus fra cro bra swe bel col, fra cro bel col, bel col fra bel 
-   JOMA          28   5.5% uru rus fra cro bra swe bel eng, fra cro bra swe, bra cro fra bra 
- STSTAA          26   5.1% uru rus fra cro bra swe bel eng, fra cro bra swe, bra cro swe bra 
- STMIBO          22   4.3% uru rus fra cro bra swe bel eng, fra cro bra eng, bra eng fra bra 
-   sum:       512.0
+ STJOKX         124  48.4% uru rus fra cro bra swe bel eng, fra cro bra eng, fra eng bra fra 
+   MYSJ          48  18.8% uru rus fra cro bra swe bel eng, fra cro bra swe, bra cro swe cro 
+   ANNY          32  12.5% uru rus fra cro bra swe bel eng, fra cro bel eng, bel eng fra bel 
+ STMIBO          22   8.6% uru rus fra cro bra swe bel eng, fra cro bra eng, bra eng fra bra 
+ STSTAA          18   7.0% uru rus fra cro bra swe bel eng, fra cro bra swe, bra cro swe bra 
+   JOMA          12   4.7% uru rus fra cro bra swe bel eng, fra cro bra swe, bra cro fra bra 
+   sum:       256.0

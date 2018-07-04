@@ -310,8 +310,8 @@ void construct_row(long hashRow, cupResult_t* vals)
 #define MOD_21 (MOD_20*1)
   (*vals)[22] = swe; // EF
 #define MOD_22 (MOD_21*1)
-  (*vals)[23] = ((hashRow/MOD_22 % 2) == 0) ? (*vals)[14] : (*vals)[13]; // GH
-#define MOD_23 (MOD_22*2)
+  (*vals)[23] = eng; // GH
+#define MOD_23 (MOD_22*1)
   // Slutspel, kvartsfinal:
   (*vals)[24] = ((hashRow/MOD_23 % 2) == 0) ? (*vals)[16] : (*vals)[17]; // ABCD
 #define MOD_24 (MOD_23*2)
