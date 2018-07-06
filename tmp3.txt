@@ -1,15 +1,13 @@
- STJOKX          48  18.7% uru rus fra cro bra swe bel eng, fra cro bra eng, bra eng fra bra 
-   MYSJ          47  18.5% uru rus fra cro bra swe bel eng, fra cro bra eng, bra eng cro bra 
-   JOMA          46  18.0% uru rus fra cro bra swe bel eng, fra cro bra eng, bra eng fra bra 
-   DASH          33  12.9% uru rus fra cro bra swe bel eng, fra cro bra eng, fra eng bra fra 
- STSTAA          29  11.3% uru rus fra cro bra swe bel eng, fra cro bra eng, bra eng fra bra 
-   MIBJ          13   4.9% uru rus fra cro bra swe bel eng, fra cro bra eng, bra eng cro bra 
- STMIBO          13   5.2% uru rus fra cro bra swe bel eng, fra cro bra eng, bra eng fra bra 
-   ANNY          12   4.6% uru rus fra cro bra swe bel eng, fra cro bel eng, bel eng fra bel 
-   STWU           6   2.5% uru rus fra cro bra swe bel eng, fra cro bel eng, bel eng fra bel 
-   HEGR           3   1.2% uru rus fra cro bra swe bel eng, fra cro bel eng, bel cro fra bel 
-   ADER           2   0.7% uru rus fra cro bra swe bel eng, uru cro bel swe, bel cro swe cro 
-   ANSE           2   0.6% uru rus fra cro bra swe bel eng, fra cro bra eng, bra eng fra bra 
-   CLWF           1   0.5% uru rus fra cro bra swe bel eng, fra cro bel eng, fra cro eng fra 
-   PEAL           1   0.4% uru rus fra cro bra swe bel eng, uru cro bel eng, bel eng cro eng 
-   sum:       256.0
+   JOMA          24  18.5% fra cro bra eng, bra eng fra bra 
+   MYSJ          23  18.0% fra cro bra eng, bra eng cro bra 
+ STJOKX          23  18.3% fra cro bra eng, bra eng fra bra 
+   DASH          17  13.2% fra cro bra eng, fra eng bra fra 
+   MIBJ          10   7.4% fra cro bra eng, bra eng cro bra 
+ STSTAA          10   8.2% fra cro bra eng, bra eng fra bra 
+   ANNY           6   4.7% fra cro bel eng, bel eng fra bel 
+ STMIBO           6   4.5% fra cro bra eng, bra eng fra bra 
+   HEGR           3   2.3% fra cro bel eng, bel cro fra bel 
+   STWU           3   2.5% fra cro bel eng, bel eng fra bel 
+   ANSE           2   1.2% fra cro bra eng, bra eng fra bra 
+   CLWF           1   1.1% fra cro bel eng, fra cro eng fra 
+   sum:       128.0
