@@ -212,6 +212,7 @@ void manager_code( int numprocs )
       std::cout << std::fixed << std::setw( 5 ) << std::setprecision( 1 );
       std::cout << (accum[ii] / NR_COMBS) * 100 << '%' << ' ';
       if (accum[ii] > 0.0) {
+#if 0
 	std::cout << bestEffort[ii][17] << ' ';
 	std::cout << bestEffort[ii][18] << ' ';
 	std::cout << bestEffort[ii][16] << ' ';
@@ -220,6 +221,7 @@ void manager_code( int numprocs )
 	std::cout << bestEffort[ii][22] << ' ';
 	std::cout << bestEffort[ii][21] << ' ';
 	std::cout << bestEffort[ii][23] << ',' << ' ';
+#endif
 	std::cout << bestEffort[ii][24] << ' ';
 	std::cout << bestEffort[ii][27] << ' ';
 	std::cout << bestEffort[ii][25] << ' ';
@@ -313,8 +315,8 @@ void construct_row(long hashRow, cupResult_t* vals)
   (*vals)[23] = eng; // GH
 #define MOD_23 (MOD_22*1)
   // Slutspel, kvartsfinal:
-  (*vals)[24] = ((hashRow/MOD_23 % 2) == 0) ? (*vals)[16] : (*vals)[17]; // ABCD
-#define MOD_24 (MOD_23*2)
+  (*vals)[24] = fra; // ABCD
+#define MOD_24 (MOD_23*1)
   (*vals)[25] = ((hashRow/MOD_24 % 2) == 0) ? (*vals)[20] : (*vals)[21]; // EFGH
 #define MOD_25 (MOD_24*2)
   (*vals)[26] = ((hashRow/MOD_25 % 2) == 0) ? (*vals)[22] : (*vals)[23]; // EFGH
