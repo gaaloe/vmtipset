@@ -1,13 +1,12 @@
-   JOMA          24  18.5% fra cro bra eng, bra eng fra bra 
-   MYSJ          23  18.0% fra cro bra eng, bra eng cro bra 
- STJOKX          23  18.3% fra cro bra eng, bra eng fra bra 
-   DASH          17  13.2% fra cro bra eng, fra eng bra fra 
-   MIBJ          10   7.4% fra cro bra eng, bra eng cro bra 
- STSTAA          10   8.2% fra cro bra eng, bra eng fra bra 
-   ANNY           6   4.7% fra cro bel eng, bel eng fra bel 
- STMIBO           6   4.5% fra cro bra eng, bra eng fra bra 
-   HEGR           3   2.3% fra cro bel eng, bel cro fra bel 
-   STWU           3   2.5% fra cro bel eng, bel eng fra bel 
-   ANSE           2   1.2% fra cro bra eng, bra eng fra bra 
-   CLWF           1   1.1% fra cro bel eng, fra cro eng fra 
-   sum:       128.0
+   JOMA          12  18.7% fra cro bel eng, bel eng fra bel 
+   MYSJ          12  18.4% fra cro bel eng, fra eng bel fra 
+ STJOKX          12  18.4% fra cro bel eng, bel eng fra bel 
+   DASH           8  11.8% fra cro bel eng, fra eng bel fra 
+   ANNY           6   9.3% fra cro bel eng, bel eng fra bel 
+ STSTAA           4   6.8% fra cro bel eng, fra eng bel fra 
+   HEGR           3   4.7% fra cro bel eng, bel cro fra bel 
+   STWU           3   5.0% fra cro bel eng, bel eng fra bel 
+ STMIBO           2   2.5% fra cro bel eng, bel eng fra bel 
+   CLWF           1   2.2% fra cro bel eng, fra cro eng fra 
+   MIBJ           1   2.2% fra cro bel eng, fra cro eng cro 
+   sum:        64.0
