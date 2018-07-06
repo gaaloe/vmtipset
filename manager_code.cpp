@@ -317,8 +317,8 @@ void construct_row(long hashRow, cupResult_t* vals)
   // Slutspel, kvartsfinal:
   (*vals)[24] = fra; // ABCD
 #define MOD_24 (MOD_23*1)
-  (*vals)[25] = ((hashRow/MOD_24 % 2) == 0) ? (*vals)[20] : (*vals)[21]; // EFGH
-#define MOD_25 (MOD_24*2)
+  (*vals)[25] = bel; // EFGH
+#define MOD_25 (MOD_24*1)
   (*vals)[26] = ((hashRow/MOD_25 % 2) == 0) ? (*vals)[22] : (*vals)[23]; // EFGH
 #define MOD_26 (MOD_25*2)
   (*vals)[27] = ((hashRow/MOD_26 % 2) == 0) ? (*vals)[18] : (*vals)[19]; // ABCD

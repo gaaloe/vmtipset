@@ -1,7 +1,6 @@
- STJOKX          80  62.5% fra cro bra eng, fra eng bra fra 
-   ANNY          16  12.5% fra cro bel eng, bel eng fra bel 
-   JOMA          12   9.4% fra cro bra swe, bra cro fra bra 
- STMIBO           9   7.0% fra cro bra eng, bra eng fra bra 
-   MYSJ           8   6.2% fra cro bra swe, bra cro swe cro 
- STSTAA           3   2.3% fra cro bra swe, bra cro swe bra 
-   sum:       128.0
+ STJOKX          39  60.9% fra cro bel eng, fra eng bel fra 
+   ANNY          16  25.0% fra cro bel eng, bel eng fra bel 
+   JOMA           4   6.2% fra cro bel swe, bel cro fra cro 
+   MYSJ           4   6.2% fra cro bel swe, bel cro swe cro 
+ STMIBO           1   1.6% fra cro bel eng, bel eng cro eng 
+   sum:        64.0
