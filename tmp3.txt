@@ -1,8 +1,6 @@
-   sum:         4.0
-   DASH         0.8 20.00% fra cro bel eng, fra cro bel fra 
-   JOMA         0.8 20.00% fra cro bel eng, fra cro bel fra 
-   MYSJ         0.8 20.00% fra cro bel eng, fra cro bel fra 
- STJOKX         0.8 20.00% fra cro bel eng, fra cro bel fra 
- STSTAA         0.4 10.00% fra cro bel eng, fra cro bel fra 
-   CLWF         0.2  5.00% fra cro bel eng, fra cro eng fra 
-   MIBJ         0.2  5.00% fra cro bel eng, fra cro eng cro 
+   DASH         0,4 20.00% fra cro bel eng, fra cro bel fra 
+   JOMA         0,4 20.00% fra cro bel eng, fra cro bel fra 
+   MYSJ         0,4 20.00% fra cro bel eng, fra cro bel fra 
+ STJOKX         0,4 20.00% fra cro bel eng, fra cro bel fra 
+ STSTAA         0,4 20.00% fra cro bel eng, fra cro bel fra 
+   sum:         2,0
