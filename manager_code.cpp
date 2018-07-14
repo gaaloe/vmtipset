@@ -319,10 +319,10 @@ void construct_row(long hashRow, cupResult_t* vals)
 #define MOD_24 (MOD_23*1)
   (*vals)[25] = bel; // EFGH
 #define MOD_25 (MOD_24*1)
-  (*vals)[26] = ((hashRow/MOD_25 % 2) == 0) ? (*vals)[22] : (*vals)[23]; // EFGH
-#define MOD_26 (MOD_25*2)
-  (*vals)[27] = ((hashRow/MOD_26 % 2) == 0) ? (*vals)[18] : (*vals)[19]; // ABCD
-#define MOD_27 (MOD_26*2)
+  (*vals)[26] = eng; // EFGH
+#define MOD_26 (MOD_25*1)
+  (*vals)[27] = cro; // ABCD
+#define MOD_27 (MOD_26*1)
   assert((*vals)[24] != (*vals)[25]);
   assert((*vals)[24] != (*vals)[26]);
   assert((*vals)[24] != (*vals)[27]);
