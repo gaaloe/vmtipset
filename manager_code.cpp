@@ -330,13 +330,13 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[25] != (*vals)[27]);
   assert((*vals)[26] != (*vals)[27]);
   // semifinal:
-  (*vals)[28] = ((hashRow/MOD_27 % 2) == 0) ? (*vals)[24] : (*vals)[25];
-  const enum e_team p3t0 = ((hashRow/MOD_27 % 2) == 1) ? (*vals)[24] : (*vals)[25];
-#define MOD_28 (MOD_27*2)
-  (*vals)[29] = ((hashRow/MOD_28 % 2) == 0) ? (*vals)[26] : (*vals)[27];
+  (*vals)[28] = fra;
+  const enum e_team p3t0 = bel;
+#define MOD_28 (MOD_27*1)
+  (*vals)[29] = cro;
   assert((*vals)[28] != (*vals)[29]);
-  const enum e_team p3t1 = ((hashRow/MOD_28 % 2) == 1) ? (*vals)[26] : (*vals)[27];
-#define MOD_29 (MOD_28*2)
+  const enum e_team p3t1 = eng;
+#define MOD_29 (MOD_28*1)
   //Tredjeplats:
   (*vals)[30] = ((hashRow/MOD_29 % 2) == 0) ? p3t0 : p3t1;
 #define MOD_30 (MOD_29*2)
