@@ -188,10 +188,10 @@ void manager_code( int numprocs )
 #endif
       numsent++;
       hashRow += JUMP_HASH;
-#if 0
+#if 1
       {
         // Show a heartbeat while calculating...
-        const int modul = 10000;
+        const int modul = 10000000;
 	if (numsent % modul == 0) {
 	  std::cout << __FILE__<<__LINE__<<' '<<numsent/modul << ' ';
 	  std::cout << (NR_COMBS/JUMP_HASH)/modul << std::endl;

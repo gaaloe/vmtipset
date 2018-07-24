@@ -1,2 +1,47 @@
- STJOKX           4 100.0% fra cro bel eng, fra cro bel fra 
-   sum:         4.0
+ STJOKX   119688602  35.2% por fra ger bra, por fra ger por 
+   MYSJ    42297877  12.5% por fra ger bra, ger bra por ger 
+   MIBJ    40233649  11.8% por fra bra ger, bra ger por bra 
+   JOMA    35810974  10.5% arg fra ger bra, ger bra arg ger 
+ STSTAA    24768043   7.3% por fra ger bra, por bra ger bra 
+   ANNY    16901437   5.0% arg fra ger bel, ger bel arg ger 
+   HKDY    12343038   3.6% por esp ger bra, ger esp bra esp 
+   ADER    10789774   3.2% arg esp bel ger, arg ger bel arg 
+   ULPE     5461299   1.6% por esp ger bra, ger bra por ger 
+   ADSU     5407476   1.6% por fra bra ger, por ger bra por 
+   DASH     4832852   1.4% por fra ger bra, por fra ger por 
+   STWU     4417050   1.3% arg fra ger bel, arg bel ger bel 
+ STBXWE     4288411   1.3% fra esp ger bra, fra bra ger bra 
+ STMIBO     2201411   0.6% por cro bra eng, bra eng por bra 
+   PEAL     1969792   0.6% por cro eng ger, eng ger por ger 
+ STUFJO     1918660   0.6% por fra bra ger, por ger bra por 
+    CKH     1341870   0.4% arg fra bra ger, arg ger bra arg 
+   OGLL      897570   0.3% por esp ger bra, ger bra por ger 
+   HANO      727126   0.2% fra aus bel sui, bel aus sui aus 
+ STJOEL      596762   0.2% arg fra bra ger, arg ger bra arg 
+ STTHWA      573283   0.2% por fra ger bra, ger fra bra ger 
+   HEGR      520112   0.2% arg fra ger bel, arg bel ger arg 
+   ANSE      421994   0.1% por fra bra ger, bra ger por bra 
+   LILA      337395   0.1% por fra bel ger, por ger bel ger 
+   GUAS      181409   0.1% arg esp ger bel, ger esp bel ger 
+  STONY      160946   0.0% por den bra ger, bra ger por bra 
+ STJORY      141750   0.0% por esp bra bel, bra bel por bra 
+   DAGR      111587   0.0% arg esp bra ger, arg ger bra arg 
+   HESO      105642   0.0% arg esp bra ger, arg ger bra ger 
+   PESD       80877   0.0% por esp bra ger, bra esp ger bra 
+  JAYSU       49786   0.0% arg fra bra ger, arg ger bra arg 
+ STKRBU       48832   0.0% por cro bel bra, por bra bel por 
+ STANNI       33966   0.0% por fra ger col, ger fra por ger 
+   CLWF       24972   0.0% arg fra bel ger, bel fra ger fra 
+ STASEK       19594   0.0% arg fra ger swe, arg swe ger arg 
+STANNAN       15785   0.0% por fra bra ger, bra ger por bra 
+ STJASU       14193   0.0% arg esp ger eng, ger esp arg ger 
+   JASH        1618   0.0% por esp bra ger, por ger bra ger 
+   VIST        1212   0.0% arg fra bra ger, arg ger fra ger 
+   HENO           0   0.0% 
+   HRJO           0   0.0% 
+   KJSV           0   0.0% 
+   MXRE           0   0.0% 
+  PATSI           0   0.0% 
+ STMEBR           0   0.0% 
+   TEST           0   0.0% 
+   sum: 339738624.0
