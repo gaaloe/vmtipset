@@ -133,6 +133,8 @@ void manager_code( int numprocs )
 	case swe: fifaScore += 889; break;
 	case crc: fifaScore += 858; break;
 	case sen: fifaScore += 825; break;
+	case srb: fifaScore += 732; break;
+	case irn: fifaScore += 727; break;
 	case aus: fifaScore += 700; break;
 	case mar: fifaScore += 681; break;
 	case egy: fifaScore += 636; break;
@@ -143,6 +145,7 @@ void manager_code( int numprocs )
 	case rus: fifaScore += 493; break;
 	case ksa: fifaScore += 462; break;
 	default:
+          std::cerr << __FILE__<<__LINE__<<' '<<game_result[receiveGrIdx][jj]<< std::endl;
 	  assert("Should not happen!"[0]==0);
 	  break;
 	}
@@ -254,47 +257,153 @@ void construct_row(long hashRow, cupResult_t* vals)
   (*vals)[2] = esp;
   (*vals)[3] = por;
   // Group C: fra, aus, per, den,
-#define WIN_C 1
+#define WIN_C 3
 #define MOD_C (MOD_B*WIN_C)
   //fra,aus fra,den, den,fra?
-  (*vals)[4] = fra;
-  (*vals)[5] = den;
+  switch ((hashRow/MOD_B) % WIN_C) {
+  case 0:
+    (*vals)[4] = fra;
+    (*vals)[5] = aus;
+    break;
+  case 1:
+    (*vals)[4] = fra;
+    (*vals)[5] = den;
+    break;
+  case 2:
+    (*vals)[4] = den;
+    (*vals)[5] = fra;
+    break;
+  default:
+    assert("Should not arrive here!"[0]==0);
+  }
   assert((*vals)[4] != (*vals)[5]);
   assert((*vals)[4] == fra || (*vals)[4] == den);
   assert((*vals)[5] == fra || (*vals)[5] == aus || (*vals)[5] == den);
   // Group D: arg, isl, cro, nga
-#define WIN_D 1
+#define WIN_D 4
 #define MOD_D (MOD_C*WIN_D)
-  (*vals)[6] = cro;
-  (*vals)[7] = arg;
+  switch ((hashRow/MOD_C) % WIN_D) {
+  case 0:
+    (*vals)[6] = nga;
+    (*vals)[7] = cro;
+    break;
+  case 1:
+    (*vals)[6] = cro;
+    (*vals)[7] = nga;
+    break;
+  case 2:
+    (*vals)[6] = cro;
+    (*vals)[7] = isl;
+    break;
+  case 3:
+    (*vals)[6] = cro;
+    (*vals)[7] = arg;
+    break;
+  default:
+    assert("Should not arrive here!"[0]==0);
+  }
   assert((*vals)[6] != (*vals)[7]);
   assert((*vals)[6] == arg || (*vals)[6] == isl || (*vals)[6] == cro || (*vals)[6] == nga);
   assert((*vals)[7] == arg || (*vals)[7] == isl || (*vals)[7] == cro || (*vals)[7] == nga);
   // Group E: crc, srb, bra, sui
-#define MOD_E (MOD_D)
-  (*vals)[8] = bra;
-  (*vals)[9] = sui;
+#define WIN_E 3
+#define MOD_E (MOD_D*WIN_E*(WIN_E-1))
+  switch ((hashRow/MOD_D) % WIN_E) {
+  case 0:
+    (*vals)[8] = sui;
+    (*vals)[9] = ((hashRow/(MOD_D*WIN_E) % (WIN_E-1)) == 0) ?
+      bra :
+      srb;
+    break;
+  case 1:
+    (*vals)[8] = srb;
+    (*vals)[9] = ((hashRow/(MOD_D*WIN_E) % (WIN_E-1)) == 0) ?
+      bra :
+      sui;
+    break;
+  case 2:
+    (*vals)[8] = bra;
+    (*vals)[9] = ((hashRow/(MOD_D*WIN_E) % (WIN_E-1)) == 0) ?
+      srb :
+      sui;
+    break;
+  default:
+    assert("Should not arrive here!"[0]==0);
+  }
   assert((*vals)[8] != (*vals)[9]);
   assert((*vals)[8] == srb || (*vals)[8] == bra || (*vals)[8] == sui);
   assert((*vals)[9] == srb || (*vals)[9] == bra || (*vals)[9] == sui);
   // Group F:              ger, mex, swe, kor
-#define MOD_F (MOD_E)
-  (*vals)[10] = swe;
-  (*vals)[11] = mex;
+#define WIN_F 3
+#define MOD_F (MOD_E*WIN_F*(WIN_F-1))
+  switch ((hashRow/MOD_E) % WIN_F) {
+  case 0:
+    (*vals)[10] = ger;
+    (*vals)[11] = ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
+      swe :
+      mex;
+    break;
+  case 1:
+    (*vals)[10] = mex;
+    (*vals)[11] = ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
+      swe :
+      ger;
+    break;
+  case 2:
+    (*vals)[10] = swe;
+    (*vals)[11] = ((hashRow/(MOD_E*WIN_F) % (WIN_F-1)) == 0) ?
+      mex :
+      ger;
+    break;
+  default:
+    assert("Should not arrive here!"[0]==0);
+  }
   assert((*vals)[10] != (*vals)[11]);
   assert((*vals)[10] == ger || (*vals)[10] == mex || (*vals)[10] == swe);
   assert((*vals)[11] == ger || (*vals)[11] == mex || (*vals)[11] == swe);
   // Group G: bel, pan, tun, eng
-#define MOD_G (MOD_F)
-  (*vals)[12] = bel;
-  (*vals)[13] = eng;
+#define WIN_G 2
+#define MOD_G (MOD_F*WIN_G*(WIN_G-1))
+  switch ((hashRow/MOD_F) % WIN_G) {
+  case 0:
+    (*vals)[12] = bel;
+    (*vals)[13] = eng;
+    break;
+  case 1:
+    (*vals)[12] = eng;
+    (*vals)[13] = bel;
+    break;
+  default:
+    assert("Should not arrive here!"[0]==0);
+  }
   assert((*vals)[12] != (*vals)[13]);
   assert((*vals)[12] == bel || (*vals)[12] == eng);
   assert((*vals)[13] == bel || (*vals)[13] == eng);
   // Group H: col, jpn, pol, sen
-#define MOD_H ((long)(MOD_G))
-  (*vals)[14] = col;
-  (*vals)[15] = jpn;
+#define WIN_H 3
+#define MOD_H ((long)(MOD_G*WIN_H*(WIN_H-1)))
+  switch ((hashRow/MOD_G) % WIN_H) {
+  case 0:
+    (*vals)[14] = col;
+    (*vals)[15] = ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 0) ?
+      jpn :
+      sen;
+    break;
+  case 1:
+    (*vals)[14] = sen;
+    (*vals)[15] = ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 0) ?
+      jpn :
+      col;
+    break;
+  case 2:
+    (*vals)[14] = jpn;
+    (*vals)[15] = ((hashRow/(MOD_G*WIN_H) % (WIN_H-1)) == 0) ?
+      col :
+      sen;
+    break;
+  default:
+    assert("Should not arrive here!"[0]==0);
+  }
   assert((*vals)[14] != (*vals)[15]);
   assert((*vals)[14] == col || (*vals)[14] == jpn || (*vals)[14] == sen);
   assert((*vals)[15] == col || (*vals)[15] == jpn || (*vals)[15] == sen);
