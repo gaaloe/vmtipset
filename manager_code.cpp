@@ -72,7 +72,8 @@ void manager_code( int numprocs )
       // Use Kahan sum, not "accum[dotp[ii]] += 1.0 / number";
       KahanSum(1.0 / number, accum[dotp[ii]], kahanCorr[dotp[ii]]);
 #ifndef NDEBUG
-      // Perform a 'smoke test'
+      // Perform a 'smoke test'.
+      // This will not work when using top5best()!
       const int score1 = personMatch(dotp[ii], game_result[receiveGrIdx], 2);
       const int scoreN = personMatch((e_person)(4711%46), game_result[receiveGrIdx], 2);
       assert(score1 >= scoreN);
@@ -315,14 +316,14 @@ void construct_row(long hashRow, cupResult_t* vals)
   (*vals)[23] = ((hashRow/MOD_22 % 2) == 0) ? (*vals)[14] : (*vals)[13]; // GH
 #define MOD_23 (MOD_22*2)
   // Slutspel, kvartsfinal:
-  (*vals)[24] = fra; // ABCD
-#define MOD_24 (MOD_23*1)
-  (*vals)[25] = bel; // EFGH
-#define MOD_25 (MOD_24*1)
-  (*vals)[26] = eng; // EFGH
-#define MOD_26 (MOD_25*1)
-  (*vals)[27] = cro; // ABCD
-#define MOD_27 (MOD_26*1)
+  (*vals)[24] = ((hashRow/MOD_23 % 2) == 0) ? (*vals)[16] : (*vals)[17]; // ABCD
+#define MOD_24 (MOD_23*2)
+  (*vals)[25] = ((hashRow/MOD_24 % 2) == 0) ? (*vals)[20] : (*vals)[21]; // EFGH
+#define MOD_25 (MOD_24*2)
+  (*vals)[26] = ((hashRow/MOD_25 % 2) == 0) ? (*vals)[22] : (*vals)[23]; // EFGH
+#define MOD_26 (MOD_25*2)
+  (*vals)[27] = ((hashRow/MOD_26 % 2) == 0) ? (*vals)[18] : (*vals)[19]; // ABCD
+#define MOD_27 (MOD_26*2)
   assert((*vals)[24] != (*vals)[25]);
   assert((*vals)[24] != (*vals)[26]);
   assert((*vals)[24] != (*vals)[27]);
@@ -330,13 +331,13 @@ void construct_row(long hashRow, cupResult_t* vals)
   assert((*vals)[25] != (*vals)[27]);
   assert((*vals)[26] != (*vals)[27]);
   // semifinal:
-  (*vals)[28] = fra;
-  const enum e_team p3t0 = bel;
-#define MOD_28 (MOD_27*1)
-  (*vals)[29] = cro;
+  (*vals)[28] = ((hashRow/MOD_27 % 2) == 0) ? (*vals)[24] : (*vals)[25];
+  const enum e_team p3t0 = ((hashRow/MOD_27 % 2) == 1) ? (*vals)[24] : (*vals)[25];
+#define MOD_28 (MOD_27*2)
+  (*vals)[29] = ((hashRow/MOD_28 % 2) == 0) ? (*vals)[26] : (*vals)[27];
   assert((*vals)[28] != (*vals)[29]);
-  const enum e_team p3t1 = eng;
-#define MOD_29 (MOD_28*1)
+  const enum e_team p3t1 = ((hashRow/MOD_28 % 2) == 1) ? (*vals)[26] : (*vals)[27];
+#define MOD_29 (MOD_28*2)
   //Tredjeplats:
   (*vals)[30] = ((hashRow/MOD_29 % 2) == 0) ? p3t0 : p3t1;
 #define MOD_30 (MOD_29*2)
