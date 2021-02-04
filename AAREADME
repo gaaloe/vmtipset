@@ -7,7 +7,8 @@ sort --key=2,2gr tmp > tmp2.txt
 #
 # See https://minicppunit.soft112.com/download.html for download
 # of MiniCppUnit-2.5:
-g++ -ggdb -I ~/MiniCppUnit-2.5 -I/usr/include/mpich \
+g++ -ggdb -I ~/MiniCppUnit-2.5 \
+ -I/usr/include/mpich -I/usr/include/x86_64-linux-gnu/mpich \
  TestsRunner.cpp \
  unitTests.cpp \
  worker_code.cpp \
