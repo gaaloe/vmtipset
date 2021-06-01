@@ -1,0 +1,110 @@
+Grupp A
+tur - ita
+wal - sui
+tur - wal
+ita - sui
+sui - tur
+ita - wal
+Grupp B
+den - fin
+bel - rus
+fin - rus
+den - bel
+rus - den
+fin - bel
+Grupp C
+aut - mkd
+ned - ukr
+ukr - mkd
+ned - aut
+mkd - ned
+ukr - aut
+Grupp D
+eng - cro
+sco - cze
+cro - cze
+eng - sco
+cro - sco
+cze - eng
+Grupp E
+pol - svk
+esp - swe
+swe - svk
+esp - pol
+svk - esp
+swe - pol
+Grupp F
+hun - por
+fra - ger
+hun - fra
+por - ger
+por - fra
+ger- hun
+Grupp-placeringar
+1:a grupp A (A1)
+tur
+2:a grupp A (A2)
+ita
+1:a grupp B (B1)
+den
+2:a grupp B (B2)
+fin
+1:a grupp C (C1)
+aut
+2:a grupp C (C2)
+mkd
+1:a grupp D (D1)
+eng
+2:a grupp D (D2)
+cro
+1:a grupp E (E1)
+pol
+2:a grupp E (E2)
+svk
+1:a grupp F (F1)
+hun
+2:a grupp F (F2)
+por
+Bästa Treor
+Från grupp A till F
+Från grupp A till F
+Från grupp A till F
+Från grupp A till F
+
+16:delsfinaler
+https://en.wikipedia.org/wiki/UEFA_Euro_2020#Round_of_16
+
+Kvartsfinallag
+Kvartsfinallag 1
+tur
+Kvartsfinallag 2
+den
+Kvartsfinallag 3
+aut
+Kvartsfinallag 4
+eng
+Kvartsfinallag 5
+pol
+Kvartsfinallag 6
+hun
+Kvartsfinallag 7
+ita
+Kvartsfinallag 8
+cro
+Semifinallag
+Semifinallag 1
+tur
+Semifinallag 2
+aut
+Semifinallag 3
+pol
+Semifinallag 4
+ita
+Finallag
+Finallag 1
+tur
+Finallag 2
+pol
+Mästare
+Mästarlag
+tur
