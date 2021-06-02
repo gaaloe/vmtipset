@@ -81,6 +81,78 @@ int main()
       abort();
     }
     // Group B
+    switch(iteration & 0x0000000000000FC0) {
+    case 0x00<<6:
+    case 0x01<<6:
+    case 0x02<<6:
+    case 0x03<<6:
+    case 0x04<<6:
+    case 0x05<<6:
+    case 0x08<<6:
+    case 0x0A<<6:
+    case 0x0C<<6:
+    case 0x0F<<6:
+    case 0x10<<6:
+    case 0x11<<6:
+    case 0x14<<6:
+    case 0x15<<6:
+    case 0x16<<6:
+    case 0x17<<6:
+    case 0x19<<6:
+    case 0x1A<<6:
+    case 0x1D<<6:
+    case 0x1F<<6:
+    case 0x20<<6:
+    case 0x22<<6:
+    case 0x25<<6:
+    case 0x26<<6:
+    case 0x28<<6:
+    case 0x29<<6:
+    case 0x2A<<6:
+    case 0x2B<<6:
+    case 0x2E<<6:
+    case 0x2F<<6:
+    case 0x30<<6:
+    case 0x33<<6:
+    case 0x35<<6:
+    case 0x37<<6:
+    case 0x3A<<6:
+    case 0x3B<<6:
+    case 0x3C<<6:
+    case 0x3D<<6:
+    case 0x3E<<6:
+    case 0x3F<<6:
+      continue;
+      break;
+    case 0x06<<6:
+    case 0x07<<6:
+    case 0x09<<6:
+    case 0x0B<<6:
+    case 0x0D<<6:
+    case 0x0E<<6:
+    case 0x12<<6:
+    case 0x13<<6:
+    case 0x18<<6:
+    case 0x1B<<6:
+    case 0x1C<<6:
+    case 0x1E<<6:
+    case 0x21<<6:
+    case 0x23<<6:
+    case 0x24<<6:
+    case 0x27<<6:
+    case 0x2C<<6:
+    case 0x2D<<6:
+    case 0x31<<6:
+    case 0x32<<6:
+    case 0x34<<6:
+    case 0x36<<6:
+    case 0x38<<6:
+    case 0x39<<6:
+      break;
+    default:
+      std::cerr << __FILE__<<__LINE__<<'\n';
+      abort();
+    }
     if ((iteration & 0x00000000000000C0) == (iteration & 0x0000000000000300)) {
       continue;
     }
