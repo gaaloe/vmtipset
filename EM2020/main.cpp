@@ -72,14 +72,14 @@ e_team game[52][2] = {
     {swe, pol},
     {por, fra},
     {ger, hun} /*36*/,
-    {} /*A1-C2*/,
-    {} /*A2-B2*/,
-    {} /*B1-ADEF3 39*/,
-    {} /*C1-DEF3 40*/,
-    {} /*F1-ABC3 41*/,
-    {} /*D2-E2*/,
-    {} /*E1-ABCD3 43*/,
-    {} /*D1-F2, 44*/,
+    {} /*1A-2C*/,
+    {} /*2A-2B*/,
+    {} /*1B-3ADEF 39*/,
+    {} /*1C-3DEF 40*/,
+    {} /*1F-3ABC 41*/,
+    {} /*2D-2E*/,
+    {} /*1E-3ABCD 43*/,
+    {} /*1D-2F, 44*/,
     {} /*41-42, 45*/,
     {} /*37-39, 46*/,
     {} /*40-38, 47*/,
@@ -184,17 +184,17 @@ void showGrundSpel(char grp, uint64_t table) {
 void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
                    uint64_t tableC, uint64_t tableD, uint64_t tableE,
                    uint64_t tableF) {
-  /*B1-ADEF3, match 39*/
-  /*C1-DEF3, match 40*/
-  /*E1-ABCD3, match 43*/
-  /*F1-ABC3, match 41*/
+  /*1B-ADEF3, match 39*/
+  /*1C-DEF3, match 40*/
+  /*1E-ABCD3, match 43*/
+  /*1F-ABC3, match 41*/
   // 39 40 43 41
   // 1B 1C 1E 1F
   switch (tabell) {
   case 0:
     std::cout << "ABCD--";
     // 3A 3D 3B 3C
-    game[39][1] = (e_team)(tableA & 0x3);
+    game[39][1] = (e_team)((tableA & 0x3) + 0);
     game[40][1] = (e_team)((tableD & 0x3) + 12);
     game[43][1] = (e_team)((tableB & 0x3) + 4);
     game[41][1] = (e_team)((tableC & 0x3) + 8);
@@ -209,42 +209,107 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     break;
   case 2:
     std::cout << "ABC--F";
+    // 3A 3F 3B 3C
+    game[39][1] = (e_team)((tableA & 0x3) + 0);
+    game[40][1] = (e_team)((tableF & 0x3) + 20);
+    game[43][1] = (e_team)((tableB & 0x3) + 4);
+    game[41][1] = (e_team)((tableC & 0x3) + 8);
     break;
   case 3:
     std::cout << "AB-DE-";
+    // 3D 3E 3A 3B
+    game[39][1] = (e_team)((tableD & 0x3) + 12);
+    game[40][1] = (e_team)((tableE & 0x3) + 16);
+    game[43][1] = (e_team)((tableA & 0x3) + 0);
+    game[41][1] = (e_team)((tableB & 0x3) + 4);
     break;
   case 4:
     std::cout << "AB-D-F";
+    // 3D 3F 3A 3B
+    game[39][1] = (e_team)((tableD & 0x3) + 12);
+    game[40][1] = (e_team)((tableF & 0x3) + 20);
+    game[43][1] = (e_team)((tableA & 0x3) + 0);
+    game[41][1] = (e_team)((tableB & 0x3) + 4);
     break;
   case 5:
     std::cout << "AB--EF";
+    // 3E 3F 3B 3A
+    game[39][1] = (e_team)((tableE & 0x3) + 16);
+    game[40][1] = (e_team)((tableF & 0x3) + 20);
+    game[43][1] = (e_team)((tableB & 0x3) + 4);
+    game[41][1] = (e_team)((tableA & 0x3) + 0);
     break;
   case 6:
     std::cout << "A-CDE-";
+    // 3E 3D 3C 3A
+    game[39][1] = (e_team)((tableE & 0x3) + 16);
+    game[40][1] = (e_team)((tableD & 0x3) + 12);
+    game[43][1] = (e_team)((tableC & 0x3) + 8);
+    game[41][1] = (e_team)((tableA & 0x3) + 0);
     break;
   case 7:
     std::cout << "A-CD-F";
+    // 3F 3D 3C 3A
+    game[39][1] = (e_team)((tableF & 0x3) + 20);
+    game[40][1] = (e_team)((tableD & 0x3) + 12);
+    game[43][1] = (e_team)((tableC & 0x3) + 8);
+    game[41][1] = (e_team)((tableA & 0x3) + 0);
     break;
   case 8:
     std::cout << "A-C-EF";
+    // 3E 3F 3C 3A
+    game[39][1] = (e_team)((tableE & 0x3) + 16);
+    game[40][1] = (e_team)((tableF & 0x3) + 20);
+    game[43][1] = (e_team)((tableC & 0x3) + 8);
+    game[41][1] = (e_team)((tableA & 0x3) + 0);
     break;
   case 9:
     std::cout << "A--DEF";
+    // 3E 3F 3D 3A
+    game[39][1] = (e_team)((tableE & 0x3) + 16);
+    game[40][1] = (e_team)((tableF & 0x3) + 20);
+    game[43][1] = (e_team)((tableD & 0x3) + 12);
+    game[41][1] = (e_team)((tableA & 0x3) + 0);
     break;
   case 10:
     std::cout << "-BCDE-";
+    // 3E 3D 3B 3C
+    game[39][1] = (e_team)((tableE & 0x3) + 16);
+    game[40][1] = (e_team)((tableD & 0x3) + 12);
+    game[43][1] = (e_team)((tableB & 0x3) + 4);
+    game[41][1] = (e_team)((tableC & 0x3) + 8);
     break;
   case 11:
     std::cout << "-BCD-F";
+    // 3F 3D 3C 3B
+    game[39][1] = (e_team)((tableF & 0x3) + 20);
+    game[40][1] = (e_team)((tableD & 0x3) + 12);
+    game[43][1] = (e_team)((tableC & 0x3) + 8);
+    game[41][1] = (e_team)((tableB & 0x3) + 4);
     break;
   case 12:
     std::cout << "-BC-EF";
+    // 3F 3E 3C 3B
+    game[39][1] = (e_team)((tableF & 0x3) + 20);
+    game[40][1] = (e_team)((tableE & 0x3) + 16);
+    game[43][1] = (e_team)((tableC & 0x3) + 8);
+    game[41][1] = (e_team)((tableB & 0x3) + 4);
     break;
   case 13:
     std::cout << "-B-DEF";
+    // 3F 3E 3D 3B
+    game[39][1] = (e_team)((tableF & 0x3) + 20);
+    game[40][1] = (e_team)((tableE & 0x3) + 16);
+    game[43][1] = (e_team)((tableD & 0x3) + 12);
+    game[41][1] = (e_team)((tableB & 0x3) + 4);
     break;
   case 14:
     std::cout << "--CDEF";
+    // 3F 3E 3D 3C
+    game[39][1] = (e_team)((tableF & 0x3) + 20);
+    game[40][1] = (e_team)((tableE & 0x3) + 16);
+    game[43][1] = (e_team)((tableD & 0x3) + 12);
+    game[41][1] = (e_team)((tableC & 0x3) + 8);
     break;
   case 15: // There are 15 alternatives 0..14
   default:
