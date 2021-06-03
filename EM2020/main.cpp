@@ -9,6 +9,7 @@ using std::cerr;
 // Compile g++ -I ~/gsl-lite/include main.cpp
 // Format using clang-format -i main.cpp
 static int maxSoFar = 0;
+static uint64_t maxIteration = 0;
 enum e_team {
   tur,
   ita,
@@ -1257,6 +1258,7 @@ int main(int argc, char *argv[]) {
       }
       if (maxSoFar < saab[0].poang) {
         maxSoFar = saab[0].poang;
+        maxIteration = iteration;
         // Skriv ut
         std::ios init(nullptr);
         init.copyfmt(std::cout);
@@ -1312,6 +1314,64 @@ int main(int argc, char *argv[]) {
       std::cout << '\n';
 #endif
     }
+  }
+  {
+    const uint64_t tableA = maxIteration & 0x3FUL;
+    const uint64_t tableB = (maxIteration >> 6) & 0x3FUL;
+    const uint64_t tableC = (maxIteration >> 12) & 0x3FUL;
+    const uint64_t tableD = (maxIteration >> 18) & 0x3FUL;
+    const uint64_t tableE = (maxIteration >> 24) & 0x3FUL;
+    const uint64_t tableF = (maxIteration >> 30) & 0x3FUL;
+    const uint64_t thirdTable = (maxIteration >> 36) & 0xFUL;
+    // Skriv ut
+    std::ios init(nullptr);
+    init.copyfmt(std::cout);
+    std::cout << std::hex;
+    std::cout.width(14);
+    std::cout << maxIteration << ' ';
+    std::cout << upperlimit << '\n';
+    std::cout.copyfmt(init); // restore default formatting
+    showGrundSpel('A', tableA);
+    showGrundSpel('B', tableB);
+    showGrundSpel('C', tableC);
+    showGrundSpel('D', tableD);
+    showGrundSpel('E', tableE);
+    showGrundSpel('F', tableF);
+    std::cout << '\n';
+    for (int match = 45; match <= 48; ++match) {
+      for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+        const e_team tt = game[match][hemmaBorta];
+        std::cout << tt;
+        if (match != 48 || hemmaBorta != 1) {
+          std::cout << ',';
+        } else {
+          std::cout << ' ';
+        }
+      }
+    }
+    for (int match = 49; match <= 50; ++match) {
+      for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+        const e_team tt = game[match][hemmaBorta];
+        std::cout << tt;
+        if (match != 50 || hemmaBorta != 1) {
+          std::cout << ',';
+        } else {
+          std::cout << ' ';
+        }
+      }
+    }
+    for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+      const e_team tt = game[51][hemmaBorta];
+      std::cout << tt;
+      if (hemmaBorta != 1) {
+        std::cout << ',';
+      } else {
+        std::cout << ' ';
+      }
+    }
+    std::cout << ' ' << game[52][0];
+    std::cout << ' ' << saab[0].poang;
+    std::cout << '\n';
   }
 }
 enum e_team operator++(enum e_team &that) {
