@@ -143,7 +143,15 @@ void showTredjeTab(uint64_t tabell) {
     abort();
   }
 }
-int main() {
+int main(int argc, char *argv[])
+{
+  // seq -w 0 3 | parallel ./a.out {}
+  // Ger 0
+  //     1
+  //     2
+  //     3
+  std::cout << argv[1] << '\n';
+  exit(0);
   uint64_t generator;
   const uint64_t upperlimit = 1L << 55;
   const uint64_t ettPrimtal = 16127L;
