@@ -1,3 +1,4 @@
+#include <algorithm> //std::find_if
 #include <cassert>
 #include <cinttypes>
 #include <cstring>
@@ -7,6 +8,7 @@
 using std::cerr;
 // Compile g++ -I ~/gsl-lite/include main.cpp
 // Format using clang-format -i main.cpp
+static int maxSoFar = 0;
 enum e_team {
   tur,
   ita,
@@ -89,6 +91,22 @@ e_team game[53][2] = {
     {} /*49-50, 51*/,
     {} /*Winner*/,
 };
+struct s_saabare {
+  char namnkod[7];
+  e_team grupp_placering[6][2];
+  e_team kvartsfinallag[8];
+  e_team semifinallag[4];
+  e_team finallag[2];
+  e_team vinnare[1];
+  int poang;
+} saab[1] = {
+    {"Test",
+     {{tur, ita}, {den, fin}, {aut, mkd}, {eng, cro}, {pol, svk}, {hun, por}},
+     {tur, den, aut, eng, pol, hun, ita, cro},
+     {tur, aut, pol, ita},
+     {tur, pol},
+     {tur},
+     0}};
 extern enum e_team operator++(enum e_team &that);
 extern const enum e_team operator++(enum e_team &that, int);
 std::ostream &operator<<(std::ostream &o, const e_team &team) {
@@ -181,34 +199,57 @@ void showGrundSpel(char grp, uint64_t table) {
   const unsigned third = table & 0x3;
   std::cout << (e_team)(win + offset) << ',' << (e_team)(secnd + offset) << ','
             << (e_team)(third + offset) << ' ';
+  unsigned saabOffset = 0;
   switch (grp) {
   case 'A':
     game[37][0] = (e_team)(win + offset);
     game[38][0] = (e_team)(secnd + offset);
+    saabOffset = 0;
     break;
   case 'B':
     game[39][0] = (e_team)(win + offset);
     game[38][1] = (e_team)(secnd + offset);
+    saabOffset = 1;
     break;
   case 'C':
     game[40][0] = (e_team)(win + offset);
     game[37][1] = (e_team)(secnd + offset);
+    saabOffset = 2;
     break;
   case 'D':
     game[44][0] = (e_team)(win + offset);
     game[42][0] = (e_team)(secnd + offset);
+    saabOffset = 3;
     break;
   case 'E':
     game[43][0] = (e_team)(win + offset);
     game[42][1] = (e_team)(secnd + offset);
+    saabOffset = 4;
     break;
   case 'F':
     game[41][0] = (e_team)(win + offset);
     game[44][1] = (e_team)(secnd + offset);
+    saabOffset = 5;
     break;
   default:
     cerr << __FILE__ << __LINE__ << '\n';
     abort();
+  }
+  for (int saabare = 0; saabare < 1; ++saabare) {
+    if ((e_team)(win + offset) ==
+        saab[saabare].grupp_placering[saabOffset][0]) {
+      saab[saabare].poang += 10;
+    } else if ((e_team)(win + offset) ==
+               saab[saabare].grupp_placering[saabOffset][1]) {
+      saab[saabare].poang += 7;
+    }
+    if ((e_team)(secnd + offset) ==
+        saab[saabare].grupp_placering[saabOffset][1]) {
+      saab[saabare].poang += 10;
+    } else if ((e_team)(secnd + offset) ==
+               saab[saabare].grupp_placering[saabOffset][0]) {
+      saab[saabare].poang += 7;
+    }
   }
 }
 void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
@@ -868,6 +909,7 @@ int main(int argc, char *argv[]) {
       const uint64_t tableE = (iteration >> 24) & 0x3FUL;
       const uint64_t tableF = (iteration >> 30) & 0x3FUL;
       const uint64_t thirdTable = (iteration >> 36) & 0xFUL;
+      saab[0].poang = 0;
       showGrundSpel('A', tableA);
       showGrundSpel('B', tableB);
       showGrundSpel('C', tableC);
@@ -928,6 +970,19 @@ int main(int argc, char *argv[]) {
         }
       }
 #endif
+      {
+        gsl::span<e_team> span_quarts(saab[0].kvartsfinallag, 8);
+        for (int match = 45; match <= 48; ++match) {
+          for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+            const e_team tt = game[match][hemmaBorta];
+            auto f = std::find_if(span_quarts.cbegin(), span_quarts.cend(),
+                                  [tt](const e_team tm) { return tt == tm; });
+            if (f != span_quarts.cend()) {
+              saab[0].poang += 15;
+            }
+          }
+        }
+      }
       for (int match = 45; match <= 48; ++match) {
         for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
           const e_team tt = game[match][hemmaBorta];
@@ -965,6 +1020,19 @@ int main(int argc, char *argv[]) {
         }
       }
 #endif
+      {
+        gsl::span<e_team> span_semi(saab[0].semifinallag, 4);
+        for (int match = 49; match <= 50; ++match) {
+          for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+            const e_team tt = game[match][hemmaBorta];
+            auto f = std::find_if(span_semi.cbegin(), span_semi.cend(),
+                                  [tt](const e_team tm) { return tt == tm; });
+            if (f != span_semi.cend()) {
+              saab[0].poang += 25;
+            }
+          }
+        }
+      }
       for (int match = 49; match <= 50; ++match) {
         for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
           const e_team tt = game[match][hemmaBorta];
@@ -990,10 +1058,29 @@ int main(int argc, char *argv[]) {
           std::cout << ' ';
         }
       }
+      {
+        gsl::span<e_team> span_final(saab[0].finallag, 2);
+        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+          const e_team tt = game[51][hemmaBorta];
+          auto f = std::find_if(span_final.cbegin(), span_final.cend(),
+                                [tt](const e_team tm) { return tt == tm; });
+          if (f != span_final.cend()) {
+            saab[0].poang += 35;
+          }
+        }
+      }
       // Avgör finalen, match 51
       result = ((iteration >> (51 + 3)) & 0x1);
       game[52][0] = game[51][result];
-      std::cout << game[52][0] << '\n';
+      std::cout << game[52][0];
+      if (game[52][0] == saab[0].vinnare[0]) {
+        saab[0].poang += 50;
+      }
+      if (maxSoFar < saab[0].poang) {
+        maxSoFar = saab[0].poang;
+      }
+      std::cout << ' ' << saab[0].poang << ' ' << maxSoFar;
+      std::cout << '\n';
     }
   }
 }
