@@ -33,6 +33,61 @@ enum e_team {
   fra,
   ger
 };
+// Games are officially numbered from 1 to 51.
+e_team game[52][2] = {
+    {},
+    {tur, ita} /*1*/,
+    {wal, sui},
+    {den, fin},
+    {bel, rus},
+    {ned, ukr},
+    {aut, mkd},
+    {eng, cro},
+    {sco, cze},
+    {esp, swe},
+    {pol, svk},
+    {hun, por},
+    {fra, ger},
+    {tur, wal},
+    {ita, sui},
+    {fin, rus},
+    {den, bel},
+    {ned, aut},
+    {ukr, mkd},
+    {cro, cze},
+    {eng, sco},
+    {swe, svk},
+    {esp, pol},
+    {hun, fra},
+    {por, ger},
+    {sui, tur},
+    {ita, wal},
+    {rus, den},
+    {fin, bel},
+    {mkd, ned},
+    {ukr, aut},
+    {cro, sco},
+    {cze, eng},
+    {svk, esp},
+    {swe, pol},
+    {por, fra},
+    {ger, hun} /*36*/,
+    {} /*A1-C2*/,
+    {} /*A2-B2*/,
+    {} /*B1-ADEF3 39*/,
+    {} /*C1-DEF3 40*/,
+    {} /*F1-ABC3 41*/,
+    {} /*D2-E2*/,
+    {} /*E1-ABCD3 43*/,
+    {} /*D1-F2, 44*/,
+    {} /*41-42, 45*/,
+    {} /*37-39, 46*/,
+    {} /*40-38, 47*/,
+    {} /*43-44, 48*/,
+    {} /*46-45, 49*/,
+    {} /*48-47, 50*/,
+    {} /*49-50, 51*/,
+};
 extern enum e_team operator++(enum e_team &that);
 extern const enum e_team operator++(enum e_team &that, int);
 std::ostream &operator<<(std::ostream &o, const e_team &team) {
@@ -126,13 +181,31 @@ void showGrundSpel(char grp, uint64_t table) {
   std::cout << (e_team)(win + offset) << ',' << (e_team)(secnd + offset) << ','
             << (e_team)(third + offset) << ' ';
 }
-void showTredjeTab(uint64_t tabell) {
+void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
+                   uint64_t tableC, uint64_t tableD, uint64_t tableE,
+                   uint64_t tableF) {
+  /*B1-ADEF3, match 39*/
+  /*C1-DEF3, match 40*/
+  /*E1-ABCD3, match 43*/
+  /*F1-ABC3, match 41*/
+  // 39 40 43 41
+  // 1B 1C 1E 1F
   switch (tabell) {
   case 0:
     std::cout << "ABCD--";
+    // 3A 3D 3B 3C
+    game[39][1] = (e_team)(tableA & 0x3);
+    game[40][1] = (e_team)((tableD & 0x3) + 12);
+    game[43][1] = (e_team)((tableB & 0x3) + 4);
+    game[41][1] = (e_team)((tableC & 0x3) + 8);
     break;
   case 1:
     std::cout << "ABC-E-";
+    // 3A 3E 3B 3C
+    game[39][1] = (e_team)(tableA & 0x3);
+    game[40][1] = (e_team)((tableE & 0x3) + 16);
+    game[43][1] = (e_team)((tableB & 0x3) + 4);
+    game[41][1] = (e_team)((tableC & 0x3) + 8);
     break;
   case 2:
     std::cout << "ABC--F";
@@ -185,61 +258,6 @@ void showTredjeTab(uint64_t tabell) {
     abort();
   }
 }
-// Games are officially numbered from 1 to 51.
-e_team game[52][2] = {
-    {},
-    {tur, ita} /*1*/,
-    {wal, sui},
-    {den, fin},
-    {bel, rus},
-    {ned, ukr},
-    {aut, mkd},
-    {eng, cro},
-    {sco, cze},
-    {esp, swe},
-    {pol, svk},
-    {hun, por},
-    {fra, ger},
-    {tur, wal},
-    {ita, sui},
-    {fin, rus},
-    {den, bel},
-    {ned, aut},
-    {ukr, mkd},
-    {cro, cze},
-    {eng, sco},
-    {swe, svk},
-    {esp, pol},
-    {hun, fra},
-    {por, ger},
-    {sui, tur},
-    {ita, wal},
-    {rus, den},
-    {fin, bel},
-    {mkd, ned},
-    {ukr, aut},
-    {cro, sco},
-    {cze, eng},
-    {svk, esp},
-    {swe, pol},
-    {por, fra},
-    {ger, hun} /*36*/,
-    {} /*A1-C2*/,
-    {} /*A2-B2*/,
-    {} /*B1-ADEF3*/,
-    {} /*C1-DEF3*/,
-    {} /*F1-ABC3*/,
-    {} /*D2-E2*/,
-    {} /*E1-ABCD3*/,
-    {} /*D1-F2, 44*/,
-    {} /*41-42, 45*/,
-    {} /*37-39, 46*/,
-    {} /*40-38, 47*/,
-    {} /*43-44, 48*/,
-    {} /*46-45, 49*/,
-    {} /*48-47, 50*/,
-    {} /*49-50, 51*/,
-};
 int main(int argc, char *argv[]) {
   // seq -w 0 3 | parallel -u ./a.out {}
   // Ger 0
@@ -761,7 +779,7 @@ int main(int argc, char *argv[]) {
       showGrundSpel('D', tableD);
       showGrundSpel('E', tableE);
       showGrundSpel('F', tableF);
-      showTredjeTab(thirdTable);
+      showTredjeTab(thirdTable, tableA, tableB, tableC, tableD, tableE, tableF);
       std::cout << '\n';
     }
   }
