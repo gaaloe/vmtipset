@@ -5,86 +5,124 @@
 #include <iostream>
 using std::cerr;
 // Format using clang-format -i main.cpp
+enum e_team {
+  tur,
+  ita,
+  wal,
+  sui,
+  den,
+  fin,
+  bel,
+  rus,
+  ned,
+  ukr,
+  aut,
+  mkd,
+  eng,
+  cro,
+  sco,
+  cze,
+  esp,
+  swe,
+  pol,
+  svk,
+  hun,
+  por,
+  fra,
+  ger
+};
+extern enum e_team operator++(enum e_team &that);
+extern const enum e_team operator++(enum e_team &that, int);
+std::ostream &operator<<(std::ostream &o, const e_team &team) {
+  switch (team) {
+  case tur:
+    o << "tur";
+    break;
+  case ita:
+    o << "ita";
+    break;
+  case wal:
+    o << "wal";
+    break;
+  case sui:
+    o << "sui";
+    break;
+  case den:
+    o << "den";
+    break;
+  case fin:
+    o << "fin";
+    break;
+  case bel:
+    o << "bel";
+    break;
+  case rus:
+    o << "rus";
+    break;
+  case ned:
+    o << "ned";
+    break;
+  case ukr:
+    o << "ukr";
+    break;
+  case aut:
+    o << "aut";
+    break;
+  case mkd:
+    o << "mkd";
+    break;
+  case eng:
+    o << "eng";
+    break;
+  case cro:
+    o << "cro";
+    break;
+  case sco:
+    o << "sco";
+    break;
+  case cze:
+    o << "cze";
+    break;
+  case esp:
+    o << "esp";
+    break;
+  case swe:
+    o << "swe";
+    break;
+  case pol:
+    o << "pol";
+    break;
+  case svk:
+    o << "svk";
+    break;
+  case hun:
+    o << "hun";
+    break;
+  case por:
+    o << "por";
+    break;
+  case fra:
+    o << "fra";
+    break;
+  case ger:
+    o << "ger";
+    break;
+  }
+  return o;
+}
 void showGrundSpel(char grp, uint64_t table) {
   std::cout << grp << ':';
-  switch (table) {
-  case 0b000110:
-    std::cout << "0,1,2";
-    break;
-  case 0b000111:
-    std::cout << "0,1,3";
-    break;
-  case 0b001001:
-    std::cout << "0,2,1";
-    break;
-  case 0b001011:
-    std::cout << "0,2,3";
-    break;
-  case 0x0D:
-    std::cout << "0,3,1";
-    break;
-  case 0x0E:
-    std::cout << "0,3,2";
-    break;
-  case 0x12:
-    std::cout << "1,0,2";
-    break;
-  case 0x13:
-    std::cout << "1,0,3";
-    break;
-  case 0x18:
-    std::cout << "1,2,0";
-    break;
-  case 0x1B:
-    std::cout << "1,2,3";
-    break;
-  case 0x1C:
-    std::cout << "1,3,0";
-    break;
-  case 0x1E:
-    std::cout << "1,3,2";
-    break;
-  case 0x21:
-    std::cout << "2,0,1";
-    break;
-  case 0x23:
-    std::cout << "2,0,3";
-    break;
-  case 0x24:
-    std::cout << "2,1,0";
-    break;
-  case 0x27:
-    std::cout << "2,1,3";
-    break;
-  case 0x2C:
-    std::cout << "2,3,0";
-    break;
-  case 0x2D:
-    std::cout << "2,3,1";
-    break;
-  case 0x31:
-    std::cout << "3,0,1";
-    break;
-  case 0x32:
-    std::cout << "3,0,2";
-    break;
-  case 0x34:
-    std::cout << "3,1,0";
-    break;
-  case 0x36:
-    std::cout << "3,1,2";
-    break;
-  case 0x38:
-    std::cout << "3,2,0";
-    break;
-  case 0x39:
-    std::cout << "3,2,1";
-    break;
-  default:
-    std::cerr << __FILE__ << __LINE__ << '\n';
-    abort();
-  }
-  std::cout << ' ';
+  const int offset =
+      grp == 'A'
+          ? 0
+          : grp == 'B'
+                ? 4
+                : grp == 'C' ? 8 : grp == 'D' ? 12 : grp == 'E' ? 16 : 20;
+  const unsigned win = table >> 4;
+  const unsigned secnd = (table & 0xC) >> 2;
+  const unsigned third = table & 0x3;
+  std::cout << (e_team)(win + offset) << ',' << (e_team)(secnd + offset) << ','
+            << (e_team)(third + offset) << ' ';
 }
 void showTredjeTab(uint64_t tabell) {
   switch (tabell) {
@@ -669,4 +707,13 @@ int main(int argc, char *argv[]) {
       std::cout << '\n';
     }
   }
+}
+enum e_team operator++(enum e_team &that) {
+  that = static_cast<enum e_team>(static_cast<int>(that) + 1);
+  return that;
+}
+const enum e_team operator++(enum e_team &that, int) {
+  enum e_team result = that;
+  ++that;
+  return result;
 }
