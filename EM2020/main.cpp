@@ -1,7 +1,9 @@
 #include <cassert>
 #include <cinttypes>
+#include <cstring>
 #include <iomanip>
 #include <iostream>
+using std::cerr;
 // Format using clang-format -i main.cpp
 void showGrundSpel(char grp, uint64_t table) {
   std::cout << grp << ':';
@@ -86,52 +88,52 @@ void showGrundSpel(char grp, uint64_t table) {
 }
 void showTredjeTab(uint64_t tabell) {
   switch (tabell) {
-  case 0x0L:
-    std::cout << "ABCD  ";
+  case 0:
+    std::cout << "ABCD--";
     break;
-  case 0x1UL: // ABC E
-    std::cout << "ABCD  ";
+  case 1:
+    std::cout << "ABC-E-";
     break;
-  case 0x2UL: // ABC  F
-    std::cout << "ABCD  ";
+  case 2:
+    std::cout << "ABC--F";
     break;
-  case 0x3UL: // AB DE
-    std::cout << "ABCD  ";
+  case 3:
+    std::cout << "AB-DE-";
     break;
-  case 0x4UL: // AB D F
-    std::cout << "ABCD  ";
+  case 4:
+    std::cout << "AB-D-F";
     break;
-  case 0x5L: // AB  EF
-    std::cout << "ABCD  ";
+  case 5:
+    std::cout << "AB--EF";
     break;
-  case 0x6L: // A CDE
-    std::cout << "ABCD  ";
+  case 6:
+    std::cout << "A-CDE-";
     break;
-  case 0x7L: // A CD F
-    std::cout << "ABCD  ";
+  case 7:
+    std::cout << "A-CD-F";
     break;
-  case 0x8L: // A C EF
-    std::cout << "ABCD  ";
+  case 8:
+    std::cout << "A-C-EF";
     break;
-  case 0x9L: // A  DEF
-    std::cout << "ABCD  ";
+  case 9:
+    std::cout << "A--DEF";
     break;
-  case 0xAL: //  BCDE
-    std::cout << "ABCD  ";
+  case 10:
+    std::cout << "-BCDE-";
     break;
-  case 0xBL: //  BCD F
-    std::cout << "ABCD  ";
+  case 11:
+    std::cout << "-BCD-F";
     break;
-  case 0xCL: //  BC EF
-    std::cout << "ABCD  ";
+  case 12:
+    std::cout << "-BC-EF";
     break;
-  case 0xDL:
-    std::cout << " B DEF";
+  case 13:
+    std::cout << "-B-DEF";
     break;
-  case 0xEL:
-    std::cout << "  CDEF";
+  case 14:
+    std::cout << "--CDEF";
     break;
-  case 0xFL: // There are 15 alternatives, not 16
+  case 15: // There are 15 alternatives 0..14
   default:
     std::cerr << __FILE__ << __LINE__ << '\n';
     std::ios init(nullptr);
@@ -143,20 +145,32 @@ void showTredjeTab(uint64_t tabell) {
     abort();
   }
 }
-int main(int /*argc*/, char *argv[])
-{
-  // seq -w 0 3 | parallel ./a.out {}
+int main(int argc, char *argv[]) {
+  // seq -w 0 3 | parallel -u ./a.out {}
   // Ger 0
   //     1
   //     2
   //     3
-  std::cout << argv[1] << '\n';
-  exit(0);
+  uint64_t offsetStride = 0;
+  if (argc > 1) {
+    int base = 10;
+    char *endptr;
+    errno = 0; /* To distinguish success/failure after call */
+    const auto lstrtol = strtol(argv[1], &endptr, base);
+    if (errno != 0) {
+      cerr << __func__ << ' ' << __LINE__ << ' ' << strerror(errno) << '\n';
+      std::terminate();
+    } else if (endptr == argv[1]) {
+      cerr << __func__ << ' ' << __LINE__ << ' ' << strerror(EINVAL) << '\n';
+      std::terminate();
+    }
+    offsetStride = static_cast<uint64_t>(lstrtol);
+  }
   uint64_t generator;
   const uint64_t upperlimit = 1UL << 55;
   const uint64_t ettPrimtal = 16127UL;
   uint64_t printout = 0UL;
-  for (uint64_t iteration = 0UL; iteration < upperlimit;
+  for (uint64_t iteration = offsetStride; iteration < upperlimit;
        iteration += ettPrimtal) {
     // Group A
     switch (iteration & 0x000000000000003F) {
@@ -630,7 +644,7 @@ int main(int /*argc*/, char *argv[])
       std::cout.copyfmt(init); // restore default formatting
       abort();
     }
-    if (++printout % 1000000UL == 0) {
+    if (++printout % 10000UL == 0) {
       std::ios init(nullptr);
       init.copyfmt(std::cout);
       std::cout << std::hex;
