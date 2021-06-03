@@ -34,7 +34,7 @@ enum e_team {
   ger
 };
 // Games are officially numbered from 1 to 51.
-e_team game[52][2] = {
+e_team game[53][2] = {
     {},
     {tur, ita} /*1*/,
     {wal, sui},
@@ -87,6 +87,7 @@ e_team game[52][2] = {
     {} /*46-45, 49*/,
     {} /*48-47, 50*/,
     {} /*49-50, 51*/,
+    {} /*Winner*/,
 };
 extern enum e_team operator++(enum e_team &that);
 extern const enum e_team operator++(enum e_team &that, int);
@@ -180,6 +181,35 @@ void showGrundSpel(char grp, uint64_t table) {
   const unsigned third = table & 0x3;
   std::cout << (e_team)(win + offset) << ',' << (e_team)(secnd + offset) << ','
             << (e_team)(third + offset) << ' ';
+  switch (grp) {
+  case 'A':
+    game[37][0] = (e_team)(win + offset);
+    game[38][0] = (e_team)(secnd + offset);
+    break;
+  case 'B':
+    game[39][0] = (e_team)(win + offset);
+    game[38][1] = (e_team)(secnd + offset);
+    break;
+  case 'C':
+    game[40][0] = (e_team)(win + offset);
+    game[37][1] = (e_team)(secnd + offset);
+    break;
+  case 'D':
+    game[44][0] = (e_team)(win + offset);
+    game[42][0] = (e_team)(secnd + offset);
+    break;
+  case 'E':
+    game[43][0] = (e_team)(win + offset);
+    game[42][1] = (e_team)(secnd + offset);
+    break;
+  case 'F':
+    game[41][0] = (e_team)(win + offset);
+    game[44][1] = (e_team)(secnd + offset);
+    break;
+  default:
+    cerr << __FILE__ << __LINE__ << '\n';
+    abort();
+  }
 }
 void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
                    uint64_t tableC, uint64_t tableD, uint64_t tableE,
@@ -846,6 +876,124 @@ int main(int argc, char *argv[]) {
       showGrundSpel('F', tableF);
       showTredjeTab(thirdTable, tableA, tableB, tableC, tableD, tableE, tableF);
       std::cout << '\n';
+#ifndef NDEBUG
+      // Kontrollera att alla fält match 37-44 är olika
+      for (int match = 37; match <= 44; ++match) {
+        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+          const e_team tt = game[match][hemmaBorta];
+          for (int match2 = 37; match2 <= 44; ++match2) {
+            for (int hemmaBorta2 = 0; hemmaBorta2 < 2; ++hemmaBorta2) {
+              const e_team t2 = game[match2][hemmaBorta2];
+              if (tt == t2) {
+                assert(match == match2);
+                assert(hemmaBorta == hemmaBorta2);
+              }
+            }
+          }
+        }
+      }
+#endif
+      // Avgör match 37 till 44, fyll i match 45 till 48
+      uint64_t result;
+      result = ((iteration >> (37 + 3)) & 0x1);
+      game[46][1] = game[37][result];
+      result = ((iteration >> (38 + 3)) & 0x1);
+      game[47][1] = game[38][result];
+      result = ((iteration >> (39 + 3)) & 0x1);
+      game[46][0] = game[39][result];
+      result = ((iteration >> (40 + 3)) & 0x1);
+      game[47][0] = game[40][result];
+      result = ((iteration >> (41 + 3)) & 0x1);
+      game[45][0] = game[41][result];
+      result = ((iteration >> (42 + 3)) & 0x1);
+      game[45][1] = game[42][result];
+      result = ((iteration >> (43 + 3)) & 0x1);
+      game[48][0] = game[43][result];
+      result = ((iteration >> (44 + 3)) & 0x1);
+      game[48][1] = game[44][result];
+#ifndef NDEBUG
+      // Kontrollera att alla fält match 37-44 är olika
+      for (int match = 45; match <= 48; ++match) {
+        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+          const e_team tt = game[match][hemmaBorta];
+          for (int match2 = 45; match2 <= 48; ++match2) {
+            for (int hemmaBorta2 = 0; hemmaBorta2 < 2; ++hemmaBorta2) {
+              const e_team t2 = game[match2][hemmaBorta2];
+              if (tt == t2) {
+                assert(match == match2);
+                assert(hemmaBorta == hemmaBorta2);
+              }
+            }
+          }
+        }
+      }
+#endif
+      for (int match = 45; match <= 48; ++match) {
+        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+          const e_team tt = game[match][hemmaBorta];
+          std::cout << tt;
+          if (match != 48 || hemmaBorta != 1) {
+            std::cout << ',';
+          } else {
+            std::cout << ' ';
+          }
+        }
+      }
+      // Avgör match 45 till 48, fyll i match 49 och 50
+      result = ((iteration >> (45 + 3)) & 0x1);
+      game[49][1] = game[45][result];
+      result = ((iteration >> (46 + 3)) & 0x1);
+      game[49][0] = game[46][result];
+      result = ((iteration >> (47 + 3)) & 0x1);
+      game[50][1] = game[47][result];
+      result = ((iteration >> (48 + 3)) & 0x1);
+      game[50][0] = game[48][result];
+#ifndef NDEBUG
+      // Kontrollera att alla fält match 37-44 är olika
+      for (int match = 49; match <= 50; ++match) {
+        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+          const e_team tt = game[match][hemmaBorta];
+          for (int match2 = 49; match2 <= 50; ++match2) {
+            for (int hemmaBorta2 = 0; hemmaBorta2 < 2; ++hemmaBorta2) {
+              const e_team t2 = game[match2][hemmaBorta2];
+              if (tt == t2) {
+                assert(match == match2);
+                assert(hemmaBorta == hemmaBorta2);
+              }
+            }
+          }
+        }
+      }
+#endif
+      for (int match = 49; match <= 50; ++match) {
+        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+          const e_team tt = game[match][hemmaBorta];
+          std::cout << tt;
+          if (match != 50 || hemmaBorta != 1) {
+            std::cout << ',';
+          } else {
+            std::cout << ' ';
+          }
+        }
+      }
+      // Avgör match 49 och 50
+      result = ((iteration >> (49 + 3)) & 0x1);
+      game[51][0] = game[49][result];
+      result = ((iteration >> (50 + 3)) & 0x1);
+      game[51][1] = game[50][result];
+      for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+        const e_team tt = game[51][hemmaBorta];
+        std::cout << tt;
+        if (hemmaBorta != 1) {
+          std::cout << ',';
+        } else {
+          std::cout << ' ';
+        }
+      }
+      // Avgör finalen, match 51
+      result = ((iteration >> (51 + 3)) & 0x1);
+      game[52][0] = game[51][result];
+      std::cout << game[52][0] << '\n';
     }
   }
 }
