@@ -3,6 +3,146 @@
 #include <iomanip>
 #include <iostream>
 // Format using clang-format -i main.cpp
+void showGrundSpel(char grp, uint64_t table) {
+  std::cout << grp << ':';
+  switch (table) {
+  case 0b000110:
+    std::cout << "0,1,2";
+    break;
+  case 0b000111:
+    std::cout << "0,1,3";
+    break;
+  case 0b001001:
+    std::cout << "0,2,1";
+    break;
+  case 0b001011:
+    std::cout << "0,2,3";
+    break;
+  case 0x0D:
+    std::cout << "0,1,2";
+    break;
+  case 0x0E:
+    std::cout << "0,1,2";
+    break;
+  case 0x12:
+    std::cout << "0,1,2";
+    break;
+  case 0x13:
+    std::cout << "0,1,2";
+    break;
+  case 0x18:
+    std::cout << "0,1,2";
+    break;
+  case 0x1B:
+    std::cout << "0,1,2";
+    break;
+  case 0x1C:
+    std::cout << "0,1,2";
+    break;
+  case 0x1E:
+    std::cout << "0,1,2";
+    break;
+  case 0x21:
+    std::cout << "0,1,2";
+    break;
+  case 0x23:
+    std::cout << "0,1,2";
+    break;
+  case 0x24:
+    std::cout << "0,1,2";
+    break;
+  case 0x27:
+    std::cout << "0,1,2";
+    break;
+  case 0x2C:
+    std::cout << "0,1,2";
+    break;
+  case 0x2D:
+    std::cout << "0,1,2";
+    break;
+  case 0x31:
+    std::cout << "0,1,2";
+    break;
+  case 0x32:
+    std::cout << "0,1,2";
+    break;
+  case 0x34:
+    std::cout << "0,1,2";
+    break;
+  case 0x36:
+    std::cout << "0,1,2";
+    break;
+  case 0x38:
+    std::cout << "0,1,2";
+    break;
+  case 0x39:
+    std::cout << "0,1,2";
+    break;
+  default:
+    std::cerr << __FILE__ << __LINE__ << '\n';
+    abort();
+  }
+  std::cout << ' ';
+}
+void showTredjeTab(uint64_t tabell) {
+  switch (tabell) {
+  case 0x0L:
+    std::cout << "ABCD  ";
+    break;
+  case 0x1L: // ABC E
+    std::cout << "ABCD  ";
+    break;
+  case 0x2L: // ABC  F
+    std::cout << "ABCD  ";
+    break;
+  case 0x3L: // AB DE
+    std::cout << "ABCD  ";
+    break;
+  case 0x4L: // AB D F
+    std::cout << "ABCD  ";
+    break;
+  case 0x5L: // AB  EF
+    std::cout << "ABCD  ";
+    break;
+  case 0x6L: // A CDE
+    std::cout << "ABCD  ";
+    break;
+  case 0x7L: // A CD F
+    std::cout << "ABCD  ";
+    break;
+  case 0x8L: // A C EF
+    std::cout << "ABCD  ";
+    break;
+  case 0x9L: // A  DEF
+    std::cout << "ABCD  ";
+    break;
+  case 0xAL: //  BCDE
+    std::cout << "ABCD  ";
+    break;
+  case 0xBL: //  BCD F
+    std::cout << "ABCD  ";
+    break;
+  case 0xCL: //  BC EF
+    std::cout << "ABCD  ";
+    break;
+  case 0xDL:
+    std::cout << " B DEF";
+    break;
+  case 0xEL:
+    std::cout << "  CDEF";
+    break;
+  case 0xFL: // There are 15 alternatives, not 16
+  default:
+    std::cerr << __FILE__ << __LINE__ << '\n';
+    std::ios init(NULL);
+    init.copyfmt(std::cout);
+    std::cout << std::hex;
+    std::cout.width(14);
+    std::cout << tabell << '\n';
+    std::cout.copyfmt(init); // restore default formatting
+    abort();
+  }
+}
 int main() {
   uint64_t generator;
   const uint64_t upperlimit = 1L << 55;
@@ -490,6 +630,21 @@ int main() {
       std::cout << iteration << ' ';
       std::cout << upperlimit << '\n';
       std::cout.copyfmt(init); // restore default formatting
+      const uint64_t tableA = iteration & 0x3FL;
+      const uint64_t tableB = (iteration >> 6) & 0x3FL;
+      const uint64_t tableC = (iteration >> 12) & 0x3FL;
+      const uint64_t tableD = (iteration >> 18) & 0x3FL;
+      const uint64_t tableE = (iteration >> 24) & 0x3FL;
+      const uint64_t tableF = (iteration >> 30) & 0x3FL;
+      const uint64_t thirdTable = (iteration >> 36) & 0xFL;
+      showGrundSpel('A', tableA);
+      showGrundSpel('B', tableB);
+      showGrundSpel('C', tableC);
+      showGrundSpel('D', tableD);
+      showGrundSpel('E', tableE);
+      showGrundSpel('F', tableF);
+      showTredjeTab(thirdTable);
+      std::cout << '\n';
     }
   }
 }
