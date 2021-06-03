@@ -54,10 +54,11 @@ int main() {
     case 0x3F:
       continue;
       break;
-    case 0x06:
-    case 0x07:
-    case 0x09:
-    case 0x0B:
+    // From msb to lsb:
+    case 0x06: // 0b000110: 0,1,2
+    case 0x07: // 0b000111: 0,1,3
+    case 0x09: // 0b001001: 0,2,1
+    case 0x0B: // 0b001011: 0,2,3
     case 0x0D:
     case 0x0E:
     case 0x12:
@@ -446,6 +447,39 @@ int main() {
       break;
     default:
       std::cerr << __FILE__ << __LINE__ << '\n';
+      abort();
+    }
+    // One of 15 ways to pick the best 3rd place set:
+    // See table on https://en.wikipedia.org/wiki/UEFA_Euro_2020#Knockout_phase
+    switch (iteration & 0x000000F000000000L) {
+    case 0x0L << 36: // ABCD
+    case 0x1L << 36: // ABC E
+    case 0x2L << 36: // ABC  F
+    case 0x3L << 36: // AB DE
+    case 0x4L << 36: // AB D F
+    case 0x5L << 36: // AB  EF
+    case 0x6L << 36: // A CDE
+    case 0x7L << 36: // A CD F
+    case 0x8L << 36: // A C EF
+    case 0x9L << 36: // A  DEF
+    case 0xAL << 36: //  BCDE
+    case 0xBL << 36: //  BCD F
+    case 0xCL << 36: //  BC EF
+    case 0xDL << 36: //  B DEF
+    case 0xEL << 36: //   CDEF
+      break;
+    case 0xFL << 36: // There are 15 alternatives, not 16
+      continue;
+      break;
+    default:
+      std::cerr << __FILE__ << __LINE__ << '\n';
+      std::ios init(NULL);
+      init.copyfmt(std::cout);
+      std::cout << std::hex;
+      std::cout.width(14);
+      std::cout << (iteration & 0x000000F000000000L) << ' ';
+      std::cout << iteration << '\n';
+      std::cout.copyfmt(init); // restore default formatting
       abort();
     }
     if (++printout % 1000000L == 0) {
