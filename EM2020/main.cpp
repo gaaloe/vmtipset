@@ -199,6 +199,46 @@ void showGrundSpel(char grp, uint64_t table) {
   const unsigned third = table & 0x3;
   std::cout << (e_team)(win + offset) << ',' << (e_team)(secnd + offset) << ','
             << (e_team)(third + offset) << ' ';
+  switch (grp) {
+  case 'A':
+    game[37][0] = (e_team)(win + offset);
+    game[38][0] = (e_team)(secnd + offset);
+    break;
+  case 'B':
+    game[39][0] = (e_team)(win + offset);
+    game[38][1] = (e_team)(secnd + offset);
+    break;
+  case 'C':
+    game[40][0] = (e_team)(win + offset);
+    game[37][1] = (e_team)(secnd + offset);
+    break;
+  case 'D':
+    game[44][0] = (e_team)(win + offset);
+    game[42][0] = (e_team)(secnd + offset);
+    break;
+  case 'E':
+    game[43][0] = (e_team)(win + offset);
+    game[42][1] = (e_team)(secnd + offset);
+    break;
+  case 'F':
+    game[41][0] = (e_team)(win + offset);
+    game[44][1] = (e_team)(secnd + offset);
+    break;
+  default:
+    cerr << __FILE__ << __LINE__ << '\n';
+    abort();
+  }
+}
+void calcGrundSpel(char grp, uint64_t table) {
+  const int offset =
+      grp == 'A'
+          ? 0
+          : grp == 'B'
+                ? 4
+                : grp == 'C' ? 8 : grp == 'D' ? 12 : grp == 'E' ? 16 : 20;
+  const unsigned win = table >> 4;
+  const unsigned secnd = (table & 0xC) >> 2;
+  const unsigned third = table & 0x3;
   unsigned saabOffset = 0;
   switch (grp) {
   case 'A':
@@ -376,6 +416,133 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     break;
   case 14:
     std::cout << "--CDEF";
+    // 3F 3E 3D 3C
+    game[39][1] = (e_team)((tableF & 0x3) + 20);
+    game[40][1] = (e_team)((tableE & 0x3) + 16);
+    game[43][1] = (e_team)((tableD & 0x3) + 12);
+    game[41][1] = (e_team)((tableC & 0x3) + 8);
+    break;
+  case 15: // There are 15 alternatives 0..14
+  default:
+    std::cerr << __FILE__ << __LINE__ << '\n';
+    std::ios init(nullptr);
+    init.copyfmt(std::cout);
+    std::cout << std::hex;
+    std::cout.width(14);
+    std::cout << tabell << '\n';
+    std::cout.copyfmt(init); // restore default formatting
+    abort();
+  }
+}
+void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
+                   uint64_t tableC, uint64_t tableD, uint64_t tableE,
+                   uint64_t tableF) {
+  /*1B-ADEF3, match 39*/
+  /*1C-DEF3, match 40*/
+  /*1E-ABCD3, match 43*/
+  /*1F-ABC3, match 41*/
+  // 39 40 43 41
+  // 1B 1C 1E 1F
+  switch (tabell) {
+  case 0:
+    // 3A 3D 3B 3C
+    game[39][1] = (e_team)((tableA & 0x3) + 0);
+    game[40][1] = (e_team)((tableD & 0x3) + 12);
+    game[43][1] = (e_team)((tableB & 0x3) + 4);
+    game[41][1] = (e_team)((tableC & 0x3) + 8);
+    break;
+  case 1:
+    // 3A 3E 3B 3C
+    game[39][1] = (e_team)(tableA & 0x3);
+    game[40][1] = (e_team)((tableE & 0x3) + 16);
+    game[43][1] = (e_team)((tableB & 0x3) + 4);
+    game[41][1] = (e_team)((tableC & 0x3) + 8);
+    break;
+  case 2:
+    // 3A 3F 3B 3C
+    game[39][1] = (e_team)((tableA & 0x3) + 0);
+    game[40][1] = (e_team)((tableF & 0x3) + 20);
+    game[43][1] = (e_team)((tableB & 0x3) + 4);
+    game[41][1] = (e_team)((tableC & 0x3) + 8);
+    break;
+  case 3:
+    // 3D 3E 3A 3B
+    game[39][1] = (e_team)((tableD & 0x3) + 12);
+    game[40][1] = (e_team)((tableE & 0x3) + 16);
+    game[43][1] = (e_team)((tableA & 0x3) + 0);
+    game[41][1] = (e_team)((tableB & 0x3) + 4);
+    break;
+  case 4:
+    // 3D 3F 3A 3B
+    game[39][1] = (e_team)((tableD & 0x3) + 12);
+    game[40][1] = (e_team)((tableF & 0x3) + 20);
+    game[43][1] = (e_team)((tableA & 0x3) + 0);
+    game[41][1] = (e_team)((tableB & 0x3) + 4);
+    break;
+  case 5:
+    // 3E 3F 3B 3A
+    game[39][1] = (e_team)((tableE & 0x3) + 16);
+    game[40][1] = (e_team)((tableF & 0x3) + 20);
+    game[43][1] = (e_team)((tableB & 0x3) + 4);
+    game[41][1] = (e_team)((tableA & 0x3) + 0);
+    break;
+  case 6:
+    // 3E 3D 3C 3A
+    game[39][1] = (e_team)((tableE & 0x3) + 16);
+    game[40][1] = (e_team)((tableD & 0x3) + 12);
+    game[43][1] = (e_team)((tableC & 0x3) + 8);
+    game[41][1] = (e_team)((tableA & 0x3) + 0);
+    break;
+  case 7:
+    // 3F 3D 3C 3A
+    game[39][1] = (e_team)((tableF & 0x3) + 20);
+    game[40][1] = (e_team)((tableD & 0x3) + 12);
+    game[43][1] = (e_team)((tableC & 0x3) + 8);
+    game[41][1] = (e_team)((tableA & 0x3) + 0);
+    break;
+  case 8:
+    // 3E 3F 3C 3A
+    game[39][1] = (e_team)((tableE & 0x3) + 16);
+    game[40][1] = (e_team)((tableF & 0x3) + 20);
+    game[43][1] = (e_team)((tableC & 0x3) + 8);
+    game[41][1] = (e_team)((tableA & 0x3) + 0);
+    break;
+  case 9:
+    // 3E 3F 3D 3A
+    game[39][1] = (e_team)((tableE & 0x3) + 16);
+    game[40][1] = (e_team)((tableF & 0x3) + 20);
+    game[43][1] = (e_team)((tableD & 0x3) + 12);
+    game[41][1] = (e_team)((tableA & 0x3) + 0);
+    break;
+  case 10:
+    // 3E 3D 3B 3C
+    game[39][1] = (e_team)((tableE & 0x3) + 16);
+    game[40][1] = (e_team)((tableD & 0x3) + 12);
+    game[43][1] = (e_team)((tableB & 0x3) + 4);
+    game[41][1] = (e_team)((tableC & 0x3) + 8);
+    break;
+  case 11:
+    // 3F 3D 3C 3B
+    game[39][1] = (e_team)((tableF & 0x3) + 20);
+    game[40][1] = (e_team)((tableD & 0x3) + 12);
+    game[43][1] = (e_team)((tableC & 0x3) + 8);
+    game[41][1] = (e_team)((tableB & 0x3) + 4);
+    break;
+  case 12:
+    // 3F 3E 3C 3B
+    game[39][1] = (e_team)((tableF & 0x3) + 20);
+    game[40][1] = (e_team)((tableE & 0x3) + 16);
+    game[43][1] = (e_team)((tableC & 0x3) + 8);
+    game[41][1] = (e_team)((tableB & 0x3) + 4);
+    break;
+  case 13:
+    // 3F 3E 3D 3B
+    game[39][1] = (e_team)((tableF & 0x3) + 20);
+    game[40][1] = (e_team)((tableE & 0x3) + 16);
+    game[43][1] = (e_team)((tableD & 0x3) + 12);
+    game[41][1] = (e_team)((tableB & 0x3) + 4);
+    break;
+  case 14:
     // 3F 3E 3D 3C
     game[39][1] = (e_team)((tableF & 0x3) + 20);
     game[40][1] = (e_team)((tableE & 0x3) + 16);
@@ -895,6 +1062,7 @@ int main(int argc, char *argv[]) {
       abort();
     }
     if (++printout % 10000UL == 0) {
+#if 0
       std::ios init(nullptr);
       init.copyfmt(std::cout);
       std::cout << std::hex;
@@ -902,6 +1070,7 @@ int main(int argc, char *argv[]) {
       std::cout << iteration << ' ';
       std::cout << upperlimit << '\n';
       std::cout.copyfmt(init); // restore default formatting
+#endif
       const uint64_t tableA = iteration & 0x3FUL;
       const uint64_t tableB = (iteration >> 6) & 0x3FUL;
       const uint64_t tableC = (iteration >> 12) & 0x3FUL;
@@ -910,14 +1079,16 @@ int main(int argc, char *argv[]) {
       const uint64_t tableF = (iteration >> 30) & 0x3FUL;
       const uint64_t thirdTable = (iteration >> 36) & 0xFUL;
       saab[0].poang = 0;
-      showGrundSpel('A', tableA);
-      showGrundSpel('B', tableB);
-      showGrundSpel('C', tableC);
-      showGrundSpel('D', tableD);
-      showGrundSpel('E', tableE);
-      showGrundSpel('F', tableF);
-      showTredjeTab(thirdTable, tableA, tableB, tableC, tableD, tableE, tableF);
+      calcGrundSpel('A', tableA);
+      calcGrundSpel('B', tableB);
+      calcGrundSpel('C', tableC);
+      calcGrundSpel('D', tableD);
+      calcGrundSpel('E', tableE);
+      calcGrundSpel('F', tableF);
+      calcTredjeTab(thirdTable, tableA, tableB, tableC, tableD, tableE, tableF);
+#if 0
       std::cout << '\n';
+#endif
 #ifndef NDEBUG
       // Kontrollera att alla fält match 37-44 är olika
       for (int match = 37; match <= 44; ++match) {
@@ -983,6 +1154,7 @@ int main(int argc, char *argv[]) {
           }
         }
       }
+#if 0
       for (int match = 45; match <= 48; ++match) {
         for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
           const e_team tt = game[match][hemmaBorta];
@@ -994,6 +1166,7 @@ int main(int argc, char *argv[]) {
           }
         }
       }
+#endif
       // Avgör match 45 till 48, fyll i match 49 och 50
       result = ((iteration >> (45 + 3)) & 0x1);
       game[49][1] = game[45][result];
@@ -1033,6 +1206,7 @@ int main(int argc, char *argv[]) {
           }
         }
       }
+#if 0
       for (int match = 49; match <= 50; ++match) {
         for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
           const e_team tt = game[match][hemmaBorta];
@@ -1044,11 +1218,13 @@ int main(int argc, char *argv[]) {
           }
         }
       }
+#endif
       // Avgör match 49 och 50
       result = ((iteration >> (49 + 3)) & 0x1);
       game[51][0] = game[49][result];
       result = ((iteration >> (50 + 3)) & 0x1);
       game[51][1] = game[50][result];
+#if 0
       for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
         const e_team tt = game[51][hemmaBorta];
         std::cout << tt;
@@ -1058,6 +1234,7 @@ int main(int argc, char *argv[]) {
           std::cout << ' ';
         }
       }
+#endif
       {
         gsl::span<e_team> span_final(saab[0].finallag, 2);
         for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
@@ -1072,15 +1249,68 @@ int main(int argc, char *argv[]) {
       // Avgör finalen, match 51
       result = ((iteration >> (51 + 3)) & 0x1);
       game[52][0] = game[51][result];
+#if 0
       std::cout << game[52][0];
+#endif
       if (game[52][0] == saab[0].vinnare[0]) {
         saab[0].poang += 50;
       }
       if (maxSoFar < saab[0].poang) {
         maxSoFar = saab[0].poang;
+        // Skriv ut
+        std::ios init(nullptr);
+        init.copyfmt(std::cout);
+        std::cout << std::hex;
+        std::cout.width(14);
+        std::cout << iteration << ' ';
+        std::cout << upperlimit << '\n';
+        std::cout.copyfmt(init); // restore default formatting
+        showGrundSpel('A', tableA);
+        showGrundSpel('B', tableB);
+        showGrundSpel('C', tableC);
+        showGrundSpel('D', tableD);
+        showGrundSpel('E', tableE);
+        showGrundSpel('F', tableF);
+        std::cout << '\n';
+        for (int match = 45; match <= 48; ++match) {
+          for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+            const e_team tt = game[match][hemmaBorta];
+            std::cout << tt;
+            if (match != 48 || hemmaBorta != 1) {
+              std::cout << ',';
+            } else {
+              std::cout << ' ';
+            }
+          }
+        }
+        for (int match = 49; match <= 50; ++match) {
+          for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+            const e_team tt = game[match][hemmaBorta];
+            std::cout << tt;
+            if (match != 50 || hemmaBorta != 1) {
+              std::cout << ',';
+            } else {
+              std::cout << ' ';
+            }
+          }
+        }
+        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+          const e_team tt = game[51][hemmaBorta];
+          std::cout << tt;
+          if (hemmaBorta != 1) {
+            std::cout << ',';
+          } else {
+            std::cout << ' ';
+          }
+        }
+        std::cout << ' ' << game[52][0];
+        std::cout << ' ' << saab[0].poang;
+        std::cout << '\n';
       }
+#if 0
       std::cout << ' ' << saab[0].poang << ' ' << maxSoFar;
       std::cout << '\n';
+#endif
     }
   }
 }
