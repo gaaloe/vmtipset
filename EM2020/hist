@@ -1,0 +1,40 @@
+clang-tidy \
+--quiet \
+--checks=*,\
+-hicpp-member-init,\
+-hicpp-no-array-decay,\
+-hicpp-vararg,\
+-hicpp-use-override,\
+-hicpp-avoid-c-arrays,\
+-hicpp-explicit-conversions,\
+-hicpp-signed-bitwise,\
+-misc-non-private-member-variables-in-classes,\
+-modernize-avoid-c-arrays,\
+-modernize-use-override,\
+-modernize-use-default-member-init,\
+-modernize-use-trailing-return-type,\
+-readability-const-return-type,\
+-readability-implicit-bool-conversion,\
+-readability-named-parameter,\
+-readability-magic-numbers,\
+-cppcoreguidelines-avoid-c-arrays,\
+-cppcoreguidelines-explicit-virtual-functions,\
+-cppcoreguidelines-init-variables,\
+-cppcoreguidelines-non-private-member-variables-in-classes,\
+-cppcoreguidelines-owning-memory,\
+-cppcoreguidelines-pro-bounds-array-to-pointer-decay,\
+-cppcoreguidelines-pro-bounds-constant-array-index,\
+-cppcoreguidelines-pro-type-member-init,\
+-cppcoreguidelines-pro-type-reinterpret-cast,\
+-cppcoreguidelines-pro-type-union-access,\
+-cppcoreguidelines-pro-type-vararg,\
+-cppcoreguidelines-avoid-magic-numbers,\
+-google-explicit-constructor,\
+-google-readability-casting,\
+-google-readability-function-size,\
+-google-runtime-references,\
+-fuchsia-multiple-inheritance,\
+-fuchsia-overloaded-operator,\
+-fuchsia-statically-constructed-objects \
+-config='{CheckOptions: [ {key: readability-function-size.BranchThreshold, value: 50}]}'\
+ main.cpp
