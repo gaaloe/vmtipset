@@ -185,6 +185,61 @@ void showTredjeTab(uint64_t tabell) {
     abort();
   }
 }
+// Games are officially numbered from 1 to 51.
+e_team game[52][2] = {
+    {},
+    {tur, ita} /*1*/,
+    {wal, sui},
+    {den, fin},
+    {bel, rus},
+    {ned, ukr},
+    {aut, mkd},
+    {eng, cro},
+    {sco, cze},
+    {esp, swe},
+    {pol, svk},
+    {hun, por},
+    {fra, ger},
+    {tur, wal},
+    {ita, sui},
+    {fin, rus},
+    {den, bel},
+    {ned, aut},
+    {ukr, mkd},
+    {cro, cze},
+    {eng, sco},
+    {swe, svk},
+    {esp, pol},
+    {hun, fra},
+    {por, ger},
+    {sui, tur},
+    {ita, wal},
+    {rus, den},
+    {fin, bel},
+    {mkd, ned},
+    {ukr, aut},
+    {cro, sco},
+    {cze, eng},
+    {svk, esp},
+    {swe, pol},
+    {por, fra},
+    {ger, hun} /*36*/,
+    {} /*A1-C2*/,
+    {} /*A2-B2*/,
+    {} /*B1-ADEF3*/,
+    {} /*C1-DEF3*/,
+    {} /*F1-ABC3*/,
+    {} /*D2-E2*/,
+    {} /*E1-ABCD3*/,
+    {} /*D1-F2, 44*/,
+    {} /*41-42, 45*/,
+    {} /*37-39, 46*/,
+    {} /*40-38, 47*/,
+    {} /*43-44, 48*/,
+    {} /*46-45, 49*/,
+    {} /*48-47, 50*/,
+    {} /*49-50, 51*/,
+};
 int main(int argc, char *argv[]) {
   // seq -w 0 3 | parallel -u ./a.out {}
   // Ger 0
@@ -196,7 +251,7 @@ int main(int argc, char *argv[]) {
     int base = 10;
     char *endptr;
     errno = 0; /* To distinguish success/failure after call */
-    gsl::span<char*> span_argv(argv, argc);
+    gsl::span<char *> span_argv(argv, argc);
     const auto lstrtol = strtol(span_argv[1], &endptr, base);
     if (errno != 0) {
       cerr << __func__ << ' ' << __LINE__ << ' ' << strerror(errno) << '\n';
