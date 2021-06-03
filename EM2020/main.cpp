@@ -1,9 +1,11 @@
 #include <cassert>
 #include <cinttypes>
 #include <cstring>
+#include <gsl/gsl-lite.hpp>
 #include <iomanip>
 #include <iostream>
 using std::cerr;
+// Compile g++ -I ~/gsl-lite/include main.cpp
 // Format using clang-format -i main.cpp
 enum e_team {
   tur,
@@ -194,11 +196,12 @@ int main(int argc, char *argv[]) {
     int base = 10;
     char *endptr;
     errno = 0; /* To distinguish success/failure after call */
-    const auto lstrtol = strtol(argv[1], &endptr, base);
+    gsl::span<char*> span_argv(argv, argc);
+    const auto lstrtol = strtol(span_argv[1], &endptr, base);
     if (errno != 0) {
       cerr << __func__ << ' ' << __LINE__ << ' ' << strerror(errno) << '\n';
       std::terminate();
-    } else if (endptr == argv[1]) {
+    } else if (endptr == span_argv[1]) {
       cerr << __func__ << ' ' << __LINE__ << ' ' << strerror(EINVAL) << '\n';
       std::terminate();
     }

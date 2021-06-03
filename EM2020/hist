@@ -37,4 +37,4 @@ clang-tidy \
 -fuchsia-overloaded-operator,\
 -fuchsia-statically-constructed-objects \
 -config='{CheckOptions: [ {key: readability-function-size.BranchThreshold, value: 50}]}'\
- main.cpp
+ main.cpp -- -I ~/gsl-lite/include main.cpp
