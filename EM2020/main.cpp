@@ -8,6 +8,13 @@
 using std::cerr;
 // Compile g++ -I ~/gsl-lite/include main.cpp
 // Format using clang-format -i main.cpp
+// seq -w 0 3 | parallel -u ./a.out {}
+// seq -w 0 15 | parallel -u ./a.out {}
+const uint64_t upperlimit = 1UL << 55;
+const uint64_t ettPrimtal = 16127UL;
+// const uint64_t ettPrimtal = 131071UL;
+// const uint64_t ettPrimtal = 524287UL;
+uint64_t completeFactor = 1UL;
 static int maxSoFar = 0;
 static uint64_t maxIteration = 0;
 enum e_team {
@@ -563,11 +570,6 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
   }
 }
 int main(int argc, char *argv[]) {
-  // seq -w 0 3 | parallel -u ./a.out {}
-  // Ger 0
-  //     1
-  //     2
-  //     3
   uint64_t offsetStride = 0;
   if (argc > 1) {
     int base = 10;
@@ -583,15 +585,55 @@ int main(int argc, char *argv[]) {
       std::terminate();
     }
     offsetStride = static_cast<uint64_t>(lstrtol);
+    if (argc > 2) {
+      // 3 teams group A follows
+      assert(argc >= 5);
+      char *const arg2 = span_argv[2];
+      char *const arg3 = span_argv[3];
+      char *const arg4 = span_argv[4];
+      const e_team winA =
+          strcmp("tur", arg2) == 0
+              ? tur
+              : strcmp("ita", arg2) == 0
+                    ? ita
+                    : strcmp("wal", arg2) == 0
+                          ? wal
+                          : strcmp("sui", arg2) == 0 ? sui : (e_team)-1;
+      const e_team scndA =
+          strcmp("tur", arg3) == 0
+              ? tur
+              : strcmp("ita", arg3) == 0
+                    ? ita
+                    : strcmp("wal", arg3) == 0
+                          ? wal
+                          : strcmp("sui", arg3) == 0 ? sui : (e_team)-1;
+      const e_team rd3A =
+          strcmp("tur", arg4) == 0
+              ? tur
+              : strcmp("ita", arg4) == 0
+                    ? ita
+                    : strcmp("wal", arg4) == 0
+                          ? wal
+                          : strcmp("sui", arg4) == 0 ? sui : (e_team)-1;
+      assert(winA != (e_team)-1);
+      assert(scndA != (e_team)-1);
+      assert(rd3A != (e_team)-1);
+      assert(winA != scndA);
+      assert(winA != rd3A);
+      assert(scndA != rd3A);
+      if (argc > 5) {
+        // Group B win,2nd,3rd
+      } else {
+        completeFactor = 1UL << 6;
+        offsetStride *= 1UL << 6;
+        offsetStride +=
+            ((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
+      }
+    }
   }
   uint64_t generator;
-  const uint64_t upperlimit = 1UL << 55;
-  // const uint64_t ettPrimtal = 16127UL;
-  // const uint64_t ettPrimtal = 131071UL;
-  const uint64_t ettPrimtal = 524287UL;
-  uint64_t printout = 0UL;
   for (uint64_t iteration = offsetStride; iteration < upperlimit;
-       iteration += ettPrimtal) {
+       iteration += (ettPrimtal * completeFactor)) {
     // Group A
     switch (iteration & 0x000000000000003F) {
     case 0x00:
