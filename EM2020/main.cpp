@@ -586,7 +586,9 @@ int main(int argc, char *argv[]) {
   }
   uint64_t generator;
   const uint64_t upperlimit = 1UL << 55;
-  const uint64_t ettPrimtal = 16127UL;
+  // const uint64_t ettPrimtal = 16127UL;
+  // const uint64_t ettPrimtal = 131071UL;
+  const uint64_t ettPrimtal = 524287UL;
   uint64_t printout = 0UL;
   for (uint64_t iteration = offsetStride; iteration < upperlimit;
        iteration += ettPrimtal) {
@@ -1062,8 +1064,152 @@ int main(int argc, char *argv[]) {
       std::cout.copyfmt(init); // restore default formatting
       abort();
     }
-    if (++printout % 10000UL == 0) {
-#if 0
+    const uint64_t tableA = iteration & 0x3FUL;
+    const uint64_t tableB = (iteration >> 6) & 0x3FUL;
+    const uint64_t tableC = (iteration >> 12) & 0x3FUL;
+    const uint64_t tableD = (iteration >> 18) & 0x3FUL;
+    const uint64_t tableE = (iteration >> 24) & 0x3FUL;
+    const uint64_t tableF = (iteration >> 30) & 0x3FUL;
+    const uint64_t thirdTable = (iteration >> 36) & 0xFUL;
+    saab[0].poang = 0;
+    calcGrundSpel('A', tableA);
+    calcGrundSpel('B', tableB);
+    calcGrundSpel('C', tableC);
+    calcGrundSpel('D', tableD);
+    calcGrundSpel('E', tableE);
+    calcGrundSpel('F', tableF);
+    calcTredjeTab(thirdTable, tableA, tableB, tableC, tableD, tableE, tableF);
+#ifndef NDEBUG
+    // Kontrollera att alla fält match 37-44 är olika
+    for (int match = 37; match <= 44; ++match) {
+      for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+        const e_team tt = game[match][hemmaBorta];
+        for (int match2 = 37; match2 <= 44; ++match2) {
+          for (int hemmaBorta2 = 0; hemmaBorta2 < 2; ++hemmaBorta2) {
+            const e_team t2 = game[match2][hemmaBorta2];
+            if (tt == t2) {
+              assert(match == match2);
+              assert(hemmaBorta == hemmaBorta2);
+            }
+          }
+        }
+      }
+    }
+#endif
+    // Avgör match 37 till 44, fyll i match 45 till 48
+    uint64_t result;
+    result = ((iteration >> (37 + 3)) & 0x1);
+    game[46][1] = game[37][result];
+    result = ((iteration >> (38 + 3)) & 0x1);
+    game[47][1] = game[38][result];
+    result = ((iteration >> (39 + 3)) & 0x1);
+    game[46][0] = game[39][result];
+    result = ((iteration >> (40 + 3)) & 0x1);
+    game[47][0] = game[40][result];
+    result = ((iteration >> (41 + 3)) & 0x1);
+    game[45][0] = game[41][result];
+    result = ((iteration >> (42 + 3)) & 0x1);
+    game[45][1] = game[42][result];
+    result = ((iteration >> (43 + 3)) & 0x1);
+    game[48][0] = game[43][result];
+    result = ((iteration >> (44 + 3)) & 0x1);
+    game[48][1] = game[44][result];
+#ifndef NDEBUG
+    // Kontrollera att alla fält match 37-44 är olika
+    for (int match = 45; match <= 48; ++match) {
+      for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+        const e_team tt = game[match][hemmaBorta];
+        for (int match2 = 45; match2 <= 48; ++match2) {
+          for (int hemmaBorta2 = 0; hemmaBorta2 < 2; ++hemmaBorta2) {
+            const e_team t2 = game[match2][hemmaBorta2];
+            if (tt == t2) {
+              assert(match == match2);
+              assert(hemmaBorta == hemmaBorta2);
+            }
+          }
+        }
+      }
+    }
+#endif
+    {
+      gsl::span<e_team> span_quarts(saab[0].kvartsfinallag, 8);
+      for (int match = 45; match <= 48; ++match) {
+        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+          const e_team tt = game[match][hemmaBorta];
+          auto f = std::find_if(span_quarts.cbegin(), span_quarts.cend(),
+                                [tt](const e_team tm) { return tt == tm; });
+          if (f != span_quarts.cend()) {
+            saab[0].poang += 15;
+          }
+        }
+      }
+    }
+    // Avgör match 45 till 48, fyll i match 49 och 50
+    result = ((iteration >> (45 + 3)) & 0x1);
+    game[49][1] = game[45][result];
+    result = ((iteration >> (46 + 3)) & 0x1);
+    game[49][0] = game[46][result];
+    result = ((iteration >> (47 + 3)) & 0x1);
+    game[50][1] = game[47][result];
+    result = ((iteration >> (48 + 3)) & 0x1);
+    game[50][0] = game[48][result];
+#ifndef NDEBUG
+    // Kontrollera att alla fält match 37-44 är olika
+    for (int match = 49; match <= 50; ++match) {
+      for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+        const e_team tt = game[match][hemmaBorta];
+        for (int match2 = 49; match2 <= 50; ++match2) {
+          for (int hemmaBorta2 = 0; hemmaBorta2 < 2; ++hemmaBorta2) {
+            const e_team t2 = game[match2][hemmaBorta2];
+            if (tt == t2) {
+              assert(match == match2);
+              assert(hemmaBorta == hemmaBorta2);
+            }
+          }
+        }
+      }
+    }
+#endif
+    {
+      gsl::span<e_team> span_semi(saab[0].semifinallag, 4);
+      for (int match = 49; match <= 50; ++match) {
+        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+          const e_team tt = game[match][hemmaBorta];
+          auto f = std::find_if(span_semi.cbegin(), span_semi.cend(),
+                                [tt](const e_team tm) { return tt == tm; });
+          if (f != span_semi.cend()) {
+            saab[0].poang += 25;
+          }
+        }
+      }
+    }
+    // Avgör match 49 och 50
+    result = ((iteration >> (49 + 3)) & 0x1);
+    game[51][0] = game[49][result];
+    result = ((iteration >> (50 + 3)) & 0x1);
+    game[51][1] = game[50][result];
+    {
+      gsl::span<e_team> span_final(saab[0].finallag, 2);
+      for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+        const e_team tt = game[51][hemmaBorta];
+        auto f = std::find_if(span_final.cbegin(), span_final.cend(),
+                              [tt](const e_team tm) { return tt == tm; });
+        if (f != span_final.cend()) {
+          saab[0].poang += 35;
+        }
+      }
+    }
+    // Avgör finalen, match 51
+    result = ((iteration >> (51 + 3)) & 0x1);
+    game[52][0] = game[51][result];
+    if (game[52][0] == saab[0].vinnare[0]) {
+      saab[0].poang += 50;
+    }
+    if (maxSoFar < saab[0].poang) {
+      // Utskrift när max ökas
+      maxSoFar = saab[0].poang;
+      maxIteration = iteration;
+      // Skriv ut
       std::ios init(nullptr);
       init.copyfmt(std::cout);
       std::cout << std::hex;
@@ -1071,91 +1217,13 @@ int main(int argc, char *argv[]) {
       std::cout << iteration << ' ';
       std::cout << upperlimit << '\n';
       std::cout.copyfmt(init); // restore default formatting
-#endif
-      const uint64_t tableA = iteration & 0x3FUL;
-      const uint64_t tableB = (iteration >> 6) & 0x3FUL;
-      const uint64_t tableC = (iteration >> 12) & 0x3FUL;
-      const uint64_t tableD = (iteration >> 18) & 0x3FUL;
-      const uint64_t tableE = (iteration >> 24) & 0x3FUL;
-      const uint64_t tableF = (iteration >> 30) & 0x3FUL;
-      const uint64_t thirdTable = (iteration >> 36) & 0xFUL;
-      saab[0].poang = 0;
-      calcGrundSpel('A', tableA);
-      calcGrundSpel('B', tableB);
-      calcGrundSpel('C', tableC);
-      calcGrundSpel('D', tableD);
-      calcGrundSpel('E', tableE);
-      calcGrundSpel('F', tableF);
-      calcTredjeTab(thirdTable, tableA, tableB, tableC, tableD, tableE, tableF);
-#if 0
+      showGrundSpel('A', tableA);
+      showGrundSpel('B', tableB);
+      showGrundSpel('C', tableC);
+      showGrundSpel('D', tableD);
+      showGrundSpel('E', tableE);
+      showGrundSpel('F', tableF);
       std::cout << '\n';
-#endif
-#ifndef NDEBUG
-      // Kontrollera att alla fält match 37-44 är olika
-      for (int match = 37; match <= 44; ++match) {
-        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-          const e_team tt = game[match][hemmaBorta];
-          for (int match2 = 37; match2 <= 44; ++match2) {
-            for (int hemmaBorta2 = 0; hemmaBorta2 < 2; ++hemmaBorta2) {
-              const e_team t2 = game[match2][hemmaBorta2];
-              if (tt == t2) {
-                assert(match == match2);
-                assert(hemmaBorta == hemmaBorta2);
-              }
-            }
-          }
-        }
-      }
-#endif
-      // Avgör match 37 till 44, fyll i match 45 till 48
-      uint64_t result;
-      result = ((iteration >> (37 + 3)) & 0x1);
-      game[46][1] = game[37][result];
-      result = ((iteration >> (38 + 3)) & 0x1);
-      game[47][1] = game[38][result];
-      result = ((iteration >> (39 + 3)) & 0x1);
-      game[46][0] = game[39][result];
-      result = ((iteration >> (40 + 3)) & 0x1);
-      game[47][0] = game[40][result];
-      result = ((iteration >> (41 + 3)) & 0x1);
-      game[45][0] = game[41][result];
-      result = ((iteration >> (42 + 3)) & 0x1);
-      game[45][1] = game[42][result];
-      result = ((iteration >> (43 + 3)) & 0x1);
-      game[48][0] = game[43][result];
-      result = ((iteration >> (44 + 3)) & 0x1);
-      game[48][1] = game[44][result];
-#ifndef NDEBUG
-      // Kontrollera att alla fält match 37-44 är olika
-      for (int match = 45; match <= 48; ++match) {
-        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-          const e_team tt = game[match][hemmaBorta];
-          for (int match2 = 45; match2 <= 48; ++match2) {
-            for (int hemmaBorta2 = 0; hemmaBorta2 < 2; ++hemmaBorta2) {
-              const e_team t2 = game[match2][hemmaBorta2];
-              if (tt == t2) {
-                assert(match == match2);
-                assert(hemmaBorta == hemmaBorta2);
-              }
-            }
-          }
-        }
-      }
-#endif
-      {
-        gsl::span<e_team> span_quarts(saab[0].kvartsfinallag, 8);
-        for (int match = 45; match <= 48; ++match) {
-          for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-            const e_team tt = game[match][hemmaBorta];
-            auto f = std::find_if(span_quarts.cbegin(), span_quarts.cend(),
-                                  [tt](const e_team tm) { return tt == tm; });
-            if (f != span_quarts.cend()) {
-              saab[0].poang += 15;
-            }
-          }
-        }
-      }
-#if 0
       for (int match = 45; match <= 48; ++match) {
         for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
           const e_team tt = game[match][hemmaBorta];
@@ -1167,47 +1235,6 @@ int main(int argc, char *argv[]) {
           }
         }
       }
-#endif
-      // Avgör match 45 till 48, fyll i match 49 och 50
-      result = ((iteration >> (45 + 3)) & 0x1);
-      game[49][1] = game[45][result];
-      result = ((iteration >> (46 + 3)) & 0x1);
-      game[49][0] = game[46][result];
-      result = ((iteration >> (47 + 3)) & 0x1);
-      game[50][1] = game[47][result];
-      result = ((iteration >> (48 + 3)) & 0x1);
-      game[50][0] = game[48][result];
-#ifndef NDEBUG
-      // Kontrollera att alla fält match 37-44 är olika
-      for (int match = 49; match <= 50; ++match) {
-        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-          const e_team tt = game[match][hemmaBorta];
-          for (int match2 = 49; match2 <= 50; ++match2) {
-            for (int hemmaBorta2 = 0; hemmaBorta2 < 2; ++hemmaBorta2) {
-              const e_team t2 = game[match2][hemmaBorta2];
-              if (tt == t2) {
-                assert(match == match2);
-                assert(hemmaBorta == hemmaBorta2);
-              }
-            }
-          }
-        }
-      }
-#endif
-      {
-        gsl::span<e_team> span_semi(saab[0].semifinallag, 4);
-        for (int match = 49; match <= 50; ++match) {
-          for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-            const e_team tt = game[match][hemmaBorta];
-            auto f = std::find_if(span_semi.cbegin(), span_semi.cend(),
-                                  [tt](const e_team tm) { return tt == tm; });
-            if (f != span_semi.cend()) {
-              saab[0].poang += 25;
-            }
-          }
-        }
-      }
-#if 0
       for (int match = 49; match <= 50; ++match) {
         for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
           const e_team tt = game[match][hemmaBorta];
@@ -1219,13 +1246,6 @@ int main(int argc, char *argv[]) {
           }
         }
       }
-#endif
-      // Avgör match 49 och 50
-      result = ((iteration >> (49 + 3)) & 0x1);
-      game[51][0] = game[49][result];
-      result = ((iteration >> (50 + 3)) & 0x1);
-      game[51][1] = game[50][result];
-#if 0
       for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
         const e_team tt = game[51][hemmaBorta];
         std::cout << tt;
@@ -1235,84 +1255,9 @@ int main(int argc, char *argv[]) {
           std::cout << ' ';
         }
       }
-#endif
-      {
-        gsl::span<e_team> span_final(saab[0].finallag, 2);
-        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-          const e_team tt = game[51][hemmaBorta];
-          auto f = std::find_if(span_final.cbegin(), span_final.cend(),
-                                [tt](const e_team tm) { return tt == tm; });
-          if (f != span_final.cend()) {
-            saab[0].poang += 35;
-          }
-        }
-      }
-      // Avgör finalen, match 51
-      result = ((iteration >> (51 + 3)) & 0x1);
-      game[52][0] = game[51][result];
-#if 0
-      std::cout << game[52][0];
-#endif
-      if (game[52][0] == saab[0].vinnare[0]) {
-        saab[0].poang += 50;
-      }
-      if (maxSoFar < saab[0].poang) {
-        maxSoFar = saab[0].poang;
-        maxIteration = iteration;
-        // Skriv ut
-        std::ios init(nullptr);
-        init.copyfmt(std::cout);
-        std::cout << std::hex;
-        std::cout.width(14);
-        std::cout << iteration << ' ';
-        std::cout << upperlimit << '\n';
-        std::cout.copyfmt(init); // restore default formatting
-        showGrundSpel('A', tableA);
-        showGrundSpel('B', tableB);
-        showGrundSpel('C', tableC);
-        showGrundSpel('D', tableD);
-        showGrundSpel('E', tableE);
-        showGrundSpel('F', tableF);
-        std::cout << '\n';
-        for (int match = 45; match <= 48; ++match) {
-          for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-            const e_team tt = game[match][hemmaBorta];
-            std::cout << tt;
-            if (match != 48 || hemmaBorta != 1) {
-              std::cout << ',';
-            } else {
-              std::cout << ' ';
-            }
-          }
-        }
-        for (int match = 49; match <= 50; ++match) {
-          for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-            const e_team tt = game[match][hemmaBorta];
-            std::cout << tt;
-            if (match != 50 || hemmaBorta != 1) {
-              std::cout << ',';
-            } else {
-              std::cout << ' ';
-            }
-          }
-        }
-        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-          const e_team tt = game[51][hemmaBorta];
-          std::cout << tt;
-          if (hemmaBorta != 1) {
-            std::cout << ',';
-          } else {
-            std::cout << ' ';
-          }
-        }
-        std::cout << ' ' << game[52][0];
-        std::cout << ' ' << saab[0].poang;
-        std::cout << '\n';
-      }
-#if 0
-      std::cout << ' ' << saab[0].poang << ' ' << maxSoFar;
+      std::cout << ' ' << game[52][0];
+      std::cout << ' ' << saab[0].poang;
       std::cout << '\n';
-#endif
     }
   }
   {
@@ -1324,12 +1269,12 @@ int main(int argc, char *argv[]) {
     const uint64_t tableF = (maxIteration >> 30) & 0x3FUL;
     const uint64_t thirdTable = (maxIteration >> 36) & 0xFUL;
     // Skriv ut
+    std::cout << __FILE__ << __LINE__ << ' ' << offsetStride << ' ';
     std::ios init(nullptr);
     init.copyfmt(std::cout);
     std::cout << std::hex;
     std::cout.width(14);
-    std::cout << maxIteration << ' ';
-    std::cout << upperlimit << '\n';
+    std::cout << maxIteration << '\n';
     std::cout.copyfmt(init); // restore default formatting
     showGrundSpel('A', tableA);
     showGrundSpel('B', tableB);
@@ -1337,6 +1282,7 @@ int main(int argc, char *argv[]) {
     showGrundSpel('D', tableD);
     showGrundSpel('E', tableE);
     showGrundSpel('F', tableF);
+    showTredjeTab(thirdTable, tableA, tableB, tableC, tableD, tableE, tableF);
     std::cout << '\n';
     for (int match = 45; match <= 48; ++match) {
       for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
@@ -1370,7 +1316,7 @@ int main(int argc, char *argv[]) {
       }
     }
     std::cout << ' ' << game[52][0];
-    std::cout << ' ' << saab[0].poang;
+    std::cout << ' ' << maxSoFar;
     std::cout << '\n';
   }
 }
