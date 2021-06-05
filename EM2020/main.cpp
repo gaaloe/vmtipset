@@ -1524,7 +1524,6 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
             // Group E win,2nd,3rd
             char *const arg15 = span_argv[15];
             char *const arg16 = span_argv[16];
-            char *const arg17 = span_argv[17];
             const e_team winE =
                 strcmp("esp", arg15) == 0
                     ? esp
@@ -1541,52 +1540,40 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                           : strcmp("pol", arg16) == 0
                                 ? pol
                                 : strcmp("svk", arg16) == 0 ? svk : (e_team)-1;
-            const e_team rd3E =
-                strcmp("esp", arg17) == 0
-                    ? esp
-                    : strcmp("swe", arg17) == 0
-                          ? swe
-                          : strcmp("pol", arg17) == 0
-                                ? pol
-                                : strcmp("svk", arg17) == 0 ? svk : (e_team)-1;
+              const e_team rd3E = (winE != esp && scndE != esp) ? esp : 
+                                  (winE != swe && scndE != swe) ? swe : 
+                                  pol;
             assert(winE != (e_team)-1);
             assert(scndE != (e_team)-1);
             assert(rd3E != (e_team)-1);
             assert(winE != scndE);
             assert(winE != rd3E);
             assert(scndE != rd3E);
-            if (argc > 18) {
-              // Group F win,2nd,3rd
+            if (argc > 17) {
+              // Group F win,2nd
+              char *const arg17 = span_argv[17];
               char *const arg18 = span_argv[18];
-              char *const arg19 = span_argv[19];
-              char *const arg20 = span_argv[20];
-              const e_team winF = strcmp("hun", arg18) == 0
+              const e_team winF = strcmp("hun", arg17) == 0
                                       ? hun
-                                      : strcmp("por", arg18) == 0
+                                      : strcmp("por", arg17) == 0
                                             ? por
-                                            : strcmp("fra", arg18) == 0
+                                            : strcmp("fra", arg17) == 0
                                                   ? fra
-                                                  : strcmp("ger", arg18) == 0
+                                                  : strcmp("ger", arg17) == 0
                                                         ? ger
                                                         : (e_team)-1;
-              const e_team scndF = strcmp("hun", arg19) == 0
+              const e_team scndF = strcmp("hun", arg18) == 0
                                        ? hun
-                                       : strcmp("por", arg19) == 0
+                                       : strcmp("por", arg18) == 0
                                              ? por
-                                             : strcmp("fra", arg19) == 0
+                                             : strcmp("fra", arg18) == 0
                                                    ? fra
-                                                   : strcmp("ger", arg19) == 0
+                                                   : strcmp("ger", arg18) == 0
                                                          ? ger
                                                          : (e_team)-1;
-              const e_team rd3F = strcmp("hun", arg20) == 0
-                                      ? hun
-                                      : strcmp("por", arg20) == 0
-                                            ? por
-                                            : strcmp("fra", arg20) == 0
-                                                  ? fra
-                                                  : strcmp("ger", arg20) == 0
-                                                        ? ger
-                                                        : (e_team)-1;
+              const e_team rd3F = (winF != hun && scndF != hun) ? hun : 
+                                  (winF != por && scndF != por) ? por : 
+                                  fra;
               assert(winF != (e_team)-1);
               assert(scndF != (e_team)-1);
               assert(rd3F != (e_team)-1);
