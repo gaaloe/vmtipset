@@ -1454,7 +1454,6 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
         // Group C win,2nd,3rd
         char *const arg9 = span_argv[9];
         char *const arg10 = span_argv[10];
-        char *const arg11 = span_argv[11];
         const e_team winC =
             strcmp("ned", arg9) == 0
                 ? ned
@@ -1471,25 +1470,28 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                       : strcmp("aut", arg10) == 0
                             ? aut
                             : strcmp("mkd", arg10) == 0 ? mkd : (e_team)-1;
-        const e_team rd3C =
-            strcmp("ned", arg11) == 0
-                ? ned
-                : strcmp("ukr", arg11) == 0
-                      ? ukr
-                      : strcmp("aut", arg11) == 0
-                            ? aut
-                            : strcmp("mkd", arg11) == 0 ? mkd : (e_team)-1;
+          const e_team rd3C = (winC != ned && scndC != ned)
+                                  ? ned
+                                  : (winC != ukr && scndC != ukr) ? ukr : aut;
         assert(winC != (e_team)-1);
         assert(scndC != (e_team)-1);
         assert(rd3C != (e_team)-1);
         assert(winC != scndC);
         assert(winC != rd3C);
         assert(scndC != rd3C);
-        if (argc > 12) {
+        if (argc > 11) {
           // Group D win,2nd,3rd
+          char *const arg11 = span_argv[11];
           char *const arg12 = span_argv[12];
-          char *const arg13 = span_argv[13];
           const e_team winD =
+              strcmp("eng", arg11) == 0
+                  ? eng
+                  : strcmp("cro", arg11) == 0
+                        ? cro
+                        : strcmp("sco", arg11) == 0
+                              ? sco
+                              : strcmp("cze", arg11) == 0 ? cze : (e_team)-1;
+          const e_team scndD =
               strcmp("eng", arg12) == 0
                   ? eng
                   : strcmp("cro", arg12) == 0
@@ -1497,14 +1499,6 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                         : strcmp("sco", arg12) == 0
                               ? sco
                               : strcmp("cze", arg12) == 0 ? cze : (e_team)-1;
-          const e_team scndD =
-              strcmp("eng", arg13) == 0
-                  ? eng
-                  : strcmp("cro", arg13) == 0
-                        ? cro
-                        : strcmp("sco", arg13) == 0
-                              ? sco
-                              : strcmp("cze", arg13) == 0 ? cze : (e_team)-1;
           const e_team rd3D = (winD != eng && scndD != eng)
                                   ? eng
                                   : (winD != cro && scndD != cro) ? cro : cze;
@@ -1514,11 +1508,19 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
           assert(winD != scndD);
           assert(winD != rd3D);
           assert(scndD != rd3D);
-          if (argc > 14) {
+          if (argc > 13) {
             // Group E win,2nd,3rd
+            char *const arg13 = span_argv[13];
             char *const arg14 = span_argv[14];
-            char *const arg15 = span_argv[15];
             const e_team winE =
+                strcmp("esp", arg13) == 0
+                    ? esp
+                    : strcmp("swe", arg13) == 0
+                          ? swe
+                          : strcmp("pol", arg13) == 0
+                                ? pol
+                                : strcmp("svk", arg13) == 0 ? svk : (e_team)-1;
+            const e_team scndE =
                 strcmp("esp", arg14) == 0
                     ? esp
                     : strcmp("swe", arg14) == 0
@@ -1526,14 +1528,6 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                           : strcmp("pol", arg14) == 0
                                 ? pol
                                 : strcmp("svk", arg14) == 0 ? svk : (e_team)-1;
-            const e_team scndE =
-                strcmp("esp", arg15) == 0
-                    ? esp
-                    : strcmp("swe", arg15) == 0
-                          ? swe
-                          : strcmp("pol", arg15) == 0
-                                ? pol
-                                : strcmp("svk", arg15) == 0 ? svk : (e_team)-1;
             const e_team rd3E = (winE != esp && scndE != esp)
                                     ? esp
                                     : (winE != swe && scndE != swe) ? swe : pol;
@@ -1543,26 +1537,26 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
             assert(winE != scndE);
             assert(winE != rd3E);
             assert(scndE != rd3E);
-            if (argc > 16) {
+            if (argc > 15) {
               // Group F win,2nd
+              char *const arg15 = span_argv[15];
               char *const arg16 = span_argv[16];
-              char *const arg17 = span_argv[17];
-              const e_team winF = strcmp("hun", arg16) == 0
+              const e_team winF = strcmp("hun", arg15) == 0
                                       ? hun
-                                      : strcmp("por", arg16) == 0
+                                      : strcmp("por", arg15) == 0
                                             ? por
-                                            : strcmp("fra", arg16) == 0
+                                            : strcmp("fra", arg15) == 0
                                                   ? fra
-                                                  : strcmp("ger", arg16) == 0
+                                                  : strcmp("ger", arg15) == 0
                                                         ? ger
                                                         : (e_team)-1;
-              const e_team scndF = strcmp("hun", arg17) == 0
+              const e_team scndF = strcmp("hun", arg16) == 0
                                        ? hun
-                                       : strcmp("por", arg17) == 0
+                                       : strcmp("por", arg16) == 0
                                              ? por
-                                             : strcmp("fra", arg17) == 0
+                                             : strcmp("fra", arg16) == 0
                                                    ? fra
-                                                   : strcmp("ger", arg17) == 0
+                                                   : strcmp("ger", arg16) == 0
                                                          ? ger
                                                          : (e_team)-1;
               const e_team rd3F =
