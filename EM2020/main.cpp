@@ -246,7 +246,6 @@ void calcGrundSpel(char grp, uint64_t table) {
                 : grp == 'C' ? 8 : grp == 'D' ? 12 : grp == 'E' ? 16 : 20;
   const unsigned win = table >> 4;
   const unsigned secnd = (table & 0xC) >> 2;
-  const unsigned third = table & 0x3;
   unsigned saabOffset = 0;
   switch (grp) {
   case 'A':
@@ -283,20 +282,18 @@ void calcGrundSpel(char grp, uint64_t table) {
     cerr << __FILE__ << __LINE__ << '\n';
     abort();
   }
-  for (int saabare = 0; saabare < 1; ++saabare) {
-    if ((e_team)(win + offset) ==
-        saab[saabare].grupp_placering[saabOffset][0]) {
-      saab[saabare].poang += 10;
+  for (auto &saabare : saab) {
+    if ((e_team)(win + offset) == saabare.grupp_placering[saabOffset][0]) {
+      saabare.poang += 10;
     } else if ((e_team)(win + offset) ==
-               saab[saabare].grupp_placering[saabOffset][1]) {
-      saab[saabare].poang += 7;
+               saabare.grupp_placering[saabOffset][1]) {
+      saabare.poang += 7;
     }
-    if ((e_team)(secnd + offset) ==
-        saab[saabare].grupp_placering[saabOffset][1]) {
-      saab[saabare].poang += 10;
+    if ((e_team)(secnd + offset) == saabare.grupp_placering[saabOffset][1]) {
+      saabare.poang += 10;
     } else if ((e_team)(secnd + offset) ==
-               saab[saabare].grupp_placering[saabOffset][0]) {
-      saab[saabare].poang += 7;
+               saabare.grupp_placering[saabOffset][0]) {
+      saabare.poang += 7;
     }
   }
 }
@@ -1178,8 +1175,9 @@ int main(int argc, char *argv[]) {
       for (int match = 45; match <= 48; ++match) {
         for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
           const e_team tt = game[match][hemmaBorta];
-          auto f = std::find_if(span_quarts.cbegin(), span_quarts.cend(),
-                                [tt](const e_team tm) { return tt == tm; });
+          const auto *f =
+              std::find_if(span_quarts.cbegin(), span_quarts.cend(),
+                           [tt](const e_team tm) { return tt == tm; });
           if (f != span_quarts.cend()) {
             saab[0].poang += 15;
           }
@@ -1217,8 +1215,9 @@ int main(int argc, char *argv[]) {
       for (int match = 49; match <= 50; ++match) {
         for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
           const e_team tt = game[match][hemmaBorta];
-          auto f = std::find_if(span_semi.cbegin(), span_semi.cend(),
-                                [tt](const e_team tm) { return tt == tm; });
+          const auto *f =
+              std::find_if(span_semi.cbegin(), span_semi.cend(),
+                           [tt](const e_team tm) { return tt == tm; });
           if (f != span_semi.cend()) {
             saab[0].poang += 25;
           }
@@ -1234,8 +1233,9 @@ int main(int argc, char *argv[]) {
       gsl::span<e_team> span_final(saab[0].finallag, 2);
       for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
         const e_team tt = game[51][hemmaBorta];
-        auto f = std::find_if(span_final.cbegin(), span_final.cend(),
-                              [tt](const e_team tm) { return tt == tm; });
+        const auto *f =
+            std::find_if(span_final.cbegin(), span_final.cend(),
+                         [tt](const e_team tm) { return tt == tm; });
         if (f != span_final.cend()) {
           saab[0].poang += 35;
         }
