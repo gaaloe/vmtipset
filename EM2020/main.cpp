@@ -1615,7 +1615,120 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                 assert(trunk15 < trunk16);
                 assert(trunk16 < trunk17);
                 assert(trunk17 < trunk18);
-                // TODO Kolla att de inte är 1:a eller 2:a
+                // Kolla att de inte är 1:a eller 2:a
+                switch (trunk15) {
+                case 0:
+                  switch (trunk16) {
+                  case 1: // AB????
+                    switch (trunk17) {
+                    case 2: // ABC???
+                      switch (trunk18) {
+                      case 3:
+                        // ABCD--
+                        break;
+                      case 4:
+                        // ABC-E-
+                        break;
+                      case 5:
+                        // ABC--F
+                        break;
+                      default:
+                        std::cerr << __FILE__ << __LINE__ << '\n';
+                        abort();
+                      }
+                      break;
+                    case 3: // AB-D??
+                      switch (trunk18) {
+                      case 4:
+                        // AB-DE-
+                        break;
+                      case 5:
+                        // AB-D-F
+                        break;
+                      default:
+                        std::cerr << __FILE__ << __LINE__ << '\n';
+                        abort();
+                      }
+                      break;
+                    case 4:
+                      // AB--EF
+                      break;
+                    default:
+                      std::cerr << __FILE__ << __LINE__ << '\n';
+                      abort();
+                    }
+                    break;
+                  case 2: // A-C???
+                    switch (trunk17) {
+                    case 3: // A-CD??
+                      switch (trunk18) {
+                      case 4:
+                        // A-CDE-
+                        break;
+                      case 5:
+                        // A-CD-F
+                        break;
+                      default:
+                        std::cerr << __FILE__ << __LINE__ << '\n';
+                        abort();
+                      }
+                      break;
+                    case 4:
+                      // A-C-EF
+                      break;
+                    default:
+                      std::cerr << __FILE__ << __LINE__ << '\n';
+                      abort();
+                    }
+                    break;
+                  case 3:
+                    // A--DEF
+                    break;
+                  default:
+                    std::cerr << __FILE__ << __LINE__ << '\n';
+                    abort();
+                  }
+                  break;
+                case 1: //-B????
+                  switch (trunk16) {
+                  case 2: //-BC???
+                    switch (trunk17) {
+                    case 3: //-BCD??
+                      switch (trunk18) {
+                      case 4:
+                        //-BCDE-
+                        break;
+                      case 5:
+                        //-BCD-F
+                        break;
+                      default:
+                        std::cerr << __FILE__ << __LINE__ << '\n';
+                        abort();
+                      }
+                      break;
+                    case 4:
+                      // -BC-EF
+                      break;
+                    default:
+                      std::cerr << __FILE__ << __LINE__ << '\n';
+                      abort();
+                    }
+                    break;
+                  case 3:
+                    // -B-DEF
+                    break;
+                  default:
+                    std::cerr << __FILE__ << __LINE__ << '\n';
+                    abort();
+                  }
+                  break;
+                case 2:
+                  // --CDEF
+                  break;
+                default:
+                  std::cerr << __FILE__ << __LINE__ << '\n';
+                  abort();
+                }
               }
               completeFactor = 1UL << 36;
               offsetStride *= 1UL << 36;
