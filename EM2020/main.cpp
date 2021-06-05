@@ -1555,15 +1555,67 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
             assert(winE != scndE);
             assert(winE != rd3E);
             assert(scndE != rd3E);
-            completeFactor = 1UL << 30;
-            offsetStride *= 1UL << 30;
-            offsetStride +=
-                ((winE - 16) << 28) + ((scndE - 16) << 26) +
-                ((rd3E - 16) << 24) + ((winD - 12) << 22) +
-                ((scndD - 12) << 20) + ((rd3D - 12) << 18) +
-                ((winC - 8) << 16) + ((scndC - 8) << 14) + ((rd3C - 8) << 12) +
-                ((winB - 4) << 10) + ((scndB - 4) << 8) + ((rd3B - 4) << 6) +
-                ((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
+            if (argc > 18) {
+              // Group F win,2nd,3rd
+              char *const arg18 = span_argv[18];
+              char *const arg19 = span_argv[19];
+              char *const arg20 = span_argv[20];
+              const e_team winF = strcmp("hun", arg18) == 0
+                                      ? hun
+                                      : strcmp("por", arg18) == 0
+                                            ? por
+                                            : strcmp("fra", arg18) == 0
+                                                  ? fra
+                                                  : strcmp("ger", arg18) == 0
+                                                        ? ger
+                                                        : (e_team)-1;
+              const e_team scndF = strcmp("hun", arg19) == 0
+                                       ? hun
+                                       : strcmp("por", arg19) == 0
+                                             ? por
+                                             : strcmp("fra", arg19) == 0
+                                                   ? fra
+                                                   : strcmp("ger", arg19) == 0
+                                                         ? ger
+                                                         : (e_team)-1;
+              const e_team rd3F = strcmp("hun", arg20) == 0
+                                      ? hun
+                                      : strcmp("por", arg20) == 0
+                                            ? por
+                                            : strcmp("fra", arg20) == 0
+                                                  ? fra
+                                                  : strcmp("ger", arg20) == 0
+                                                        ? ger
+                                                        : (e_team)-1;
+              assert(winF != (e_team)-1);
+              assert(scndF != (e_team)-1);
+              assert(rd3F != (e_team)-1);
+              assert(winF != scndF);
+              assert(winF != rd3F);
+              assert(scndF != rd3F);
+              completeFactor = 1UL << 36;
+              offsetStride *= 1UL << 36;
+              offsetStride += ((winF - 20UL) << 34) + ((scndF - 20UL) << 32) +
+                              ((rd3F - 20UL) << 30) + ((winE - 16UL) << 28) +
+                              ((scndE - 16UL) << 26) + ((rd3E - 16UL) << 24) +
+                              ((winD - 12UL) << 22) + ((scndD - 12UL) << 20) +
+                              ((rd3D - 12UL) << 18) + ((winC - 8UL) << 16) +
+                              ((scndC - 8UL) << 14) + ((rd3C - 8UL) << 12) +
+                              ((winB - 4UL) << 10) + ((scndB - 4UL) << 8) +
+                              ((rd3B - 4UL) << 6) + ((winA - 0UL) << 4) +
+                              ((scndA - 0UL) << 2) + ((rd3A - 0UL) << 0);
+            } else {
+              completeFactor = 1UL << 30;
+              offsetStride *= 1UL << 30;
+              offsetStride += ((winE - 16) << 28) + ((scndE - 16) << 26) +
+                              ((rd3E - 16) << 24) + ((winD - 12) << 22) +
+                              ((scndD - 12) << 20) + ((rd3D - 12) << 18) +
+                              ((winC - 8) << 16) + ((scndC - 8) << 14) +
+                              ((rd3C - 8) << 12) + ((winB - 4) << 10) +
+                              ((scndB - 4) << 8) + ((rd3B - 4) << 6) +
+                              ((winA - 0) << 4) + ((scndA - 0) << 2) +
+                              ((rd3A - 0) << 0);
+            }
           } else {
             completeFactor = 1UL << 24;
             offsetStride *= 1UL << 24;
