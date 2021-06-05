@@ -1302,6 +1302,15 @@ int main(int argc, char *argv[]) {
         }
       }
     }
+    // Avgör match 45 till 48, fyll i match 49 och 50
+    result = ((maxIteration >> (45 + 3)) & 0x1);
+    game[49][1] = game[45][result];
+    result = ((maxIteration >> (46 + 3)) & 0x1);
+    game[49][0] = game[46][result];
+    result = ((maxIteration >> (47 + 3)) & 0x1);
+    game[50][1] = game[47][result];
+    result = ((maxIteration >> (48 + 3)) & 0x1);
+    game[50][0] = game[48][result];
     for (int match = 49; match <= 50; ++match) {
       for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
         const e_team tt = game[match][hemmaBorta];
@@ -1313,6 +1322,11 @@ int main(int argc, char *argv[]) {
         }
       }
     }
+    // Avgör match 49 och 50
+    result = ((maxIteration >> (49 + 3)) & 0x1);
+    game[51][0] = game[49][result];
+    result = ((maxIteration >> (50 + 3)) & 0x1);
+    game[51][1] = game[50][result];
     for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
       const e_team tt = game[51][hemmaBorta];
       std::cout << tt;
@@ -1322,7 +1336,10 @@ int main(int argc, char *argv[]) {
         std::cout << ' ';
       }
     }
-    std::cout << ' ' << game[52][0];
+    // Avgör finalen, match 51
+    result = ((maxIteration >> (51 + 3)) & 0x1);
+    game[52][0] = game[51][result];
+    std::cout << game[52][0];
     std::cout << ' ' << maxSoFar;
     std::cout << '\n';
   }
