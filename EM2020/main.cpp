@@ -5,6 +5,7 @@
 #include <gsl/gsl-lite.hpp>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 using std::cerr;
 // g++ -I ~/gsl-lite/include main.cpp
 // clang-format -i main.cpp
@@ -47,6 +48,8 @@ enum e_team {
   fra,
   ger
 };
+char names[24][4];
+void elaborateNames();
 // Games are officially numbered from 1 to 51.
 e_team game[53][2] = {
     {},
@@ -571,6 +574,7 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
   }
 }
 int main(int argc, char *argv[]) {
+  elaborateNames();
   uint64_t offsetStride = 0;
   if (argc > 1) {
     gsl::span<char *> span_argv(argv, argc);
@@ -1557,6 +1561,62 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
               assert(winF != scndF);
               assert(winF != rd3F);
               assert(scndF != rd3F);
+              if (argc > 15) {
+                // 4 av 6 grupptreor går vidare
+                char *const arg15 = span_argv[15];
+                char *const arg16 = span_argv[16];
+                char *const arg17 = span_argv[17];
+                char *const arg18 = span_argv[18];
+                e_team team15;
+                e_team team16;
+                e_team team17;
+                e_team team18;
+                for (team15 = tur; team15 < (e_team)24; ++team15) {
+                  if (strcmp(names[team15], arg15) == 0) {
+                    break;
+                  }
+                }
+                assert(strcmp(names[team15], arg15) == 0);
+                for (team16 = tur; team16 < (e_team)24; ++team16) {
+                  if (strcmp(names[team16], arg16) == 0) {
+                    break;
+                  }
+                }
+                assert(strcmp(names[team16], arg16) == 0);
+                for (team17 = tur; team17 < (e_team)24; ++team17) {
+                  if (strcmp(names[team17], arg17) == 0) {
+                    break;
+                  }
+                }
+                assert(strcmp(names[team17], arg17) == 0);
+                for (team18 = tur; team18 < (e_team)24; ++team18) {
+                  if (strcmp(names[team18], arg18) == 0) {
+                    break;
+                  }
+                }
+                assert(strcmp(names[team18], arg18) == 0);
+                assert(team15 != team16);
+                assert(team15 != team17);
+                assert(team15 != team18);
+                assert(team16 != team17);
+                assert(team16 != team18);
+                assert(team17 != team18);
+                // Kolla att de är från varsin grupp
+                unsigned trunk15 = (unsigned)team15 / 4U;
+                unsigned trunk16 = (unsigned)team16 / 4U;
+                unsigned trunk17 = (unsigned)team17 / 4U;
+                unsigned trunk18 = (unsigned)team18 / 4U;
+                assert(trunk15 != trunk16);
+                assert(trunk15 != trunk17);
+                assert(trunk15 != trunk18);
+                assert(trunk16 != trunk17);
+                assert(trunk16 != trunk18);
+                assert(trunk17 != trunk18);
+                assert(trunk15 < trunk16);
+                assert(trunk16 < trunk17);
+                assert(trunk17 < trunk18);
+                // TODO Kolla att de inte är 1:a eller 2:a
+              }
               completeFactor = 1UL << 36;
               offsetStride *= 1UL << 36;
               offsetStride += ((winF - 20UL) << 34) + ((scndF - 20UL) << 32) +
@@ -1611,5 +1671,13 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
       offsetStride +=
           ((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
     }
+  }
+}
+void elaborateNames() {
+  for (e_team team15 = tur; team15 < (e_team)24; ++team15) {
+    std::ostringstream stream;
+    stream.rdbuf()->pubsetbuf(names[team15], 4);
+    stream << team15;
+    stream << std::ends << std::flush;
   }
 }
