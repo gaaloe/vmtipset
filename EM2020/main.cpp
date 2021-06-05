@@ -10,6 +10,7 @@ using std::cerr;
 // Format using clang-format -i main.cpp
 // seq -w 0 3 | parallel -u ./a.out {}
 // seq -w 0 15 | parallel -u ./a.out {}
+void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &offsetStride);
 const uint64_t upperlimit = 1UL << 55;
 const uint64_t ettPrimtal = 16127UL;
 // const uint64_t ettPrimtal = 131071UL;
@@ -569,64 +570,8 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
 int main(int argc, char *argv[]) {
   uint64_t offsetStride = 0;
   if (argc > 1) {
-    int base = 10;
-    char *endptr;
-    errno = 0; /* To distinguish success/failure after call */
     gsl::span<char *> span_argv(argv, argc);
-    const auto lstrtol = strtol(span_argv[1], &endptr, base);
-    if (errno != 0) {
-      cerr << __func__ << ' ' << __LINE__ << ' ' << strerror(errno) << '\n';
-      std::terminate();
-    } else if (endptr == span_argv[1]) {
-      cerr << __func__ << ' ' << __LINE__ << ' ' << strerror(EINVAL) << '\n';
-      std::terminate();
-    }
-    offsetStride = static_cast<uint64_t>(lstrtol);
-    if (argc > 2) {
-      // 3 teams group A follows
-      assert(argc >= 5);
-      char *const arg2 = span_argv[2];
-      char *const arg3 = span_argv[3];
-      char *const arg4 = span_argv[4];
-      const e_team winA =
-          strcmp("tur", arg2) == 0
-              ? tur
-              : strcmp("ita", arg2) == 0
-                    ? ita
-                    : strcmp("wal", arg2) == 0
-                          ? wal
-                          : strcmp("sui", arg2) == 0 ? sui : (e_team)-1;
-      const e_team scndA =
-          strcmp("tur", arg3) == 0
-              ? tur
-              : strcmp("ita", arg3) == 0
-                    ? ita
-                    : strcmp("wal", arg3) == 0
-                          ? wal
-                          : strcmp("sui", arg3) == 0 ? sui : (e_team)-1;
-      const e_team rd3A =
-          strcmp("tur", arg4) == 0
-              ? tur
-              : strcmp("ita", arg4) == 0
-                    ? ita
-                    : strcmp("wal", arg4) == 0
-                          ? wal
-                          : strcmp("sui", arg4) == 0 ? sui : (e_team)-1;
-      assert(winA != (e_team)-1);
-      assert(scndA != (e_team)-1);
-      assert(rd3A != (e_team)-1);
-      assert(winA != scndA);
-      assert(winA != rd3A);
-      assert(scndA != rd3A);
-      if (argc > 5) {
-        // Group B win,2nd,3rd
-      } else {
-        completeFactor = 1UL << 6;
-        offsetStride *= 1UL << 6;
-        offsetStride +=
-            ((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
-      }
-    }
+    parseArgs(argc, span_argv, offsetStride);
   }
   uint64_t generator;
   for (uint64_t iteration = offsetStride; iteration < upperlimit;
@@ -1370,4 +1315,63 @@ const enum e_team operator++(enum e_team &that, int) {
   enum e_team result = that;
   ++that;
   return result;
+}
+void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &offsetStride) {
+  int base = 10;
+  char *endptr;
+  errno = 0; /* To distinguish success/failure after call */
+  const auto lstrtol = strtol(span_argv[1], &endptr, base);
+  if (errno != 0) {
+    cerr << __func__ << ' ' << __LINE__ << ' ' << strerror(errno) << '\n';
+    std::terminate();
+  } else if (endptr == span_argv[1]) {
+    cerr << __func__ << ' ' << __LINE__ << ' ' << strerror(EINVAL) << '\n';
+    std::terminate();
+  }
+  offsetStride = static_cast<uint64_t>(lstrtol);
+  if (argc > 2) {
+    // 3 teams group A follows
+    assert(argc >= 5);
+    char *const arg2 = span_argv[2];
+    char *const arg3 = span_argv[3];
+    char *const arg4 = span_argv[4];
+    const e_team winA =
+        strcmp("tur", arg2) == 0
+            ? tur
+            : strcmp("ita", arg2) == 0
+                  ? ita
+                  : strcmp("wal", arg2) == 0
+                        ? wal
+                        : strcmp("sui", arg2) == 0 ? sui : (e_team)-1;
+    const e_team scndA =
+        strcmp("tur", arg3) == 0
+            ? tur
+            : strcmp("ita", arg3) == 0
+                  ? ita
+                  : strcmp("wal", arg3) == 0
+                        ? wal
+                        : strcmp("sui", arg3) == 0 ? sui : (e_team)-1;
+    const e_team rd3A =
+        strcmp("tur", arg4) == 0
+            ? tur
+            : strcmp("ita", arg4) == 0
+                  ? ita
+                  : strcmp("wal", arg4) == 0
+                        ? wal
+                        : strcmp("sui", arg4) == 0 ? sui : (e_team)-1;
+    assert(winA != (e_team)-1);
+    assert(scndA != (e_team)-1);
+    assert(rd3A != (e_team)-1);
+    assert(winA != scndA);
+    assert(winA != rd3A);
+    assert(scndA != rd3A);
+    if (argc > 5) {
+      // Group B win,2nd,3rd
+    } else {
+      completeFactor = 1UL << 6;
+      offsetStride *= 1UL << 6;
+      offsetStride +=
+          ((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
+    }
+  }
 }
