@@ -1642,6 +1642,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                       assert(scndE != rd3E);
                       break;
                     case 5: // ABC--F
+                      rd3bits = 0x2UL << 36;
                       rd3F = team18;
                       assert(winF != rd3F);
                       assert(scndF != rd3F);
@@ -1657,11 +1658,13 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                     assert(scndD != rd3D);
                     switch (trunk18) {
                     case 4: // AB-DE-
+                      rd3bits = 0x3UL << 36;
                       rd3E = team18;
                       assert(winE != rd3E);
                       assert(scndE != rd3E);
                       break;
                     case 5: // AB-D-F
+                      rd3bits = 0x4UL << 36;
                       rd3F = team18;
                       assert(winF != rd3F);
                       assert(scndF != rd3F);
@@ -1672,6 +1675,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                     }
                     break;
                   case 4: // AB--EF
+                    rd3bits = 0x5UL << 36;
                     rd3E = team17;
                     assert(winE != rd3E);
                     assert(scndE != rd3E);
@@ -1695,11 +1699,13 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                     assert(scndD != rd3D);
                     switch (trunk18) {
                     case 4: // A-CDE-
+                      rd3bits = 0x6UL << 36;
                       rd3E = team18;
                       assert(winE != rd3E);
                       assert(scndE != rd3E);
                       break;
                     case 5: // A-CD-F
+                      rd3bits = 0x7UL << 36;
                       rd3F = team18;
                       assert(winF != rd3F);
                       assert(scndF != rd3F);
@@ -1710,6 +1716,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                     }
                     break;
                   case 4: // A-C-EF
+                    rd3bits = 0x8UL << 36;
                     rd3E = team17;
                     assert(winE != rd3E);
                     assert(scndE != rd3E);
@@ -1723,6 +1730,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                   }
                   break;
                 case 3: // A--DEF
+                  rd3bits = 0x9UL << 36;
                   rd3D = team16;
                   assert(winD != rd3D);
                   assert(scndD != rd3D);
@@ -1754,11 +1762,13 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                     assert(scndD != rd3D);
                     switch (trunk18) {
                     case 4: //-BCDE-
+                      rd3bits = 0xAUL << 36;
                       rd3E = team18;
                       assert(winE != rd3E);
                       assert(scndE != rd3E);
                       break;
                     case 5: //-BCD-F
+                      rd3bits = 0xBUL << 36;
                       rd3F = team18;
                       assert(winF != rd3F);
                       assert(scndF != rd3F);
@@ -1769,6 +1779,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                     }
                     break;
                   case 4: // -BC-EF
+                    rd3bits = 0xCUL << 36;
                     rd3E = team17;
                     assert(winE != rd3E);
                     assert(scndE != rd3E);
@@ -1782,6 +1793,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                   }
                   break;
                 case 3: // -B-DEF
+                  rd3bits = 0xDUL << 36;
                   rd3D = team16;
                   assert(winD != rd3D);
                   assert(scndD != rd3D);
@@ -1798,6 +1810,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                 }
                 break;
               case 2: // --CDEF
+                rd3bits = 0xEUL << 36;
                 rd3C = team15;
                 assert(winC != rd3C);
                 assert(scndC != rd3C);
@@ -1815,18 +1828,18 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                 std::cerr << __FILE__ << __LINE__ << '\n';
                 abort();
               }
-              completeFactor = 1UL << 36;
-              offsetStride *= 1UL << 36;
-              offsetStride += ((winF - 20UL) << 34) + ((scndF - 20UL) << 32) +
-                              ((rd3F - 20UL) << 30) + ((winE - 16UL) << 28) +
-                              ((scndE - 16UL) << 26) + ((rd3E - 16UL) << 24) +
-                              ((winD - 12UL) << 22) + ((scndD - 12UL) << 20) +
-                              ((rd3D - 12UL) << 18) + ((winC - 8UL) << 16) +
-                              ((scndC - 8UL) << 14) + ((rd3C - 8UL) << 12) +
-                              ((winB - 4UL) << 10) + ((scndB - 4UL) << 8) +
-                              ((rd3B - 4UL) << 6) + ((winA - 0UL) << 4) +
-                              ((scndA - 0UL) << 2) + ((rd3A - 0UL) << 0);
-              offsetStride += rd3bits;
+              completeFactor = 1UL << 40;
+              offsetStride *= 1UL << 40;
+              offsetStride += rd3bits + ((winF - 20UL) << 34) +
+                              ((scndF - 20UL) << 32) + ((rd3F - 20UL) << 30) +
+                              ((winE - 16UL) << 28) + ((scndE - 16UL) << 26) +
+                              ((rd3E - 16UL) << 24) + ((winD - 12UL) << 22) +
+                              ((scndD - 12UL) << 20) + ((rd3D - 12UL) << 18) +
+                              ((winC - 8UL) << 16) + ((scndC - 8UL) << 14) +
+                              ((rd3C - 8UL) << 12) + ((winB - 4UL) << 10) +
+                              ((scndB - 4UL) << 8) + ((rd3B - 4UL) << 6) +
+                              ((winA - 0UL) << 4) + ((scndA - 0UL) << 2) +
+                              ((rd3A - 0UL) << 0);
             } else {
               completeFactor = 1UL << 30;
               offsetStride *= 1UL << 30;
