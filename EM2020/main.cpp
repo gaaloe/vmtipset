@@ -1560,218 +1560,88 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
               assert(winF != rd3F);
               assert(scndF != rd3F);
               uint64_t rd3bits = 0; // 4 bits describing the ABCD..CDEF
-                // 4 av 6 grupptreor går vidare
-                char *const arg15 = span_argv[15];
-                char *const arg16 = span_argv[16];
-                char *const arg17 = span_argv[17];
-                char *const arg18 = span_argv[18];
-                e_team team15;
-                e_team team16;
-                e_team team17;
-                e_team team18;
-                for (team15 = tur; team15 < (e_team)24; ++team15) {
-                  if (strcmp(names[team15], arg15) == 0) {
-                    break;
-                  }
-                }
-                assert(strcmp(names[team15], arg15) == 0);
-                for (team16 = tur; team16 < (e_team)24; ++team16) {
-                  if (strcmp(names[team16], arg16) == 0) {
-                    break;
-                  }
-                }
-                assert(strcmp(names[team16], arg16) == 0);
-                for (team17 = tur; team17 < (e_team)24; ++team17) {
-                  if (strcmp(names[team17], arg17) == 0) {
-                    break;
-                  }
-                }
-                assert(strcmp(names[team17], arg17) == 0);
-                for (team18 = tur; team18 < (e_team)24; ++team18) {
-                  if (strcmp(names[team18], arg18) == 0) {
-                    break;
-                  }
-                }
-                assert(strcmp(names[team18], arg18) == 0);
-                assert(team15 != team16);
-                assert(team15 != team17);
-                assert(team15 != team18);
-                assert(team16 != team17);
-                assert(team16 != team18);
-                assert(team17 != team18);
-                // Kolla att de är från varsin grupp
-                unsigned trunk15 = (unsigned)team15 / 4U;
-                unsigned trunk16 = (unsigned)team16 / 4U;
-                unsigned trunk17 = (unsigned)team17 / 4U;
-                unsigned trunk18 = (unsigned)team18 / 4U;
-                assert(trunk15 != trunk16);
-                assert(trunk15 != trunk17);
-                assert(trunk15 != trunk18);
-                assert(trunk16 != trunk17);
-                assert(trunk16 != trunk18);
-                assert(trunk17 != trunk18);
-                assert(trunk15 < trunk16);
-                assert(trunk16 < trunk17);
-                assert(trunk17 < trunk18);
-                switch (trunk15) {
-                case 0: // A?????
-                  rd3A = team15;
-                  assert(winA != rd3A);
-                  assert(scndA != rd3A);
-                  switch (trunk16) {
-                  case 1: // AB????
-                    rd3B = team16;
-                    assert(winB != rd3B);
-                    assert(scndB != rd3B);
-                    switch (trunk17) {
-                    case 2: // ABC???
-                      rd3C = team17;
-                      assert(winC != rd3C);
-                      assert(scndC != rd3C);
-                      switch (trunk18) {
-                      case 3: // ABCD--
-                        rd3bits = 0x0UL << 36;
-                        rd3D = team18;
-                        assert(winD != rd3D);
-                        assert(scndD != rd3D);
-                        break;
-                      case 4: // ABC-E-
-                        rd3bits = 0x1UL << 36;
-                        rd3E = team18;
-                        assert(winE != rd3E);
-                        assert(scndE != rd3E);
-                        break;
-                      case 5: // ABC--F
-                        rd3F = team18;
-                        assert(winF != rd3F);
-                        assert(scndF != rd3F);
-                        break;
-                      default:
-                        std::cerr << __FILE__ << __LINE__ << '\n';
-                        abort();
-                      }
-                      break;
-                    case 3: // AB-D??
-                      rd3D = team17;
-                      assert(winD != rd3D);
-                      assert(scndD != rd3D);
-                      switch (trunk18) {
-                      case 4: // AB-DE-
-                        rd3E = team18;
-                        assert(winE != rd3E);
-                        assert(scndE != rd3E);
-                        break;
-                      case 5: // AB-D-F
-                        rd3F = team18;
-                        assert(winF != rd3F);
-                        assert(scndF != rd3F);
-                        break;
-                      default:
-                        std::cerr << __FILE__ << __LINE__ << '\n';
-                        abort();
-                      }
-                      break;
-                    case 4: // AB--EF
-                      rd3E = team17;
-                      assert(winE != rd3E);
-                      assert(scndE != rd3E);
-                      rd3F = team18;
-                      assert(winF != rd3F);
-                      assert(scndF != rd3F);
-                      break;
-                    default:
-                      std::cerr << __FILE__ << __LINE__ << '\n';
-                      abort();
-                    }
-                    break;
-                  case 2: // A-C???
-                    rd3C = team16;
-                    assert(winC != rd3C);
-                    assert(scndC != rd3C);
-                    switch (trunk17) {
-                    case 3: // A-CD??
-                      rd3D = team17;
-                      assert(winD != rd3D);
-                      assert(scndD != rd3D);
-                      switch (trunk18) {
-                      case 4: // A-CDE-
-                        rd3E = team18;
-                        assert(winE != rd3E);
-                        assert(scndE != rd3E);
-                        break;
-                      case 5: // A-CD-F
-                        rd3F = team18;
-                        assert(winF != rd3F);
-                        assert(scndF != rd3F);
-                        break;
-                      default:
-                        std::cerr << __FILE__ << __LINE__ << '\n';
-                        abort();
-                      }
-                      break;
-                    case 4: // A-C-EF
-                      rd3E = team17;
-                      assert(winE != rd3E);
-                      assert(scndE != rd3E);
-                      rd3F = team18;
-                      assert(winF != rd3F);
-                      assert(scndF != rd3F);
-                      break;
-                    default:
-                      std::cerr << __FILE__ << __LINE__ << '\n';
-                      abort();
-                    }
-                    break;
-                  case 3: // A--DEF
-                    rd3D = team16;
-                    assert(winD != rd3D);
-                    assert(scndD != rd3D);
-                    rd3E = team17;
-                    assert(winE != rd3E);
-                    assert(scndE != rd3E);
-                    rd3F = team18;
-                    assert(winF != rd3F);
-                    assert(scndF != rd3F);
-                    break;
-                  default:
-                    std::cerr << __FILE__ << __LINE__ << '\n';
-                    abort();
-                  }
+              // 4 av 6 grupptreor går vidare
+              char *const arg15 = span_argv[15];
+              char *const arg16 = span_argv[16];
+              char *const arg17 = span_argv[17];
+              char *const arg18 = span_argv[18];
+              e_team team15;
+              e_team team16;
+              e_team team17;
+              e_team team18;
+              for (team15 = tur; team15 < (e_team)24; ++team15) {
+                if (strcmp(names[team15], arg15) == 0) {
                   break;
-                case 1: //-B????
-                  rd3B = team15;
+                }
+              }
+              assert(strcmp(names[team15], arg15) == 0);
+              for (team16 = tur; team16 < (e_team)24; ++team16) {
+                if (strcmp(names[team16], arg16) == 0) {
+                  break;
+                }
+              }
+              assert(strcmp(names[team16], arg16) == 0);
+              for (team17 = tur; team17 < (e_team)24; ++team17) {
+                if (strcmp(names[team17], arg17) == 0) {
+                  break;
+                }
+              }
+              assert(strcmp(names[team17], arg17) == 0);
+              for (team18 = tur; team18 < (e_team)24; ++team18) {
+                if (strcmp(names[team18], arg18) == 0) {
+                  break;
+                }
+              }
+              assert(strcmp(names[team18], arg18) == 0);
+              assert(team15 != team16);
+              assert(team15 != team17);
+              assert(team15 != team18);
+              assert(team16 != team17);
+              assert(team16 != team18);
+              assert(team17 != team18);
+              // Kolla att de är från varsin grupp
+              unsigned trunk15 = (unsigned)team15 / 4U;
+              unsigned trunk16 = (unsigned)team16 / 4U;
+              unsigned trunk17 = (unsigned)team17 / 4U;
+              unsigned trunk18 = (unsigned)team18 / 4U;
+              assert(trunk15 != trunk16);
+              assert(trunk15 != trunk17);
+              assert(trunk15 != trunk18);
+              assert(trunk16 != trunk17);
+              assert(trunk16 != trunk18);
+              assert(trunk17 != trunk18);
+              assert(trunk15 < trunk16);
+              assert(trunk16 < trunk17);
+              assert(trunk17 < trunk18);
+              switch (trunk15) {
+              case 0: // A?????
+                rd3A = team15;
+                assert(winA != rd3A);
+                assert(scndA != rd3A);
+                switch (trunk16) {
+                case 1: // AB????
+                  rd3B = team16;
                   assert(winB != rd3B);
                   assert(scndB != rd3B);
-                  switch (trunk16) {
-                  case 2: //-BC???
-                    rd3C = team16;
+                  switch (trunk17) {
+                  case 2: // ABC???
+                    rd3C = team17;
                     assert(winC != rd3C);
                     assert(scndC != rd3C);
-                    switch (trunk17) {
-                    case 3: //-BCD??
-                      rd3D = team17;
+                    switch (trunk18) {
+                    case 3: // ABCD--
+                      rd3bits = 0x0UL << 36;
+                      rd3D = team18;
                       assert(winD != rd3D);
                       assert(scndD != rd3D);
-                      switch (trunk18) {
-                      case 4: //-BCDE-
-                        rd3E = team18;
-                        assert(winE != rd3E);
-                        assert(scndE != rd3E);
-                        break;
-                      case 5: //-BCD-F
-                        rd3F = team18;
-                        assert(winF != rd3F);
-                        assert(scndF != rd3F);
-                        break;
-                      default:
-                        std::cerr << __FILE__ << __LINE__ << '\n';
-                        abort();
-                      }
                       break;
-                    case 4: // -BC-EF
-                      rd3E = team17;
+                    case 4: // ABC-E-
+                      rd3bits = 0x1UL << 36;
+                      rd3E = team18;
                       assert(winE != rd3E);
                       assert(scndE != rd3E);
+                      break;
+                    case 5: // ABC--F
                       rd3F = team18;
                       assert(winF != rd3F);
                       assert(scndF != rd3F);
@@ -1781,10 +1651,27 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                       abort();
                     }
                     break;
-                  case 3: // -B-DEF
-                    rd3D = team16;
+                  case 3: // AB-D??
+                    rd3D = team17;
                     assert(winD != rd3D);
                     assert(scndD != rd3D);
+                    switch (trunk18) {
+                    case 4: // AB-DE-
+                      rd3E = team18;
+                      assert(winE != rd3E);
+                      assert(scndE != rd3E);
+                      break;
+                    case 5: // AB-D-F
+                      rd3F = team18;
+                      assert(winF != rd3F);
+                      assert(scndF != rd3F);
+                      break;
+                    default:
+                      std::cerr << __FILE__ << __LINE__ << '\n';
+                      abort();
+                    }
+                    break;
+                  case 4: // AB--EF
                     rd3E = team17;
                     assert(winE != rd3E);
                     assert(scndE != rd3E);
@@ -1797,10 +1684,45 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                     abort();
                   }
                   break;
-                case 2: // --CDEF
-                  rd3C = team15;
+                case 2: // A-C???
+                  rd3C = team16;
                   assert(winC != rd3C);
                   assert(scndC != rd3C);
+                  switch (trunk17) {
+                  case 3: // A-CD??
+                    rd3D = team17;
+                    assert(winD != rd3D);
+                    assert(scndD != rd3D);
+                    switch (trunk18) {
+                    case 4: // A-CDE-
+                      rd3E = team18;
+                      assert(winE != rd3E);
+                      assert(scndE != rd3E);
+                      break;
+                    case 5: // A-CD-F
+                      rd3F = team18;
+                      assert(winF != rd3F);
+                      assert(scndF != rd3F);
+                      break;
+                    default:
+                      std::cerr << __FILE__ << __LINE__ << '\n';
+                      abort();
+                    }
+                    break;
+                  case 4: // A-C-EF
+                    rd3E = team17;
+                    assert(winE != rd3E);
+                    assert(scndE != rd3E);
+                    rd3F = team18;
+                    assert(winF != rd3F);
+                    assert(scndF != rd3F);
+                    break;
+                  default:
+                    std::cerr << __FILE__ << __LINE__ << '\n';
+                    abort();
+                  }
+                  break;
+                case 3: // A--DEF
                   rd3D = team16;
                   assert(winD != rd3D);
                   assert(scndD != rd3D);
@@ -1815,6 +1737,84 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                   std::cerr << __FILE__ << __LINE__ << '\n';
                   abort();
                 }
+                break;
+              case 1: //-B????
+                rd3B = team15;
+                assert(winB != rd3B);
+                assert(scndB != rd3B);
+                switch (trunk16) {
+                case 2: //-BC???
+                  rd3C = team16;
+                  assert(winC != rd3C);
+                  assert(scndC != rd3C);
+                  switch (trunk17) {
+                  case 3: //-BCD??
+                    rd3D = team17;
+                    assert(winD != rd3D);
+                    assert(scndD != rd3D);
+                    switch (trunk18) {
+                    case 4: //-BCDE-
+                      rd3E = team18;
+                      assert(winE != rd3E);
+                      assert(scndE != rd3E);
+                      break;
+                    case 5: //-BCD-F
+                      rd3F = team18;
+                      assert(winF != rd3F);
+                      assert(scndF != rd3F);
+                      break;
+                    default:
+                      std::cerr << __FILE__ << __LINE__ << '\n';
+                      abort();
+                    }
+                    break;
+                  case 4: // -BC-EF
+                    rd3E = team17;
+                    assert(winE != rd3E);
+                    assert(scndE != rd3E);
+                    rd3F = team18;
+                    assert(winF != rd3F);
+                    assert(scndF != rd3F);
+                    break;
+                  default:
+                    std::cerr << __FILE__ << __LINE__ << '\n';
+                    abort();
+                  }
+                  break;
+                case 3: // -B-DEF
+                  rd3D = team16;
+                  assert(winD != rd3D);
+                  assert(scndD != rd3D);
+                  rd3E = team17;
+                  assert(winE != rd3E);
+                  assert(scndE != rd3E);
+                  rd3F = team18;
+                  assert(winF != rd3F);
+                  assert(scndF != rd3F);
+                  break;
+                default:
+                  std::cerr << __FILE__ << __LINE__ << '\n';
+                  abort();
+                }
+                break;
+              case 2: // --CDEF
+                rd3C = team15;
+                assert(winC != rd3C);
+                assert(scndC != rd3C);
+                rd3D = team16;
+                assert(winD != rd3D);
+                assert(scndD != rd3D);
+                rd3E = team17;
+                assert(winE != rd3E);
+                assert(scndE != rd3E);
+                rd3F = team18;
+                assert(winF != rd3F);
+                assert(scndF != rd3F);
+                break;
+              default:
+                std::cerr << __FILE__ << __LINE__ << '\n';
+                abort();
+              }
               completeFactor = 1UL << 36;
               offsetStride *= 1UL << 36;
               offsetStride += ((winF - 20UL) << 34) + ((scndF - 20UL) << 32) +
