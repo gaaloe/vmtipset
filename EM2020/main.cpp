@@ -12,8 +12,8 @@ using std::cerr;
 // seq -w 0 3 | parallel -u ./a.out {} 524287
 // seq -w 0 15 | parallel -u ./a.out {} 16127
 // seq -w 0 15 | parallel -u ./a.out {} 16127 tur ita wal
-void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &offsetStride,
-               uint64_t &ettPrimtal);
+void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
+               uint64_t &offsetStride, uint64_t &ettPrimtal);
 const uint64_t upperlimit = 1UL << 55;
 uint64_t ettPrimtal = 16127UL;
 // const uint64_t ettPrimtal = 131071UL;
@@ -574,7 +574,7 @@ int main(int argc, char *argv[]) {
   uint64_t offsetStride = 0;
   if (argc > 1) {
     gsl::span<char *> span_argv(argv, argc);
-    parseArgs(argc, span_argv, offsetStride, ettPrimtal);
+    parseArgs(argc, span_argv, completeFactor, offsetStride, ettPrimtal);
   }
   uint64_t generator;
   for (uint64_t iteration = offsetStride; iteration < upperlimit;
@@ -1319,8 +1319,8 @@ const enum e_team operator++(enum e_team &that, int) {
   ++that;
   return result;
 }
-void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &offsetStride,
-               uint64_t &ettPrimtal) {
+void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
+               uint64_t &offsetStride, uint64_t &ettPrimtal) {
   int base = 10;
   char *endptr;
   errno = 0; /* To distinguish success/failure after call */
@@ -1383,6 +1383,51 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &offsetStride,
     assert(scndA != rd3A);
     if (argc > 6) {
       // Group B win,2nd,3rd
+      char *const arg6 = span_argv[6];
+      char *const arg7 = span_argv[7];
+      char *const arg8 = span_argv[8];
+      const e_team winB =
+          strcmp("den", arg6) == 0
+              ? den
+              : strcmp("fin", arg6) == 0
+                    ? fin
+                    : strcmp("bel", arg6) == 0
+                          ? bel
+                          : strcmp("rus", arg6) == 0 ? rus : (e_team)-1;
+      const e_team scndB =
+          strcmp("den", arg7) == 0
+              ? den
+              : strcmp("fin", arg7) == 0
+                    ? fin
+                    : strcmp("bel", arg7) == 0
+                          ? bel
+                          : strcmp("rus", arg7) == 0 ? rus : (e_team)-1;
+      const e_team rd3B =
+          strcmp("den", arg8) == 0
+              ? den
+              : strcmp("fin", arg8) == 0
+                    ? fin
+                    : strcmp("bel", arg8) == 0
+                          ? bel
+                          : strcmp("rus", arg8) == 0 ? rus : (e_team)-1;
+      assert(winB != (e_team)-1);
+      assert(scndB != (e_team)-1);
+      assert(rd3B != (e_team)-1);
+      assert(winB != scndB);
+      assert(winB != rd3B);
+      assert(scndB != rd3B);
+      completeFactor = 1UL << 12;
+      offsetStride *= 1UL << 12;
+      offsetStride += ((winB - 4) << 10) + ((scndB - 4) << 8) +
+                      ((rd3B - 6) << 0) + ((winA - 0) << 4) +
+                      ((scndA - 0) << 2) + ((rd3A - 0) << 0);
+      std::cout << __FILE__ << __LINE__ << ' ';
+      std::ios init(nullptr);
+      init.copyfmt(std::cout);
+      std::cout << std::hex;
+      std::cout.width(14);
+      std::cout << offsetStride << '\n';
+      std::cout.copyfmt(init); // restore default formatting
     } else {
       completeFactor = 1UL << 6;
       offsetStride *= 1UL << 6;
