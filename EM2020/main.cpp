@@ -1273,6 +1273,24 @@ int main(int argc, char *argv[]) {
     showGrundSpel('F', tableF);
     showTredjeTab(thirdTable, tableA, tableB, tableC, tableD, tableE, tableF);
     std::cout << '\n';
+    // Avgör match 37 till 44, fyll i match 45 till 48
+    uint64_t result;
+    result = ((maxIteration >> (37 + 3)) & 0x1);
+    game[46][1] = game[37][result];
+    result = ((maxIteration >> (38 + 3)) & 0x1);
+    game[47][1] = game[38][result];
+    result = ((maxIteration >> (39 + 3)) & 0x1);
+    game[46][0] = game[39][result];
+    result = ((maxIteration >> (40 + 3)) & 0x1);
+    game[47][0] = game[40][result];
+    result = ((maxIteration >> (41 + 3)) & 0x1);
+    game[45][0] = game[41][result];
+    result = ((maxIteration >> (42 + 3)) & 0x1);
+    game[45][1] = game[42][result];
+    result = ((maxIteration >> (43 + 3)) & 0x1);
+    game[48][0] = game[43][result];
+    result = ((maxIteration >> (44 + 3)) & 0x1);
+    game[48][1] = game[44][result];
     for (int match = 45; match <= 48; ++match) {
       for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
         const e_team tt = game[match][hemmaBorta];
@@ -1432,20 +1450,4 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
           ((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
     }
   }
-#if 0
-  {
-    std::cout << __FILE__ << __LINE__ << ' ';
-    std::cout << (((1UL << 55) - offsetStride) / (ettPrimtal * completeFactor));
-    std::cout << std::endl;
-    std::ios init(nullptr);
-    init.copyfmt(std::cout);
-    for (uint64_t iteration = offsetStride; iteration < (1UL << 55);
-         iteration += (ettPrimtal * completeFactor)) {
-      std::cout << std::hex;
-      std::cout.width(14);
-      std::cout << iteration << '\n';
-    }
-    std::cout.copyfmt(init); // restore default formatting
-  }
-#endif
 }
