@@ -6,13 +6,16 @@
 #include <iomanip>
 #include <iostream>
 using std::cerr;
-// Compile g++ -I ~/gsl-lite/include main.cpp
-// Format using clang-format -i main.cpp
-// seq -w 0 3 | parallel -u ./a.out {}
-// seq -w 0 15 | parallel -u ./a.out {}
-void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &offsetStride);
+// g++ -I ~/gsl-lite/include main.cpp
+// clang-format -i main.cpp
+// ./a.out
+// seq -w 0 3 | parallel -u ./a.out {} 524287
+// seq -w 0 15 | parallel -u ./a.out {} 16127
+// seq -w 0 15 | parallel -u ./a.out {} 16127 tur ita wal
+void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &offsetStride,
+               uint64_t &ettPrimtal);
 const uint64_t upperlimit = 1UL << 55;
-const uint64_t ettPrimtal = 16127UL;
+uint64_t ettPrimtal = 16127UL;
 // const uint64_t ettPrimtal = 131071UL;
 // const uint64_t ettPrimtal = 524287UL;
 uint64_t completeFactor = 1UL;
@@ -571,7 +574,7 @@ int main(int argc, char *argv[]) {
   uint64_t offsetStride = 0;
   if (argc > 1) {
     gsl::span<char *> span_argv(argv, argc);
-    parseArgs(argc, span_argv, offsetStride);
+    parseArgs(argc, span_argv, offsetStride, ettPrimtal);
   }
   uint64_t generator;
   for (uint64_t iteration = offsetStride; iteration < upperlimit;
@@ -1316,7 +1319,8 @@ const enum e_team operator++(enum e_team &that, int) {
   ++that;
   return result;
 }
-void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &offsetStride) {
+void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &offsetStride,
+               uint64_t &ettPrimtal) {
   int base = 10;
   char *endptr;
   errno = 0; /* To distinguish success/failure after call */
@@ -1330,20 +1334,24 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &offsetStride) {
   }
   offsetStride = static_cast<uint64_t>(lstrtol);
   if (argc > 2) {
+    errno = 0;
+    const auto lstrtol = strtol(span_argv[2], &endptr, base);
+    if (errno != 0) {
+      cerr << __func__ << ' ' << __LINE__ << ' ' << strerror(errno) << '\n';
+      std::terminate();
+    } else if (endptr == span_argv[1]) {
+      cerr << __func__ << ' ' << __LINE__ << ' ' << strerror(EINVAL) << '\n';
+      std::terminate();
+    }
+    ettPrimtal = static_cast<uint64_t>(lstrtol);
+  }
+  if (argc > 3) {
     // 3 teams group A follows
-    assert(argc >= 5);
-    char *const arg2 = span_argv[2];
+    assert(argc >= 6);
     char *const arg3 = span_argv[3];
     char *const arg4 = span_argv[4];
+    char *const arg5 = span_argv[5];
     const e_team winA =
-        strcmp("tur", arg2) == 0
-            ? tur
-            : strcmp("ita", arg2) == 0
-                  ? ita
-                  : strcmp("wal", arg2) == 0
-                        ? wal
-                        : strcmp("sui", arg2) == 0 ? sui : (e_team)-1;
-    const e_team scndA =
         strcmp("tur", arg3) == 0
             ? tur
             : strcmp("ita", arg3) == 0
@@ -1351,7 +1359,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &offsetStride) {
                   : strcmp("wal", arg3) == 0
                         ? wal
                         : strcmp("sui", arg3) == 0 ? sui : (e_team)-1;
-    const e_team rd3A =
+    const e_team scndA =
         strcmp("tur", arg4) == 0
             ? tur
             : strcmp("ita", arg4) == 0
@@ -1359,13 +1367,21 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &offsetStride) {
                   : strcmp("wal", arg4) == 0
                         ? wal
                         : strcmp("sui", arg4) == 0 ? sui : (e_team)-1;
+    const e_team rd3A =
+        strcmp("tur", arg5) == 0
+            ? tur
+            : strcmp("ita", arg5) == 0
+                  ? ita
+                  : strcmp("wal", arg5) == 0
+                        ? wal
+                        : strcmp("sui", arg5) == 0 ? sui : (e_team)-1;
     assert(winA != (e_team)-1);
     assert(scndA != (e_team)-1);
     assert(rd3A != (e_team)-1);
     assert(winA != scndA);
     assert(winA != rd3A);
     assert(scndA != rd3A);
-    if (argc > 5) {
+    if (argc > 6) {
       // Group B win,2nd,3rd
     } else {
       completeFactor = 1UL << 6;
