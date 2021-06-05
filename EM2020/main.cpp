@@ -1450,16 +1450,53 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
       assert(winB != scndB);
       assert(winB != rd3B);
       assert(scndB != rd3B);
-      completeFactor = 1UL << 12;
-      offsetStride *= 1UL << 12;
-      offsetStride += ((winB - 4) << 10) + ((scndB - 4) << 8) + ((rd3B - 4) << 6) + ((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
-      std::cout << __FILE__ << __LINE__ << ' ';
-      std::ios init(nullptr);
-      init.copyfmt(std::cout);
-      std::cout << std::hex;
-      std::cout.width(14);
-      std::cout << offsetStride << '\n';
-      std::cout.copyfmt(init); // restore default formatting
+      if (argc > 9) {
+        // Group C win,2nd,3rd
+        char *const arg9 = span_argv[9];
+        char *const arg10 = span_argv[10];
+        char *const arg11 = span_argv[11];
+        const e_team winC =
+            strcmp("ned", arg9) == 0
+                ? ned
+                : strcmp("ukr", arg9) == 0
+                      ? ukr
+                      : strcmp("aut", arg9) == 0
+                            ? aut
+                            : strcmp("mkd", arg9) == 0 ? mkd : (e_team)-1;
+        const e_team scndC =
+            strcmp("ned", arg10) == 0
+                ? ned
+                : strcmp("ukr", arg10) == 0
+                      ? ukr
+                      : strcmp("aut", arg10) == 0
+                            ? aut
+                            : strcmp("mkd", arg10) == 0 ? mkd : (e_team)-1;
+        const e_team rd3C =
+            strcmp("ned", arg11) == 0
+                ? ned
+                : strcmp("ukr", arg11) == 0
+                      ? ukr
+                      : strcmp("aut", arg11) == 0
+                            ? aut
+                            : strcmp("mkd", arg11) == 0 ? mkd : (e_team)-1;
+        assert(winC != (e_team)-1);
+        assert(scndC != (e_team)-1);
+        assert(rd3C != (e_team)-1);
+        assert(winC != scndC);
+        assert(winC != rd3C);
+        assert(scndC != rd3C);
+        completeFactor = 1UL << 18;
+        offsetStride *= 1UL << 18;
+        offsetStride += ((winC - 8) << 16) + ((scndC - 8) << 14) + ((rd3C - 8) << 12) +
+                        ((winB - 4) << 10) + ((scndB - 4) << 8) + ((rd3B - 4) << 6) +
+			((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
+      } else {
+        completeFactor = 1UL << 12;
+        offsetStride *= 1UL << 12;
+        offsetStride += ((winB - 4) << 10) + ((scndB - 4) << 8) +
+                        ((rd3B - 4) << 6) + ((winA - 0) << 4) +
+                        ((scndA - 0) << 2) + ((rd3A - 0) << 0);
+      }
     } else {
       completeFactor = 1UL << 6;
       offsetStride *= 1UL << 6;
