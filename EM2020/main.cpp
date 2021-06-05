@@ -1417,9 +1417,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
       assert(scndB != rd3B);
       completeFactor = 1UL << 12;
       offsetStride *= 1UL << 12;
-      offsetStride += ((winB - 4) << 10) + ((scndB - 4) << 8) +
-                      ((rd3B - 6) << 0) + ((winA - 0) << 4) +
-                      ((scndA - 0) << 2) + ((rd3A - 0) << 0);
+      offsetStride += ((winB - 4) << 10) + ((scndB - 4) << 8) + ((rd3B - 4) << 6) + ((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
       std::cout << __FILE__ << __LINE__ << ' ';
       std::ios init(nullptr);
       init.copyfmt(std::cout);
@@ -1434,6 +1432,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
           ((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
     }
   }
+#if 0
   {
     std::cout << __FILE__ << __LINE__ << ' ';
     std::cout << (((1UL << 55) - offsetStride) / (ettPrimtal * completeFactor));
@@ -1448,4 +1447,5 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
     }
     std::cout.copyfmt(init); // restore default formatting
   }
+#endif
 }
