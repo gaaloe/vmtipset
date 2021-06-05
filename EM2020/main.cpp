@@ -1485,11 +1485,103 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
         assert(winC != scndC);
         assert(winC != rd3C);
         assert(scndC != rd3C);
-        completeFactor = 1UL << 18;
-        offsetStride *= 1UL << 18;
-        offsetStride += ((winC - 8) << 16) + ((scndC - 8) << 14) + ((rd3C - 8) << 12) +
-                        ((winB - 4) << 10) + ((scndB - 4) << 8) + ((rd3B - 4) << 6) +
-			((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
+        if (argc > 12) {
+          // Group D win,2nd,3rd
+          char *const arg12 = span_argv[12];
+          char *const arg13 = span_argv[13];
+          char *const arg14 = span_argv[14];
+          const e_team winD =
+              strcmp("eng", arg12) == 0
+                  ? eng
+                  : strcmp("cro", arg12) == 0
+                        ? cro
+                        : strcmp("sco", arg12) == 0
+                              ? sco
+                              : strcmp("cze", arg12) == 0 ? cze : (e_team)-1;
+          const e_team scndD =
+              strcmp("eng", arg13) == 0
+                  ? eng
+                  : strcmp("cro", arg13) == 0
+                        ? cro
+                        : strcmp("sco", arg13) == 0
+                              ? sco
+                              : strcmp("cze", arg13) == 0 ? cze : (e_team)-1;
+          const e_team rd3D =
+              strcmp("eng", arg14) == 0
+                  ? eng
+                  : strcmp("cro", arg14) == 0
+                        ? cro
+                        : strcmp("sco", arg14) == 0
+                              ? sco
+                              : strcmp("cze", arg14) == 0 ? cze : (e_team)-1;
+          assert(winD != (e_team)-1);
+          assert(scndD != (e_team)-1);
+          assert(rd3D != (e_team)-1);
+          assert(winD != scndD);
+          assert(winD != rd3D);
+          assert(scndD != rd3D);
+          if (argc > 15) {
+            // Group E win,2nd,3rd
+            char *const arg15 = span_argv[15];
+            char *const arg16 = span_argv[16];
+            char *const arg17 = span_argv[17];
+            const e_team winE =
+                strcmp("esp", arg15) == 0
+                    ? esp
+                    : strcmp("swe", arg15) == 0
+                          ? swe
+                          : strcmp("pol", arg15) == 0
+                                ? pol
+                                : strcmp("svk", arg15) == 0 ? svk : (e_team)-1;
+            const e_team scndE =
+                strcmp("esp", arg16) == 0
+                    ? esp
+                    : strcmp("swe", arg16) == 0
+                          ? swe
+                          : strcmp("pol", arg16) == 0
+                                ? pol
+                                : strcmp("svk", arg16) == 0 ? svk : (e_team)-1;
+            const e_team rd3E =
+                strcmp("esp", arg17) == 0
+                    ? esp
+                    : strcmp("swe", arg17) == 0
+                          ? swe
+                          : strcmp("pol", arg17) == 0
+                                ? pol
+                                : strcmp("svk", arg17) == 0 ? svk : (e_team)-1;
+            assert(winE != (e_team)-1);
+            assert(scndE != (e_team)-1);
+            assert(rd3E != (e_team)-1);
+            assert(winE != scndE);
+            assert(winE != rd3E);
+            assert(scndE != rd3E);
+            completeFactor = 1UL << 30;
+            offsetStride *= 1UL << 30;
+            offsetStride +=
+                ((winE - 16) << 28) + ((scndE - 16) << 26) +
+                ((rd3E - 16) << 24) + ((winD - 12) << 22) +
+                ((scndD - 12) << 20) + ((rd3D - 12) << 18) +
+                ((winC - 8) << 16) + ((scndC - 8) << 14) + ((rd3C - 8) << 12) +
+                ((winB - 4) << 10) + ((scndB - 4) << 8) + ((rd3B - 4) << 6) +
+                ((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
+          } else {
+            completeFactor = 1UL << 24;
+            offsetStride *= 1UL << 24;
+            offsetStride += ((winD - 12) << 22) + ((scndD - 12) << 20) +
+                            ((rd3D - 12) << 18) + ((winC - 8) << 16) +
+                            ((scndC - 8) << 14) + ((rd3C - 8) << 12) +
+                            ((winB - 4) << 10) + ((scndB - 4) << 8) +
+                            ((rd3B - 4) << 6) + ((winA - 0) << 4) +
+                            ((scndA - 0) << 2) + ((rd3A - 0) << 0);
+          }
+        } else {
+          completeFactor = 1UL << 18;
+          offsetStride *= 1UL << 18;
+          offsetStride +=
+              ((winC - 8) << 16) + ((scndC - 8) << 14) + ((rd3C - 8) << 12) +
+              ((winB - 4) << 10) + ((scndB - 4) << 8) + ((rd3B - 4) << 6) +
+              ((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
+        }
       } else {
         completeFactor = 1UL << 12;
         offsetStride *= 1UL << 12;
