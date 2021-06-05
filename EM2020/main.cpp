@@ -576,7 +576,6 @@ int main(int argc, char *argv[]) {
     gsl::span<char *> span_argv(argv, argc);
     parseArgs(argc, span_argv, completeFactor, offsetStride, ettPrimtal);
   }
-  uint64_t generator;
   for (uint64_t iteration = offsetStride; iteration < upperlimit;
        iteration += (ettPrimtal * completeFactor)) {
     // Group A
@@ -1434,5 +1433,19 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
       offsetStride +=
           ((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
     }
+  }
+  {
+    std::cout << __FILE__ << __LINE__ << ' ';
+    std::cout << (((1UL << 55) - offsetStride) / (ettPrimtal * completeFactor));
+    std::cout << std::endl;
+    std::ios init(nullptr);
+    init.copyfmt(std::cout);
+    for (uint64_t iteration = offsetStride; iteration < (1UL << 55);
+         iteration += (ettPrimtal * completeFactor)) {
+      std::cout << std::hex;
+      std::cout.width(14);
+      std::cout << iteration << '\n';
+    }
+    std::cout.copyfmt(init); // restore default formatting
   }
 }
