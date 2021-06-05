@@ -1384,8 +1384,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
     ettPrimtal = static_cast<uint64_t>(lstrtol);
   }
   if (argc > 3) {
-    // 3 teams group A follows
-    assert(argc >= 6);
+    // 2 teams group A follows
     char *const arg3 = span_argv[3];
     char *const arg4 = span_argv[4];
     const e_team winA =
@@ -1560,7 +1559,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
               assert(winF != scndF);
               assert(winF != rd3F);
               assert(scndF != rd3F);
-              if (argc > 15) {
+              uint64_t rd3bits = 0; // 4 bits describing the ABCD..CDEF
                 // 4 av 6 grupptreor går vidare
                 char *const arg15 = span_argv[15];
                 char *const arg16 = span_argv[16];
@@ -1631,11 +1630,13 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                       assert(scndC != rd3C);
                       switch (trunk18) {
                       case 3: // ABCD--
+                        rd3bits = 0x0UL << 36;
                         rd3D = team18;
                         assert(winD != rd3D);
                         assert(scndD != rd3D);
                         break;
                       case 4: // ABC-E-
+                        rd3bits = 0x1UL << 36;
                         rd3E = team18;
                         assert(winE != rd3E);
                         assert(scndE != rd3E);
@@ -1814,7 +1815,6 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                   std::cerr << __FILE__ << __LINE__ << '\n';
                   abort();
                 }
-              }
               completeFactor = 1UL << 36;
               offsetStride *= 1UL << 36;
               offsetStride += ((winF - 20UL) << 34) + ((scndF - 20UL) << 32) +
@@ -1826,6 +1826,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                               ((winB - 4UL) << 10) + ((scndB - 4UL) << 8) +
                               ((rd3B - 4UL) << 6) + ((winA - 0UL) << 4) +
                               ((scndA - 0UL) << 2) + ((rd3A - 0UL) << 0);
+              offsetStride += rd3bits;
             } else {
               completeFactor = 1UL << 30;
               offsetStride *= 1UL << 30;
