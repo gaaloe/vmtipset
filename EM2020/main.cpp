@@ -48,6 +48,32 @@ enum e_team {
   fra,
   ger
 };
+int rank[24] = {
+  /*tur*/ 1505,
+  /*ita*/ 1642,
+  /*wal*/ 1570,
+  /*sui*/ 1606,
+  /*den*/ 1631,
+  /*fin*/ 1410,
+  /*bel*/ 1783,
+  /*rus*/ 1462,
+  /*ned*/ 1598,
+  /*ukr*/ 1515,
+  /*aut*/ 1523,
+  /*mkd*/ 1374,
+  /*eng*/ 1686,
+  /*cro*/ 1605,
+  /*sco*/ 1441,
+  /*cze*/ 1458,
+  /*esp*/ 1648,
+  /*swe*/ 1569,
+  /*pol*/ 1549,
+  /*svk*/ 1475,
+  /*hun*/ 1468,
+  /*por*/ 1666,
+  /*fra*/ 1757,
+  /*ger*/ 1609
+};
 char names[24][4];
 void elaborateNames();
 // Games are officially numbered from 1 to 51.
