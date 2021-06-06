@@ -22,6 +22,9 @@ uint64_t ettPrimtal = 16127UL;
 uint64_t completeFactor = 1UL;
 static int maxSoFar = 0;
 static uint64_t maxIteration = 0;
+int totFifa;
+int maxFifa = 0;
+static uint64_t maxFifaIteration = 0;
 enum e_team {
   tur,
   ita,
@@ -279,6 +282,8 @@ void calcGrundSpel(char grp, uint64_t table) {
                 : grp == 'C' ? 8 : grp == 'D' ? 12 : grp == 'E' ? 16 : 20;
   const unsigned win = table >> 4;
   const unsigned secnd = (table & 0xC) >> 2;
+  totFifa += rank[win];
+  totFifa += rank[secnd];
   unsigned saabOffset = 0;
   switch (grp) {
   case 'A':
@@ -481,6 +486,12 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
   /*1F-ABC3, match 41*/
   // 39 40 43 41
   // 1B 1C 1E 1F
+  const e_team teamA = (e_team)((tableA & 0x3) + 0);
+  const e_team teamB = (e_team)((tableB & 0x3) + 4);
+  const e_team teamC = (e_team)((tableC & 0x3) + 8);
+  const e_team teamD = (e_team)((tableD & 0x3) + 12);
+  const e_team teamE = (e_team)((tableE & 0x3) + 16);
+  const e_team teamF = (e_team)((tableF & 0x3) + 20);
   switch (tabell) {
   case 0:
     // 3A 3D 3B 3C
@@ -488,6 +499,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableD & 0x3) + 12);
     game[43][1] = (e_team)((tableB & 0x3) + 4);
     game[41][1] = (e_team)((tableC & 0x3) + 8);
+    totFifa += rank[teamA];
+    totFifa += rank[teamD];
+    totFifa += rank[teamB];
+    totFifa += rank[teamC];
     break;
   case 1:
     // 3A 3E 3B 3C
@@ -495,6 +510,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableE & 0x3) + 16);
     game[43][1] = (e_team)((tableB & 0x3) + 4);
     game[41][1] = (e_team)((tableC & 0x3) + 8);
+    totFifa += rank[teamA];
+    totFifa += rank[teamE];
+    totFifa += rank[teamB];
+    totFifa += rank[teamC];
     break;
   case 2:
     // 3A 3F 3B 3C
@@ -502,6 +521,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableF & 0x3) + 20);
     game[43][1] = (e_team)((tableB & 0x3) + 4);
     game[41][1] = (e_team)((tableC & 0x3) + 8);
+    totFifa += rank[teamA];
+    totFifa += rank[teamF];
+    totFifa += rank[teamB];
+    totFifa += rank[teamC];
     break;
   case 3:
     // 3D 3E 3A 3B
@@ -509,6 +532,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableE & 0x3) + 16);
     game[43][1] = (e_team)((tableA & 0x3) + 0);
     game[41][1] = (e_team)((tableB & 0x3) + 4);
+    totFifa += rank[teamD];
+    totFifa += rank[teamE];
+    totFifa += rank[teamA];
+    totFifa += rank[teamB];
     break;
   case 4:
     // 3D 3F 3A 3B
@@ -516,6 +543,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableF & 0x3) + 20);
     game[43][1] = (e_team)((tableA & 0x3) + 0);
     game[41][1] = (e_team)((tableB & 0x3) + 4);
+    totFifa += rank[teamD];
+    totFifa += rank[teamF];
+    totFifa += rank[teamA];
+    totFifa += rank[teamB];
     break;
   case 5:
     // 3E 3F 3B 3A
@@ -523,6 +554,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableF & 0x3) + 20);
     game[43][1] = (e_team)((tableB & 0x3) + 4);
     game[41][1] = (e_team)((tableA & 0x3) + 0);
+    totFifa += rank[teamE];
+    totFifa += rank[teamF];
+    totFifa += rank[teamB];
+    totFifa += rank[teamA];
     break;
   case 6:
     // 3E 3D 3C 3A
@@ -530,6 +565,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableD & 0x3) + 12);
     game[43][1] = (e_team)((tableC & 0x3) + 8);
     game[41][1] = (e_team)((tableA & 0x3) + 0);
+    totFifa += rank[teamE];
+    totFifa += rank[teamD];
+    totFifa += rank[teamC];
+    totFifa += rank[teamA];
     break;
   case 7:
     // 3F 3D 3C 3A
@@ -537,6 +576,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableD & 0x3) + 12);
     game[43][1] = (e_team)((tableC & 0x3) + 8);
     game[41][1] = (e_team)((tableA & 0x3) + 0);
+    totFifa += rank[teamF];
+    totFifa += rank[teamD];
+    totFifa += rank[teamC];
+    totFifa += rank[teamA];
     break;
   case 8:
     // 3E 3F 3C 3A
@@ -544,6 +587,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableF & 0x3) + 20);
     game[43][1] = (e_team)((tableC & 0x3) + 8);
     game[41][1] = (e_team)((tableA & 0x3) + 0);
+    totFifa += rank[teamE];
+    totFifa += rank[teamF];
+    totFifa += rank[teamC];
+    totFifa += rank[teamA];
     break;
   case 9:
     // 3E 3F 3D 3A
@@ -551,6 +598,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableF & 0x3) + 20);
     game[43][1] = (e_team)((tableD & 0x3) + 12);
     game[41][1] = (e_team)((tableA & 0x3) + 0);
+    totFifa += rank[teamE];
+    totFifa += rank[teamF];
+    totFifa += rank[teamD];
+    totFifa += rank[teamA];
     break;
   case 10:
     // 3E 3D 3B 3C
@@ -558,6 +609,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableD & 0x3) + 12);
     game[43][1] = (e_team)((tableB & 0x3) + 4);
     game[41][1] = (e_team)((tableC & 0x3) + 8);
+    totFifa += rank[teamE];
+    totFifa += rank[teamD];
+    totFifa += rank[teamB];
+    totFifa += rank[teamC];
     break;
   case 11:
     // 3F 3D 3C 3B
@@ -565,6 +620,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableD & 0x3) + 12);
     game[43][1] = (e_team)((tableC & 0x3) + 8);
     game[41][1] = (e_team)((tableB & 0x3) + 4);
+    totFifa += rank[teamF];
+    totFifa += rank[teamD];
+    totFifa += rank[teamC];
+    totFifa += rank[teamB];
     break;
   case 12:
     // 3F 3E 3C 3B
@@ -572,6 +631,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableE & 0x3) + 16);
     game[43][1] = (e_team)((tableC & 0x3) + 8);
     game[41][1] = (e_team)((tableB & 0x3) + 4);
+    totFifa += rank[teamF];
+    totFifa += rank[teamE];
+    totFifa += rank[teamC];
+    totFifa += rank[teamB];
     break;
   case 13:
     // 3F 3E 3D 3B
@@ -579,6 +642,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableE & 0x3) + 16);
     game[43][1] = (e_team)((tableD & 0x3) + 12);
     game[41][1] = (e_team)((tableB & 0x3) + 4);
+    totFifa += rank[teamF];
+    totFifa += rank[teamE];
+    totFifa += rank[teamD];
+    totFifa += rank[teamB];
     break;
   case 14:
     // 3F 3E 3D 3C
@@ -586,6 +653,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableE & 0x3) + 16);
     game[43][1] = (e_team)((tableD & 0x3) + 12);
     game[41][1] = (e_team)((tableC & 0x3) + 8);
+    totFifa += rank[teamF];
+    totFifa += rank[teamE];
+    totFifa += rank[teamD];
+    totFifa += rank[teamC];
     break;
   case 15: // There are 15 alternatives 0..14
   default:
@@ -1088,6 +1159,7 @@ int main(int argc, char *argv[]) {
     const uint64_t tableF = (iteration >> 30) & 0x3FUL;
     const uint64_t thirdTable = (iteration >> 36) & 0xFUL;
     saab[0].poang = 0;
+    totFifa = 0;
     calcGrundSpel('A', tableA);
     calcGrundSpel('B', tableB);
     calcGrundSpel('C', tableC);
@@ -1114,22 +1186,39 @@ int main(int argc, char *argv[]) {
 #endif
     // Avgör match 37 till 44, fyll i match 45 till 48
     uint64_t result;
+    e_team matchWinner;
     result = ((iteration >> (37 + 3)) & 0x1);
-    game[46][1] = game[37][result];
+    matchWinner = game[37][result];
+    game[46][1] = matchWinner;
+    totFifa += rank[matchWinner];
     result = ((iteration >> (38 + 3)) & 0x1);
-    game[47][1] = game[38][result];
+    matchWinner = game[38][result];
+    game[47][1] = matchWinner;
+    totFifa += rank[matchWinner];
     result = ((iteration >> (39 + 3)) & 0x1);
-    game[46][0] = game[39][result];
+    matchWinner = game[39][result];
+    game[46][0] = matchWinner;
+    totFifa += rank[matchWinner];
     result = ((iteration >> (40 + 3)) & 0x1);
-    game[47][0] = game[40][result];
+    matchWinner = game[40][result];
+    game[47][0] = matchWinner;
+    totFifa += rank[matchWinner];
     result = ((iteration >> (41 + 3)) & 0x1);
-    game[45][0] = game[41][result];
+    matchWinner = game[41][result];
+    game[45][0] = matchWinner;
+    totFifa += rank[matchWinner];
     result = ((iteration >> (42 + 3)) & 0x1);
-    game[45][1] = game[42][result];
+    matchWinner = game[42][result];
+    game[45][1] = matchWinner;
+    totFifa += rank[matchWinner];
     result = ((iteration >> (43 + 3)) & 0x1);
-    game[48][0] = game[43][result];
+    matchWinner = game[43][result];
+    game[48][0] = matchWinner;
+    totFifa += rank[matchWinner];
     result = ((iteration >> (44 + 3)) & 0x1);
-    game[48][1] = game[44][result];
+    matchWinner = game[44][result];
+    game[48][1] = matchWinner;
+    totFifa += rank[matchWinner];
 #ifndef NDEBUG
     // Kontrollera att alla fält match 37-44 är olika
     for (int match = 45; match <= 48; ++match) {
@@ -1163,13 +1252,21 @@ int main(int argc, char *argv[]) {
     }
     // Avgör match 45 till 48, fyll i match 49 och 50
     result = ((iteration >> (45 + 3)) & 0x1);
-    game[49][1] = game[45][result];
+    matchWinner = game[45][result];
+    game[49][1] = matchWinner;
+    totFifa += rank[matchWinner];
     result = ((iteration >> (46 + 3)) & 0x1);
-    game[49][0] = game[46][result];
+    matchWinner = game[46][result];
+    game[49][0] = matchWinner;
+    totFifa += rank[matchWinner];
     result = ((iteration >> (47 + 3)) & 0x1);
-    game[50][1] = game[47][result];
+    matchWinner = game[47][result];
+    game[50][1] = matchWinner;
+    totFifa += rank[matchWinner];
     result = ((iteration >> (48 + 3)) & 0x1);
-    game[50][0] = game[48][result];
+    matchWinner = game[48][result];
+    game[50][0] = matchWinner;
+    totFifa += rank[matchWinner];
 #ifndef NDEBUG
     // Kontrollera att alla fält match 37-44 är olika
     for (int match = 49; match <= 50; ++match) {
@@ -1203,9 +1300,13 @@ int main(int argc, char *argv[]) {
     }
     // Avgör match 49 och 50
     result = ((iteration >> (49 + 3)) & 0x1);
-    game[51][0] = game[49][result];
+    matchWinner = game[49][result];
+    game[51][0] = matchWinner;
+    totFifa += rank[matchWinner];
     result = ((iteration >> (50 + 3)) & 0x1);
-    game[51][1] = game[50][result];
+    matchWinner = game[50][result];
+    game[51][1] = matchWinner;
+    totFifa += rank[matchWinner];
     {
       gsl::span<e_team> span_final(saab[0].finallag, 2);
       for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
@@ -1220,14 +1321,72 @@ int main(int argc, char *argv[]) {
     }
     // Avgör finalen, match 51
     result = ((iteration >> (51 + 3)) & 0x1);
-    game[52][0] = game[51][result];
+    matchWinner = game[51][result];
+    game[52][0] = matchWinner;
+    totFifa += rank[matchWinner];
     if (game[52][0] == saab[0].vinnare[0]) {
       saab[0].poang += 50;
+    }
+    if (totFifa > maxFifa) {
+      maxFifa = totFifa;
+      maxFifaIteration = iteration;
+#if 1
+      // Skriv ut
+      std::ios init(nullptr);
+      init.copyfmt(std::cout);
+      std::cout << std::hex;
+      std::cout.width(14);
+      std::cout << iteration << ' ';
+      std::cout << upperlimit << '\n';
+      std::cout.copyfmt(init); // restore default formatting
+      showGrundSpel('A', tableA);
+      showGrundSpel('B', tableB);
+      showGrundSpel('C', tableC);
+      showGrundSpel('D', tableD);
+      showGrundSpel('E', tableE);
+      showGrundSpel('F', tableF);
+      std::cout << '\n';
+      for (int match = 45; match <= 48; ++match) {
+        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+          const e_team tt = game[match][hemmaBorta];
+          std::cout << tt;
+          if (match != 48 || hemmaBorta != 1) {
+            std::cout << ',';
+          } else {
+            std::cout << ' ';
+          }
+        }
+      }
+      for (int match = 49; match <= 50; ++match) {
+        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+          const e_team tt = game[match][hemmaBorta];
+          std::cout << tt;
+          if (match != 50 || hemmaBorta != 1) {
+            std::cout << ',';
+          } else {
+            std::cout << ' ';
+          }
+        }
+      }
+      for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+        const e_team tt = game[51][hemmaBorta];
+        std::cout << tt;
+        if (hemmaBorta != 1) {
+          std::cout << ',';
+        } else {
+          std::cout << ' ';
+        }
+      }
+      std::cout << ' ' << game[52][0];
+      std::cout << ' ' << maxFifa;
+      std::cout << '\n';
+#endif
     }
     if (maxSoFar < saab[0].poang) {
       // Utskrift när max ökas
       maxSoFar = saab[0].poang;
       maxIteration = iteration;
+#if 0
       // Skriv ut
       std::ios init(nullptr);
       init.copyfmt(std::cout);
@@ -1277,9 +1436,14 @@ int main(int argc, char *argv[]) {
       std::cout << ' ' << game[52][0];
       std::cout << ' ' << saab[0].poang;
       std::cout << '\n';
+#endif
     }
   }
   {
+    // Utskrift på slutet:
+#if 1
+    maxIteration = maxFifaIteration;
+#endif
     const uint64_t tableA = maxIteration & 0x3FUL;
     const uint64_t tableB = (maxIteration >> 6) & 0x3FUL;
     const uint64_t tableC = (maxIteration >> 12) & 0x3FUL;
