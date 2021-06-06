@@ -52,30 +52,30 @@ enum e_team {
   ger
 };
 int rank[24] = {
-  /*tur*/ 1505,
-  /*ita*/ 1642,
-  /*wal*/ 1570,
-  /*sui*/ 1606,
-  /*den*/ 1631,
-  /*fin*/ 1410,
-  /*bel*/ 1783,
-  /*rus*/ 1462,
-  /*ned*/ 1598,
-  /*ukr*/ 1515,
-  /*aut*/ 1523,
-  /*mkd*/ 1374,
-  /*eng*/ 1686,
-  /*cro*/ 1605,
-  /*sco*/ 1441,
-  /*cze*/ 1458,
-  /*esp*/ 1648,
-  /*swe*/ 1569,
-  /*pol*/ 1549,
-  /*svk*/ 1475,
-  /*hun*/ 1468,
-  /*por*/ 1666,
-  /*fra*/ 1757,
-  /*ger*/ 1609
+  /*tur*/ 1505-1374,
+  /*ita*/ 1642-1374,
+  /*wal*/ 1570-1374,
+  /*sui*/ 1606-1374,
+  /*den*/ 1631-1374,
+  /*fin*/ 1410-1374,
+  /*bel*/ 1783-1374,
+  /*rus*/ 1462-1374,
+  /*ned*/ 1598-1374,
+  /*ukr*/ 1515-1374,
+  /*aut*/ 1523-1374,
+  /*mkd*/ 1374-1374,
+  /*eng*/ 1686-1374,
+  /*cro*/ 1605-1374,
+  /*sco*/ 1441-1374,
+  /*cze*/ 1458-1374,
+  /*esp*/ 1648-1374,
+  /*swe*/ 1569-1374,
+  /*pol*/ 1549-1374,
+  /*svk*/ 1475-1374,
+  /*hun*/ 1468-1374,
+  /*por*/ 1666-1374,
+  /*fra*/ 1757-1374,
+  /*ger*/ 1609-1374
 };
 char names[24][4];
 void elaborateNames();
@@ -282,38 +282,40 @@ void calcGrundSpel(char grp, uint64_t table) {
                 : grp == 'C' ? 8 : grp == 'D' ? 12 : grp == 'E' ? 16 : 20;
   const unsigned win = table >> 4;
   const unsigned secnd = (table & 0xC) >> 2;
-  totFifa += rank[win];
-  totFifa += (rank[secnd]*60)/100;
+  const e_team teamWin = (e_team)(win + offset);
+  const e_team team2nd = (e_team)(secnd + offset);
+  totFifa += rank[teamWin];
+  totFifa += (rank[team2nd]*60)/100;
   unsigned saabOffset = 0;
   switch (grp) {
   case 'A':
-    game[37][0] = (e_team)(win + offset);
-    game[38][0] = (e_team)(secnd + offset);
+    game[37][0] = teamWin;
+    game[38][0] = team2nd;
     saabOffset = 0;
     break;
   case 'B':
-    game[39][0] = (e_team)(win + offset);
-    game[38][1] = (e_team)(secnd + offset);
+    game[39][0] = teamWin;
+    game[38][1] = team2nd;
     saabOffset = 1;
     break;
   case 'C':
-    game[40][0] = (e_team)(win + offset);
-    game[37][1] = (e_team)(secnd + offset);
+    game[40][0] = teamWin;
+    game[37][1] = team2nd;
     saabOffset = 2;
     break;
   case 'D':
-    game[44][0] = (e_team)(win + offset);
-    game[42][0] = (e_team)(secnd + offset);
+    game[44][0] = teamWin;
+    game[42][0] = team2nd;
     saabOffset = 3;
     break;
   case 'E':
-    game[43][0] = (e_team)(win + offset);
-    game[42][1] = (e_team)(secnd + offset);
+    game[43][0] = teamWin;
+    game[42][1] = team2nd;
     saabOffset = 4;
     break;
   case 'F':
-    game[41][0] = (e_team)(win + offset);
-    game[44][1] = (e_team)(secnd + offset);
+    game[41][0] = teamWin;
+    game[44][1] = team2nd;
     saabOffset = 5;
     break;
   default:
