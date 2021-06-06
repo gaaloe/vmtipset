@@ -283,7 +283,7 @@ void calcGrundSpel(char grp, uint64_t table) {
   const unsigned win = table >> 4;
   const unsigned secnd = (table & 0xC) >> 2;
   totFifa += rank[win];
-  totFifa += rank[secnd];
+  totFifa += (rank[secnd]*60)/100;
   unsigned saabOffset = 0;
   switch (grp) {
   case 'A':
@@ -499,10 +499,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableD & 0x3) + 12);
     game[43][1] = (e_team)((tableB & 0x3) + 4);
     game[41][1] = (e_team)((tableC & 0x3) + 8);
-    totFifa += rank[teamA];
-    totFifa += rank[teamD];
-    totFifa += rank[teamB];
-    totFifa += rank[teamC];
+    totFifa += (rank[teamA]*20)/100;
+    totFifa += (rank[teamD]*20)/100;
+    totFifa += (rank[teamB]*20)/100;
+    totFifa += (rank[teamC]*20)/100;
     break;
   case 1:
     // 3A 3E 3B 3C
@@ -510,10 +510,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableE & 0x3) + 16);
     game[43][1] = (e_team)((tableB & 0x3) + 4);
     game[41][1] = (e_team)((tableC & 0x3) + 8);
-    totFifa += rank[teamA];
-    totFifa += rank[teamE];
-    totFifa += rank[teamB];
-    totFifa += rank[teamC];
+    totFifa += (rank[teamA]*20)/100;
+    totFifa += (rank[teamE]*20)/100;
+    totFifa += (rank[teamB]*20)/100;
+    totFifa += (rank[teamC]*20)/100;
     break;
   case 2:
     // 3A 3F 3B 3C
@@ -521,10 +521,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableF & 0x3) + 20);
     game[43][1] = (e_team)((tableB & 0x3) + 4);
     game[41][1] = (e_team)((tableC & 0x3) + 8);
-    totFifa += rank[teamA];
-    totFifa += rank[teamF];
-    totFifa += rank[teamB];
-    totFifa += rank[teamC];
+    totFifa += (rank[teamA]*20)/100;
+    totFifa += (rank[teamF]*20)/100;
+    totFifa += (rank[teamB]*20)/100;
+    totFifa += (rank[teamC]*20)/100;
     break;
   case 3:
     // 3D 3E 3A 3B
@@ -532,10 +532,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableE & 0x3) + 16);
     game[43][1] = (e_team)((tableA & 0x3) + 0);
     game[41][1] = (e_team)((tableB & 0x3) + 4);
-    totFifa += rank[teamD];
-    totFifa += rank[teamE];
-    totFifa += rank[teamA];
-    totFifa += rank[teamB];
+    totFifa += (rank[teamD]*20)/100;
+    totFifa += (rank[teamE]*20)/100;
+    totFifa += (rank[teamA]*20)/100;
+    totFifa += (rank[teamB]*20)/100;
     break;
   case 4:
     // 3D 3F 3A 3B
@@ -543,10 +543,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableF & 0x3) + 20);
     game[43][1] = (e_team)((tableA & 0x3) + 0);
     game[41][1] = (e_team)((tableB & 0x3) + 4);
-    totFifa += rank[teamD];
-    totFifa += rank[teamF];
-    totFifa += rank[teamA];
-    totFifa += rank[teamB];
+    totFifa += (rank[teamD]*20)/100;
+    totFifa += (rank[teamF]*20)/100;
+    totFifa += (rank[teamA]*20)/100;
+    totFifa += (rank[teamB]*20)/100;
     break;
   case 5:
     // 3E 3F 3B 3A
@@ -554,10 +554,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableF & 0x3) + 20);
     game[43][1] = (e_team)((tableB & 0x3) + 4);
     game[41][1] = (e_team)((tableA & 0x3) + 0);
-    totFifa += rank[teamE];
-    totFifa += rank[teamF];
-    totFifa += rank[teamB];
-    totFifa += rank[teamA];
+    totFifa += (rank[teamE]*20)/100;
+    totFifa += (rank[teamF]*20)/100;
+    totFifa += (rank[teamB]*20)/100;
+    totFifa += (rank[teamA]*20)/100;
     break;
   case 6:
     // 3E 3D 3C 3A
@@ -565,10 +565,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableD & 0x3) + 12);
     game[43][1] = (e_team)((tableC & 0x3) + 8);
     game[41][1] = (e_team)((tableA & 0x3) + 0);
-    totFifa += rank[teamE];
-    totFifa += rank[teamD];
-    totFifa += rank[teamC];
-    totFifa += rank[teamA];
+    totFifa += (rank[teamE]*20)/100;
+    totFifa += (rank[teamD]*20)/100;
+    totFifa += (rank[teamC]*20)/100;
+    totFifa += (rank[teamA]*20)/100;
     break;
   case 7:
     // 3F 3D 3C 3A
@@ -576,10 +576,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableD & 0x3) + 12);
     game[43][1] = (e_team)((tableC & 0x3) + 8);
     game[41][1] = (e_team)((tableA & 0x3) + 0);
-    totFifa += rank[teamF];
-    totFifa += rank[teamD];
-    totFifa += rank[teamC];
-    totFifa += rank[teamA];
+    totFifa += (rank[teamF]*20)/100;
+    totFifa += (rank[teamD]*20)/100;
+    totFifa += (rank[teamC]*20)/100;
+    totFifa += (rank[teamA]*20)/100;
     break;
   case 8:
     // 3E 3F 3C 3A
@@ -587,10 +587,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableF & 0x3) + 20);
     game[43][1] = (e_team)((tableC & 0x3) + 8);
     game[41][1] = (e_team)((tableA & 0x3) + 0);
-    totFifa += rank[teamE];
-    totFifa += rank[teamF];
-    totFifa += rank[teamC];
-    totFifa += rank[teamA];
+    totFifa += (rank[teamE]*20)/100;
+    totFifa += (rank[teamF]*20)/100;
+    totFifa += (rank[teamC]*20)/100;
+    totFifa += (rank[teamA]*20)/100;
     break;
   case 9:
     // 3E 3F 3D 3A
@@ -598,10 +598,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableF & 0x3) + 20);
     game[43][1] = (e_team)((tableD & 0x3) + 12);
     game[41][1] = (e_team)((tableA & 0x3) + 0);
-    totFifa += rank[teamE];
-    totFifa += rank[teamF];
-    totFifa += rank[teamD];
-    totFifa += rank[teamA];
+    totFifa += (rank[teamE]*20)/100;
+    totFifa += (rank[teamF]*20)/100;
+    totFifa += (rank[teamD]*20)/100;
+    totFifa += (rank[teamA]*20)/100;
     break;
   case 10:
     // 3E 3D 3B 3C
@@ -609,10 +609,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableD & 0x3) + 12);
     game[43][1] = (e_team)((tableB & 0x3) + 4);
     game[41][1] = (e_team)((tableC & 0x3) + 8);
-    totFifa += rank[teamE];
-    totFifa += rank[teamD];
-    totFifa += rank[teamB];
-    totFifa += rank[teamC];
+    totFifa += (rank[teamE]*20)/100;
+    totFifa += (rank[teamD]*20)/100;
+    totFifa += (rank[teamB]*20)/100;
+    totFifa += (rank[teamC]*20)/100;
     break;
   case 11:
     // 3F 3D 3C 3B
@@ -620,10 +620,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableD & 0x3) + 12);
     game[43][1] = (e_team)((tableC & 0x3) + 8);
     game[41][1] = (e_team)((tableB & 0x3) + 4);
-    totFifa += rank[teamF];
-    totFifa += rank[teamD];
-    totFifa += rank[teamC];
-    totFifa += rank[teamB];
+    totFifa += (rank[teamF]*20)/100;
+    totFifa += (rank[teamD]*20)/100;
+    totFifa += (rank[teamC]*20)/100;
+    totFifa += (rank[teamB]*20)/100;
     break;
   case 12:
     // 3F 3E 3C 3B
@@ -631,10 +631,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableE & 0x3) + 16);
     game[43][1] = (e_team)((tableC & 0x3) + 8);
     game[41][1] = (e_team)((tableB & 0x3) + 4);
-    totFifa += rank[teamF];
-    totFifa += rank[teamE];
-    totFifa += rank[teamC];
-    totFifa += rank[teamB];
+    totFifa += (rank[teamF]*20)/100;
+    totFifa += (rank[teamE]*20)/100;
+    totFifa += (rank[teamC]*20)/100;
+    totFifa += (rank[teamB]*20)/100;
     break;
   case 13:
     // 3F 3E 3D 3B
@@ -642,10 +642,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableE & 0x3) + 16);
     game[43][1] = (e_team)((tableD & 0x3) + 12);
     game[41][1] = (e_team)((tableB & 0x3) + 4);
-    totFifa += rank[teamF];
-    totFifa += rank[teamE];
-    totFifa += rank[teamD];
-    totFifa += rank[teamB];
+    totFifa += (rank[teamF]*20)/100;
+    totFifa += (rank[teamE]*20)/100;
+    totFifa += (rank[teamD]*20)/100;
+    totFifa += (rank[teamB]*20)/100;
     break;
   case 14:
     // 3F 3E 3D 3C
@@ -653,10 +653,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = (e_team)((tableE & 0x3) + 16);
     game[43][1] = (e_team)((tableD & 0x3) + 12);
     game[41][1] = (e_team)((tableC & 0x3) + 8);
-    totFifa += rank[teamF];
-    totFifa += rank[teamE];
-    totFifa += rank[teamD];
-    totFifa += rank[teamC];
+    totFifa += (rank[teamF]*20)/100;
+    totFifa += (rank[teamE]*20)/100;
+    totFifa += (rank[teamD]*20)/100;
+    totFifa += (rank[teamC]*20)/100;
     break;
   case 15: // There are 15 alternatives 0..14
   default:
@@ -1534,7 +1534,11 @@ int main(int argc, char *argv[]) {
     result = ((maxIteration >> (51 + 3)) & 0x1);
     game[52][0] = game[51][result];
     std::cout << game[52][0];
+#if 1
+    std::cout << ' ' << maxFifa;
+#else
     std::cout << ' ' << maxSoFar;
+#endif
     std::cout << '\n';
   }
 }
