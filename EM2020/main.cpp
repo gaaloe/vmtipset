@@ -344,126 +344,132 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
   /*1F-ABC3, match 41*/
   // 39 40 43 41
   // 1B 1C 1E 1F
+  const auto teamA = (e_team)((tableA & 0x3) + 0);
+  const auto teamB = (e_team)((tableB & 0x3) + 4);
+  const auto teamC = (e_team)((tableC & 0x3) + 8);
+  const auto teamD = (e_team)((tableD & 0x3) + 12);
+  const auto teamE = (e_team)((tableE & 0x3) + 16);
+  const auto teamF = (e_team)((tableF & 0x3) + 20);
   switch (tabell) {
   case 0:
     std::cout << "ABCD--";
     // 3A 3D 3B 3C
-    game[39][1] = (e_team)((tableA & 0x3) + 0);
-    game[40][1] = (e_team)((tableD & 0x3) + 12);
-    game[43][1] = (e_team)((tableB & 0x3) + 4);
-    game[41][1] = (e_team)((tableC & 0x3) + 8);
+    game[39][1] = teamA;
+    game[40][1] = teamD;
+    game[43][1] = teamB;
+    game[41][1] = teamC;
     break;
   case 1:
     std::cout << "ABC-E-";
     // 3A 3E 3B 3C
-    game[39][1] = (e_team)(tableA & 0x3);
-    game[40][1] = (e_team)((tableE & 0x3) + 16);
-    game[43][1] = (e_team)((tableB & 0x3) + 4);
-    game[41][1] = (e_team)((tableC & 0x3) + 8);
+    game[39][1] = teamA;
+    game[40][1] = teamE;
+    game[43][1] = teamB;
+    game[41][1] = teamC;
     break;
   case 2:
     std::cout << "ABC--F";
     // 3A 3F 3B 3C
-    game[39][1] = (e_team)((tableA & 0x3) + 0);
-    game[40][1] = (e_team)((tableF & 0x3) + 20);
-    game[43][1] = (e_team)((tableB & 0x3) + 4);
-    game[41][1] = (e_team)((tableC & 0x3) + 8);
+    game[39][1] = teamA;
+    game[40][1] = teamF;
+    game[43][1] = teamB;
+    game[41][1] = teamC;
     break;
   case 3:
     std::cout << "AB-DE-";
     // 3D 3E 3A 3B
-    game[39][1] = (e_team)((tableD & 0x3) + 12);
-    game[40][1] = (e_team)((tableE & 0x3) + 16);
-    game[43][1] = (e_team)((tableA & 0x3) + 0);
-    game[41][1] = (e_team)((tableB & 0x3) + 4);
+    game[39][1] = teamD;
+    game[40][1] = teamE;
+    game[43][1] = teamA;
+    game[41][1] = teamB;
     break;
   case 4:
     std::cout << "AB-D-F";
     // 3D 3F 3A 3B
-    game[39][1] = (e_team)((tableD & 0x3) + 12);
-    game[40][1] = (e_team)((tableF & 0x3) + 20);
-    game[43][1] = (e_team)((tableA & 0x3) + 0);
-    game[41][1] = (e_team)((tableB & 0x3) + 4);
+    game[39][1] = teamD;
+    game[40][1] = teamF;
+    game[43][1] = teamA;
+    game[41][1] = teamB;
     break;
   case 5:
     std::cout << "AB--EF";
     // 3E 3F 3B 3A
-    game[39][1] = (e_team)((tableE & 0x3) + 16);
-    game[40][1] = (e_team)((tableF & 0x3) + 20);
-    game[43][1] = (e_team)((tableB & 0x3) + 4);
-    game[41][1] = (e_team)((tableA & 0x3) + 0);
+    game[39][1] = teamE;
+    game[40][1] = teamF;
+    game[43][1] = teamB;
+    game[41][1] = teamA;
     break;
   case 6:
     std::cout << "A-CDE-";
     // 3E 3D 3C 3A
-    game[39][1] = (e_team)((tableE & 0x3) + 16);
-    game[40][1] = (e_team)((tableD & 0x3) + 12);
-    game[43][1] = (e_team)((tableC & 0x3) + 8);
-    game[41][1] = (e_team)((tableA & 0x3) + 0);
+    game[39][1] = teamE;
+    game[40][1] = teamD;
+    game[43][1] = teamC;
+    game[41][1] = teamA;
     break;
   case 7:
     std::cout << "A-CD-F";
     // 3F 3D 3C 3A
-    game[39][1] = (e_team)((tableF & 0x3) + 20);
-    game[40][1] = (e_team)((tableD & 0x3) + 12);
-    game[43][1] = (e_team)((tableC & 0x3) + 8);
-    game[41][1] = (e_team)((tableA & 0x3) + 0);
+    game[39][1] = teamF;
+    game[40][1] = teamD;
+    game[43][1] = teamC;
+    game[41][1] = teamA;
     break;
   case 8:
     std::cout << "A-C-EF";
     // 3E 3F 3C 3A
-    game[39][1] = (e_team)((tableE & 0x3) + 16);
-    game[40][1] = (e_team)((tableF & 0x3) + 20);
-    game[43][1] = (e_team)((tableC & 0x3) + 8);
-    game[41][1] = (e_team)((tableA & 0x3) + 0);
+    game[39][1] = teamE;
+    game[40][1] = teamF;
+    game[43][1] = teamC;
+    game[41][1] = teamA;
     break;
   case 9:
     std::cout << "A--DEF";
     // 3E 3F 3D 3A
-    game[39][1] = (e_team)((tableE & 0x3) + 16);
-    game[40][1] = (e_team)((tableF & 0x3) + 20);
-    game[43][1] = (e_team)((tableD & 0x3) + 12);
-    game[41][1] = (e_team)((tableA & 0x3) + 0);
+    game[39][1] = teamE;
+    game[40][1] = teamF;
+    game[43][1] = teamD;
+    game[41][1] = teamA;
     break;
   case 10:
     std::cout << "-BCDE-";
     // 3E 3D 3B 3C
-    game[39][1] = (e_team)((tableE & 0x3) + 16);
-    game[40][1] = (e_team)((tableD & 0x3) + 12);
-    game[43][1] = (e_team)((tableB & 0x3) + 4);
-    game[41][1] = (e_team)((tableC & 0x3) + 8);
+    game[39][1] = teamE;
+    game[40][1] = teamD;
+    game[43][1] = teamB;
+    game[41][1] = teamC;
     break;
   case 11:
     std::cout << "-BCD-F";
     // 3F 3D 3C 3B
-    game[39][1] = (e_team)((tableF & 0x3) + 20);
-    game[40][1] = (e_team)((tableD & 0x3) + 12);
-    game[43][1] = (e_team)((tableC & 0x3) + 8);
-    game[41][1] = (e_team)((tableB & 0x3) + 4);
+    game[39][1] = teamF;
+    game[40][1] = teamD;
+    game[43][1] = teamC;
+    game[41][1] = teamB;
     break;
   case 12:
     std::cout << "-BC-EF";
     // 3F 3E 3C 3B
-    game[39][1] = (e_team)((tableF & 0x3) + 20);
-    game[40][1] = (e_team)((tableE & 0x3) + 16);
-    game[43][1] = (e_team)((tableC & 0x3) + 8);
-    game[41][1] = (e_team)((tableB & 0x3) + 4);
+    game[39][1] = teamF;
+    game[40][1] = teamE;
+    game[43][1] = teamC;
+    game[41][1] = teamB;
     break;
   case 13:
     std::cout << "-B-DEF";
     // 3F 3E 3D 3B
-    game[39][1] = (e_team)((tableF & 0x3) + 20);
-    game[40][1] = (e_team)((tableE & 0x3) + 16);
-    game[43][1] = (e_team)((tableD & 0x3) + 12);
-    game[41][1] = (e_team)((tableB & 0x3) + 4);
+    game[39][1] = teamF;
+    game[40][1] = teamE;
+    game[43][1] = teamD;
+    game[41][1] = teamB;
     break;
   case 14:
     std::cout << "--CDEF";
     // 3F 3E 3D 3C
-    game[39][1] = (e_team)((tableF & 0x3) + 20);
-    game[40][1] = (e_team)((tableE & 0x3) + 16);
-    game[43][1] = (e_team)((tableD & 0x3) + 12);
-    game[41][1] = (e_team)((tableC & 0x3) + 8);
+    game[39][1] = teamF;
+    game[40][1] = teamE;
+    game[43][1] = teamD;
+    game[41][1] = teamC;
     break;
   case 15: // There are 15 alternatives 0..14
   default:
@@ -486,19 +492,19 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
   /*1F-ABC3, match 41*/
   // 39 40 43 41
   // 1B 1C 1E 1F
-  const e_team teamA = (e_team)((tableA & 0x3) + 0);
-  const e_team teamB = (e_team)((tableB & 0x3) + 4);
-  const e_team teamC = (e_team)((tableC & 0x3) + 8);
-  const e_team teamD = (e_team)((tableD & 0x3) + 12);
-  const e_team teamE = (e_team)((tableE & 0x3) + 16);
-  const e_team teamF = (e_team)((tableF & 0x3) + 20);
+  const auto teamA = (e_team)((tableA & 0x3) + 0);
+  const auto teamB = (e_team)((tableB & 0x3) + 4);
+  const auto teamC = (e_team)((tableC & 0x3) + 8);
+  const auto teamD = (e_team)((tableD & 0x3) + 12);
+  const auto teamE = (e_team)((tableE & 0x3) + 16);
+  const auto teamF = (e_team)((tableF & 0x3) + 20);
   switch (tabell) {
   case 0:
     // 3A 3D 3B 3C
-    game[39][1] = (e_team)((tableA & 0x3) + 0);
-    game[40][1] = (e_team)((tableD & 0x3) + 12);
-    game[43][1] = (e_team)((tableB & 0x3) + 4);
-    game[41][1] = (e_team)((tableC & 0x3) + 8);
+    game[39][1] = teamA;
+    game[40][1] = teamD;
+    game[43][1] = teamB;
+    game[41][1] = teamC;
     totFifa += (rank[teamA]*20)/100;
     totFifa += (rank[teamD]*20)/100;
     totFifa += (rank[teamB]*20)/100;
@@ -506,10 +512,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     break;
   case 1:
     // 3A 3E 3B 3C
-    game[39][1] = (e_team)(tableA & 0x3);
-    game[40][1] = (e_team)((tableE & 0x3) + 16);
-    game[43][1] = (e_team)((tableB & 0x3) + 4);
-    game[41][1] = (e_team)((tableC & 0x3) + 8);
+    game[39][1] = teamA;
+    game[40][1] = teamE;
+    game[43][1] = teamB;
+    game[41][1] = teamC;
     totFifa += (rank[teamA]*20)/100;
     totFifa += (rank[teamE]*20)/100;
     totFifa += (rank[teamB]*20)/100;
@@ -517,10 +523,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     break;
   case 2:
     // 3A 3F 3B 3C
-    game[39][1] = (e_team)((tableA & 0x3) + 0);
-    game[40][1] = (e_team)((tableF & 0x3) + 20);
-    game[43][1] = (e_team)((tableB & 0x3) + 4);
-    game[41][1] = (e_team)((tableC & 0x3) + 8);
+    game[39][1] = teamA;
+    game[40][1] = teamF;
+    game[43][1] = teamB;
+    game[41][1] = teamC;
     totFifa += (rank[teamA]*20)/100;
     totFifa += (rank[teamF]*20)/100;
     totFifa += (rank[teamB]*20)/100;
@@ -528,10 +534,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     break;
   case 3:
     // 3D 3E 3A 3B
-    game[39][1] = (e_team)((tableD & 0x3) + 12);
-    game[40][1] = (e_team)((tableE & 0x3) + 16);
-    game[43][1] = (e_team)((tableA & 0x3) + 0);
-    game[41][1] = (e_team)((tableB & 0x3) + 4);
+    game[39][1] = teamD;
+    game[40][1] = teamE;
+    game[43][1] = teamA;
+    game[41][1] = teamB;
     totFifa += (rank[teamD]*20)/100;
     totFifa += (rank[teamE]*20)/100;
     totFifa += (rank[teamA]*20)/100;
@@ -539,10 +545,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     break;
   case 4:
     // 3D 3F 3A 3B
-    game[39][1] = (e_team)((tableD & 0x3) + 12);
-    game[40][1] = (e_team)((tableF & 0x3) + 20);
-    game[43][1] = (e_team)((tableA & 0x3) + 0);
-    game[41][1] = (e_team)((tableB & 0x3) + 4);
+    game[39][1] = teamD;
+    game[40][1] = teamF;
+    game[43][1] = teamA;
+    game[41][1] = teamB;
     totFifa += (rank[teamD]*20)/100;
     totFifa += (rank[teamF]*20)/100;
     totFifa += (rank[teamA]*20)/100;
@@ -550,10 +556,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     break;
   case 5:
     // 3E 3F 3B 3A
-    game[39][1] = (e_team)((tableE & 0x3) + 16);
-    game[40][1] = (e_team)((tableF & 0x3) + 20);
-    game[43][1] = (e_team)((tableB & 0x3) + 4);
-    game[41][1] = (e_team)((tableA & 0x3) + 0);
+    game[39][1] = teamE;
+    game[40][1] = teamF;
+    game[43][1] = teamB;
+    game[41][1] = teamA;
     totFifa += (rank[teamE]*20)/100;
     totFifa += (rank[teamF]*20)/100;
     totFifa += (rank[teamB]*20)/100;
@@ -561,10 +567,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     break;
   case 6:
     // 3E 3D 3C 3A
-    game[39][1] = (e_team)((tableE & 0x3) + 16);
-    game[40][1] = (e_team)((tableD & 0x3) + 12);
-    game[43][1] = (e_team)((tableC & 0x3) + 8);
-    game[41][1] = (e_team)((tableA & 0x3) + 0);
+    game[39][1] = teamE;
+    game[40][1] = teamD;
+    game[43][1] = teamC;
+    game[41][1] = teamA;
     totFifa += (rank[teamE]*20)/100;
     totFifa += (rank[teamD]*20)/100;
     totFifa += (rank[teamC]*20)/100;
@@ -572,10 +578,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     break;
   case 7:
     // 3F 3D 3C 3A
-    game[39][1] = (e_team)((tableF & 0x3) + 20);
-    game[40][1] = (e_team)((tableD & 0x3) + 12);
-    game[43][1] = (e_team)((tableC & 0x3) + 8);
-    game[41][1] = (e_team)((tableA & 0x3) + 0);
+    game[39][1] = teamF;
+    game[40][1] = teamD;
+    game[43][1] = teamC;
+    game[41][1] = teamA;
     totFifa += (rank[teamF]*20)/100;
     totFifa += (rank[teamD]*20)/100;
     totFifa += (rank[teamC]*20)/100;
@@ -583,10 +589,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     break;
   case 8:
     // 3E 3F 3C 3A
-    game[39][1] = (e_team)((tableE & 0x3) + 16);
-    game[40][1] = (e_team)((tableF & 0x3) + 20);
-    game[43][1] = (e_team)((tableC & 0x3) + 8);
-    game[41][1] = (e_team)((tableA & 0x3) + 0);
+    game[39][1] = teamE;
+    game[40][1] = teamF;
+    game[43][1] = teamC;
+    game[41][1] = teamA;
     totFifa += (rank[teamE]*20)/100;
     totFifa += (rank[teamF]*20)/100;
     totFifa += (rank[teamC]*20)/100;
@@ -594,10 +600,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     break;
   case 9:
     // 3E 3F 3D 3A
-    game[39][1] = (e_team)((tableE & 0x3) + 16);
-    game[40][1] = (e_team)((tableF & 0x3) + 20);
-    game[43][1] = (e_team)((tableD & 0x3) + 12);
-    game[41][1] = (e_team)((tableA & 0x3) + 0);
+    game[39][1] = teamE;
+    game[40][1] = teamF;
+    game[43][1] = teamD;
+    game[41][1] = teamA;
     totFifa += (rank[teamE]*20)/100;
     totFifa += (rank[teamF]*20)/100;
     totFifa += (rank[teamD]*20)/100;
@@ -605,10 +611,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     break;
   case 10:
     // 3E 3D 3B 3C
-    game[39][1] = (e_team)((tableE & 0x3) + 16);
-    game[40][1] = (e_team)((tableD & 0x3) + 12);
-    game[43][1] = (e_team)((tableB & 0x3) + 4);
-    game[41][1] = (e_team)((tableC & 0x3) + 8);
+    game[39][1] = teamE;
+    game[40][1] = teamD;
+    game[43][1] = teamB;
+    game[41][1] = teamC;
     totFifa += (rank[teamE]*20)/100;
     totFifa += (rank[teamD]*20)/100;
     totFifa += (rank[teamB]*20)/100;
@@ -616,10 +622,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     break;
   case 11:
     // 3F 3D 3C 3B
-    game[39][1] = (e_team)((tableF & 0x3) + 20);
-    game[40][1] = (e_team)((tableD & 0x3) + 12);
-    game[43][1] = (e_team)((tableC & 0x3) + 8);
-    game[41][1] = (e_team)((tableB & 0x3) + 4);
+    game[39][1] = teamF;
+    game[40][1] = teamD;
+    game[43][1] = teamC;
+    game[41][1] = teamB;
     totFifa += (rank[teamF]*20)/100;
     totFifa += (rank[teamD]*20)/100;
     totFifa += (rank[teamC]*20)/100;
@@ -627,10 +633,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     break;
   case 12:
     // 3F 3E 3C 3B
-    game[39][1] = (e_team)((tableF & 0x3) + 20);
-    game[40][1] = (e_team)((tableE & 0x3) + 16);
-    game[43][1] = (e_team)((tableC & 0x3) + 8);
-    game[41][1] = (e_team)((tableB & 0x3) + 4);
+    game[39][1] = teamF;
+    game[40][1] = teamE;
+    game[43][1] = teamC;
+    game[41][1] = teamB;
     totFifa += (rank[teamF]*20)/100;
     totFifa += (rank[teamE]*20)/100;
     totFifa += (rank[teamC]*20)/100;
@@ -638,10 +644,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     break;
   case 13:
     // 3F 3E 3D 3B
-    game[39][1] = (e_team)((tableF & 0x3) + 20);
-    game[40][1] = (e_team)((tableE & 0x3) + 16);
-    game[43][1] = (e_team)((tableD & 0x3) + 12);
-    game[41][1] = (e_team)((tableB & 0x3) + 4);
+    game[39][1] = teamF;
+    game[40][1] = teamE;
+    game[43][1] = teamD;
+    game[41][1] = teamB;
     totFifa += (rank[teamF]*20)/100;
     totFifa += (rank[teamE]*20)/100;
     totFifa += (rank[teamD]*20)/100;
@@ -649,10 +655,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     break;
   case 14:
     // 3F 3E 3D 3C
-    game[39][1] = (e_team)((tableF & 0x3) + 20);
-    game[40][1] = (e_team)((tableE & 0x3) + 16);
-    game[43][1] = (e_team)((tableD & 0x3) + 12);
-    game[41][1] = (e_team)((tableC & 0x3) + 8);
+    game[39][1] = teamF;
+    game[40][1] = teamE;
+    game[43][1] = teamD;
+    game[41][1] = teamC;
     totFifa += (rank[teamF]*20)/100;
     totFifa += (rank[teamE]*20)/100;
     totFifa += (rank[teamD]*20)/100;
