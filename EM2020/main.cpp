@@ -13,8 +13,8 @@ using std::cerr;
 // seq -w 0 3 | parallel -u ./a.out {} 524287
 // seq -w 0 15 | parallel -u ./a.out {} 16127
 // seq -w 0 15 | parallel -u ./a.out {} 16127 tur ita wal
-void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
-               uint64_t &offsetStride, uint64_t &ettPrimtal);
+void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
+               uint64_t *offsetStride, uint64_t *ettPrimtal);
 const uint64_t upperlimit = 1UL << 55;
 uint64_t ettPrimtal = 16127UL;
 // const uint64_t ettPrimtal = 131071UL;
@@ -52,31 +52,30 @@ enum e_team {
   ger
 };
 int rank[24] = {
-  /*tur*/ 1505-1374,
-  /*ita*/ 1642-1374,
-  /*wal*/ 1570-1374,
-  /*sui*/ 1606-1374,
-  /*den*/ 1631-1374,
-  /*fin*/ 1410-1374,
-  /*bel*/ 1783-1374,
-  /*rus*/ 1462-1374,
-  /*ned*/ 1598-1374,
-  /*ukr*/ 1515-1374,
-  /*aut*/ 1523-1374,
-  /*mkd*/ 1374-1374,
-  /*eng*/ 1686-1374,
-  /*cro*/ 1605-1374,
-  /*sco*/ 1441-1374,
-  /*cze*/ 1458-1374,
-  /*esp*/ 1648-1374,
-  /*swe*/ 1569-1374,
-  /*pol*/ 1549-1374,
-  /*svk*/ 1475-1374,
-  /*hun*/ 1468-1374,
-  /*por*/ 1666-1374,
-  /*fra*/ 1757-1374,
-  /*ger*/ 1609-1374
-};
+    /*tur*/ 1505 - 1374,
+    /*ita*/ 1642 - 1374,
+    /*wal*/ 1570 - 1374,
+    /*sui*/ 1606 - 1374,
+    /*den*/ 1631 - 1374,
+    /*fin*/ 1410 - 1374,
+    /*bel*/ 1783 - 1374,
+    /*rus*/ 1462 - 1374,
+    /*ned*/ 1598 - 1374,
+    /*ukr*/ 1515 - 1374,
+    /*aut*/ 1523 - 1374,
+    /*mkd*/ 1374 - 1374,
+    /*eng*/ 1686 - 1374,
+    /*cro*/ 1605 - 1374,
+    /*sco*/ 1441 - 1374,
+    /*cze*/ 1458 - 1374,
+    /*esp*/ 1648 - 1374,
+    /*swe*/ 1569 - 1374,
+    /*pol*/ 1549 - 1374,
+    /*svk*/ 1475 - 1374,
+    /*hun*/ 1468 - 1374,
+    /*por*/ 1666 - 1374,
+    /*fra*/ 1757 - 1374,
+    /*ger*/ 1609 - 1374};
 char names[24][4];
 void elaborateNames();
 // Games are officially numbered from 1 to 51.
@@ -241,7 +240,8 @@ void showGrundSpel(char grp, uint64_t table) {
   const unsigned win = table >> 4;
   const unsigned secnd = (table & 0xC) >> 2;
   const unsigned third = table & 0x3;
-  std::cout << static_cast<e_team>(win + offset) << ',' << static_cast<e_team>(secnd + offset) << ','
+  std::cout << static_cast<e_team>(win + offset) << ','
+            << static_cast<e_team>(secnd + offset) << ','
             << static_cast<e_team>(third + offset) << ' ';
   switch (grp) {
   case 'A':
@@ -285,7 +285,7 @@ void calcGrundSpel(char grp, uint64_t table) {
   const auto teamWin = static_cast<e_team>(win + offset);
   const auto team2nd = static_cast<e_team>(secnd + offset);
   totFifa += rank[teamWin];
-  totFifa += (rank[team2nd]*60)/100;
+  totFifa += (rank[team2nd] * 60) / 100;
   unsigned saabOffset = 0;
   switch (grp) {
   case 'A':
@@ -323,13 +323,15 @@ void calcGrundSpel(char grp, uint64_t table) {
     abort();
   }
   for (auto &saabare : saab) {
-    if (static_cast<e_team>(win + offset) == saabare.grupp_placering[saabOffset][0]) {
+    if (static_cast<e_team>(win + offset) ==
+        saabare.grupp_placering[saabOffset][0]) {
       saabare.poang += 10;
     } else if (static_cast<e_team>(win + offset) ==
                saabare.grupp_placering[saabOffset][1]) {
       saabare.poang += 7;
     }
-    if (static_cast<e_team>(secnd + offset) == saabare.grupp_placering[saabOffset][1]) {
+    if (static_cast<e_team>(secnd + offset) ==
+        saabare.grupp_placering[saabOffset][1]) {
       saabare.poang += 10;
     } else if (static_cast<e_team>(secnd + offset) ==
                saabare.grupp_placering[saabOffset][0]) {
@@ -507,10 +509,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = teamD;
     game[43][1] = teamB;
     game[41][1] = teamC;
-    totFifa += (rank[teamA]*20)/100;
-    totFifa += (rank[teamD]*20)/100;
-    totFifa += (rank[teamB]*20)/100;
-    totFifa += (rank[teamC]*20)/100;
+    totFifa += (rank[teamA] * 20) / 100;
+    totFifa += (rank[teamD] * 20) / 100;
+    totFifa += (rank[teamB] * 20) / 100;
+    totFifa += (rank[teamC] * 20) / 100;
     break;
   case 1:
     // 3A 3E 3B 3C
@@ -518,10 +520,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = teamE;
     game[43][1] = teamB;
     game[41][1] = teamC;
-    totFifa += (rank[teamA]*20)/100;
-    totFifa += (rank[teamE]*20)/100;
-    totFifa += (rank[teamB]*20)/100;
-    totFifa += (rank[teamC]*20)/100;
+    totFifa += (rank[teamA] * 20) / 100;
+    totFifa += (rank[teamE] * 20) / 100;
+    totFifa += (rank[teamB] * 20) / 100;
+    totFifa += (rank[teamC] * 20) / 100;
     break;
   case 2:
     // 3A 3F 3B 3C
@@ -529,10 +531,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = teamF;
     game[43][1] = teamB;
     game[41][1] = teamC;
-    totFifa += (rank[teamA]*20)/100;
-    totFifa += (rank[teamF]*20)/100;
-    totFifa += (rank[teamB]*20)/100;
-    totFifa += (rank[teamC]*20)/100;
+    totFifa += (rank[teamA] * 20) / 100;
+    totFifa += (rank[teamF] * 20) / 100;
+    totFifa += (rank[teamB] * 20) / 100;
+    totFifa += (rank[teamC] * 20) / 100;
     break;
   case 3:
     // 3D 3E 3A 3B
@@ -540,10 +542,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = teamE;
     game[43][1] = teamA;
     game[41][1] = teamB;
-    totFifa += (rank[teamD]*20)/100;
-    totFifa += (rank[teamE]*20)/100;
-    totFifa += (rank[teamA]*20)/100;
-    totFifa += (rank[teamB]*20)/100;
+    totFifa += (rank[teamD] * 20) / 100;
+    totFifa += (rank[teamE] * 20) / 100;
+    totFifa += (rank[teamA] * 20) / 100;
+    totFifa += (rank[teamB] * 20) / 100;
     break;
   case 4:
     // 3D 3F 3A 3B
@@ -551,10 +553,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = teamF;
     game[43][1] = teamA;
     game[41][1] = teamB;
-    totFifa += (rank[teamD]*20)/100;
-    totFifa += (rank[teamF]*20)/100;
-    totFifa += (rank[teamA]*20)/100;
-    totFifa += (rank[teamB]*20)/100;
+    totFifa += (rank[teamD] * 20) / 100;
+    totFifa += (rank[teamF] * 20) / 100;
+    totFifa += (rank[teamA] * 20) / 100;
+    totFifa += (rank[teamB] * 20) / 100;
     break;
   case 5:
     // 3E 3F 3B 3A
@@ -562,10 +564,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = teamF;
     game[43][1] = teamB;
     game[41][1] = teamA;
-    totFifa += (rank[teamE]*20)/100;
-    totFifa += (rank[teamF]*20)/100;
-    totFifa += (rank[teamB]*20)/100;
-    totFifa += (rank[teamA]*20)/100;
+    totFifa += (rank[teamE] * 20) / 100;
+    totFifa += (rank[teamF] * 20) / 100;
+    totFifa += (rank[teamB] * 20) / 100;
+    totFifa += (rank[teamA] * 20) / 100;
     break;
   case 6:
     // 3E 3D 3C 3A
@@ -573,10 +575,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = teamD;
     game[43][1] = teamC;
     game[41][1] = teamA;
-    totFifa += (rank[teamE]*20)/100;
-    totFifa += (rank[teamD]*20)/100;
-    totFifa += (rank[teamC]*20)/100;
-    totFifa += (rank[teamA]*20)/100;
+    totFifa += (rank[teamE] * 20) / 100;
+    totFifa += (rank[teamD] * 20) / 100;
+    totFifa += (rank[teamC] * 20) / 100;
+    totFifa += (rank[teamA] * 20) / 100;
     break;
   case 7:
     // 3F 3D 3C 3A
@@ -584,10 +586,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = teamD;
     game[43][1] = teamC;
     game[41][1] = teamA;
-    totFifa += (rank[teamF]*20)/100;
-    totFifa += (rank[teamD]*20)/100;
-    totFifa += (rank[teamC]*20)/100;
-    totFifa += (rank[teamA]*20)/100;
+    totFifa += (rank[teamF] * 20) / 100;
+    totFifa += (rank[teamD] * 20) / 100;
+    totFifa += (rank[teamC] * 20) / 100;
+    totFifa += (rank[teamA] * 20) / 100;
     break;
   case 8:
     // 3E 3F 3C 3A
@@ -595,10 +597,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = teamF;
     game[43][1] = teamC;
     game[41][1] = teamA;
-    totFifa += (rank[teamE]*20)/100;
-    totFifa += (rank[teamF]*20)/100;
-    totFifa += (rank[teamC]*20)/100;
-    totFifa += (rank[teamA]*20)/100;
+    totFifa += (rank[teamE] * 20) / 100;
+    totFifa += (rank[teamF] * 20) / 100;
+    totFifa += (rank[teamC] * 20) / 100;
+    totFifa += (rank[teamA] * 20) / 100;
     break;
   case 9:
     // 3E 3F 3D 3A
@@ -606,10 +608,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = teamF;
     game[43][1] = teamD;
     game[41][1] = teamA;
-    totFifa += (rank[teamE]*20)/100;
-    totFifa += (rank[teamF]*20)/100;
-    totFifa += (rank[teamD]*20)/100;
-    totFifa += (rank[teamA]*20)/100;
+    totFifa += (rank[teamE] * 20) / 100;
+    totFifa += (rank[teamF] * 20) / 100;
+    totFifa += (rank[teamD] * 20) / 100;
+    totFifa += (rank[teamA] * 20) / 100;
     break;
   case 10:
     // 3E 3D 3B 3C
@@ -617,10 +619,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = teamD;
     game[43][1] = teamB;
     game[41][1] = teamC;
-    totFifa += (rank[teamE]*20)/100;
-    totFifa += (rank[teamD]*20)/100;
-    totFifa += (rank[teamB]*20)/100;
-    totFifa += (rank[teamC]*20)/100;
+    totFifa += (rank[teamE] * 20) / 100;
+    totFifa += (rank[teamD] * 20) / 100;
+    totFifa += (rank[teamB] * 20) / 100;
+    totFifa += (rank[teamC] * 20) / 100;
     break;
   case 11:
     // 3F 3D 3C 3B
@@ -628,10 +630,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = teamD;
     game[43][1] = teamC;
     game[41][1] = teamB;
-    totFifa += (rank[teamF]*20)/100;
-    totFifa += (rank[teamD]*20)/100;
-    totFifa += (rank[teamC]*20)/100;
-    totFifa += (rank[teamB]*20)/100;
+    totFifa += (rank[teamF] * 20) / 100;
+    totFifa += (rank[teamD] * 20) / 100;
+    totFifa += (rank[teamC] * 20) / 100;
+    totFifa += (rank[teamB] * 20) / 100;
     break;
   case 12:
     // 3F 3E 3C 3B
@@ -639,10 +641,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = teamE;
     game[43][1] = teamC;
     game[41][1] = teamB;
-    totFifa += (rank[teamF]*20)/100;
-    totFifa += (rank[teamE]*20)/100;
-    totFifa += (rank[teamC]*20)/100;
-    totFifa += (rank[teamB]*20)/100;
+    totFifa += (rank[teamF] * 20) / 100;
+    totFifa += (rank[teamE] * 20) / 100;
+    totFifa += (rank[teamC] * 20) / 100;
+    totFifa += (rank[teamB] * 20) / 100;
     break;
   case 13:
     // 3F 3E 3D 3B
@@ -650,10 +652,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = teamE;
     game[43][1] = teamD;
     game[41][1] = teamB;
-    totFifa += (rank[teamF]*20)/100;
-    totFifa += (rank[teamE]*20)/100;
-    totFifa += (rank[teamD]*20)/100;
-    totFifa += (rank[teamB]*20)/100;
+    totFifa += (rank[teamF] * 20) / 100;
+    totFifa += (rank[teamE] * 20) / 100;
+    totFifa += (rank[teamD] * 20) / 100;
+    totFifa += (rank[teamB] * 20) / 100;
     break;
   case 14:
     // 3F 3E 3D 3C
@@ -661,10 +663,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[40][1] = teamE;
     game[43][1] = teamD;
     game[41][1] = teamC;
-    totFifa += (rank[teamF]*20)/100;
-    totFifa += (rank[teamE]*20)/100;
-    totFifa += (rank[teamD]*20)/100;
-    totFifa += (rank[teamC]*20)/100;
+    totFifa += (rank[teamF] * 20) / 100;
+    totFifa += (rank[teamE] * 20) / 100;
+    totFifa += (rank[teamD] * 20) / 100;
+    totFifa += (rank[teamC] * 20) / 100;
     break;
   case 15: // There are 15 alternatives 0..14
   default:
@@ -683,7 +685,7 @@ int main(int argc, char *argv[]) {
   uint64_t offsetStride = 0;
   if (argc > 1) {
     gsl::span<char *> span_argv(argv, argc);
-    parseArgs(argc, span_argv, completeFactor, offsetStride, ettPrimtal);
+    parseArgs(argc, span_argv, &completeFactor, &offsetStride, &ettPrimtal);
   }
   for (uint64_t iteration = offsetStride; iteration < upperlimit;
        iteration += (ettPrimtal * completeFactor)) {
@@ -1559,8 +1561,8 @@ const enum e_team operator++(enum e_team &that, int) {
   ++that;
   return result;
 }
-void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
-               uint64_t &offsetStride, uint64_t &ettPrimtal) {
+void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
+               uint64_t *offsetStride, uint64_t *ettPrimtal) {
   int base = 10;
   char *endptr;
   errno = 0; /* To distinguish success/failure after call */
@@ -1572,7 +1574,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
     cerr << __func__ << ' ' << __LINE__ << ' ' << strerror(EINVAL) << '\n';
     std::terminate();
   }
-  offsetStride = static_cast<uint64_t>(lstrtol);
+  *offsetStride = static_cast<uint64_t>(lstrtol);
   if (argc > 2) {
     errno = 0;
     const auto lstrtol = strtol(span_argv[2], &endptr, base);
@@ -1583,28 +1585,30 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
       cerr << __func__ << ' ' << __LINE__ << ' ' << strerror(EINVAL) << '\n';
       std::terminate();
     }
-    ettPrimtal = static_cast<uint64_t>(lstrtol);
+    *ettPrimtal = static_cast<uint64_t>(lstrtol);
   }
   if (argc > 3) {
     // 2 teams group A follows
     char *const arg3 = span_argv[3];
     char *const arg4 = span_argv[4];
-    const e_team winA =
-        strcmp("tur", arg3) == 0
-            ? tur
-            : strcmp("ita", arg3) == 0
-                  ? ita
-                  : strcmp("wal", arg3) == 0
-                        ? wal
-                        : strcmp("sui", arg3) == 0 ? sui : static_cast<e_team>(-1);
-    const e_team scndA =
-        strcmp("tur", arg4) == 0
-            ? tur
-            : strcmp("ita", arg4) == 0
-                  ? ita
-                  : strcmp("wal", arg4) == 0
-                        ? wal
-                        : strcmp("sui", arg4) == 0 ? sui : static_cast<e_team>(-1);
+    const e_team winA = strcmp("tur", arg3) == 0
+                            ? tur
+                            : strcmp("ita", arg3) == 0
+                                  ? ita
+                                  : strcmp("wal", arg3) == 0
+                                        ? wal
+                                        : strcmp("sui", arg3) == 0
+                                              ? sui
+                                              : static_cast<e_team>(-1);
+    const e_team scndA = strcmp("tur", arg4) == 0
+                             ? tur
+                             : strcmp("ita", arg4) == 0
+                                   ? ita
+                                   : strcmp("wal", arg4) == 0
+                                         ? wal
+                                         : strcmp("sui", arg4) == 0
+                                               ? sui
+                                               : static_cast<e_team>(-1);
     e_team rd3A = (winA != tur && scndA != tur)
                       ? tur
                       : (winA != ita && scndA != ita) ? ita : wal;
@@ -1618,22 +1622,24 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
       // Group B win,2nd,3rd
       char *const arg5 = span_argv[5];
       char *const arg6 = span_argv[6];
-      const e_team winB =
-          strcmp("den", arg5) == 0
-              ? den
-              : strcmp("fin", arg5) == 0
-                    ? fin
-                    : strcmp("bel", arg5) == 0
-                          ? bel
-                          : strcmp("rus", arg5) == 0 ? rus : static_cast<e_team>(-1);
-      const e_team scndB =
-          strcmp("den", arg6) == 0
-              ? den
-              : strcmp("fin", arg6) == 0
-                    ? fin
-                    : strcmp("bel", arg6) == 0
-                          ? bel
-                          : strcmp("rus", arg6) == 0 ? rus : static_cast<e_team>(-1);
+      const e_team winB = strcmp("den", arg5) == 0
+                              ? den
+                              : strcmp("fin", arg5) == 0
+                                    ? fin
+                                    : strcmp("bel", arg5) == 0
+                                          ? bel
+                                          : strcmp("rus", arg5) == 0
+                                                ? rus
+                                                : static_cast<e_team>(-1);
+      const e_team scndB = strcmp("den", arg6) == 0
+                               ? den
+                               : strcmp("fin", arg6) == 0
+                                     ? fin
+                                     : strcmp("bel", arg6) == 0
+                                           ? bel
+                                           : strcmp("rus", arg6) == 0
+                                                 ? rus
+                                                 : static_cast<e_team>(-1);
       e_team rd3B = (winB != den && scndB != den)
                         ? den
                         : (winB != fin && scndB != fin) ? fin : bel;
@@ -1647,22 +1653,24 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
         // Group C win,2nd,3rd
         char *const arg7 = span_argv[7];
         char *const arg8 = span_argv[8];
-        const e_team winC =
-            strcmp("ned", arg7) == 0
-                ? ned
-                : strcmp("ukr", arg7) == 0
-                      ? ukr
-                      : strcmp("aut", arg7) == 0
-                            ? aut
-                            : strcmp("mkd", arg7) == 0 ? mkd : static_cast<e_team>(-1);
-        const e_team scndC =
-            strcmp("ned", arg8) == 0
-                ? ned
-                : strcmp("ukr", arg8) == 0
-                      ? ukr
-                      : strcmp("aut", arg8) == 0
-                            ? aut
-                            : strcmp("mkd", arg8) == 0 ? mkd : static_cast<e_team>(-1);
+        const e_team winC = strcmp("ned", arg7) == 0
+                                ? ned
+                                : strcmp("ukr", arg7) == 0
+                                      ? ukr
+                                      : strcmp("aut", arg7) == 0
+                                            ? aut
+                                            : strcmp("mkd", arg7) == 0
+                                                  ? mkd
+                                                  : static_cast<e_team>(-1);
+        const e_team scndC = strcmp("ned", arg8) == 0
+                                 ? ned
+                                 : strcmp("ukr", arg8) == 0
+                                       ? ukr
+                                       : strcmp("aut", arg8) == 0
+                                             ? aut
+                                             : strcmp("mkd", arg8) == 0
+                                                   ? mkd
+                                                   : static_cast<e_team>(-1);
         e_team rd3C = (winC != ned && scndC != ned)
                           ? ned
                           : (winC != ukr && scndC != ukr) ? ukr : aut;
@@ -1676,22 +1684,24 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
           // Group D win,2nd,3rd
           char *const arg9 = span_argv[9];
           char *const arg10 = span_argv[10];
-          const e_team winD =
-              strcmp("eng", arg9) == 0
-                  ? eng
-                  : strcmp("cro", arg9) == 0
-                        ? cro
-                        : strcmp("sco", arg9) == 0
-                              ? sco
-                              : strcmp("cze", arg9) == 0 ? cze : static_cast<e_team>(-1);
-          const e_team scndD =
-              strcmp("eng", arg10) == 0
-                  ? eng
-                  : strcmp("cro", arg10) == 0
-                        ? cro
-                        : strcmp("sco", arg10) == 0
-                              ? sco
-                              : strcmp("cze", arg10) == 0 ? cze : static_cast<e_team>(-1);
+          const e_team winD = strcmp("eng", arg9) == 0
+                                  ? eng
+                                  : strcmp("cro", arg9) == 0
+                                        ? cro
+                                        : strcmp("sco", arg9) == 0
+                                              ? sco
+                                              : strcmp("cze", arg9) == 0
+                                                    ? cze
+                                                    : static_cast<e_team>(-1);
+          const e_team scndD = strcmp("eng", arg10) == 0
+                                   ? eng
+                                   : strcmp("cro", arg10) == 0
+                                         ? cro
+                                         : strcmp("sco", arg10) == 0
+                                               ? sco
+                                               : strcmp("cze", arg10) == 0
+                                                     ? cze
+                                                     : static_cast<e_team>(-1);
           e_team rd3D = (winD != eng && scndD != eng)
                             ? eng
                             : (winD != cro && scndD != cro) ? cro : cze;
@@ -1705,14 +1715,15 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
             // Group E win,2nd,3rd
             char *const arg11 = span_argv[11];
             char *const arg12 = span_argv[12];
-            const e_team winE =
-                strcmp("esp", arg11) == 0
-                    ? esp
-                    : strcmp("swe", arg11) == 0
-                          ? swe
-                          : strcmp("pol", arg11) == 0
-                                ? pol
-                                : strcmp("svk", arg11) == 0 ? svk : static_cast<e_team>(-1);
+            const e_team winE = strcmp("esp", arg11) == 0
+                                    ? esp
+                                    : strcmp("swe", arg11) == 0
+                                          ? swe
+                                          : strcmp("pol", arg11) == 0
+                                                ? pol
+                                                : strcmp("svk", arg11) == 0
+                                                      ? svk
+                                                      : static_cast<e_team>(-1);
             const e_team scndE =
                 strcmp("esp", arg12) == 0
                     ? esp
@@ -1720,7 +1731,9 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                           ? swe
                           : strcmp("pol", arg12) == 0
                                 ? pol
-                                : strcmp("svk", arg12) == 0 ? svk : static_cast<e_team>(-1);
+                                : strcmp("svk", arg12) == 0
+                                      ? svk
+                                      : static_cast<e_team>(-1);
             e_team rd3E = (winE != esp && scndE != esp)
                               ? esp
                               : (winE != swe && scndE != swe) ? swe : pol;
@@ -1734,24 +1747,26 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
               // Group F win,2nd
               char *const arg13 = span_argv[13];
               char *const arg14 = span_argv[14];
-              const e_team winF = strcmp("hun", arg13) == 0
-                                      ? hun
-                                      : strcmp("por", arg13) == 0
-                                            ? por
-                                            : strcmp("fra", arg13) == 0
-                                                  ? fra
-                                                  : strcmp("ger", arg13) == 0
-                                                        ? ger
-                                                        : static_cast<e_team>(-1);
-              const e_team scndF = strcmp("hun", arg14) == 0
-                                       ? hun
-                                       : strcmp("por", arg14) == 0
-                                             ? por
-                                             : strcmp("fra", arg14) == 0
-                                                   ? fra
-                                                   : strcmp("ger", arg14) == 0
-                                                         ? ger
-                                                         : static_cast<e_team>(-1);
+              const e_team winF =
+                  strcmp("hun", arg13) == 0
+                      ? hun
+                      : strcmp("por", arg13) == 0
+                            ? por
+                            : strcmp("fra", arg13) == 0
+                                  ? fra
+                                  : strcmp("ger", arg13) == 0
+                                        ? ger
+                                        : static_cast<e_team>(-1);
+              const e_team scndF =
+                  strcmp("hun", arg14) == 0
+                      ? hun
+                      : strcmp("por", arg14) == 0
+                            ? por
+                            : strcmp("fra", arg14) == 0
+                                  ? fra
+                                  : strcmp("ger", arg14) == 0
+                                        ? ger
+                                        : static_cast<e_team>(-1);
               e_team rd3F = (winF != hun && scndF != hun)
                                 ? hun
                                 : (winF != por && scndF != por) ? por : fra;
@@ -2030,59 +2045,59 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                 std::cerr << __FILE__ << __LINE__ << '\n';
                 abort();
               }
-              completeFactor = 1UL << 40;
-              offsetStride *= 1UL << 40;
-              offsetStride += rd3bits + ((winF - 20UL) << 34) +
-                              ((scndF - 20UL) << 32) + ((rd3F - 20UL) << 30) +
-                              ((winE - 16UL) << 28) + ((scndE - 16UL) << 26) +
-                              ((rd3E - 16UL) << 24) + ((winD - 12UL) << 22) +
-                              ((scndD - 12UL) << 20) + ((rd3D - 12UL) << 18) +
-                              ((winC - 8UL) << 16) + ((scndC - 8UL) << 14) +
-                              ((rd3C - 8UL) << 12) + ((winB - 4UL) << 10) +
-                              ((scndB - 4UL) << 8) + ((rd3B - 4UL) << 6) +
-                              ((winA - 0UL) << 4) + ((scndA - 0UL) << 2) +
-                              ((rd3A - 0UL) << 0);
+              *completeFactor = 1UL << 40;
+              *offsetStride *= 1UL << 40;
+              *offsetStride += rd3bits + ((winF - 20UL) << 34) +
+                               ((scndF - 20UL) << 32) + ((rd3F - 20UL) << 30) +
+                               ((winE - 16UL) << 28) + ((scndE - 16UL) << 26) +
+                               ((rd3E - 16UL) << 24) + ((winD - 12UL) << 22) +
+                               ((scndD - 12UL) << 20) + ((rd3D - 12UL) << 18) +
+                               ((winC - 8UL) << 16) + ((scndC - 8UL) << 14) +
+                               ((rd3C - 8UL) << 12) + ((winB - 4UL) << 10) +
+                               ((scndB - 4UL) << 8) + ((rd3B - 4UL) << 6) +
+                               ((winA - 0UL) << 4) + ((scndA - 0UL) << 2) +
+                               ((rd3A - 0UL) << 0);
             } else {
-              completeFactor = 1UL << 30;
-              offsetStride *= 1UL << 30;
-              offsetStride += ((winE - 16) << 28) + ((scndE - 16) << 26) +
-                              ((rd3E - 16) << 24) + ((winD - 12) << 22) +
-                              ((scndD - 12) << 20) + ((rd3D - 12) << 18) +
-                              ((winC - 8) << 16) + ((scndC - 8) << 14) +
-                              ((rd3C - 8) << 12) + ((winB - 4) << 10) +
-                              ((scndB - 4) << 8) + ((rd3B - 4) << 6) +
-                              ((winA - 0) << 4) + ((scndA - 0) << 2) +
-                              ((rd3A - 0) << 0);
+              *completeFactor = 1UL << 30;
+              *offsetStride *= 1UL << 30;
+              *offsetStride += ((winE - 16) << 28) + ((scndE - 16) << 26) +
+                               ((rd3E - 16) << 24) + ((winD - 12) << 22) +
+                               ((scndD - 12) << 20) + ((rd3D - 12) << 18) +
+                               ((winC - 8) << 16) + ((scndC - 8) << 14) +
+                               ((rd3C - 8) << 12) + ((winB - 4) << 10) +
+                               ((scndB - 4) << 8) + ((rd3B - 4) << 6) +
+                               ((winA - 0) << 4) + ((scndA - 0) << 2) +
+                               ((rd3A - 0) << 0);
             }
           } else {
-            completeFactor = 1UL << 24;
-            offsetStride *= 1UL << 24;
-            offsetStride += ((winD - 12) << 22) + ((scndD - 12) << 20) +
-                            ((rd3D - 12) << 18) + ((winC - 8) << 16) +
-                            ((scndC - 8) << 14) + ((rd3C - 8) << 12) +
-                            ((winB - 4) << 10) + ((scndB - 4) << 8) +
-                            ((rd3B - 4) << 6) + ((winA - 0) << 4) +
-                            ((scndA - 0) << 2) + ((rd3A - 0) << 0);
+            *completeFactor = 1UL << 24;
+            *offsetStride *= 1UL << 24;
+            *offsetStride += ((winD - 12) << 22) + ((scndD - 12) << 20) +
+                             ((rd3D - 12) << 18) + ((winC - 8) << 16) +
+                             ((scndC - 8) << 14) + ((rd3C - 8) << 12) +
+                             ((winB - 4) << 10) + ((scndB - 4) << 8) +
+                             ((rd3B - 4) << 6) + ((winA - 0) << 4) +
+                             ((scndA - 0) << 2) + ((rd3A - 0) << 0);
           }
         } else {
-          completeFactor = 1UL << 18;
-          offsetStride *= 1UL << 18;
-          offsetStride +=
+          *completeFactor = 1UL << 18;
+          *offsetStride *= 1UL << 18;
+          *offsetStride +=
               ((winC - 8) << 16) + ((scndC - 8) << 14) + ((rd3C - 8) << 12) +
               ((winB - 4) << 10) + ((scndB - 4) << 8) + ((rd3B - 4) << 6) +
               ((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
         }
       } else {
-        completeFactor = 1UL << 12;
-        offsetStride *= 1UL << 12;
-        offsetStride += ((winB - 4) << 10) + ((scndB - 4) << 8) +
-                        ((rd3B - 4) << 6) + ((winA - 0) << 4) +
-                        ((scndA - 0) << 2) + ((rd3A - 0) << 0);
+        *completeFactor = 1UL << 12;
+        *offsetStride *= 1UL << 12;
+        *offsetStride += ((winB - 4) << 10) + ((scndB - 4) << 8) +
+                         ((rd3B - 4) << 6) + ((winA - 0) << 4) +
+                         ((scndA - 0) << 2) + ((rd3A - 0) << 0);
       }
     } else {
-      completeFactor = 1UL << 6;
-      offsetStride *= 1UL << 6;
-      offsetStride +=
+      *completeFactor = 1UL << 6;
+      *offsetStride *= 1UL << 6;
+      *offsetStride +=
           ((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
     }
   }
