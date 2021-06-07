@@ -282,8 +282,8 @@ void calcGrundSpel(char grp, uint64_t table) {
                 : grp == 'C' ? 8 : grp == 'D' ? 12 : grp == 'E' ? 16 : 20;
   const unsigned win = table >> 4;
   const unsigned secnd = (table & 0xC) >> 2;
-  const e_team teamWin = (e_team)(win + offset);
-  const e_team team2nd = (e_team)(secnd + offset);
+  const auto teamWin = (e_team)(win + offset);
+  const auto team2nd = (e_team)(secnd + offset);
   totFifa += rank[teamWin];
   totFifa += (rank[team2nd]*60)/100;
   unsigned saabOffset = 0;
