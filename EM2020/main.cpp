@@ -241,32 +241,32 @@ void showGrundSpel(char grp, uint64_t table) {
   const unsigned win = table >> 4;
   const unsigned secnd = (table & 0xC) >> 2;
   const unsigned third = table & 0x3;
-  std::cout << (e_team)(win + offset) << ',' << (e_team)(secnd + offset) << ','
-            << (e_team)(third + offset) << ' ';
+  std::cout << static_cast<e_team>(win + offset) << ',' << static_cast<e_team>(secnd + offset) << ','
+            << static_cast<e_team>(third + offset) << ' ';
   switch (grp) {
   case 'A':
-    game[37][0] = (e_team)(win + offset);
-    game[38][0] = (e_team)(secnd + offset);
+    game[37][0] = static_cast<e_team>(win + offset);
+    game[38][0] = static_cast<e_team>(secnd + offset);
     break;
   case 'B':
-    game[39][0] = (e_team)(win + offset);
-    game[38][1] = (e_team)(secnd + offset);
+    game[39][0] = static_cast<e_team>(win + offset);
+    game[38][1] = static_cast<e_team>(secnd + offset);
     break;
   case 'C':
-    game[40][0] = (e_team)(win + offset);
-    game[37][1] = (e_team)(secnd + offset);
+    game[40][0] = static_cast<e_team>(win + offset);
+    game[37][1] = static_cast<e_team>(secnd + offset);
     break;
   case 'D':
-    game[44][0] = (e_team)(win + offset);
-    game[42][0] = (e_team)(secnd + offset);
+    game[44][0] = static_cast<e_team>(win + offset);
+    game[42][0] = static_cast<e_team>(secnd + offset);
     break;
   case 'E':
-    game[43][0] = (e_team)(win + offset);
-    game[42][1] = (e_team)(secnd + offset);
+    game[43][0] = static_cast<e_team>(win + offset);
+    game[42][1] = static_cast<e_team>(secnd + offset);
     break;
   case 'F':
-    game[41][0] = (e_team)(win + offset);
-    game[44][1] = (e_team)(secnd + offset);
+    game[41][0] = static_cast<e_team>(win + offset);
+    game[44][1] = static_cast<e_team>(secnd + offset);
     break;
   default:
     cerr << __FILE__ << __LINE__ << '\n';
@@ -282,8 +282,8 @@ void calcGrundSpel(char grp, uint64_t table) {
                 : grp == 'C' ? 8 : grp == 'D' ? 12 : grp == 'E' ? 16 : 20;
   const unsigned win = table >> 4;
   const unsigned secnd = (table & 0xC) >> 2;
-  const auto teamWin = (e_team)(win + offset);
-  const auto team2nd = (e_team)(secnd + offset);
+  const auto teamWin = static_cast<e_team>(win + offset);
+  const auto team2nd = static_cast<e_team>(secnd + offset);
   totFifa += rank[teamWin];
   totFifa += (rank[team2nd]*60)/100;
   unsigned saabOffset = 0;
@@ -323,15 +323,15 @@ void calcGrundSpel(char grp, uint64_t table) {
     abort();
   }
   for (auto &saabare : saab) {
-    if ((e_team)(win + offset) == saabare.grupp_placering[saabOffset][0]) {
+    if (static_cast<e_team>(win + offset) == saabare.grupp_placering[saabOffset][0]) {
       saabare.poang += 10;
-    } else if ((e_team)(win + offset) ==
+    } else if (static_cast<e_team>(win + offset) ==
                saabare.grupp_placering[saabOffset][1]) {
       saabare.poang += 7;
     }
-    if ((e_team)(secnd + offset) == saabare.grupp_placering[saabOffset][1]) {
+    if (static_cast<e_team>(secnd + offset) == saabare.grupp_placering[saabOffset][1]) {
       saabare.poang += 10;
-    } else if ((e_team)(secnd + offset) ==
+    } else if (static_cast<e_team>(secnd + offset) ==
                saabare.grupp_placering[saabOffset][0]) {
       saabare.poang += 7;
     }
@@ -346,12 +346,12 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
   /*1F-ABC3, match 41*/
   // 39 40 43 41
   // 1B 1C 1E 1F
-  const auto teamA = (e_team)((tableA & 0x3) + 0);
-  const auto teamB = (e_team)((tableB & 0x3) + 4);
-  const auto teamC = (e_team)((tableC & 0x3) + 8);
-  const auto teamD = (e_team)((tableD & 0x3) + 12);
-  const auto teamE = (e_team)((tableE & 0x3) + 16);
-  const auto teamF = (e_team)((tableF & 0x3) + 20);
+  const auto teamA = static_cast<e_team>((tableA & 0x3) + 0);
+  const auto teamB = static_cast<e_team>((tableB & 0x3) + 4);
+  const auto teamC = static_cast<e_team>((tableC & 0x3) + 8);
+  const auto teamD = static_cast<e_team>((tableD & 0x3) + 12);
+  const auto teamE = static_cast<e_team>((tableE & 0x3) + 16);
+  const auto teamF = static_cast<e_team>((tableF & 0x3) + 20);
   switch (tabell) {
   case 0:
     std::cout << "ABCD--";
@@ -494,12 +494,12 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
   /*1F-ABC3, match 41*/
   // 39 40 43 41
   // 1B 1C 1E 1F
-  const auto teamA = (e_team)((tableA & 0x3) + 0);
-  const auto teamB = (e_team)((tableB & 0x3) + 4);
-  const auto teamC = (e_team)((tableC & 0x3) + 8);
-  const auto teamD = (e_team)((tableD & 0x3) + 12);
-  const auto teamE = (e_team)((tableE & 0x3) + 16);
-  const auto teamF = (e_team)((tableF & 0x3) + 20);
+  const auto teamA = static_cast<e_team>((tableA & 0x3) + 0);
+  const auto teamB = static_cast<e_team>((tableB & 0x3) + 4);
+  const auto teamC = static_cast<e_team>((tableC & 0x3) + 8);
+  const auto teamD = static_cast<e_team>((tableD & 0x3) + 12);
+  const auto teamE = static_cast<e_team>((tableE & 0x3) + 16);
+  const auto teamF = static_cast<e_team>((tableF & 0x3) + 20);
   switch (tabell) {
   case 0:
     // 3A 3D 3B 3C
@@ -1596,7 +1596,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                   ? ita
                   : strcmp("wal", arg3) == 0
                         ? wal
-                        : strcmp("sui", arg3) == 0 ? sui : (e_team)-1;
+                        : strcmp("sui", arg3) == 0 ? sui : static_cast<e_team>(-1);
     const e_team scndA =
         strcmp("tur", arg4) == 0
             ? tur
@@ -1604,7 +1604,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                   ? ita
                   : strcmp("wal", arg4) == 0
                         ? wal
-                        : strcmp("sui", arg4) == 0 ? sui : (e_team)-1;
+                        : strcmp("sui", arg4) == 0 ? sui : static_cast<e_team>(-1);
     e_team rd3A = (winA != tur && scndA != tur)
                       ? tur
                       : (winA != ita && scndA != ita) ? ita : wal;
@@ -1625,7 +1625,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                     ? fin
                     : strcmp("bel", arg5) == 0
                           ? bel
-                          : strcmp("rus", arg5) == 0 ? rus : (e_team)-1;
+                          : strcmp("rus", arg5) == 0 ? rus : static_cast<e_team>(-1);
       const e_team scndB =
           strcmp("den", arg6) == 0
               ? den
@@ -1633,7 +1633,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                     ? fin
                     : strcmp("bel", arg6) == 0
                           ? bel
-                          : strcmp("rus", arg6) == 0 ? rus : (e_team)-1;
+                          : strcmp("rus", arg6) == 0 ? rus : static_cast<e_team>(-1);
       e_team rd3B = (winB != den && scndB != den)
                         ? den
                         : (winB != fin && scndB != fin) ? fin : bel;
@@ -1654,7 +1654,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                       ? ukr
                       : strcmp("aut", arg7) == 0
                             ? aut
-                            : strcmp("mkd", arg7) == 0 ? mkd : (e_team)-1;
+                            : strcmp("mkd", arg7) == 0 ? mkd : static_cast<e_team>(-1);
         const e_team scndC =
             strcmp("ned", arg8) == 0
                 ? ned
@@ -1662,7 +1662,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                       ? ukr
                       : strcmp("aut", arg8) == 0
                             ? aut
-                            : strcmp("mkd", arg8) == 0 ? mkd : (e_team)-1;
+                            : strcmp("mkd", arg8) == 0 ? mkd : static_cast<e_team>(-1);
         e_team rd3C = (winC != ned && scndC != ned)
                           ? ned
                           : (winC != ukr && scndC != ukr) ? ukr : aut;
@@ -1683,7 +1683,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                         ? cro
                         : strcmp("sco", arg9) == 0
                               ? sco
-                              : strcmp("cze", arg9) == 0 ? cze : (e_team)-1;
+                              : strcmp("cze", arg9) == 0 ? cze : static_cast<e_team>(-1);
           const e_team scndD =
               strcmp("eng", arg10) == 0
                   ? eng
@@ -1691,7 +1691,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                         ? cro
                         : strcmp("sco", arg10) == 0
                               ? sco
-                              : strcmp("cze", arg10) == 0 ? cze : (e_team)-1;
+                              : strcmp("cze", arg10) == 0 ? cze : static_cast<e_team>(-1);
           e_team rd3D = (winD != eng && scndD != eng)
                             ? eng
                             : (winD != cro && scndD != cro) ? cro : cze;
@@ -1712,7 +1712,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                           ? swe
                           : strcmp("pol", arg11) == 0
                                 ? pol
-                                : strcmp("svk", arg11) == 0 ? svk : (e_team)-1;
+                                : strcmp("svk", arg11) == 0 ? svk : static_cast<e_team>(-1);
             const e_team scndE =
                 strcmp("esp", arg12) == 0
                     ? esp
@@ -1720,7 +1720,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                           ? swe
                           : strcmp("pol", arg12) == 0
                                 ? pol
-                                : strcmp("svk", arg12) == 0 ? svk : (e_team)-1;
+                                : strcmp("svk", arg12) == 0 ? svk : static_cast<e_team>(-1);
             e_team rd3E = (winE != esp && scndE != esp)
                               ? esp
                               : (winE != swe && scndE != swe) ? swe : pol;
@@ -1742,7 +1742,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                                                   ? fra
                                                   : strcmp("ger", arg13) == 0
                                                         ? ger
-                                                        : (e_team)-1;
+                                                        : static_cast<e_team>(-1);
               const e_team scndF = strcmp("hun", arg14) == 0
                                        ? hun
                                        : strcmp("por", arg14) == 0
@@ -1751,7 +1751,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
                                                    ? fra
                                                    : strcmp("ger", arg14) == 0
                                                          ? ger
-                                                         : (e_team)-1;
+                                                         : static_cast<e_team>(-1);
               e_team rd3F = (winF != hun && scndF != hun)
                                 ? hun
                                 : (winF != por && scndF != por) ? por : fra;
@@ -1771,25 +1771,25 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
               e_team team16;
               e_team team17;
               e_team team18;
-              for (team15 = tur; team15 < (e_team)24; ++team15) {
+              for (team15 = tur; team15 < static_cast<e_team>(24); ++team15) {
                 if (strcmp(names[team15], arg15) == 0) {
                   break;
                 }
               }
               assert(strcmp(names[team15], arg15) == 0);
-              for (team16 = tur; team16 < (e_team)24; ++team16) {
+              for (team16 = tur; team16 < static_cast<e_team>(24); ++team16) {
                 if (strcmp(names[team16], arg16) == 0) {
                   break;
                 }
               }
               assert(strcmp(names[team16], arg16) == 0);
-              for (team17 = tur; team17 < (e_team)24; ++team17) {
+              for (team17 = tur; team17 < static_cast<e_team>(24); ++team17) {
                 if (strcmp(names[team17], arg17) == 0) {
                   break;
                 }
               }
               assert(strcmp(names[team17], arg17) == 0);
-              for (team18 = tur; team18 < (e_team)24; ++team18) {
+              for (team18 = tur; team18 < static_cast<e_team>(24); ++team18) {
                 if (strcmp(names[team18], arg18) == 0) {
                   break;
                 }
@@ -1802,10 +1802,10 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
               assert(team16 != team18);
               assert(team17 != team18);
               // Kolla att de är från varsin grupp
-              unsigned trunk15 = (unsigned)team15 / 4U;
-              unsigned trunk16 = (unsigned)team16 / 4U;
-              unsigned trunk17 = (unsigned)team17 / 4U;
-              unsigned trunk18 = (unsigned)team18 / 4U;
+              unsigned trunk15 = static_cast<unsigned>(team15) / 4U;
+              unsigned trunk16 = static_cast<unsigned>(team16) / 4U;
+              unsigned trunk17 = static_cast<unsigned>(team17) / 4U;
+              unsigned trunk18 = static_cast<unsigned>(team18) / 4U;
               assert(trunk15 != trunk16);
               assert(trunk15 != trunk17);
               assert(trunk15 != trunk18);
@@ -2088,7 +2088,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t &completeFactor,
   }
 }
 void elaborateNames() {
-  for (e_team team15 = tur; team15 < (e_team)24; ++team15) {
+  for (e_team team15 = tur; team15 < static_cast<e_team>(24); ++team15) {
     std::ostringstream stream;
     stream.rdbuf()->pubsetbuf(names[team15], 4);
     stream << team15;

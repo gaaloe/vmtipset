@@ -13,7 +13,6 @@ clang-tidy \
 -cppcoreguidelines-pro-bounds-array-to-pointer-decay,\
 -cppcoreguidelines-pro-bounds-constant-array-index,\
 -cppcoreguidelines-avoid-magic-numbers,\
--google-readability-casting,\
 -google-runtime-references,\
 -fuchsia-overloaded-operator,\
 -config='{CheckOptions: [ {key: readability-function-size.BranchThreshold, value: 50}]}'\
