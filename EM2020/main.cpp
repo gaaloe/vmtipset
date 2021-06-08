@@ -1394,8 +1394,8 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
 int main(int argc, char *argv[]) {
   elaborateNames();
   uint64_t offsetStride = 0;
+  gsl::span<char *> span_argv(argv, argc);
   if (argc > 1) {
-    gsl::span<char *> span_argv(argv, argc);
     parseArgs(argc, span_argv, &completeFactor, &offsetStride, &ettPrimtal);
   }
   for (uint64_t iteration = offsetStride; iteration < upperlimit;
@@ -2159,7 +2159,7 @@ int main(int argc, char *argv[]) {
     const uint64_t tableF = (maxIteration >> 30) & 0x3FUL;
     const uint64_t thirdTable = (maxIteration >> 36) & 0xFUL;
     // Skriv ut
-    std::cout << __FILE__ << __LINE__ << ' ' << offsetStride << ' ';
+    std::cout << __FILE__ << __LINE__ << ' ' << span_argv[1] << ' ' << offsetStride << ' ';
     std::ios init(nullptr);
     init.copyfmt(std::cout);
     std::cout << std::hex;
@@ -2315,6 +2315,8 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
     assert(winA != scndA);
     assert(winA != rd3A);
     assert(scndA != rd3A);
+    uint64_t tableA =
+        ((winA - 0UL) << 4) + ((scndA - 0UL) << 2) + ((rd3A - 0UL) << 0);
     if (argc > 5) {
       // Group B win,2nd,3rd
       char *const arg5 = span_argv[5];
@@ -2346,6 +2348,8 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
       assert(winB != scndB);
       assert(winB != rd3B);
       assert(scndB != rd3B);
+      uint64_t tableB =
+          ((winB - 4UL) << 10) + ((scndB - 4UL) << 8) + ((rd3B - 4UL) << 6);
       if (argc > 7) {
         // Group C win,2nd,3rd
         char *const arg7 = span_argv[7];
@@ -2377,6 +2381,8 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
         assert(winC != scndC);
         assert(winC != rd3C);
         assert(scndC != rd3C);
+        uint64_t tableC =
+            ((winC - 8UL) << 16) + ((scndC - 8UL) << 14) + ((rd3C - 8UL) << 12);
         if (argc > 9) {
           // Group D win,2nd,3rd
           char *const arg9 = span_argv[9];
@@ -2408,6 +2414,8 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
           assert(winD != scndD);
           assert(winD != rd3D);
           assert(scndD != rd3D);
+          uint64_t tableD = ((winD - 12UL) << 22) + ((scndD - 12UL) << 20) +
+                            ((rd3D - 12UL) << 18);
           if (argc > 11) {
             // Group E win,2nd,3rd
             char *const arg11 = span_argv[11];
@@ -2440,6 +2448,8 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
             assert(winE != scndE);
             assert(winE != rd3E);
             assert(scndE != rd3E);
+            uint64_t tableE = ((winE - 16UL) << 28) + ((scndE - 16UL) << 26) +
+                              ((rd3E - 16UL) << 24);
             if (argc > 13) {
               // Group F win,2nd
               char *const arg13 = span_argv[13];
@@ -2473,6 +2483,8 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
               assert(winF != scndF);
               assert(winF != rd3F);
               assert(scndF != rd3F);
+              uint64_t tableF = ((winF - 20UL) << 34) + ((scndF - 20UL) << 32) +
+                                ((rd3F - 20UL) << 30);
               uint64_t rd3bits = 0; // 4 bits describing the ABCD..CDEF
               // 4 av 6 grupptreor går vidare
               char *const arg15 = span_argv[15];
@@ -2742,60 +2754,47 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                 std::cerr << __FILE__ << __LINE__ << '\n';
                 abort();
               }
+              // Recalculate the tables due to new 3rd
+              tableA = ((winA - 0UL) << 4) + ((scndA - 0UL) << 2) +
+                       ((rd3A - 0UL) << 0);
+              tableB = ((winB - 4UL) << 10) + ((scndB - 4UL) << 8) +
+                       ((rd3B - 4UL) << 6);
+              tableC = ((winC - 8UL) << 16) + ((scndC - 8UL) << 14) +
+                       ((rd3C - 8UL) << 12);
+              tableD = ((winD - 12UL) << 22) + ((scndD - 12UL) << 20) +
+                       ((rd3D - 12UL) << 18);
+              tableE = ((winE - 16UL) << 28) + ((scndE - 16UL) << 26) +
+                       ((rd3E - 16UL) << 24);
+              tableF = ((winF - 20UL) << 34) + ((scndF - 20UL) << 32) +
+                       ((rd3F - 20UL) << 30);
               *completeFactor = 1UL << 40;
               *offsetStride *= 1UL << 40;
-              *offsetStride += rd3bits + ((winF - 20UL) << 34) +
-                               ((scndF - 20UL) << 32) + ((rd3F - 20UL) << 30) +
-                               ((winE - 16UL) << 28) + ((scndE - 16UL) << 26) +
-                               ((rd3E - 16UL) << 24) + ((winD - 12UL) << 22) +
-                               ((scndD - 12UL) << 20) + ((rd3D - 12UL) << 18) +
-                               ((winC - 8UL) << 16) + ((scndC - 8UL) << 14) +
-                               ((rd3C - 8UL) << 12) + ((winB - 4UL) << 10) +
-                               ((scndB - 4UL) << 8) + ((rd3B - 4UL) << 6) +
-                               ((winA - 0UL) << 4) + ((scndA - 0UL) << 2) +
-                               ((rd3A - 0UL) << 0);
+              *offsetStride +=
+                  rd3bits + tableF + tableE + tableD + tableC + tableB + tableA;
             } else {
               *completeFactor = 1UL << 30;
               *offsetStride *= 1UL << 30;
-              *offsetStride += ((winE - 16) << 28) + ((scndE - 16) << 26) +
-                               ((rd3E - 16) << 24) + ((winD - 12) << 22) +
-                               ((scndD - 12) << 20) + ((rd3D - 12) << 18) +
-                               ((winC - 8) << 16) + ((scndC - 8) << 14) +
-                               ((rd3C - 8) << 12) + ((winB - 4) << 10) +
-                               ((scndB - 4) << 8) + ((rd3B - 4) << 6) +
-                               ((winA - 0) << 4) + ((scndA - 0) << 2) +
-                               ((rd3A - 0) << 0);
+              *offsetStride += tableE + tableD + tableC + tableB + tableA;
             }
           } else {
             *completeFactor = 1UL << 24;
             *offsetStride *= 1UL << 24;
-            *offsetStride += ((winD - 12) << 22) + ((scndD - 12) << 20) +
-                             ((rd3D - 12) << 18) + ((winC - 8) << 16) +
-                             ((scndC - 8) << 14) + ((rd3C - 8) << 12) +
-                             ((winB - 4) << 10) + ((scndB - 4) << 8) +
-                             ((rd3B - 4) << 6) + ((winA - 0) << 4) +
-                             ((scndA - 0) << 2) + ((rd3A - 0) << 0);
+            *offsetStride += tableD + tableC + tableB + tableA;
           }
         } else {
           *completeFactor = 1UL << 18;
           *offsetStride *= 1UL << 18;
-          *offsetStride +=
-              ((winC - 8) << 16) + ((scndC - 8) << 14) + ((rd3C - 8) << 12) +
-              ((winB - 4) << 10) + ((scndB - 4) << 8) + ((rd3B - 4) << 6) +
-              ((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
+          *offsetStride += tableC + tableB + tableA;
         }
       } else {
         *completeFactor = 1UL << 12;
         *offsetStride *= 1UL << 12;
-        *offsetStride += ((winB - 4) << 10) + ((scndB - 4) << 8) +
-                         ((rd3B - 4) << 6) + ((winA - 0) << 4) +
-                         ((scndA - 0) << 2) + ((rd3A - 0) << 0);
+        *offsetStride += tableB + tableA;
       }
     } else {
       *completeFactor = 1UL << 6;
       *offsetStride *= 1UL << 6;
-      *offsetStride +=
-          ((winA - 0) << 4) + ((scndA - 0) << 2) + ((rd3A - 0) << 0);
+      *offsetStride += tableA;
     }
   }
 }
