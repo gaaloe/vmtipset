@@ -263,7 +263,7 @@ void showGrundSpel(char grp, uint64_t table) {
           : grp == 'B'
                 ? 4
                 : grp == 'C' ? 8 : grp == 'D' ? 12 : grp == 'E' ? 16 : 20;
-#if 0
+#ifdef GRUND6
   const unsigned win = table >> 4;
   const unsigned secnd = (table & 0xC) >> 2;
   const unsigned third = table & 0x3;
@@ -444,7 +444,7 @@ void calcGrundSpel(char grp, uint64_t table) {
           : grp == 'B'
                 ? 4
                 : grp == 'C' ? 8 : grp == 'D' ? 12 : grp == 'E' ? 16 : 20;
-#if 0
+#ifdef GRUND6
   const unsigned win = table >> 4;
   const unsigned secnd = (table & 0xC) >> 2;
 #else
@@ -585,7 +585,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
   /*1F-ABC3, match 41*/
   // 39 40 43 41
   // 1B 1C 1E 1F
-#if 0
+#ifdef GRUND6
   const unsigned thirdA = tableA & 0x3;
   const unsigned thirdB = tableB & 0x3;
   const unsigned thirdC = tableC & 0x3;
@@ -970,12 +970,249 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
   /*1F-ABC3, match 41*/
   // 39 40 43 41
   // 1B 1C 1E 1F
-  const auto teamA = static_cast<e_team>((tableA & 0x3) + 0);
-  const auto teamB = static_cast<e_team>((tableB & 0x3) + 4);
-  const auto teamC = static_cast<e_team>((tableC & 0x3) + 8);
-  const auto teamD = static_cast<e_team>((tableD & 0x3) + 12);
-  const auto teamE = static_cast<e_team>((tableE & 0x3) + 16);
-  const auto teamF = static_cast<e_team>((tableF & 0x3) + 20);
+#ifdef GRUND6
+  const unsigned thirdA = tableA & 0x3;
+  const unsigned thirdB = tableB & 0x3;
+  const unsigned thirdC = tableC & 0x3;
+  const unsigned thirdD = tableD & 0x3;
+  const unsigned thirdE = tableE & 0x3;
+  const unsigned thirdF = tableF & 0x3;
+#else
+  unsigned thirdA;
+  unsigned thirdB;
+  unsigned thirdC;
+  unsigned thirdD;
+  unsigned thirdE;
+  unsigned thirdF;
+  switch (tableA) {
+  case _1203:
+  case _1302:
+  case _2103:
+  case _2301:
+  case _3102:
+  case _3201:
+    thirdA = 0;
+    break;
+  case _0213:
+  case _0312:
+  case _2013:
+  case _2310:
+  case _3012:
+  case _3210:
+    thirdA = 1;
+    break;
+  case _0123:
+  case _0321:
+  case _1320:
+  case _1023:
+  case _3021:
+  case _3120:
+    thirdA = 2;
+    break;
+  case _0132:
+  case _0231:
+  case _1032:
+  case _1230:
+  case _2031:
+  case _2130:
+    thirdA = 3;
+    break;
+  default:
+    std::cerr << __FILE__ << __LINE__ << '\n';
+    abort();
+  }
+  switch (tableB) {
+  case _1203:
+  case _1302:
+  case _2103:
+  case _2301:
+  case _3102:
+  case _3201:
+    thirdB = 0;
+    break;
+  case _0213:
+  case _0312:
+  case _2013:
+  case _2310:
+  case _3012:
+  case _3210:
+    thirdB = 1;
+    break;
+  case _0123:
+  case _0321:
+  case _1320:
+  case _1023:
+  case _3021:
+  case _3120:
+    thirdB = 2;
+    break;
+  case _0132:
+  case _0231:
+  case _1032:
+  case _1230:
+  case _2031:
+  case _2130:
+    thirdB = 3;
+    break;
+  default:
+    std::cerr << __FILE__ << __LINE__ << '\n';
+    abort();
+  }
+  switch (tableC) {
+  case _1203:
+  case _1302:
+  case _2103:
+  case _2301:
+  case _3102:
+  case _3201:
+    thirdC = 0;
+    break;
+  case _0213:
+  case _0312:
+  case _2013:
+  case _2310:
+  case _3012:
+  case _3210:
+    thirdC = 1;
+    break;
+  case _0123:
+  case _0321:
+  case _1320:
+  case _1023:
+  case _3021:
+  case _3120:
+    thirdC = 2;
+    break;
+  case _0132:
+  case _0231:
+  case _1032:
+  case _1230:
+  case _2031:
+  case _2130:
+    thirdC = 3;
+    break;
+  default:
+    std::cerr << __FILE__ << __LINE__ << '\n';
+    abort();
+  }
+  switch (tableD) {
+  case _1203:
+  case _1302:
+  case _2103:
+  case _2301:
+  case _3102:
+  case _3201:
+    thirdD = 0;
+    break;
+  case _0213:
+  case _0312:
+  case _2013:
+  case _2310:
+  case _3012:
+  case _3210:
+    thirdD = 1;
+    break;
+  case _0123:
+  case _0321:
+  case _1320:
+  case _1023:
+  case _3021:
+  case _3120:
+    thirdD = 2;
+    break;
+  case _0132:
+  case _0231:
+  case _1032:
+  case _1230:
+  case _2031:
+  case _2130:
+    thirdD = 3;
+    break;
+  default:
+    std::cerr << __FILE__ << __LINE__ << '\n';
+    abort();
+  }
+  switch (tableE) {
+  case _1203:
+  case _1302:
+  case _2103:
+  case _2301:
+  case _3102:
+  case _3201:
+    thirdE = 0;
+    break;
+  case _0213:
+  case _0312:
+  case _2013:
+  case _2310:
+  case _3012:
+  case _3210:
+    thirdE = 1;
+    break;
+  case _0123:
+  case _0321:
+  case _1320:
+  case _1023:
+  case _3021:
+  case _3120:
+    thirdE = 2;
+    break;
+  case _0132:
+  case _0231:
+  case _1032:
+  case _1230:
+  case _2031:
+  case _2130:
+    thirdE = 3;
+    break;
+  default:
+    std::cerr << __FILE__ << __LINE__ << '\n';
+    abort();
+  }
+  switch (tableF) {
+  case _1203:
+  case _1302:
+  case _2103:
+  case _2301:
+  case _3102:
+  case _3201:
+    thirdF = 0;
+    break;
+  case _0213:
+  case _0312:
+  case _2013:
+  case _2310:
+  case _3012:
+  case _3210:
+    thirdF = 1;
+    break;
+  case _0123:
+  case _0321:
+  case _1320:
+  case _1023:
+  case _3021:
+  case _3120:
+    thirdF = 2;
+    break;
+  case _0132:
+  case _0231:
+  case _1032:
+  case _1230:
+  case _2031:
+  case _2130:
+    thirdF = 3;
+    break;
+  default:
+    std::cerr << __FILE__ << __LINE__ << '\n';
+    abort();
+  }
+#endif
+  const auto teamA = static_cast<e_team>(thirdA + 0);
+  const auto teamB = static_cast<e_team>(thirdB + 4);
+  const auto teamC = static_cast<e_team>(thirdC + 8);
+  const auto teamD = static_cast<e_team>(thirdD + 12);
+  const auto teamE = static_cast<e_team>(thirdE + 16);
+  const auto teamF = static_cast<e_team>(thirdF + 20);
   switch (tabell) {
   case 0:
     // 3A 3D 3B 3C
@@ -1164,7 +1401,7 @@ int main(int argc, char *argv[]) {
   for (uint64_t iteration = offsetStride; iteration < upperlimit;
        iteration += (ettPrimtal * completeFactor)) {
     // Group A
-#if 0
+#ifdef GRUND6
     switch (iteration & 0x000000000000003F) {
     case 0x00:
     case 0x01:
@@ -1244,7 +1481,7 @@ int main(int argc, char *argv[]) {
     }
 #endif
     // Group B
-#if 0
+#ifdef GRUND6
     switch (iteration & 0x0000000000000FC0) {
     case 0x00UL << 6:
     case 0x01UL << 6:
@@ -1323,7 +1560,7 @@ int main(int argc, char *argv[]) {
     }
 #endif
     // Group C
-#if 0
+#ifdef GRUND6
     switch (iteration & 0x000000000003F000) {
     case 0x00UL << 12:
     case 0x01UL << 12:
@@ -1402,6 +1639,7 @@ int main(int argc, char *argv[]) {
     }
 #endif
     // Group D
+#ifdef GRUND6
     switch (iteration & 0x0000000000FC0000) {
     case 0x00UL << 18:
     case 0x01UL << 18:
@@ -1474,7 +1712,13 @@ int main(int argc, char *argv[]) {
       std::cerr << __FILE__ << __LINE__ << '\n';
       abort();
     }
+#else
+    if (((iteration & 0x0000000000FC0000) >> 18) >= 24) {
+      continue;
+    }
+#endif
     // Group E
+#ifdef GRUND6
     switch (iteration & 0x000000003F000000) {
     case 0x00 << 24:
     case 0x01 << 24:
@@ -1547,7 +1791,13 @@ int main(int argc, char *argv[]) {
       std::cerr << __FILE__ << __LINE__ << '\n';
       abort();
     }
+#else
+    if (((iteration & 0x000000003F000000) >> 24) >= 24) {
+      continue;
+    }
+#endif
     // Group F
+#ifdef GRUND6
     switch (iteration & 0x0000000FC0000000) {
     case 0x00UL << 30:
     case 0x01UL << 30:
@@ -1620,6 +1870,11 @@ int main(int argc, char *argv[]) {
       std::cerr << __FILE__ << __LINE__ << '\n';
       abort();
     }
+#else
+    if (((iteration & 0x0000000FC0000000) >> 30) >= 24) {
+      continue;
+    }
+#endif
     // One of 15 ways to pick the best 3rd place set:
     // See table on https://en.wikipedia.org/wiki/UEFA_Euro_2020#Knockout_phase
     switch (iteration & 0x000000F000000000L) {
@@ -1832,7 +2087,8 @@ int main(int argc, char *argv[]) {
     if (totFifa > maxFifa) {
       maxFifa = totFifa;
       maxFifaIteration = iteration;
-#if 1
+#define FIFARANK
+#ifdef FIFARANK
       // Skriv ut
       std::ios init(nullptr);
       init.copyfmt(std::cout);
@@ -1888,62 +2144,11 @@ int main(int argc, char *argv[]) {
       // Utskrift när max ökas
       maxSoFar = saab[0].poang;
       maxIteration = iteration;
-#if 0
-      // Skriv ut
-      std::ios init(nullptr);
-      init.copyfmt(std::cout);
-      std::cout << std::hex;
-      std::cout.width(14);
-      std::cout << iteration << ' ';
-      std::cout << upperlimit << '\n';
-      std::cout.copyfmt(init); // restore default formatting
-      showGrundSpel('A', tableA);
-      showGrundSpel('B', tableB);
-      showGrundSpel('C', tableC);
-      showGrundSpel('D', tableD);
-      showGrundSpel('E', tableE);
-      showGrundSpel('F', tableF);
-      std::cout << '\n';
-      for (int match = 45; match <= 48; ++match) {
-        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-          const e_team tt = game[match][hemmaBorta];
-          std::cout << tt;
-          if (match != 48 || hemmaBorta != 1) {
-            std::cout << ',';
-          } else {
-            std::cout << ' ';
-          }
-        }
-      }
-      for (int match = 49; match <= 50; ++match) {
-        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-          const e_team tt = game[match][hemmaBorta];
-          std::cout << tt;
-          if (match != 50 || hemmaBorta != 1) {
-            std::cout << ',';
-          } else {
-            std::cout << ' ';
-          }
-        }
-      }
-      for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-        const e_team tt = game[51][hemmaBorta];
-        std::cout << tt;
-        if (hemmaBorta != 1) {
-          std::cout << ',';
-        } else {
-          std::cout << ' ';
-        }
-      }
-      std::cout << ' ' << game[52][0];
-      std::cout << ' ' << saab[0].poang;
-      std::cout << '\n';
-#endif
     }
   }
   {
     // Utskrift på slutet:
-#if 1
+#ifdef FIFARANK
     maxIteration = maxFifaIteration;
 #endif
     const uint64_t tableA = maxIteration & 0x3FUL;
@@ -2036,7 +2241,7 @@ int main(int argc, char *argv[]) {
     result = ((maxIteration >> (51 + 3)) & 0x1);
     game[52][0] = game[51][result];
     std::cout << game[52][0];
-#if 1
+#ifdef FIFARANK
     std::cout << ' ' << maxFifa;
 #else
     std::cout << ' ' << maxSoFar;
