@@ -102,6 +102,231 @@ enum e_grp {
   _3201,
   _3210
 };
+uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
+  const int offset =
+      grp == 'A'
+          ? 0
+          : grp == 'B'
+                ? 4
+                : grp == 'C' ? 8 : grp == 'D' ? 12 : grp == 'E' ? 16 : 20;
+  switch (win - offset) {
+  case 0:
+    switch (secnd - offset) {
+    case 1: //01??
+      switch (third - offset) {
+      case 2:
+        return _0123;
+        break;
+      case 3:
+        return _0132;
+        break;
+      case 0:
+      case 1:
+      default:
+        std::cerr << __FILE__ << __LINE__ << '\n';
+        abort();
+      }
+      break;
+    case 2: //02??
+      switch (third - offset) {
+      case 1:
+        return _0213;
+        break;
+      case 3:
+        return _0231;
+        break;
+      case 0:
+      case 2:
+      default:
+        std::cerr << __FILE__ << __LINE__ << '\n';
+        abort();
+      }
+      break;
+    case 3: //03??
+      switch (third - offset) {
+      case 1:
+        return _0312;
+        break;
+      case 2:
+        return _0321;
+        break;
+      case 0:
+      case 3:
+      default:
+        std::cerr << __FILE__ << __LINE__ << '\n';
+        abort();
+      }
+      break;
+    case 0:
+    default:
+      std::cerr << __FILE__ << __LINE__ << '\n';
+      abort();
+    }
+    break;
+  case 1:
+    switch (secnd - offset) {
+    case 0: //10??
+      switch (third - offset) {
+      case 2:
+        return _1023;
+        break;
+      case 3:
+        return _1032;
+        break;
+      case 0:
+      case 1:
+      default:
+        std::cerr << __FILE__ << __LINE__ << '\n';
+        abort();
+      }
+      break;
+    case 2: //12??
+      switch (third - offset) {
+      case 0:
+        return _1203;
+        break;
+      case 3:
+        return _1230;
+        break;
+      case 1:
+      case 2:
+      default:
+        std::cerr << __FILE__ << __LINE__ << '\n';
+        abort();
+      }
+      break;
+    case 3: //13??
+      switch (third - offset) {
+      case 0:
+        return _1302;
+        break;
+      case 2:
+        return _1320;
+        break;
+      case 1:
+      case 3:
+      default:
+        std::cerr << __FILE__ << __LINE__ << '\n';
+        abort();
+      }
+      break;
+    case 1:
+    default:
+      std::cerr << __FILE__ << __LINE__ << '\n';
+      abort();
+    }
+    break;
+  case 2:
+    switch (secnd - offset) {
+    case 0: //20??
+      switch (third - offset) {
+      case 1:
+        return _2013;
+        break;
+      case 3:
+        return _2031;
+        break;
+      case 0:
+      case 2:
+      default:
+        std::cerr << __FILE__ << __LINE__ << '\n';
+        abort();
+      }
+      break;
+    case 1: //21??
+      switch (third - offset) {
+      case 0:
+        return _2103;
+        break;
+      case 3:
+        return _2130;
+        break;
+      case 1:
+      case 2:
+      default:
+        std::cerr << __FILE__ << __LINE__ << '\n';
+        abort();
+      }
+      break;
+    case 3: //23??
+      switch (third - offset) {
+      case 0:
+        return _2301;
+        break;
+      case 1:
+        return _2310;
+        break;
+      case 2:
+      case 3:
+      default:
+        std::cerr << __FILE__ << __LINE__ << '\n';
+        abort();
+      }
+      break;
+    case 2:
+    default:
+      std::cerr << __FILE__ << __LINE__ << '\n';
+      abort();
+    }
+    break;
+  case 3:
+    switch (secnd - offset) {
+    case 0: //30??
+      switch (third - offset) {
+      case 1:
+        return _3012;
+        break;
+      case 2:
+        return _3021;
+        break;
+      case 0:
+      case 3:
+      default:
+        std::cerr << __FILE__ << __LINE__ << '\n';
+        abort();
+      }
+      break;
+    case 1: //31??
+      switch (third - offset) {
+      case 0:
+        return _3102;
+        break;
+      case 2:
+        return _3120;
+        break;
+      case 1:
+      case 3:
+      default:
+        std::cerr << __FILE__ << __LINE__ << '\n';
+        abort();
+      }
+      break;
+    case 2://32??
+      switch (third - offset) {
+      case 0:
+        return _3201;
+        break;
+      case 1:
+        return _3210;
+        break;
+      case 2:
+      case 3:
+      default:
+        std::cerr << __FILE__ << __LINE__ << '\n';
+        abort();
+      }
+      break;
+    case 3:
+    default:
+      std::cerr << __FILE__ << __LINE__ << '\n';
+      abort();
+    }
+    break;
+  default:
+    std::cerr << __FILE__ << __LINE__ << '\n';
+    abort();
+  }
+}
 char names[24][4];
 void elaborateNames();
 // Games are officially numbered from 1 to 51.
@@ -2159,7 +2384,8 @@ int main(int argc, char *argv[]) {
     const uint64_t tableF = (maxIteration >> 30) & 0x3FUL;
     const uint64_t thirdTable = (maxIteration >> 36) & 0xFUL;
     // Skriv ut
-    std::cout << __FILE__ << __LINE__ << ' ' << span_argv[1] << ' ' << offsetStride << ' ';
+    std::cout << __FILE__ << __LINE__ << ' ' << span_argv[1] << ' '
+              << offsetStride << ' ';
     std::ios init(nullptr);
     init.copyfmt(std::cout);
     std::cout << std::hex;
