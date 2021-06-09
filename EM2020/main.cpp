@@ -2654,8 +2654,12 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
           assert(winD != scndD);
           assert(winD != rd3D);
           assert(scndD != rd3D);
+#ifdef GRUND6
           uint64_t tableD = ((winD - 12UL) << 22) + ((scndD - 12UL) << 20) +
                             ((rd3D - 12UL) << 18);
+#else
+          uint64_t tableD = tableFromTeam('D', winD, scndD, rd3D);
+#endif
           if (argc > 11) {
             // Group E win,2nd,3rd
             char *const arg11 = span_argv[11];
@@ -2688,8 +2692,12 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
             assert(winE != scndE);
             assert(winE != rd3E);
             assert(scndE != rd3E);
+#ifdef GRUND6
             uint64_t tableE = ((winE - 16UL) << 28) + ((scndE - 16UL) << 26) +
                               ((rd3E - 16UL) << 24);
+#else
+            uint64_t tableE = tableFromTeam('E', winE, scndE, rd3E);
+#endif
             if (argc > 13) {
               // Group F win,2nd
               char *const arg13 = span_argv[13];
@@ -2723,8 +2731,12 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
               assert(winF != scndF);
               assert(winF != rd3F);
               assert(scndF != rd3F);
+#ifdef GRUND6
               uint64_t tableF = ((winF - 20UL) << 34) + ((scndF - 20UL) << 32) +
                                 ((rd3F - 20UL) << 30);
+#else
+              uint64_t tableF = tableFromTeam('F', winF, scndF, rd3F);
+#endif
               uint64_t rd3bits = 0; // 4 bits describing the ABCD..CDEF
               // 4 av 6 grupptreor går vidare
               char *const arg15 = span_argv[15];
@@ -3002,17 +3014,20 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                        ((rd3B - 4UL) << 6);
               tableC = ((winC - 8UL) << 16) + ((scndC - 8UL) << 14) +
                        ((rd3C - 8UL) << 12);
-#else
-              tableA = tableFromTeam('A', winA, scndA, rd3A);
-              tableB = tableFromTeam('B', winB, scndB, rd3B);
-              tableC = tableFromTeam('C', winC, scndC, rd3C);
-#endif
               tableD = ((winD - 12UL) << 22) + ((scndD - 12UL) << 20) +
                        ((rd3D - 12UL) << 18);
               tableE = ((winE - 16UL) << 28) + ((scndE - 16UL) << 26) +
                        ((rd3E - 16UL) << 24);
               tableF = ((winF - 20UL) << 34) + ((scndF - 20UL) << 32) +
                        ((rd3F - 20UL) << 30);
+#else
+              tableA = tableFromTeam('A', winA, scndA, rd3A);
+              tableB = tableFromTeam('B', winB, scndB, rd3B);
+              tableC = tableFromTeam('C', winC, scndC, rd3C);
+              tableD = tableFromTeam('D', winD, scndD, rd3D);
+              tableE = tableFromTeam('E', winE, scndE, rd3E);
+              tableF = tableFromTeam('F', winF, scndF, rd3F);
+#endif
               *completeFactor = 1UL << 40;
               *offsetStride *= 1UL << 40;
               *offsetStride +=
