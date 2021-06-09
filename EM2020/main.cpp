@@ -112,7 +112,7 @@ uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
   switch (win - offset) {
   case 0:
     switch (secnd - offset) {
-    case 1: //01??
+    case 1: // 01??
       switch (third - offset) {
       case 2:
         return _0123;
@@ -127,7 +127,7 @@ uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
         abort();
       }
       break;
-    case 2: //02??
+    case 2: // 02??
       switch (third - offset) {
       case 1:
         return _0213;
@@ -142,7 +142,7 @@ uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
         abort();
       }
       break;
-    case 3: //03??
+    case 3: // 03??
       switch (third - offset) {
       case 1:
         return _0312;
@@ -165,7 +165,7 @@ uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
     break;
   case 1:
     switch (secnd - offset) {
-    case 0: //10??
+    case 0: // 10??
       switch (third - offset) {
       case 2:
         return _1023;
@@ -180,7 +180,7 @@ uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
         abort();
       }
       break;
-    case 2: //12??
+    case 2: // 12??
       switch (third - offset) {
       case 0:
         return _1203;
@@ -195,7 +195,7 @@ uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
         abort();
       }
       break;
-    case 3: //13??
+    case 3: // 13??
       switch (third - offset) {
       case 0:
         return _1302;
@@ -218,7 +218,7 @@ uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
     break;
   case 2:
     switch (secnd - offset) {
-    case 0: //20??
+    case 0: // 20??
       switch (third - offset) {
       case 1:
         return _2013;
@@ -233,7 +233,7 @@ uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
         abort();
       }
       break;
-    case 1: //21??
+    case 1: // 21??
       switch (third - offset) {
       case 0:
         return _2103;
@@ -248,7 +248,7 @@ uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
         abort();
       }
       break;
-    case 3: //23??
+    case 3: // 23??
       switch (third - offset) {
       case 0:
         return _2301;
@@ -271,7 +271,7 @@ uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
     break;
   case 3:
     switch (secnd - offset) {
-    case 0: //30??
+    case 0: // 30??
       switch (third - offset) {
       case 1:
         return _3012;
@@ -286,7 +286,7 @@ uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
         abort();
       }
       break;
-    case 1: //31??
+    case 1: // 31??
       switch (third - offset) {
       case 0:
         return _3102;
@@ -301,7 +301,7 @@ uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
         abort();
       }
       break;
-    case 2://32??
+    case 2: // 32??
       switch (third - offset) {
       case 0:
         return _3201;
@@ -1618,6 +1618,8 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
 }
 int main(int argc, char *argv[]) {
   elaborateNames();
+  assert(tableFromTeam('A', tur, ita, wal) == _0123); // En liten unittest
+  assert(tableFromTeam('F', ger, fra, por) == _3210);
   uint64_t offsetStride = 0;
   gsl::span<char *> span_argv(argv, argc);
   if (argc > 1) {
@@ -2504,7 +2506,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
     if (errno != 0) {
       cerr << __func__ << ' ' << __LINE__ << ' ' << strerror(errno) << '\n';
       std::terminate();
-    } else if (endptr == span_argv[1]) {
+    } else if (endptr == span_argv[2]) {
       cerr << __func__ << ' ' << __LINE__ << ' ' << strerror(EINVAL) << '\n';
       std::terminate();
     }
@@ -2541,8 +2543,12 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
     assert(winA != scndA);
     assert(winA != rd3A);
     assert(scndA != rd3A);
+#ifdef GRUND6
     uint64_t tableA =
         ((winA - 0UL) << 4) + ((scndA - 0UL) << 2) + ((rd3A - 0UL) << 0);
+#else
+    uint64_t tableA = tableFromTeam('A', winA, scndA, rd3A);
+#endif
     if (argc > 5) {
       // Group B win,2nd,3rd
       char *const arg5 = span_argv[5];
@@ -2574,8 +2580,12 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
       assert(winB != scndB);
       assert(winB != rd3B);
       assert(scndB != rd3B);
+#ifdef GRUND6
       uint64_t tableB =
           ((winB - 4UL) << 10) + ((scndB - 4UL) << 8) + ((rd3B - 4UL) << 6);
+#else
+      uint64_t tableB = tableFromTeam('B', winB, scndB, rd3B);
+#endif
       if (argc > 7) {
         // Group C win,2nd,3rd
         char *const arg7 = span_argv[7];
@@ -2607,8 +2617,12 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
         assert(winC != scndC);
         assert(winC != rd3C);
         assert(scndC != rd3C);
+#ifdef GRUND6
         uint64_t tableC =
             ((winC - 8UL) << 16) + ((scndC - 8UL) << 14) + ((rd3C - 8UL) << 12);
+#else
+        uint64_t tableC = tableFromTeam('C', winC, scndC, rd3C);
+#endif
         if (argc > 9) {
           // Group D win,2nd,3rd
           char *const arg9 = span_argv[9];
@@ -2981,12 +2995,18 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                 abort();
               }
               // Recalculate the tables due to new 3rd
+#ifdef GRUND6
               tableA = ((winA - 0UL) << 4) + ((scndA - 0UL) << 2) +
                        ((rd3A - 0UL) << 0);
               tableB = ((winB - 4UL) << 10) + ((scndB - 4UL) << 8) +
                        ((rd3B - 4UL) << 6);
               tableC = ((winC - 8UL) << 16) + ((scndC - 8UL) << 14) +
                        ((rd3C - 8UL) << 12);
+#else
+              tableA = tableFromTeam('A', winA, scndA, rd3A);
+              tableB = tableFromTeam('B', winB, scndB, rd3B);
+              tableC = tableFromTeam('C', winC, scndC, rd3C);
+#endif
               tableD = ((winD - 12UL) << 22) + ((scndD - 12UL) << 20) +
                        ((rd3D - 12UL) << 18);
               tableE = ((winE - 16UL) << 28) + ((scndE - 16UL) << 26) +
