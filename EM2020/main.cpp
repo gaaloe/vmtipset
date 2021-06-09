@@ -488,11 +488,6 @@ void showGrundSpel(char grp, uint64_t table) {
           : grp == 'B'
                 ? 4
                 : grp == 'C' ? 8 : grp == 'D' ? 12 : grp == 'E' ? 16 : 20;
-#ifdef GRUND6
-  const unsigned win = table >> 4;
-  const unsigned secnd = (table & 0xC) >> 2;
-  const unsigned third = table & 0x3;
-#else
   unsigned win;
   unsigned secnd;
   unsigned third;
@@ -628,7 +623,6 @@ void showGrundSpel(char grp, uint64_t table) {
   assert(win != secnd);
   assert(win != third);
   assert(secnd != third);
-#endif
   std::cout << static_cast<e_team>(win + offset) << ','
             << static_cast<e_team>(secnd + offset) << ','
             << static_cast<e_team>(third + offset) << ' ';
@@ -669,10 +663,6 @@ void calcGrundSpel(char grp, uint64_t table) {
           : grp == 'B'
                 ? 4
                 : grp == 'C' ? 8 : grp == 'D' ? 12 : grp == 'E' ? 16 : 20;
-#ifdef GRUND6
-  const unsigned win = table >> 4;
-  const unsigned secnd = (table & 0xC) >> 2;
-#else
   unsigned win;
   unsigned secnd;
   switch (table) {
@@ -743,7 +733,6 @@ void calcGrundSpel(char grp, uint64_t table) {
   assert(0 <= win && win <= 3);
   assert(0 <= secnd && secnd <= 3);
   assert(win != secnd);
-#endif
   const auto teamWin = static_cast<e_team>(win + offset);
   const auto team2nd = static_cast<e_team>(secnd + offset);
   totFifa += rank[teamWin];
@@ -810,14 +799,6 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
   /*1F-ABC3, match 41*/
   // 39 40 43 41
   // 1B 1C 1E 1F
-#ifdef GRUND6
-  const unsigned thirdA = tableA & 0x3;
-  const unsigned thirdB = tableB & 0x3;
-  const unsigned thirdC = tableC & 0x3;
-  const unsigned thirdD = tableD & 0x3;
-  const unsigned thirdE = tableE & 0x3;
-  const unsigned thirdF = tableF & 0x3;
-#else
   unsigned thirdA;
   unsigned thirdB;
   unsigned thirdC;
@@ -1046,7 +1027,6 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     std::cerr << __FILE__ << __LINE__ << '\n';
     abort();
   }
-#endif
   const auto teamA = static_cast<e_team>(thirdA + 0);
   const auto teamB = static_cast<e_team>(thirdB + 4);
   const auto teamC = static_cast<e_team>(thirdC + 8);
@@ -1195,14 +1175,6 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
   /*1F-ABC3, match 41*/
   // 39 40 43 41
   // 1B 1C 1E 1F
-#ifdef GRUND6
-  const unsigned thirdA = tableA & 0x3;
-  const unsigned thirdB = tableB & 0x3;
-  const unsigned thirdC = tableC & 0x3;
-  const unsigned thirdD = tableD & 0x3;
-  const unsigned thirdE = tableE & 0x3;
-  const unsigned thirdF = tableF & 0x3;
-#else
   unsigned thirdA;
   unsigned thirdB;
   unsigned thirdC;
@@ -1431,7 +1403,6 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     std::cerr << __FILE__ << __LINE__ << '\n';
     abort();
   }
-#endif
   const auto teamA = static_cast<e_team>(thirdA + 0);
   const auto teamB = static_cast<e_team>(thirdB + 4);
   const auto teamC = static_cast<e_team>(thirdC + 8);
@@ -1628,480 +1599,29 @@ int main(int argc, char *argv[]) {
   for (uint64_t iteration = offsetStride; iteration < upperlimit;
        iteration += (ettPrimtal * completeFactor)) {
     // Group A
-#ifdef GRUND6
-    switch (iteration & 0x000000000000003F) {
-    case 0x00:
-    case 0x01:
-    case 0x02:
-    case 0x03:
-    case 0x04:
-    case 0x05:
-    case 0x08:
-    case 0x0A:
-    case 0x0C:
-    case 0x0F:
-    case 0x10:
-    case 0x11:
-    case 0x14:
-    case 0x15:
-    case 0x16:
-    case 0x17:
-    case 0x19:
-    case 0x1A:
-    case 0x1D:
-    case 0x1F:
-    case 0x20:
-    case 0x22:
-    case 0x25:
-    case 0x26:
-    case 0x28:
-    case 0x29:
-    case 0x2A:
-    case 0x2B:
-    case 0x2E:
-    case 0x2F:
-    case 0x30:
-    case 0x33:
-    case 0x35:
-    case 0x37:
-    case 0x3A:
-    case 0x3B:
-    case 0x3C:
-    case 0x3D:
-    case 0x3E:
-    case 0x3F:
-      continue;
-      break;
-    // From msb to lsb:
-    case 0x06: // 0b000110: 0,1,2
-    case 0x07: // 0b000111: 0,1,3
-    case 0x09: // 0b001001: 0,2,1
-    case 0x0B: // 0b001011: 0,2,3
-    case 0x0D:
-    case 0x0E:
-    case 0x12:
-    case 0x13:
-    case 0x18:
-    case 0x1B:
-    case 0x1C:
-    case 0x1E:
-    case 0x21:
-    case 0x23:
-    case 0x24:
-    case 0x27:
-    case 0x2C:
-    case 0x2D:
-    case 0x31:
-    case 0x32:
-    case 0x34:
-    case 0x36:
-    case 0x38:
-    case 0x39:
-      break;
-    default:
-      std::cerr << __FILE__ << __LINE__ << '\n';
-      abort();
-    }
-#else
     if ((iteration & 0x000000000000001FUL) >= 24UL) {
       continue;
     }
-#endif
     // Group B
-#ifdef GRUND6
-    switch (iteration & 0x0000000000000FC0) {
-    case 0x00UL << 6:
-    case 0x01UL << 6:
-    case 0x02UL << 6:
-    case 0x03UL << 6:
-    case 0x04UL << 6:
-    case 0x05UL << 6:
-    case 0x08UL << 6:
-    case 0x0AUL << 6:
-    case 0x0CUL << 6:
-    case 0x0FUL << 6:
-    case 0x10UL << 6:
-    case 0x11UL << 6:
-    case 0x14UL << 6:
-    case 0x15UL << 6:
-    case 0x16UL << 6:
-    case 0x17UL << 6:
-    case 0x19UL << 6:
-    case 0x1AUL << 6:
-    case 0x1DUL << 6:
-    case 0x1FUL << 6:
-    case 0x20UL << 6:
-    case 0x22UL << 6:
-    case 0x25UL << 6:
-    case 0x26UL << 6:
-    case 0x28UL << 6:
-    case 0x29UL << 6:
-    case 0x2AUL << 6:
-    case 0x2BUL << 6:
-    case 0x2EUL << 6:
-    case 0x2FUL << 6:
-    case 0x30UL << 6:
-    case 0x33UL << 6:
-    case 0x35UL << 6:
-    case 0x37UL << 6:
-    case 0x3AUL << 6:
-    case 0x3BUL << 6:
-    case 0x3CUL << 6:
-    case 0x3DUL << 6:
-    case 0x3EUL << 6:
-    case 0x3FUL << 6:
-      continue;
-      break;
-    case 0x06UL << 6:
-    case 0x07UL << 6:
-    case 0x09UL << 6:
-    case 0x0BUL << 6:
-    case 0x0DUL << 6:
-    case 0x0EUL << 6:
-    case 0x12UL << 6:
-    case 0x13UL << 6:
-    case 0x18UL << 6:
-    case 0x1BUL << 6:
-    case 0x1CUL << 6:
-    case 0x1EUL << 6:
-    case 0x21UL << 6:
-    case 0x23UL << 6:
-    case 0x24UL << 6:
-    case 0x27UL << 6:
-    case 0x2CUL << 6:
-    case 0x2DUL << 6:
-    case 0x31UL << 6:
-    case 0x32UL << 6:
-    case 0x34UL << 6:
-    case 0x36UL << 6:
-    case 0x38UL << 6:
-    case 0x39UL << 6:
-      break;
-    default:
-      std::cerr << __FILE__ << __LINE__ << '\n';
-      abort();
-    }
-#else
     if (((iteration & (0x000000000000001FUL << 6)) >> 6) >= 24UL) {
       continue;
     }
-#endif
     // Group C
-#ifdef GRUND6
-    switch (iteration & 0x000000000003F000) {
-    case 0x00UL << 12:
-    case 0x01UL << 12:
-    case 0x02UL << 12:
-    case 0x03UL << 12:
-    case 0x04UL << 12:
-    case 0x05UL << 12:
-    case 0x08UL << 12:
-    case 0x0AUL << 12:
-    case 0x0CUL << 12:
-    case 0x0FUL << 12:
-    case 0x10UL << 12:
-    case 0x11UL << 12:
-    case 0x14UL << 12:
-    case 0x15UL << 12:
-    case 0x16UL << 12:
-    case 0x17UL << 12:
-    case 0x19UL << 12:
-    case 0x1AUL << 12:
-    case 0x1DUL << 12:
-    case 0x1FUL << 12:
-    case 0x20UL << 12:
-    case 0x22UL << 12:
-    case 0x25UL << 12:
-    case 0x26UL << 12:
-    case 0x28UL << 12:
-    case 0x29UL << 12:
-    case 0x2AUL << 12:
-    case 0x2BUL << 12:
-    case 0x2EUL << 12:
-    case 0x2FUL << 12:
-    case 0x30UL << 12:
-    case 0x33UL << 12:
-    case 0x35UL << 12:
-    case 0x37UL << 12:
-    case 0x3AUL << 12:
-    case 0x3BUL << 12:
-    case 0x3CUL << 12:
-    case 0x3DUL << 12:
-    case 0x3EUL << 12:
-    case 0x3FUL << 12:
-      continue;
-      break;
-    case 0x06UL << 12:
-    case 0x07UL << 12:
-    case 0x09UL << 12:
-    case 0x0BUL << 12:
-    case 0x0DUL << 12:
-    case 0x0EUL << 12:
-    case 0x12UL << 12:
-    case 0x13UL << 12:
-    case 0x18UL << 12:
-    case 0x1BUL << 12:
-    case 0x1CUL << 12:
-    case 0x1EUL << 12:
-    case 0x21UL << 12:
-    case 0x23UL << 12:
-    case 0x24UL << 12:
-    case 0x27UL << 12:
-    case 0x2CUL << 12:
-    case 0x2DUL << 12:
-    case 0x31UL << 12:
-    case 0x32UL << 12:
-    case 0x34UL << 12:
-    case 0x36UL << 12:
-    case 0x38UL << 12:
-    case 0x39UL << 12:
-      break;
-    default:
-      std::cerr << __FILE__ << __LINE__ << '\n';
-      abort();
-    }
-#else
     if (((iteration & (0x000000000000001FUL << 12)) >> 12) >= 24UL) {
       continue;
     }
-#endif
     // Group D
-#ifdef GRUND6
-    switch (iteration & 0x0000000000FC0000) {
-    case 0x00UL << 18:
-    case 0x01UL << 18:
-    case 0x02UL << 18:
-    case 0x03UL << 18:
-    case 0x04UL << 18:
-    case 0x05UL << 18:
-    case 0x08UL << 18:
-    case 0x0AUL << 18:
-    case 0x0CUL << 18:
-    case 0x0FUL << 18:
-    case 0x10UL << 18:
-    case 0x11UL << 18:
-    case 0x14UL << 18:
-    case 0x15UL << 18:
-    case 0x16UL << 18:
-    case 0x17UL << 18:
-    case 0x19UL << 18:
-    case 0x1AUL << 18:
-    case 0x1DUL << 18:
-    case 0x1FUL << 18:
-    case 0x20UL << 18:
-    case 0x22UL << 18:
-    case 0x25UL << 18:
-    case 0x26UL << 18:
-    case 0x28UL << 18:
-    case 0x29UL << 18:
-    case 0x2AUL << 18:
-    case 0x2BUL << 18:
-    case 0x2EUL << 18:
-    case 0x2FUL << 18:
-    case 0x30UL << 18:
-    case 0x33UL << 18:
-    case 0x35UL << 18:
-    case 0x37UL << 18:
-    case 0x3AUL << 18:
-    case 0x3BUL << 18:
-    case 0x3CUL << 18:
-    case 0x3DUL << 18:
-    case 0x3EUL << 18:
-    case 0x3FUL << 18:
-      continue;
-      break;
-    case 0x06UL << 18:
-    case 0x07UL << 18:
-    case 0x09UL << 18:
-    case 0x0BUL << 18:
-    case 0x0DUL << 18:
-    case 0x0EUL << 18:
-    case 0x12UL << 18:
-    case 0x13UL << 18:
-    case 0x18UL << 18:
-    case 0x1BUL << 18:
-    case 0x1CUL << 18:
-    case 0x1EUL << 18:
-    case 0x21UL << 18:
-    case 0x23UL << 18:
-    case 0x24UL << 18:
-    case 0x27UL << 18:
-    case 0x2CUL << 18:
-    case 0x2DUL << 18:
-    case 0x31UL << 18:
-    case 0x32UL << 18:
-    case 0x34UL << 18:
-    case 0x36UL << 18:
-    case 0x38UL << 18:
-    case 0x39UL << 18:
-      break;
-    default:
-      std::cerr << __FILE__ << __LINE__ << '\n';
-      abort();
-    }
-#else
     if (((iteration & (0x000000000000001FUL << 18)) >> 18) >= 24UL) {
       continue;
     }
-#endif
     // Group E
-#ifdef GRUND6
-    switch (iteration & 0x000000003F000000) {
-    case 0x00 << 24:
-    case 0x01 << 24:
-    case 0x02 << 24:
-    case 0x03 << 24:
-    case 0x04 << 24:
-    case 0x05 << 24:
-    case 0x08 << 24:
-    case 0x0A << 24:
-    case 0x0C << 24:
-    case 0x0F << 24:
-    case 0x10 << 24:
-    case 0x11 << 24:
-    case 0x14 << 24:
-    case 0x15 << 24:
-    case 0x16 << 24:
-    case 0x17 << 24:
-    case 0x19 << 24:
-    case 0x1A << 24:
-    case 0x1D << 24:
-    case 0x1F << 24:
-    case 0x20 << 24:
-    case 0x22 << 24:
-    case 0x25 << 24:
-    case 0x26 << 24:
-    case 0x28 << 24:
-    case 0x29 << 24:
-    case 0x2A << 24:
-    case 0x2B << 24:
-    case 0x2E << 24:
-    case 0x2F << 24:
-    case 0x30 << 24:
-    case 0x33 << 24:
-    case 0x35 << 24:
-    case 0x37 << 24:
-    case 0x3A << 24:
-    case 0x3B << 24:
-    case 0x3C << 24:
-    case 0x3D << 24:
-    case 0x3E << 24:
-    case 0x3F << 24:
-      continue;
-      break;
-    case 0x06 << 24:
-    case 0x07 << 24:
-    case 0x09 << 24:
-    case 0x0B << 24:
-    case 0x0D << 24:
-    case 0x0E << 24:
-    case 0x12 << 24:
-    case 0x13 << 24:
-    case 0x18 << 24:
-    case 0x1B << 24:
-    case 0x1C << 24:
-    case 0x1E << 24:
-    case 0x21 << 24:
-    case 0x23 << 24:
-    case 0x24 << 24:
-    case 0x27 << 24:
-    case 0x2C << 24:
-    case 0x2D << 24:
-    case 0x31 << 24:
-    case 0x32 << 24:
-    case 0x34 << 24:
-    case 0x36 << 24:
-    case 0x38 << 24:
-    case 0x39 << 24:
-      break;
-    default:
-      std::cerr << __FILE__ << __LINE__ << '\n';
-      abort();
-    }
-#else
     if (((iteration & (0x000000000000001FUL << 24)) >> 24) >= 24UL) {
       continue;
     }
-#endif
     // Group F
-#ifdef GRUND6
-    switch (iteration & 0x0000000FC0000000) {
-    case 0x00UL << 30:
-    case 0x01UL << 30:
-    case 0x02UL << 30:
-    case 0x03UL << 30:
-    case 0x04UL << 30:
-    case 0x05UL << 30:
-    case 0x08UL << 30:
-    case 0x0AUL << 30:
-    case 0x0CUL << 30:
-    case 0x0FUL << 30:
-    case 0x10UL << 30:
-    case 0x11UL << 30:
-    case 0x14UL << 30:
-    case 0x15UL << 30:
-    case 0x16UL << 30:
-    case 0x17UL << 30:
-    case 0x19UL << 30:
-    case 0x1AUL << 30:
-    case 0x1DUL << 30:
-    case 0x1FUL << 30:
-    case 0x20UL << 30:
-    case 0x22UL << 30:
-    case 0x25UL << 30:
-    case 0x26UL << 30:
-    case 0x28UL << 30:
-    case 0x29UL << 30:
-    case 0x2AUL << 30:
-    case 0x2BUL << 30:
-    case 0x2EUL << 30:
-    case 0x2FUL << 30:
-    case 0x30UL << 30:
-    case 0x33UL << 30:
-    case 0x35UL << 30:
-    case 0x37UL << 30:
-    case 0x3AUL << 30:
-    case 0x3BUL << 30:
-    case 0x3CUL << 30:
-    case 0x3DUL << 30:
-    case 0x3EUL << 30:
-    case 0x3FUL << 30:
-      continue;
-      break;
-    case 0x06UL << 30:
-    case 0x07UL << 30:
-    case 0x09UL << 30:
-    case 0x0BUL << 30:
-    case 0x0DUL << 30:
-    case 0x0EUL << 30:
-    case 0x12UL << 30:
-    case 0x13UL << 30:
-    case 0x18UL << 30:
-    case 0x1BUL << 30:
-    case 0x1CUL << 30:
-    case 0x1EUL << 30:
-    case 0x21UL << 30:
-    case 0x23UL << 30:
-    case 0x24UL << 30:
-    case 0x27UL << 30:
-    case 0x2CUL << 30:
-    case 0x2DUL << 30:
-    case 0x31UL << 30:
-    case 0x32UL << 30:
-    case 0x34UL << 30:
-    case 0x36UL << 30:
-    case 0x38UL << 30:
-    case 0x39UL << 30:
-      break;
-    default:
-      std::cerr << __FILE__ << __LINE__ << '\n';
-      abort();
-    }
-#else
     if (((iteration & (0x000000000000001FUL << 30)) >> 30) >= 24UL) {
       continue;
     }
-#endif
     // One of 15 ways to pick the best 3rd place set:
     // See table on https://en.wikipedia.org/wiki/UEFA_Euro_2020#Knockout_phase
     switch (iteration & 0x000000F000000000L) {
@@ -2135,21 +1655,12 @@ int main(int argc, char *argv[]) {
       std::cout.copyfmt(init); // restore default formatting
       abort();
     }
-#ifdef GRUND6
-    const uint64_t tableA = iteration & 0x3FUL;
-    const uint64_t tableB = (iteration >> 6) & 0x3FUL;
-    const uint64_t tableC = (iteration >> 12) & 0x3FUL;
-    const uint64_t tableD = (iteration >> 18) & 0x3FUL;
-    const uint64_t tableE = (iteration >> 24) & 0x3FUL;
-    const uint64_t tableF = (iteration >> 30) & 0x3FUL;
-#else
     const uint64_t tableA = iteration & 0x1FUL;
     const uint64_t tableB = (iteration >> 6) & 0x1FUL;
     const uint64_t tableC = (iteration >> 12) & 0x1FUL;
     const uint64_t tableD = (iteration >> 18) & 0x1FUL;
     const uint64_t tableE = (iteration >> 24) & 0x1FUL;
     const uint64_t tableF = (iteration >> 30) & 0x1FUL;
-#endif
     const uint64_t thirdTable = (iteration >> 36) & 0xFUL;
     saab[0].poang = 0;
     totFifa = 0;
@@ -2552,12 +2063,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
     assert(winA != scndA);
     assert(winA != rd3A);
     assert(scndA != rd3A);
-#ifdef GRUND6
-    uint64_t tableA =
-        ((winA - 0UL) << 4) + ((scndA - 0UL) << 2) + ((rd3A - 0UL) << 0);
-#else
     uint64_t tableA = tableFromTeam('A', winA, scndA, rd3A);
-#endif
     if (argc > 5) {
       // Group B win,2nd,3rd
       char *const arg5 = span_argv[5];
@@ -2589,12 +2095,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
       assert(winB != scndB);
       assert(winB != rd3B);
       assert(scndB != rd3B);
-#ifdef GRUND6
-      uint64_t tableB =
-          ((winB - 4UL) << 10) + ((scndB - 4UL) << 8) + ((rd3B - 4UL) << 6);
-#else
       uint64_t tableB = tableFromTeam('B', winB, scndB, rd3B) << 6;
-#endif
       if (argc > 7) {
         // Group C win,2nd,3rd
         char *const arg7 = span_argv[7];
@@ -2626,12 +2127,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
         assert(winC != scndC);
         assert(winC != rd3C);
         assert(scndC != rd3C);
-#ifdef GRUND6
-        uint64_t tableC =
-            ((winC - 8UL) << 16) + ((scndC - 8UL) << 14) + ((rd3C - 8UL) << 12);
-#else
         uint64_t tableC = tableFromTeam('C', winC, scndC, rd3C) << 12;
-#endif
         if (argc > 9) {
           // Group D win,2nd,3rd
           char *const arg9 = span_argv[9];
@@ -2663,12 +2159,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
           assert(winD != scndD);
           assert(winD != rd3D);
           assert(scndD != rd3D);
-#ifdef GRUND6
-          uint64_t tableD = ((winD - 12UL) << 22) + ((scndD - 12UL) << 20) +
-                            ((rd3D - 12UL) << 18);
-#else
           uint64_t tableD = tableFromTeam('D', winD, scndD, rd3D) << 20;
-#endif
           if (argc > 11) {
             // Group E win,2nd,3rd
             char *const arg11 = span_argv[11];
@@ -2701,12 +2192,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
             assert(winE != scndE);
             assert(winE != rd3E);
             assert(scndE != rd3E);
-#ifdef GRUND6
-            uint64_t tableE = ((winE - 16UL) << 28) + ((scndE - 16UL) << 26) +
-                              ((rd3E - 16UL) << 24);
-#else
             uint64_t tableE = tableFromTeam('E', winE, scndE, rd3E) << 26;
-#endif
             if (argc > 13) {
               // Group F win,2nd
               char *const arg13 = span_argv[13];
@@ -2740,10 +2226,6 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
               assert(winF != scndF);
               assert(winF != rd3F);
               assert(scndF != rd3F);
-#ifdef GRUND6
-              uint64_t tableF = ((winF - 20UL) << 34) + ((scndF - 20UL) << 32) +
-                                ((rd3F - 20UL) << 30);
-#endif
               uint64_t rd3bits = 0; // 4 bits describing the ABCD..CDEF
               // 4 av 6 grupptreor går vidare
               char *const arg15 = span_argv[15];
@@ -3014,27 +2496,13 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                 abort();
               }
               // Recalculate the tables due to new 3rd
-#ifdef GRUND6
-              tableA = ((winA - 0UL) << 4) + ((scndA - 0UL) << 2) +
-                       ((rd3A - 0UL) << 0);
-              tableB = ((winB - 4UL) << 10) + ((scndB - 4UL) << 8) +
-                       ((rd3B - 4UL) << 6);
-              tableC = ((winC - 8UL) << 16) + ((scndC - 8UL) << 14) +
-                       ((rd3C - 8UL) << 12);
-              tableD = ((winD - 12UL) << 22) + ((scndD - 12UL) << 20) +
-                       ((rd3D - 12UL) << 18);
-              tableE = ((winE - 16UL) << 28) + ((scndE - 16UL) << 26) +
-                       ((rd3E - 16UL) << 24);
-              tableF = ((winF - 20UL) << 34) + ((scndF - 20UL) << 32) +
-                       ((rd3F - 20UL) << 30);
-#else
               tableA = tableFromTeam('A', winA, scndA, rd3A);
               tableB = tableFromTeam('B', winB, scndB, rd3B) << 6;
               tableC = tableFromTeam('C', winC, scndC, rd3C) << 12;
               tableD = tableFromTeam('D', winD, scndD, rd3D) << 18;
               tableE = tableFromTeam('E', winE, scndE, rd3E) << 24;
-              const uint64_t tableF = tableFromTeam('F', winF, scndF, rd3F) << 30;
-#endif
+              const uint64_t tableF = tableFromTeam('F', winF, scndF, rd3F)
+                                      << 30;
               *completeFactor = 1UL << 40;
               *offsetStride *= 1UL << 40;
               *offsetStride +=
