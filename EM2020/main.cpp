@@ -2584,7 +2584,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
       uint64_t tableB =
           ((winB - 4UL) << 10) + ((scndB - 4UL) << 8) + ((rd3B - 4UL) << 6);
 #else
-      uint64_t tableB = tableFromTeam('B', winB, scndB, rd3B);
+      uint64_t tableB = tableFromTeam('B', winB, scndB, rd3B) << 6;
 #endif
       if (argc > 7) {
         // Group C win,2nd,3rd
@@ -3022,11 +3022,11 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                        ((rd3F - 20UL) << 30);
 #else
               tableA = tableFromTeam('A', winA, scndA, rd3A);
-              tableB = tableFromTeam('B', winB, scndB, rd3B);
-              tableC = tableFromTeam('C', winC, scndC, rd3C);
-              tableD = tableFromTeam('D', winD, scndD, rd3D);
-              tableE = tableFromTeam('E', winE, scndE, rd3E);
-              tableF = tableFromTeam('F', winF, scndF, rd3F);
+              tableB = tableFromTeam('B', winB, scndB, rd3B) << 6;
+              tableC = tableFromTeam('C', winC, scndC, rd3C) << 12;
+              tableD = tableFromTeam('D', winD, scndD, rd3D) << 18;
+              tableE = tableFromTeam('E', winE, scndE, rd3E) << 24;
+              tableF = tableFromTeam('F', winF, scndF, rd3F) << 30;
 #endif
               *completeFactor = 1UL << 40;
               *offsetStride *= 1UL << 40;
