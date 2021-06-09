@@ -1623,24 +1623,24 @@ int main(int argc, char *argv[]) {
     }
     // One of 15 ways to pick the best 3rd place set:
     // See table on https://en.wikipedia.org/wiki/UEFA_Euro_2020#Knockout_phase
-    switch (iteration & 0x000000F000000000L) {
-    case 0x0UL << 36: // ABCD
-    case 0x1UL << 36: // ABC E
-    case 0x2UL << 36: // ABC  F
-    case 0x3UL << 36: // AB DE
-    case 0x4UL << 36: // AB D F
-    case 0x5UL << 36: // AB  EF
-    case 0x6UL << 36: // A CDE
-    case 0x7UL << 36: // A CD F
-    case 0x8UL << 36: // A C EF
-    case 0x9UL << 36: // A  DEF
-    case 0xAUL << 36: //  BCDE
-    case 0xBUL << 36: //  BCD F
-    case 0xCUL << 36: //  BC EF
-    case 0xDUL << 36: //  B DEF
-    case 0xEUL << 36: //   CDEF
+    switch (iteration & (0xFL << 30)) {
+    case 0x0UL << 30: // ABCD
+    case 0x1UL << 30: // ABC E
+    case 0x2UL << 30: // ABC  F
+    case 0x3UL << 30: // AB DE
+    case 0x4UL << 30: // AB D F
+    case 0x5UL << 30: // AB  EF
+    case 0x6UL << 30: // A CDE
+    case 0x7UL << 30: // A CD F
+    case 0x8UL << 30: // A C EF
+    case 0x9UL << 30: // A  DEF
+    case 0xAUL << 30: //  BCDE
+    case 0xBUL << 30: //  BCD F
+    case 0xCUL << 30: //  BC EF
+    case 0xDUL << 30: //  B DEF
+    case 0xEUL << 30: //   CDEF
       break;
-    case 0xFUL << 36: // There are 15 alternatives, not 16
+    case 0xFUL << 30: // There are 15 alternatives, not 16
       continue;
       break;
     default:
@@ -1660,7 +1660,7 @@ int main(int argc, char *argv[]) {
     const uint64_t tableD = (iteration >> 15) & 0x1FUL;
     const uint64_t tableE = (iteration >> 20) & 0x1FUL;
     const uint64_t tableF = (iteration >> 25) & 0x1FUL;
-    const uint64_t thirdTable = (iteration >> 36) & 0xFUL;
+    const uint64_t thirdTable = (iteration >> 30) & 0xFUL;
     saab[0].poang = 0;
     totFifa = 0;
     calcGrundSpel('A', tableA);
@@ -1903,7 +1903,7 @@ int main(int argc, char *argv[]) {
     const uint64_t tableD = (maxIteration >> 15) & 0x1FUL;
     const uint64_t tableE = (maxIteration >> 20) & 0x1FUL;
     const uint64_t tableF = (maxIteration >> 25) & 0x1FUL;
-    const uint64_t thirdTable = (maxIteration >> 36) & 0xFUL;
+    const uint64_t thirdTable = (maxIteration >> 30) & 0xFUL;
     // Skriv ut
     std::cout << __FILE__ << __LINE__ << ' ' << span_argv[1] << ' '
               << offsetStride << ' ';
@@ -2296,19 +2296,19 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     assert(scndC != rd3C);
                     switch (trunk18) {
                     case 3: // ABCD--
-                      rd3bits = 0x0UL << 36;
+                      rd3bits = 0x0UL << 30;
                       rd3D = team18;
                       assert(winD != rd3D);
                       assert(scndD != rd3D);
                       break;
                     case 4: // ABC-E-
-                      rd3bits = 0x1UL << 36;
+                      rd3bits = 0x1UL << 30;
                       rd3E = team18;
                       assert(winE != rd3E);
                       assert(scndE != rd3E);
                       break;
                     case 5: // ABC--F
-                      rd3bits = 0x2UL << 36;
+                      rd3bits = 0x2UL << 30;
                       rd3F = team18;
                       assert(winF != rd3F);
                       assert(scndF != rd3F);
@@ -2324,13 +2324,13 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     assert(scndD != rd3D);
                     switch (trunk18) {
                     case 4: // AB-DE-
-                      rd3bits = 0x3UL << 36;
+                      rd3bits = 0x3UL << 30;
                       rd3E = team18;
                       assert(winE != rd3E);
                       assert(scndE != rd3E);
                       break;
                     case 5: // AB-D-F
-                      rd3bits = 0x4UL << 36;
+                      rd3bits = 0x4UL << 30;
                       rd3F = team18;
                       assert(winF != rd3F);
                       assert(scndF != rd3F);
@@ -2341,7 +2341,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     }
                     break;
                   case 4: // AB--EF
-                    rd3bits = 0x5UL << 36;
+                    rd3bits = 0x5UL << 30;
                     rd3E = team17;
                     assert(winE != rd3E);
                     assert(scndE != rd3E);
@@ -2365,13 +2365,13 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     assert(scndD != rd3D);
                     switch (trunk18) {
                     case 4: // A-CDE-
-                      rd3bits = 0x6UL << 36;
+                      rd3bits = 0x6UL << 30;
                       rd3E = team18;
                       assert(winE != rd3E);
                       assert(scndE != rd3E);
                       break;
                     case 5: // A-CD-F
-                      rd3bits = 0x7UL << 36;
+                      rd3bits = 0x7UL << 30;
                       rd3F = team18;
                       assert(winF != rd3F);
                       assert(scndF != rd3F);
@@ -2382,7 +2382,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     }
                     break;
                   case 4: // A-C-EF
-                    rd3bits = 0x8UL << 36;
+                    rd3bits = 0x8UL << 30;
                     rd3E = team17;
                     assert(winE != rd3E);
                     assert(scndE != rd3E);
@@ -2396,7 +2396,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                   }
                   break;
                 case 3: // A--DEF
-                  rd3bits = 0x9UL << 36;
+                  rd3bits = 0x9UL << 30;
                   rd3D = team16;
                   assert(winD != rd3D);
                   assert(scndD != rd3D);
@@ -2428,13 +2428,13 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     assert(scndD != rd3D);
                     switch (trunk18) {
                     case 4: //-BCDE-
-                      rd3bits = 0xAUL << 36;
+                      rd3bits = 0xAUL << 30;
                       rd3E = team18;
                       assert(winE != rd3E);
                       assert(scndE != rd3E);
                       break;
                     case 5: //-BCD-F
-                      rd3bits = 0xBUL << 36;
+                      rd3bits = 0xBUL << 30;
                       rd3F = team18;
                       assert(winF != rd3F);
                       assert(scndF != rd3F);
@@ -2445,7 +2445,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     }
                     break;
                   case 4: // -BC-EF
-                    rd3bits = 0xCUL << 36;
+                    rd3bits = 0xCUL << 30;
                     rd3E = team17;
                     assert(winE != rd3E);
                     assert(scndE != rd3E);
@@ -2459,7 +2459,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                   }
                   break;
                 case 3: // -B-DEF
-                  rd3bits = 0xDUL << 36;
+                  rd3bits = 0xDUL << 30;
                   rd3D = team16;
                   assert(winD != rd3D);
                   assert(scndD != rd3D);
@@ -2476,7 +2476,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                 }
                 break;
               case 2: // --CDEF
-                rd3bits = 0xEUL << 36;
+                rd3bits = 0xEUL << 30;
                 rd3C = team15;
                 assert(winC != rd3C);
                 assert(scndC != rd3C);
