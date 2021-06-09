@@ -614,7 +614,6 @@ void showGrundSpel(char grp, uint64_t table) {
     break;
   default:
     std::cerr << __FILE__ << __LINE__ << '\n';
-    ;
     abort();
   }
   assert(0 <= win && win <= 3);
@@ -1603,23 +1602,23 @@ int main(int argc, char *argv[]) {
       continue;
     }
     // Group B
-    if (((iteration & (0x000000000000001FUL << 6)) >> 6) >= 24UL) {
+    if (((iteration & (0x000000000000001FUL << 5)) >> 5) >= 24UL) {
       continue;
     }
     // Group C
-    if (((iteration & (0x000000000000001FUL << 12)) >> 12) >= 24UL) {
+    if (((iteration & (0x000000000000001FUL << 10)) >> 10) >= 24UL) {
       continue;
     }
     // Group D
-    if (((iteration & (0x000000000000001FUL << 18)) >> 18) >= 24UL) {
+    if (((iteration & (0x000000000000001FUL << 15)) >> 15) >= 24UL) {
       continue;
     }
     // Group E
-    if (((iteration & (0x000000000000001FUL << 24)) >> 24) >= 24UL) {
+    if (((iteration & (0x000000000000001FUL << 20)) >> 20) >= 24UL) {
       continue;
     }
     // Group F
-    if (((iteration & (0x000000000000001FUL << 30)) >> 30) >= 24UL) {
+    if (((iteration & (0x000000000000001FUL << 25)) >> 25) >= 24UL) {
       continue;
     }
     // One of 15 ways to pick the best 3rd place set:
@@ -1656,11 +1655,11 @@ int main(int argc, char *argv[]) {
       abort();
     }
     const uint64_t tableA = iteration & 0x1FUL;
-    const uint64_t tableB = (iteration >> 6) & 0x1FUL;
-    const uint64_t tableC = (iteration >> 12) & 0x1FUL;
-    const uint64_t tableD = (iteration >> 18) & 0x1FUL;
-    const uint64_t tableE = (iteration >> 24) & 0x1FUL;
-    const uint64_t tableF = (iteration >> 30) & 0x1FUL;
+    const uint64_t tableB = (iteration >> 5) & 0x1FUL;
+    const uint64_t tableC = (iteration >> 10) & 0x1FUL;
+    const uint64_t tableD = (iteration >> 15) & 0x1FUL;
+    const uint64_t tableE = (iteration >> 20) & 0x1FUL;
+    const uint64_t tableF = (iteration >> 25) & 0x1FUL;
     const uint64_t thirdTable = (iteration >> 36) & 0xFUL;
     saab[0].poang = 0;
     totFifa = 0;
@@ -1898,12 +1897,12 @@ int main(int argc, char *argv[]) {
 #ifdef FIFARANK
     maxIteration = maxFifaIteration;
 #endif
-    const uint64_t tableA = maxIteration & 0x3FUL;
-    const uint64_t tableB = (maxIteration >> 6) & 0x3FUL;
-    const uint64_t tableC = (maxIteration >> 12) & 0x3FUL;
-    const uint64_t tableD = (maxIteration >> 18) & 0x3FUL;
-    const uint64_t tableE = (maxIteration >> 24) & 0x3FUL;
-    const uint64_t tableF = (maxIteration >> 30) & 0x3FUL;
+    const uint64_t tableA = maxIteration & 0x1FUL;
+    const uint64_t tableB = (maxIteration >> 5) & 0x1FUL;
+    const uint64_t tableC = (maxIteration >> 10) & 0x1FUL;
+    const uint64_t tableD = (maxIteration >> 15) & 0x1FUL;
+    const uint64_t tableE = (maxIteration >> 20) & 0x1FUL;
+    const uint64_t tableF = (maxIteration >> 25) & 0x1FUL;
     const uint64_t thirdTable = (maxIteration >> 36) & 0xFUL;
     // Skriv ut
     std::cout << __FILE__ << __LINE__ << ' ' << span_argv[1] << ' '
@@ -2095,7 +2094,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
       assert(winB != scndB);
       assert(winB != rd3B);
       assert(scndB != rd3B);
-      uint64_t tableB = tableFromTeam('B', winB, scndB, rd3B) << 6;
+      uint64_t tableB = tableFromTeam('B', winB, scndB, rd3B) << 5;
       if (argc > 7) {
         // Group C win,2nd,3rd
         char *const arg7 = span_argv[7];
@@ -2127,7 +2126,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
         assert(winC != scndC);
         assert(winC != rd3C);
         assert(scndC != rd3C);
-        uint64_t tableC = tableFromTeam('C', winC, scndC, rd3C) << 12;
+        uint64_t tableC = tableFromTeam('C', winC, scndC, rd3C) << 10;
         if (argc > 9) {
           // Group D win,2nd,3rd
           char *const arg9 = span_argv[9];
@@ -2159,7 +2158,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
           assert(winD != scndD);
           assert(winD != rd3D);
           assert(scndD != rd3D);
-          uint64_t tableD = tableFromTeam('D', winD, scndD, rd3D) << 18;
+          uint64_t tableD = tableFromTeam('D', winD, scndD, rd3D) << 15;
           if (argc > 11) {
             // Group E win,2nd,3rd
             char *const arg11 = span_argv[11];
@@ -2192,7 +2191,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
             assert(winE != scndE);
             assert(winE != rd3E);
             assert(scndE != rd3E);
-            uint64_t tableE = tableFromTeam('E', winE, scndE, rd3E) << 24;
+            uint64_t tableE = tableFromTeam('E', winE, scndE, rd3E) << 20;
             if (argc > 13) {
               // Group F win,2nd
               char *const arg13 = span_argv[13];
@@ -2497,39 +2496,39 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
               }
               // Recalculate the tables due to new 3rd
               tableA = tableFromTeam('A', winA, scndA, rd3A);
-              tableB = tableFromTeam('B', winB, scndB, rd3B) << 6;
-              tableC = tableFromTeam('C', winC, scndC, rd3C) << 12;
-              tableD = tableFromTeam('D', winD, scndD, rd3D) << 18;
-              tableE = tableFromTeam('E', winE, scndE, rd3E) << 24;
+              tableB = tableFromTeam('B', winB, scndB, rd3B) << 5;
+              tableC = tableFromTeam('C', winC, scndC, rd3C) << 10;
+              tableD = tableFromTeam('D', winD, scndD, rd3D) << 15;
+              tableE = tableFromTeam('E', winE, scndE, rd3E) << 20;
               const uint64_t tableF = tableFromTeam('F', winF, scndF, rd3F)
-                                      << 30;
+                                      << 25;
               *completeFactor = 1UL << 40;
               *offsetStride *= 1UL << 40;
               *offsetStride +=
                   rd3bits + tableF + tableE + tableD + tableC + tableB + tableA;
             } else {
-              *completeFactor = 1UL << 30;
-              *offsetStride *= 1UL << 30;
+              *completeFactor = 1UL << 25;
+              *offsetStride *= 1UL << 25;
               *offsetStride += tableE + tableD + tableC + tableB + tableA;
             }
           } else {
-            *completeFactor = 1UL << 24;
-            *offsetStride *= 1UL << 24;
+            *completeFactor = 1UL << 20;
+            *offsetStride *= 1UL << 20;
             *offsetStride += tableD + tableC + tableB + tableA;
           }
         } else {
-          *completeFactor = 1UL << 18;
-          *offsetStride *= 1UL << 18;
+          *completeFactor = 1UL << 15;
+          *offsetStride *= 1UL << 15;
           *offsetStride += tableC + tableB + tableA;
         }
       } else {
-        *completeFactor = 1UL << 12;
-        *offsetStride *= 1UL << 12;
+        *completeFactor = 1UL << 10;
+        *offsetStride *= 1UL << 10;
         *offsetStride += tableB + tableA;
       }
     } else {
-      *completeFactor = 1UL << 6;
-      *offsetStride *= 1UL << 6;
+      *completeFactor = 1UL << 5;
+      *offsetStride *= 1UL << 5;
       *offsetStride += tableA;
     }
   }
