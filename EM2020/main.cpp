@@ -1703,7 +1703,7 @@ int main(int argc, char *argv[]) {
       abort();
     }
 #else
-    if ((iteration & 0x000000000000003F) >= 24UL) {
+    if ((iteration & 0x000000000000001FUL) >= 24UL) {
       continue;
     }
 #endif
@@ -1782,7 +1782,7 @@ int main(int argc, char *argv[]) {
       abort();
     }
 #else
-    if (((iteration & 0x0000000000000FC0) >> 6) >= 24) {
+    if (((iteration & (0x000000000000001FUL << 6)) >> 6) >= 24UL) {
       continue;
     }
 #endif
@@ -1861,7 +1861,7 @@ int main(int argc, char *argv[]) {
       abort();
     }
 #else
-    if (((iteration & 0x000000000003F000) >> 12) >= 24) {
+    if (((iteration & (0x000000000000001FUL << 12)) >> 12) >= 24UL) {
       continue;
     }
 #endif
@@ -1940,7 +1940,7 @@ int main(int argc, char *argv[]) {
       abort();
     }
 #else
-    if (((iteration & 0x0000000000FC0000) >> 18) >= 24) {
+    if (((iteration & (0x000000000000001FUL << 18)) >> 18) >= 24UL) {
       continue;
     }
 #endif
@@ -2019,7 +2019,7 @@ int main(int argc, char *argv[]) {
       abort();
     }
 #else
-    if (((iteration & 0x000000003F000000) >> 24) >= 24) {
+    if (((iteration & (0x000000000000001FUL << 24)) >> 24) >= 24UL) {
       continue;
     }
 #endif
@@ -2098,7 +2098,7 @@ int main(int argc, char *argv[]) {
       abort();
     }
 #else
-    if (((iteration & 0x0000000FC0000000) >> 30) >= 24) {
+    if (((iteration & (0x000000000000001FUL << 30)) >> 30) >= 24UL) {
       continue;
     }
 #endif
@@ -2734,8 +2734,6 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
 #ifdef GRUND6
               uint64_t tableF = ((winF - 20UL) << 34) + ((scndF - 20UL) << 32) +
                                 ((rd3F - 20UL) << 30);
-#else
-              uint64_t tableF = tableFromTeam('F', winF, scndF, rd3F) << 32;
 #endif
               uint64_t rd3bits = 0; // 4 bits describing the ABCD..CDEF
               // 4 av 6 grupptreor går vidare
@@ -3026,7 +3024,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
               tableC = tableFromTeam('C', winC, scndC, rd3C) << 12;
               tableD = tableFromTeam('D', winD, scndD, rd3D) << 18;
               tableE = tableFromTeam('E', winE, scndE, rd3E) << 24;
-              tableF = tableFromTeam('F', winF, scndF, rd3F) << 30;
+              const uint64_t tableF = tableFromTeam('F', winF, scndF, rd3F) << 30;
 #endif
               *completeFactor = 1UL << 40;
               *offsetStride *= 1UL << 40;
