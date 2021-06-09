@@ -2159,7 +2159,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
           assert(winD != scndD);
           assert(winD != rd3D);
           assert(scndD != rd3D);
-          uint64_t tableD = tableFromTeam('D', winD, scndD, rd3D) << 20;
+          uint64_t tableD = tableFromTeam('D', winD, scndD, rd3D) << 18;
           if (argc > 11) {
             // Group E win,2nd,3rd
             char *const arg11 = span_argv[11];
@@ -2192,7 +2192,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
             assert(winE != scndE);
             assert(winE != rd3E);
             assert(scndE != rd3E);
-            uint64_t tableE = tableFromTeam('E', winE, scndE, rd3E) << 26;
+            uint64_t tableE = tableFromTeam('E', winE, scndE, rd3E) << 24;
             if (argc > 13) {
               // Group F win,2nd
               char *const arg13 = span_argv[13];
