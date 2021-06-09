@@ -2621,7 +2621,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
         uint64_t tableC =
             ((winC - 8UL) << 16) + ((scndC - 8UL) << 14) + ((rd3C - 8UL) << 12);
 #else
-        uint64_t tableC = tableFromTeam('C', winC, scndC, rd3C);
+        uint64_t tableC = tableFromTeam('C', winC, scndC, rd3C) << 12;
 #endif
         if (argc > 9) {
           // Group D win,2nd,3rd
@@ -2658,7 +2658,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
           uint64_t tableD = ((winD - 12UL) << 22) + ((scndD - 12UL) << 20) +
                             ((rd3D - 12UL) << 18);
 #else
-          uint64_t tableD = tableFromTeam('D', winD, scndD, rd3D);
+          uint64_t tableD = tableFromTeam('D', winD, scndD, rd3D) << 20;
 #endif
           if (argc > 11) {
             // Group E win,2nd,3rd
@@ -2696,7 +2696,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
             uint64_t tableE = ((winE - 16UL) << 28) + ((scndE - 16UL) << 26) +
                               ((rd3E - 16UL) << 24);
 #else
-            uint64_t tableE = tableFromTeam('E', winE, scndE, rd3E);
+            uint64_t tableE = tableFromTeam('E', winE, scndE, rd3E) << 26;
 #endif
             if (argc > 13) {
               // Group F win,2nd
@@ -2735,7 +2735,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
               uint64_t tableF = ((winF - 20UL) << 34) + ((scndF - 20UL) << 32) +
                                 ((rd3F - 20UL) << 30);
 #else
-              uint64_t tableF = tableFromTeam('F', winF, scndF, rd3F);
+              uint64_t tableF = tableFromTeam('F', winF, scndF, rd3F) << 32;
 #endif
               uint64_t rd3bits = 0; // 4 bits describing the ABCD..CDEF
               // 4 av 6 grupptreor går vidare
