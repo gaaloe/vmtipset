@@ -2135,12 +2135,21 @@ int main(int argc, char *argv[]) {
       std::cout.copyfmt(init); // restore default formatting
       abort();
     }
+#ifdef GRUND6
     const uint64_t tableA = iteration & 0x3FUL;
     const uint64_t tableB = (iteration >> 6) & 0x3FUL;
     const uint64_t tableC = (iteration >> 12) & 0x3FUL;
     const uint64_t tableD = (iteration >> 18) & 0x3FUL;
     const uint64_t tableE = (iteration >> 24) & 0x3FUL;
     const uint64_t tableF = (iteration >> 30) & 0x3FUL;
+#else
+    const uint64_t tableA = iteration & 0x1FUL;
+    const uint64_t tableB = (iteration >> 6) & 0x1FUL;
+    const uint64_t tableC = (iteration >> 12) & 0x1FUL;
+    const uint64_t tableD = (iteration >> 18) & 0x1FUL;
+    const uint64_t tableE = (iteration >> 24) & 0x1FUL;
+    const uint64_t tableF = (iteration >> 30) & 0x1FUL;
+#endif
     const uint64_t thirdTable = (iteration >> 36) & 0xFUL;
     saab[0].poang = 0;
     totFifa = 0;
