@@ -1723,7 +1723,7 @@ int main(int argc, char *argv[]) {
     game[48][1] = matchWinner;
     totFifa += rank[matchWinner];
 #ifndef NDEBUG
-    // Kontrollera att alla fält match 37-44 är olika
+    // Kontrollera att alla fält match 45-48 är olika
     for (int match = 45; match <= 48; ++match) {
       for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
         const e_team tt = game[match][hemmaBorta];
@@ -1771,7 +1771,7 @@ int main(int argc, char *argv[]) {
     game[50][0] = matchWinner;
     totFifa += rank[matchWinner];
 #ifndef NDEBUG
-    // Kontrollera att alla fält match 37-44 är olika
+    // Kontrollera att alla fält match 49-50 är olika
     for (int match = 49; match <= 50; ++match) {
       for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
         const e_team tt = game[match][hemmaBorta];
