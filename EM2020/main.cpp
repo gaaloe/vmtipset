@@ -104,6 +104,23 @@ enum e_grp {
   _3201,
   _3210
 };
+enum e_gruppTreor {
+  ABCD,
+  ABCE,
+  ABCF,
+  ABDE,
+  ABDF,
+  ABEF,
+  ACDE,
+  ACDF,
+  ACEF,
+  ADEF,
+  BCDE,
+  BCDF,
+  BCEF,
+  BDEF,
+  CDEF
+};
 uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
   const int offset =
       grp == 'A'
@@ -1017,7 +1034,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
   const auto teamE = static_cast<e_team>(thirdE + 16);
   const auto teamF = static_cast<e_team>(thirdF + 20);
   switch (tabell) {
-  case 0:
+  case ABCD:
     std::cout << "ABCD--";
     // 3A 3D 3B 3C
     game[m39][1] = teamA;
@@ -1025,7 +1042,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m43][1] = teamB;
     game[m41][1] = teamC;
     break;
-  case 1:
+  case ABCE:
     std::cout << "ABC-E-";
     // 3A 3E 3B 3C
     game[m39][1] = teamA;
@@ -1033,7 +1050,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m43][1] = teamB;
     game[m41][1] = teamC;
     break;
-  case 2:
+  case ABCF:
     std::cout << "ABC--F";
     // 3A 3F 3B 3C
     game[m39][1] = teamA;
@@ -1041,7 +1058,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m43][1] = teamB;
     game[m41][1] = teamC;
     break;
-  case 3:
+  case ABDE:
     std::cout << "AB-DE-";
     // 3D 3E 3A 3B
     game[m39][1] = teamD;
@@ -1049,7 +1066,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m43][1] = teamA;
     game[m41][1] = teamB;
     break;
-  case 4:
+  case ABDF:
     std::cout << "AB-D-F";
     // 3D 3F 3A 3B
     game[m39][1] = teamD;
@@ -1057,7 +1074,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m43][1] = teamA;
     game[m41][1] = teamB;
     break;
-  case 5:
+  case ABEF:
     std::cout << "AB--EF";
     // 3E 3F 3B 3A
     game[m39][1] = teamE;
@@ -1065,7 +1082,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m43][1] = teamB;
     game[m41][1] = teamA;
     break;
-  case 6:
+  case ACDE:
     std::cout << "A-CDE-";
     // 3E 3D 3C 3A
     game[m39][1] = teamE;
@@ -1073,7 +1090,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m43][1] = teamC;
     game[m41][1] = teamA;
     break;
-  case 7:
+  case ACDF:
     std::cout << "A-CD-F";
     // 3F 3D 3C 3A
     game[m39][1] = teamF;
@@ -1081,7 +1098,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m43][1] = teamC;
     game[m41][1] = teamA;
     break;
-  case 8:
+  case ACEF:
     std::cout << "A-C-EF";
     // 3E 3F 3C 3A
     game[m39][1] = teamE;
@@ -1089,7 +1106,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m43][1] = teamC;
     game[m41][1] = teamA;
     break;
-  case 9:
+  case ADEF:
     std::cout << "A--DEF";
     // 3E 3F 3D 3A
     game[m39][1] = teamE;
@@ -1097,7 +1114,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m43][1] = teamD;
     game[m41][1] = teamA;
     break;
-  case 10:
+  case BCDE:
     std::cout << "-BCDE-";
     // 3E 3D 3B 3C
     game[m39][1] = teamE;
@@ -1105,7 +1122,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m43][1] = teamB;
     game[m41][1] = teamC;
     break;
-  case 11:
+  case BCDF:
     std::cout << "-BCD-F";
     // 3F 3D 3C 3B
     game[m39][1] = teamF;
@@ -1113,7 +1130,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m43][1] = teamC;
     game[m41][1] = teamB;
     break;
-  case 12:
+  case BCEF:
     std::cout << "-BC-EF";
     // 3F 3E 3C 3B
     game[m39][1] = teamF;
@@ -1121,7 +1138,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m43][1] = teamC;
     game[m41][1] = teamB;
     break;
-  case 13:
+  case BDEF:
     std::cout << "-B-DEF";
     // 3F 3E 3D 3B
     game[m39][1] = teamF;
@@ -1129,7 +1146,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m43][1] = teamD;
     game[m41][1] = teamB;
     break;
-  case 14:
+  case CDEF:
     std::cout << "--CDEF";
     // 3F 3E 3D 3C
     game[m39][1] = teamF;
@@ -1137,7 +1154,6 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m43][1] = teamD;
     game[m41][1] = teamC;
     break;
-  case 15: // There are 15 alternatives 0..14
   default:
     std::cerr << __FILE__ << __LINE__ << '\n';
     std::ios init(nullptr);
@@ -1393,7 +1409,7 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
   const auto teamE = static_cast<e_team>(thirdE + 16);
   const auto teamF = static_cast<e_team>(thirdF + 20);
   switch (tabell) {
-  case 0:
+  case ABCD:
     // 3A 3D 3B 3C
     game[m39][1] = teamA;
     game[m40][1] = teamD;
@@ -1404,7 +1420,7 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     totFifa += (rank[teamB] * 20) / 100;
     totFifa += (rank[teamC] * 20) / 100;
     break;
-  case 1:
+  case ABCE:
     // 3A 3E 3B 3C
     game[m39][1] = teamA;
     game[m40][1] = teamE;
@@ -1415,7 +1431,7 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     totFifa += (rank[teamB] * 20) / 100;
     totFifa += (rank[teamC] * 20) / 100;
     break;
-  case 2:
+  case ABCF:
     // 3A 3F 3B 3C
     game[m39][1] = teamA;
     game[m40][1] = teamF;
@@ -1426,7 +1442,7 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     totFifa += (rank[teamB] * 20) / 100;
     totFifa += (rank[teamC] * 20) / 100;
     break;
-  case 3:
+  case ABDE:
     // 3D 3E 3A 3B
     game[m39][1] = teamD;
     game[m40][1] = teamE;
@@ -1437,7 +1453,7 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     totFifa += (rank[teamA] * 20) / 100;
     totFifa += (rank[teamB] * 20) / 100;
     break;
-  case 4:
+  case ABDF:
     // 3D 3F 3A 3B
     game[m39][1] = teamD;
     game[m40][1] = teamF;
@@ -1448,7 +1464,7 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     totFifa += (rank[teamA] * 20) / 100;
     totFifa += (rank[teamB] * 20) / 100;
     break;
-  case 5:
+  case ABEF:
     // 3E 3F 3B 3A
     game[m39][1] = teamE;
     game[m40][1] = teamF;
@@ -1459,7 +1475,7 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     totFifa += (rank[teamB] * 20) / 100;
     totFifa += (rank[teamA] * 20) / 100;
     break;
-  case 6:
+  case ACDE:
     // 3E 3D 3C 3A
     game[m39][1] = teamE;
     game[m40][1] = teamD;
@@ -1470,7 +1486,7 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     totFifa += (rank[teamC] * 20) / 100;
     totFifa += (rank[teamA] * 20) / 100;
     break;
-  case 7:
+  case ACDF:
     // 3F 3D 3C 3A
     game[m39][1] = teamF;
     game[m40][1] = teamD;
@@ -1481,7 +1497,7 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     totFifa += (rank[teamC] * 20) / 100;
     totFifa += (rank[teamA] * 20) / 100;
     break;
-  case 8:
+  case ACEF:
     // 3E 3F 3C 3A
     game[m39][1] = teamE;
     game[m40][1] = teamF;
@@ -1492,7 +1508,7 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     totFifa += (rank[teamC] * 20) / 100;
     totFifa += (rank[teamA] * 20) / 100;
     break;
-  case 9:
+  case ADEF:
     // 3E 3F 3D 3A
     game[m39][1] = teamE;
     game[m40][1] = teamF;
@@ -1503,7 +1519,7 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     totFifa += (rank[teamD] * 20) / 100;
     totFifa += (rank[teamA] * 20) / 100;
     break;
-  case 10:
+  case BCDE:
     // 3E 3D 3B 3C
     game[m39][1] = teamE;
     game[m40][1] = teamD;
@@ -1514,7 +1530,7 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     totFifa += (rank[teamB] * 20) / 100;
     totFifa += (rank[teamC] * 20) / 100;
     break;
-  case 11:
+  case BCDF:
     // 3F 3D 3C 3B
     game[m39][1] = teamF;
     game[m40][1] = teamD;
@@ -1525,7 +1541,7 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     totFifa += (rank[teamC] * 20) / 100;
     totFifa += (rank[teamB] * 20) / 100;
     break;
-  case 12:
+  case BCEF:
     // 3F 3E 3C 3B
     game[m39][1] = teamF;
     game[m40][1] = teamE;
@@ -1536,7 +1552,7 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     totFifa += (rank[teamC] * 20) / 100;
     totFifa += (rank[teamB] * 20) / 100;
     break;
-  case 13:
+  case BDEF:
     // 3F 3E 3D 3B
     game[m39][1] = teamF;
     game[m40][1] = teamE;
@@ -1547,7 +1563,7 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     totFifa += (rank[teamD] * 20) / 100;
     totFifa += (rank[teamB] * 20) / 100;
     break;
-  case 14:
+  case CDEF:
     // 3F 3E 3D 3C
     game[m39][1] = teamF;
     game[m40][1] = teamE;
@@ -1558,7 +1574,6 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     totFifa += (rank[teamD] * 20) / 100;
     totFifa += (rank[teamC] * 20) / 100;
     break;
-  case 15: // There are 15 alternatives 0..14
   default:
     std::cerr << __FILE__ << __LINE__ << '\n';
     std::ios init(nullptr);
@@ -1582,61 +1597,33 @@ int main(int argc, char *argv[]) {
   for (uint64_t iteration = offsetStride; iteration < upperlimit;
        iteration += (ettPrimtal * completeFactor)) {
     // Group A
-    if ((iteration & 0x000000000000001FUL) >= 24UL) {
+    if ((iteration & 0x1FUL) >= 24UL) {
       continue;
     }
     // Group B
-    if (((iteration & (0x000000000000001FUL << 5)) >> 5) >= 24UL) {
+    if (((iteration & (0x1FUL << 5)) >> 5) >= 24UL) {
       continue;
     }
     // Group C
-    if (((iteration & (0x000000000000001FUL << 10)) >> 10) >= 24UL) {
+    if (((iteration & (0x1FUL << 10)) >> 10) >= 24UL) {
       continue;
     }
     // Group D
-    if (((iteration & (0x000000000000001FUL << 15)) >> 15) >= 24UL) {
+    if (((iteration & (0x1FUL << 15)) >> 15) >= 24UL) {
       continue;
     }
     // Group E
-    if (((iteration & (0x000000000000001FUL << 20)) >> 20) >= 24UL) {
+    if (((iteration & (0x1FUL << 20)) >> 20) >= 24UL) {
       continue;
     }
     // Group F
-    if (((iteration & (0x000000000000001FUL << 25)) >> 25) >= 24UL) {
+    if (((iteration & (0x1FUL << 25)) >> 25) >= 24UL) {
       continue;
     }
     // One of 15 ways to pick the best 3rd place set:
     // See table on https://en.wikipedia.org/wiki/UEFA_Euro_2020#Knockout_phase
-    switch (iteration & (0xFL << 30)) {
-    case 0x0UL << 30: // ABCD
-    case 0x1UL << 30: // ABC E
-    case 0x2UL << 30: // ABC  F
-    case 0x3UL << 30: // AB DE
-    case 0x4UL << 30: // AB D F
-    case 0x5UL << 30: // AB  EF
-    case 0x6UL << 30: // A CDE
-    case 0x7UL << 30: // A CD F
-    case 0x8UL << 30: // A C EF
-    case 0x9UL << 30: // A  DEF
-    case 0xAUL << 30: //  BCDE
-    case 0xBUL << 30: //  BCD F
-    case 0xCUL << 30: //  BC EF
-    case 0xDUL << 30: //  B DEF
-    case 0xEUL << 30: //   CDEF
-      break;
-    case 0xFUL << 30: // There are 15 alternatives, not 16
+    if (((iteration & (0xFUL << 30)) >> 30) >= 15UL) {
       continue;
-      break;
-    default:
-      std::cerr << __FILE__ << __LINE__ << '\n';
-      std::ios init(nullptr);
-      init.copyfmt(std::cout);
-      std::cout << std::hex;
-      std::cout.width(13);
-      std::cout << (iteration & 0x000000F000000000L) << ' ';
-      std::cout << iteration << '\n';
-      std::cout.copyfmt(init); // restore default formatting
-      abort();
     }
     const uint64_t tableA = iteration & 0x1FUL;
     const uint64_t tableB = (iteration >> 5) & 0x1FUL;
