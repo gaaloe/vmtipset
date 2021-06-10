@@ -16,7 +16,8 @@ using std::cerr;
 void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                uint64_t *offsetStride, uint64_t *ettPrimtal);
 const uint64_t upperlimit = 1UL << 49;
-uint64_t ettPrimtal = 16127UL;
+const uint64_t ettPrimtal_16127 = 16127UL;
+uint64_t ettPrimtal = ettPrimtal_16127;
 // const uint64_t ettPrimtal = 131071UL;
 // const uint64_t ettPrimtal = 524287UL;
 uint64_t completeFactor = 1UL;
@@ -49,9 +50,10 @@ enum e_team {
   hun,
   por,
   fra,
-  ger
+  ger,
+  num_teams
 };
-int rank[24] = {
+const int rank[num_teams] = {
     /*tur*/ 1505 - 1374,
     /*ita*/ 1642 - 1374,
     /*wal*/ 1570 - 1374,
@@ -327,7 +329,7 @@ uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
     abort();
   }
 }
-char names[24][4];
+char names[num_teams][4];
 void elaborateNames();
 // Games are officially numbered from 1 to 51.
 e_team game[53][2] = {
