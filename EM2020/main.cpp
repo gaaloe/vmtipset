@@ -381,6 +381,14 @@ struct s_saabare {
      {tur, pol},
      {tur},
      0}};
+const int poangGroupWinner = 10;
+const int poangGroupSecond = 10;
+const int poangSwapWinner = 7;
+const int poangSwapSecond = 7;
+const int poangKvarts = 15;
+const int poangSemi = 25;
+const int poangFinal = 35;
+const int poangVinnare = 50;
 extern enum e_team operator++(enum e_team &that);
 extern const enum e_team operator++(enum e_team &that, int);
 std::ostream &operator<<(std::ostream &o, const e_team &team) {
@@ -718,37 +726,31 @@ void calcGrundSpel(char grp, uint64_t table) {
   const auto team2nd = static_cast<e_team>(secnd + offset);
   totFifa += rank[teamWin];
   totFifa += (rank[team2nd] * 60) / 100;
-  unsigned saabOffset = 0;
+  unsigned saabOffset = grp - 'A';
   switch (grp) {
   case 'A':
     game[m37][0] = teamWin;
     game[m38][0] = team2nd;
-    saabOffset = 0;
     break;
   case 'B':
     game[m39][0] = teamWin;
     game[m38][1] = team2nd;
-    saabOffset = 1;
     break;
   case 'C':
     game[m40][0] = teamWin;
     game[m37][1] = team2nd;
-    saabOffset = 2;
     break;
   case 'D':
     game[m44][0] = teamWin;
     game[m42][0] = team2nd;
-    saabOffset = 3;
     break;
   case 'E':
     game[m43][0] = teamWin;
     game[m42][1] = team2nd;
-    saabOffset = 4;
     break;
   case 'F':
     game[m41][0] = teamWin;
     game[m44][1] = team2nd;
-    saabOffset = 5;
     break;
   default:
     cerr << __FILE__ << __LINE__ << '\n';
@@ -757,17 +759,17 @@ void calcGrundSpel(char grp, uint64_t table) {
   for (auto &saabare : saab) {
     if (static_cast<e_team>(win + offset) ==
         saabare.grupp_placering[saabOffset][0]) {
-      saabare.poang += 10;
+      saabare.poang += poangGroupWinner;
     } else if (static_cast<e_team>(win + offset) ==
                saabare.grupp_placering[saabOffset][1]) {
-      saabare.poang += 7;
+      saabare.poang += poangSwapWinner;
     }
     if (static_cast<e_team>(secnd + offset) ==
         saabare.grupp_placering[saabOffset][1]) {
-      saabare.poang += 10;
+      saabare.poang += poangGroupSecond;
     } else if (static_cast<e_team>(secnd + offset) ==
                saabare.grupp_placering[saabOffset][0]) {
-      saabare.poang += 7;
+      saabare.poang += poangSwapSecond;
     }
   }
 }
@@ -1730,7 +1732,7 @@ int main(int argc, char *argv[]) {
               std::find_if(span_quarts.cbegin(), span_quarts.cend(),
                            [tt](const e_team tm) { return tt == tm; });
           if (f != span_quarts.cend()) {
-            saab[0].poang += 15;
+            saab[0].poang += poangKvarts;
           }
         }
       }
@@ -1778,7 +1780,7 @@ int main(int argc, char *argv[]) {
               std::find_if(span_semi.cbegin(), span_semi.cend(),
                            [tt](const e_team tm) { return tt == tm; });
           if (f != span_semi.cend()) {
-            saab[0].poang += 25;
+            saab[0].poang += poangSemi;
           }
         }
       }
@@ -1800,7 +1802,7 @@ int main(int argc, char *argv[]) {
             std::find_if(span_final.cbegin(), span_final.cend(),
                          [tt](const e_team tm) { return tt == tm; });
         if (f != span_final.cend()) {
-          saab[0].poang += 35;
+          saab[0].poang += poangFinal;
         }
       }
     }
@@ -1810,7 +1812,7 @@ int main(int argc, char *argv[]) {
     game[0][0] = matchWinner;
     totFifa += rank[matchWinner];
     if (game[0][0] == saab[0].vinnare[0]) {
-      saab[0].poang += 50;
+      saab[0].poang += poangVinnare;
     }
     if (totFifa > maxFifa) {
       maxFifa = totFifa;
