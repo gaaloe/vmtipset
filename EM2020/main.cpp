@@ -1881,7 +1881,7 @@ int main(int argc, char *argv[]) {
           std::cout << ' ';
         }
       }
-      std::cout << ' ' << game[52][0];
+      std::cout << game[52][0]; // Vinnaren!
       std::cout << ' ' << maxFifa;
       std::cout << '\n';
 #endif
