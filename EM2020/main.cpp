@@ -15,7 +15,7 @@ using std::cerr;
 // seq -w 0 15 | parallel -u ./a.out {} 16127 tur ita wal
 void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                uint64_t *offsetStride, uint64_t *ettPrimtal);
-const uint64_t upperlimit = 1UL << 55;
+const uint64_t upperlimit = 1UL << 49;
 uint64_t ettPrimtal = 16127UL;
 // const uint64_t ettPrimtal = 131071UL;
 // const uint64_t ettPrimtal = 524287UL;
@@ -1159,7 +1159,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     std::ios init(nullptr);
     init.copyfmt(std::cout);
     std::cout << std::hex;
-    std::cout.width(14);
+    std::cout.width(13);
     std::cout << tabell << '\n';
     std::cout.copyfmt(init); // restore default formatting
     abort();
@@ -1580,7 +1580,7 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     std::ios init(nullptr);
     init.copyfmt(std::cout);
     std::cout << std::hex;
-    std::cout.width(14);
+    std::cout.width(13);
     std::cout << tabell << '\n';
     std::cout.copyfmt(init); // restore default formatting
     abort();
@@ -1648,7 +1648,7 @@ int main(int argc, char *argv[]) {
       std::ios init(nullptr);
       init.copyfmt(std::cout);
       std::cout << std::hex;
-      std::cout.width(14);
+      std::cout.width(13);
       std::cout << (iteration & 0x000000F000000000L) << ' ';
       std::cout << iteration << '\n';
       std::cout.copyfmt(init); // restore default formatting
@@ -1690,35 +1690,35 @@ int main(int argc, char *argv[]) {
     // Avgör match 37 till 44, fyll i match 45 till 48
     uint64_t result;
     e_team matchWinner;
-    result = ((iteration >> (37 + 3)) & 0x1);
+    result = ((iteration >> (37 - 3)) & 0x1);
     matchWinner = game[37][result];
     game[46][1] = matchWinner;
     totFifa += rank[matchWinner];
-    result = ((iteration >> (38 + 3)) & 0x1);
+    result = ((iteration >> (38 - 3)) & 0x1);
     matchWinner = game[38][result];
     game[47][1] = matchWinner;
     totFifa += rank[matchWinner];
-    result = ((iteration >> (39 + 3)) & 0x1);
+    result = ((iteration >> (39 - 3)) & 0x1);
     matchWinner = game[39][result];
     game[46][0] = matchWinner;
     totFifa += rank[matchWinner];
-    result = ((iteration >> (40 + 3)) & 0x1);
+    result = ((iteration >> (40 - 3)) & 0x1);
     matchWinner = game[40][result];
     game[47][0] = matchWinner;
     totFifa += rank[matchWinner];
-    result = ((iteration >> (41 + 3)) & 0x1);
+    result = ((iteration >> (41 - 3)) & 0x1);
     matchWinner = game[41][result];
     game[45][0] = matchWinner;
     totFifa += rank[matchWinner];
-    result = ((iteration >> (42 + 3)) & 0x1);
+    result = ((iteration >> (42 - 3)) & 0x1);
     matchWinner = game[42][result];
     game[45][1] = matchWinner;
     totFifa += rank[matchWinner];
-    result = ((iteration >> (43 + 3)) & 0x1);
+    result = ((iteration >> (43 - 3)) & 0x1);
     matchWinner = game[43][result];
     game[48][0] = matchWinner;
     totFifa += rank[matchWinner];
-    result = ((iteration >> (44 + 3)) & 0x1);
+    result = ((iteration >> (44 - 3)) & 0x1);
     matchWinner = game[44][result];
     game[48][1] = matchWinner;
     totFifa += rank[matchWinner];
@@ -1754,19 +1754,19 @@ int main(int argc, char *argv[]) {
       }
     }
     // Avgör match 45 till 48, fyll i match 49 och 50
-    result = ((iteration >> (45 + 3)) & 0x1);
+    result = ((iteration >> (45 - 3)) & 0x1);
     matchWinner = game[45][result];
     game[49][1] = matchWinner;
     totFifa += rank[matchWinner];
-    result = ((iteration >> (46 + 3)) & 0x1);
+    result = ((iteration >> (46 - 3)) & 0x1);
     matchWinner = game[46][result];
     game[49][0] = matchWinner;
     totFifa += rank[matchWinner];
-    result = ((iteration >> (47 + 3)) & 0x1);
+    result = ((iteration >> (47 - 3)) & 0x1);
     matchWinner = game[47][result];
     game[50][1] = matchWinner;
     totFifa += rank[matchWinner];
-    result = ((iteration >> (48 + 3)) & 0x1);
+    result = ((iteration >> (48 - 3)) & 0x1);
     matchWinner = game[48][result];
     game[50][0] = matchWinner;
     totFifa += rank[matchWinner];
@@ -1802,11 +1802,11 @@ int main(int argc, char *argv[]) {
       }
     }
     // Avgör match 49 och 50
-    result = ((iteration >> (49 + 3)) & 0x1);
+    result = ((iteration >> (49 - 3)) & 0x1);
     matchWinner = game[49][result];
     game[51][0] = matchWinner;
     totFifa += rank[matchWinner];
-    result = ((iteration >> (50 + 3)) & 0x1);
+    result = ((iteration >> (50 - 3)) & 0x1);
     matchWinner = game[50][result];
     game[51][1] = matchWinner;
     totFifa += rank[matchWinner];
@@ -1823,7 +1823,7 @@ int main(int argc, char *argv[]) {
       }
     }
     // Avgör finalen, match 51
-    result = ((iteration >> (51 + 3)) & 0x1);
+    result = ((iteration >> (51 - 3)) & 0x1);
     matchWinner = game[51][result];
     game[52][0] = matchWinner;
     totFifa += rank[matchWinner];
@@ -1839,7 +1839,7 @@ int main(int argc, char *argv[]) {
       std::ios init(nullptr);
       init.copyfmt(std::cout);
       std::cout << std::hex;
-      std::cout.width(14);
+      std::cout.width(13);
       std::cout << iteration << ' ';
       std::cout << upperlimit << '\n';
       std::cout.copyfmt(init); // restore default formatting
@@ -1910,7 +1910,7 @@ int main(int argc, char *argv[]) {
     std::ios init(nullptr);
     init.copyfmt(std::cout);
     std::cout << std::hex;
-    std::cout.width(14);
+    std::cout.width(13);
     std::cout << maxIteration << '\n';
     std::cout.copyfmt(init); // restore default formatting
     showGrundSpel('A', tableA);
@@ -1923,21 +1923,21 @@ int main(int argc, char *argv[]) {
     std::cout << '\n';
     // Avgör match 37 till 44, fyll i match 45 till 48
     uint64_t result;
-    result = ((maxIteration >> (37 + 3)) & 0x1);
+    result = ((maxIteration >> (37 - 3)) & 0x1);
     game[46][1] = game[37][result];
-    result = ((maxIteration >> (38 + 3)) & 0x1);
+    result = ((maxIteration >> (38 - 3)) & 0x1);
     game[47][1] = game[38][result];
-    result = ((maxIteration >> (39 + 3)) & 0x1);
+    result = ((maxIteration >> (39 - 3)) & 0x1);
     game[46][0] = game[39][result];
-    result = ((maxIteration >> (40 + 3)) & 0x1);
+    result = ((maxIteration >> (40 - 3)) & 0x1);
     game[47][0] = game[40][result];
-    result = ((maxIteration >> (41 + 3)) & 0x1);
+    result = ((maxIteration >> (41 - 3)) & 0x1);
     game[45][0] = game[41][result];
-    result = ((maxIteration >> (42 + 3)) & 0x1);
+    result = ((maxIteration >> (42 - 3)) & 0x1);
     game[45][1] = game[42][result];
-    result = ((maxIteration >> (43 + 3)) & 0x1);
+    result = ((maxIteration >> (43 - 3)) & 0x1);
     game[48][0] = game[43][result];
-    result = ((maxIteration >> (44 + 3)) & 0x1);
+    result = ((maxIteration >> (44 - 3)) & 0x1);
     game[48][1] = game[44][result];
     for (int match = 45; match <= 48; ++match) {
       for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
@@ -1951,13 +1951,13 @@ int main(int argc, char *argv[]) {
       }
     }
     // Avgör match 45 till 48, fyll i match 49 och 50
-    result = ((maxIteration >> (45 + 3)) & 0x1);
+    result = ((maxIteration >> (45 - 3)) & 0x1);
     game[49][1] = game[45][result];
-    result = ((maxIteration >> (46 + 3)) & 0x1);
+    result = ((maxIteration >> (46 - 3)) & 0x1);
     game[49][0] = game[46][result];
-    result = ((maxIteration >> (47 + 3)) & 0x1);
+    result = ((maxIteration >> (47 - 3)) & 0x1);
     game[50][1] = game[47][result];
-    result = ((maxIteration >> (48 + 3)) & 0x1);
+    result = ((maxIteration >> (48 - 3)) & 0x1);
     game[50][0] = game[48][result];
     for (int match = 49; match <= 50; ++match) {
       for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
@@ -1971,9 +1971,9 @@ int main(int argc, char *argv[]) {
       }
     }
     // Avgör match 49 och 50
-    result = ((maxIteration >> (49 + 3)) & 0x1);
+    result = ((maxIteration >> (49 - 3)) & 0x1);
     game[51][0] = game[49][result];
-    result = ((maxIteration >> (50 + 3)) & 0x1);
+    result = ((maxIteration >> (50 - 3)) & 0x1);
     game[51][1] = game[50][result];
     for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
       const e_team tt = game[51][hemmaBorta];
@@ -1985,7 +1985,7 @@ int main(int argc, char *argv[]) {
       }
     }
     // Avgör finalen, match 51
-    result = ((maxIteration >> (51 + 3)) & 0x1);
+    result = ((maxIteration >> (51 - 3)) & 0x1);
     game[52][0] = game[51][result];
     std::cout << game[52][0];
 #ifdef FIFARANK
