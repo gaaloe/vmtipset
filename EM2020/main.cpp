@@ -2227,25 +2227,25 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
               e_team team16;
               e_team team17;
               e_team team18;
-              for (team15 = tur; team15 < static_cast<e_team>(24); ++team15) {
+              for (team15 = tur; team15 < num_teams; ++team15) {
                 if (strcmp(names[team15], arg15) == 0) {
                   break;
                 }
               }
               assert(strcmp(names[team15], arg15) == 0);
-              for (team16 = tur; team16 < static_cast<e_team>(24); ++team16) {
+              for (team16 = tur; team16 < num_teams; ++team16) {
                 if (strcmp(names[team16], arg16) == 0) {
                   break;
                 }
               }
               assert(strcmp(names[team16], arg16) == 0);
-              for (team17 = tur; team17 < static_cast<e_team>(24); ++team17) {
+              for (team17 = tur; team17 < num_teams; ++team17) {
                 if (strcmp(names[team17], arg17) == 0) {
                   break;
                 }
               }
               assert(strcmp(names[team17], arg17) == 0);
-              for (team18 = tur; team18 < static_cast<e_team>(24); ++team18) {
+              for (team18 = tur; team18 < num_teams; ++team18) {
                 if (strcmp(names[team18], arg18) == 0) {
                   break;
                 }
@@ -2271,8 +2271,8 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
               assert(trunk15 < trunk16);
               assert(trunk16 < trunk17);
               assert(trunk17 < trunk18);
-              switch (trunk15) {
-              case 0: // A?????
+              switch (static_cast<char>(trunk15)+'A') {
+              case 'A': // A?????
                 rd3A = team15;
                 assert(winA != rd3A);
                 assert(scndA != rd3A);
@@ -2404,7 +2404,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                   abort();
                 }
                 break;
-              case 1: //-B????
+              case 'B': //-B????
                 rd3B = team15;
                 assert(winB != rd3B);
                 assert(scndB != rd3B);
@@ -2467,7 +2467,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                   abort();
                 }
                 break;
-              case 2: // --CDEF
+              case 'C': // --CDEF
                 rd3bits = 0xEUL << shift_30;
                 rd3C = team15;
                 assert(winC != rd3C);
