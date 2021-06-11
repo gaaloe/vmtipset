@@ -26,6 +26,17 @@ static uint64_t maxIteration = 0;
 int totFifa;
 int maxFifa = 0;
 static uint64_t maxFifaIteration = 0;
+int rank20procent(int fifaRank) {
+  // Really silly that clang-tidy can not shut up sometimes:
+  const int _20 = 20;
+  const int _100 = 100;
+  return (fifaRank * _20) / _100;
+}
+int rank60procent(int fifaRank) {
+  const int _60 = 60;
+  const int _100 = 100;
+  return (fifaRank * _60) / _100;
+}
 enum e_team {
   tur,
   ita,
@@ -121,6 +132,15 @@ enum e_gruppTreor {
   BDEF,
   CDEF
 };
+const int shift_5 = 5;   // Table B bits position within entire bitfield
+const int shift_10 = 10;
+const int shift_15 = 15;
+const int shift_20 = 20;
+const int shift_25 = 25;
+const int shift_30 = 30;
+const int shift_34 = 34; // Shift of beginning of everything non-group play
+const unsigned long mask_1FUL = 0x1FUL; // Five time bit one, for & operator
+const unsigned long mask_FUL = 0xFUL;
 uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
   const int offset =
       grp == 'A'
@@ -742,7 +762,7 @@ void calcGrundSpel(char grp, uint64_t table) {
   const auto teamWin = static_cast<e_team>(win + offset);
   const auto team2nd = static_cast<e_team>(secnd + offset);
   totFifa += rank[teamWin];
-  totFifa += (rank[team2nd] * 60) / 100;
+  totFifa += rank60procent(rank[team2nd]);
   unsigned saabOffset = grp - 'A';
   switch (grp) {
   case 'A':
@@ -1415,10 +1435,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m40][1] = teamD;
     game[m43][1] = teamB;
     game[m41][1] = teamC;
-    totFifa += (rank[teamA] * 20) / 100;
-    totFifa += (rank[teamD] * 20) / 100;
-    totFifa += (rank[teamB] * 20) / 100;
-    totFifa += (rank[teamC] * 20) / 100;
+    totFifa += rank20procent(rank[teamA]);
+    totFifa += rank20procent(rank[teamD]);
+    totFifa += rank20procent(rank[teamB]);
+    totFifa += rank20procent(rank[teamC]);
     break;
   case ABCE:
     // 3A 3E 3B 3C
@@ -1426,10 +1446,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m40][1] = teamE;
     game[m43][1] = teamB;
     game[m41][1] = teamC;
-    totFifa += (rank[teamA] * 20) / 100;
-    totFifa += (rank[teamE] * 20) / 100;
-    totFifa += (rank[teamB] * 20) / 100;
-    totFifa += (rank[teamC] * 20) / 100;
+    totFifa += rank20procent(rank[teamA]);
+    totFifa += rank20procent(rank[teamE]);
+    totFifa += rank20procent(rank[teamB]);
+    totFifa += rank20procent(rank[teamC]);
     break;
   case ABCF:
     // 3A 3F 3B 3C
@@ -1437,10 +1457,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m40][1] = teamF;
     game[m43][1] = teamB;
     game[m41][1] = teamC;
-    totFifa += (rank[teamA] * 20) / 100;
-    totFifa += (rank[teamF] * 20) / 100;
-    totFifa += (rank[teamB] * 20) / 100;
-    totFifa += (rank[teamC] * 20) / 100;
+    totFifa += rank20procent(rank[teamA]);
+    totFifa += rank20procent(rank[teamF]);
+    totFifa += rank20procent(rank[teamB]);
+    totFifa += rank20procent(rank[teamC]);
     break;
   case ABDE:
     // 3D 3E 3A 3B
@@ -1448,10 +1468,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m40][1] = teamE;
     game[m43][1] = teamA;
     game[m41][1] = teamB;
-    totFifa += (rank[teamD] * 20) / 100;
-    totFifa += (rank[teamE] * 20) / 100;
-    totFifa += (rank[teamA] * 20) / 100;
-    totFifa += (rank[teamB] * 20) / 100;
+    totFifa += rank20procent(rank[teamD]);
+    totFifa += rank20procent(rank[teamE]);
+    totFifa += rank20procent(rank[teamA]);
+    totFifa += rank20procent(rank[teamB]);
     break;
   case ABDF:
     // 3D 3F 3A 3B
@@ -1459,10 +1479,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m40][1] = teamF;
     game[m43][1] = teamA;
     game[m41][1] = teamB;
-    totFifa += (rank[teamD] * 20) / 100;
-    totFifa += (rank[teamF] * 20) / 100;
-    totFifa += (rank[teamA] * 20) / 100;
-    totFifa += (rank[teamB] * 20) / 100;
+    totFifa += rank20procent(rank[teamD]);
+    totFifa += rank20procent(rank[teamF]);
+    totFifa += rank20procent(rank[teamA]);
+    totFifa += rank20procent(rank[teamB]);
     break;
   case ABEF:
     // 3E 3F 3B 3A
@@ -1470,10 +1490,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m40][1] = teamF;
     game[m43][1] = teamB;
     game[m41][1] = teamA;
-    totFifa += (rank[teamE] * 20) / 100;
-    totFifa += (rank[teamF] * 20) / 100;
-    totFifa += (rank[teamB] * 20) / 100;
-    totFifa += (rank[teamA] * 20) / 100;
+    totFifa += rank20procent(rank[teamE]);
+    totFifa += rank20procent(rank[teamF]);
+    totFifa += rank20procent(rank[teamB]);
+    totFifa += rank20procent(rank[teamA]);
     break;
   case ACDE:
     // 3E 3D 3C 3A
@@ -1481,10 +1501,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m40][1] = teamD;
     game[m43][1] = teamC;
     game[m41][1] = teamA;
-    totFifa += (rank[teamE] * 20) / 100;
-    totFifa += (rank[teamD] * 20) / 100;
-    totFifa += (rank[teamC] * 20) / 100;
-    totFifa += (rank[teamA] * 20) / 100;
+    totFifa += rank20procent(rank[teamE]);
+    totFifa += rank20procent(rank[teamD]);
+    totFifa += rank20procent(rank[teamC]);
+    totFifa += rank20procent(rank[teamA]);
     break;
   case ACDF:
     // 3F 3D 3C 3A
@@ -1492,10 +1512,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m40][1] = teamD;
     game[m43][1] = teamC;
     game[m41][1] = teamA;
-    totFifa += (rank[teamF] * 20) / 100;
-    totFifa += (rank[teamD] * 20) / 100;
-    totFifa += (rank[teamC] * 20) / 100;
-    totFifa += (rank[teamA] * 20) / 100;
+    totFifa += rank20procent(rank[teamF]);
+    totFifa += rank20procent(rank[teamD]);
+    totFifa += rank20procent(rank[teamC]);
+    totFifa += rank20procent(rank[teamA]);
     break;
   case ACEF:
     // 3E 3F 3C 3A
@@ -1503,10 +1523,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m40][1] = teamF;
     game[m43][1] = teamC;
     game[m41][1] = teamA;
-    totFifa += (rank[teamE] * 20) / 100;
-    totFifa += (rank[teamF] * 20) / 100;
-    totFifa += (rank[teamC] * 20) / 100;
-    totFifa += (rank[teamA] * 20) / 100;
+    totFifa += rank20procent(rank[teamE]);
+    totFifa += rank20procent(rank[teamF]);
+    totFifa += rank20procent(rank[teamC]);
+    totFifa += rank20procent(rank[teamA]);
     break;
   case ADEF:
     // 3E 3F 3D 3A
@@ -1514,10 +1534,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m40][1] = teamF;
     game[m43][1] = teamD;
     game[m41][1] = teamA;
-    totFifa += (rank[teamE] * 20) / 100;
-    totFifa += (rank[teamF] * 20) / 100;
-    totFifa += (rank[teamD] * 20) / 100;
-    totFifa += (rank[teamA] * 20) / 100;
+    totFifa += rank20procent(rank[teamE]);
+    totFifa += rank20procent(rank[teamF]);
+    totFifa += rank20procent(rank[teamD]);
+    totFifa += rank20procent(rank[teamA]);
     break;
   case BCDE:
     // 3E 3D 3B 3C
@@ -1525,10 +1545,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m40][1] = teamD;
     game[m43][1] = teamB;
     game[m41][1] = teamC;
-    totFifa += (rank[teamE] * 20) / 100;
-    totFifa += (rank[teamD] * 20) / 100;
-    totFifa += (rank[teamB] * 20) / 100;
-    totFifa += (rank[teamC] * 20) / 100;
+    totFifa += rank20procent(rank[teamE]);
+    totFifa += rank20procent(rank[teamD]);
+    totFifa += rank20procent(rank[teamB]);
+    totFifa += rank20procent(rank[teamC]);
     break;
   case BCDF:
     // 3F 3D 3C 3B
@@ -1536,10 +1556,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m40][1] = teamD;
     game[m43][1] = teamC;
     game[m41][1] = teamB;
-    totFifa += (rank[teamF] * 20) / 100;
-    totFifa += (rank[teamD] * 20) / 100;
-    totFifa += (rank[teamC] * 20) / 100;
-    totFifa += (rank[teamB] * 20) / 100;
+    totFifa += rank20procent(rank[teamF]);
+    totFifa += rank20procent(rank[teamD]);
+    totFifa += rank20procent(rank[teamC]);
+    totFifa += rank20procent(rank[teamB]);
     break;
   case BCEF:
     // 3F 3E 3C 3B
@@ -1547,10 +1567,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m40][1] = teamE;
     game[m43][1] = teamC;
     game[m41][1] = teamB;
-    totFifa += (rank[teamF] * 20) / 100;
-    totFifa += (rank[teamE] * 20) / 100;
-    totFifa += (rank[teamC] * 20) / 100;
-    totFifa += (rank[teamB] * 20) / 100;
+    totFifa += rank20procent(rank[teamF]);
+    totFifa += rank20procent(rank[teamE]);
+    totFifa += rank20procent(rank[teamC]);
+    totFifa += rank20procent(rank[teamB]);
     break;
   case BDEF:
     // 3F 3E 3D 3B
@@ -1558,10 +1578,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m40][1] = teamE;
     game[m43][1] = teamD;
     game[m41][1] = teamB;
-    totFifa += (rank[teamF] * 20) / 100;
-    totFifa += (rank[teamE] * 20) / 100;
-    totFifa += (rank[teamD] * 20) / 100;
-    totFifa += (rank[teamB] * 20) / 100;
+    totFifa += rank20procent(rank[teamF]);
+    totFifa += rank20procent(rank[teamE]);
+    totFifa += rank20procent(rank[teamD]);
+    totFifa += rank20procent(rank[teamB]);
     break;
   case CDEF:
     // 3F 3E 3D 3C
@@ -1569,10 +1589,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     game[m40][1] = teamE;
     game[m43][1] = teamD;
     game[m41][1] = teamC;
-    totFifa += (rank[teamF] * 20) / 100;
-    totFifa += (rank[teamE] * 20) / 100;
-    totFifa += (rank[teamD] * 20) / 100;
-    totFifa += (rank[teamC] * 20) / 100;
+    totFifa += rank20procent(rank[teamF]);
+    totFifa += rank20procent(rank[teamE]);
+    totFifa += rank20procent(rank[teamD]);
+    totFifa += rank20procent(rank[teamC]);
     break;
   default:
     std::cerr << __FILE__ << __LINE__ << '\n';
@@ -1597,41 +1617,41 @@ int main(int argc, char *argv[]) {
   for (uint64_t iteration = offsetStride; iteration < upperlimit;
        iteration += (ettPrimtal * completeFactor)) {
     // Group A
-    if ((iteration & 0x1FUL) >= 24UL) {
+    if ((iteration & mask_1FUL) >= 24UL) {
       continue;
     }
     // Group B
-    if (((iteration & (0x1FUL << 5)) >> 5) >= 24UL) {
+    if (((iteration & (mask_1FUL << shift_5)) >> shift_5) >= 24UL) {
       continue;
     }
     // Group C
-    if (((iteration & (0x1FUL << 10)) >> 10) >= 24UL) {
+    if (((iteration & (mask_1FUL << shift_10)) >> shift_10) >= 24UL) {
       continue;
     }
     // Group D
-    if (((iteration & (0x1FUL << 15)) >> 15) >= 24UL) {
+    if (((iteration & (mask_1FUL << shift_15)) >> shift_15) >= 24UL) {
       continue;
     }
     // Group E
-    if (((iteration & (0x1FUL << 20)) >> 20) >= 24UL) {
+    if (((iteration & (mask_1FUL << shift_20)) >> shift_20) >= 24UL) {
       continue;
     }
     // Group F
-    if (((iteration & (0x1FUL << 25)) >> 25) >= 24UL) {
+    if (((iteration & (mask_1FUL << shift_25)) >> shift_25) >= 24UL) {
       continue;
     }
     // One of 15 ways to pick the best 3rd place set:
     // See table on https://en.wikipedia.org/wiki/UEFA_Euro_2020#Knockout_phase
-    if (((iteration & (0xFUL << 30)) >> 30) >= 15UL) {
+    if (((iteration & (mask_FUL << shift_30)) >> shift_30) >= 15UL) {
       continue;
     }
-    const uint64_t tableA = iteration & 0x1FUL;
-    const uint64_t tableB = (iteration >> 5) & 0x1FUL;
-    const uint64_t tableC = (iteration >> 10) & 0x1FUL;
-    const uint64_t tableD = (iteration >> 15) & 0x1FUL;
-    const uint64_t tableE = (iteration >> 20) & 0x1FUL;
-    const uint64_t tableF = (iteration >> 25) & 0x1FUL;
-    const uint64_t thirdTable = (iteration >> 30) & 0xFUL;
+    const uint64_t tableA = iteration & mask_1FUL;
+    const uint64_t tableB = (iteration >> shift_5) & mask_1FUL;
+    const uint64_t tableC = (iteration >> shift_10) & mask_1FUL;
+    const uint64_t tableD = (iteration >> shift_15) & mask_1FUL;
+    const uint64_t tableE = (iteration >> shift_20) & mask_1FUL;
+    const uint64_t tableF = (iteration >> shift_25) & mask_1FUL;
+    const uint64_t thirdTable = (iteration >> shift_30) & mask_FUL;
     saab[0].poang = 0;
     totFifa = 0;
     calcGrundSpel('A', tableA);
@@ -1868,13 +1888,13 @@ int main(int argc, char *argv[]) {
 #ifdef FIFARANK
     maxIteration = maxFifaIteration;
 #endif
-    const uint64_t tableA = maxIteration & 0x1FUL;
-    const uint64_t tableB = (maxIteration >> 5) & 0x1FUL;
-    const uint64_t tableC = (maxIteration >> 10) & 0x1FUL;
-    const uint64_t tableD = (maxIteration >> 15) & 0x1FUL;
-    const uint64_t tableE = (maxIteration >> 20) & 0x1FUL;
-    const uint64_t tableF = (maxIteration >> 25) & 0x1FUL;
-    const uint64_t thirdTable = (maxIteration >> 30) & 0xFUL;
+    const uint64_t tableA = maxIteration & mask_1FUL;
+    const uint64_t tableB = (maxIteration >> shift_5) & mask_1FUL;
+    const uint64_t tableC = (maxIteration >> shift_10) & mask_1FUL;
+    const uint64_t tableD = (maxIteration >> shift_15) & mask_1FUL;
+    const uint64_t tableE = (maxIteration >> shift_20) & mask_1FUL;
+    const uint64_t tableF = (maxIteration >> shift_25) & mask_1FUL;
+    const uint64_t thirdTable = (maxIteration >> shift_30) & mask_FUL;
     // Skriv ut
     std::cout << __FILE__ << __LINE__ << ' ' << span_argv[1] << ' '
               << offsetStride << ' ';
@@ -1978,7 +1998,7 @@ const enum e_team operator++(enum e_team &that, int) {
 }
 void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                uint64_t *offsetStride, uint64_t *ettPrimtal) {
-  int base = 10;
+  const int base = 10;
   char *endptr;
   errno = 0; /* To distinguish success/failure after call */
   const auto lstrtol = strtol(span_argv[1], &endptr, base);
@@ -2065,7 +2085,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
       assert(winB != scndB);
       assert(winB != rd3B);
       assert(scndB != rd3B);
-      uint64_t tableB = tableFromTeam('B', winB, scndB, rd3B) << 5;
+      uint64_t tableB = tableFromTeam('B', winB, scndB, rd3B) << shift_5;
       if (argc > 7) {
         // Group C win,2nd,3rd
         char *const arg7 = span_argv[7];
@@ -2097,7 +2117,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
         assert(winC != scndC);
         assert(winC != rd3C);
         assert(scndC != rd3C);
-        uint64_t tableC = tableFromTeam('C', winC, scndC, rd3C) << 10;
+        uint64_t tableC = tableFromTeam('C', winC, scndC, rd3C) << shift_10;
         if (argc > 9) {
           // Group D win,2nd,3rd
           char *const arg9 = span_argv[9];
@@ -2129,7 +2149,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
           assert(winD != scndD);
           assert(winD != rd3D);
           assert(scndD != rd3D);
-          uint64_t tableD = tableFromTeam('D', winD, scndD, rd3D) << 15;
+          uint64_t tableD = tableFromTeam('D', winD, scndD, rd3D) << shift_15;
           if (argc > 11) {
             // Group E win,2nd,3rd
             char *const arg11 = span_argv[11];
@@ -2162,7 +2182,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
             assert(winE != scndE);
             assert(winE != rd3E);
             assert(scndE != rd3E);
-            uint64_t tableE = tableFromTeam('E', winE, scndE, rd3E) << 20;
+            uint64_t tableE = tableFromTeam('E', winE, scndE, rd3E) << shift_20;
             if (argc > 13) {
               // Group F win,2nd
               char *const arg13 = span_argv[13];
@@ -2267,19 +2287,19 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     assert(scndC != rd3C);
                     switch (trunk18) {
                     case 3: // ABCD--
-                      rd3bits = 0x0UL << 30;
+                      rd3bits = 0x0UL << shift_30;
                       rd3D = team18;
                       assert(winD != rd3D);
                       assert(scndD != rd3D);
                       break;
                     case 4: // ABC-E-
-                      rd3bits = 0x1UL << 30;
+                      rd3bits = 0x1UL << shift_30;
                       rd3E = team18;
                       assert(winE != rd3E);
                       assert(scndE != rd3E);
                       break;
                     case 5: // ABC--F
-                      rd3bits = 0x2UL << 30;
+                      rd3bits = 0x2UL << shift_30;
                       rd3F = team18;
                       assert(winF != rd3F);
                       assert(scndF != rd3F);
@@ -2295,13 +2315,13 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     assert(scndD != rd3D);
                     switch (trunk18) {
                     case 4: // AB-DE-
-                      rd3bits = 0x3UL << 30;
+                      rd3bits = 0x3UL << shift_30;
                       rd3E = team18;
                       assert(winE != rd3E);
                       assert(scndE != rd3E);
                       break;
                     case 5: // AB-D-F
-                      rd3bits = 0x4UL << 30;
+                      rd3bits = 0x4UL << shift_30;
                       rd3F = team18;
                       assert(winF != rd3F);
                       assert(scndF != rd3F);
@@ -2312,7 +2332,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     }
                     break;
                   case 4: // AB--EF
-                    rd3bits = 0x5UL << 30;
+                    rd3bits = 0x5UL << shift_30;
                     rd3E = team17;
                     assert(winE != rd3E);
                     assert(scndE != rd3E);
@@ -2336,13 +2356,13 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     assert(scndD != rd3D);
                     switch (trunk18) {
                     case 4: // A-CDE-
-                      rd3bits = 0x6UL << 30;
+                      rd3bits = 0x6UL << shift_30;
                       rd3E = team18;
                       assert(winE != rd3E);
                       assert(scndE != rd3E);
                       break;
                     case 5: // A-CD-F
-                      rd3bits = 0x7UL << 30;
+                      rd3bits = 0x7UL << shift_30;
                       rd3F = team18;
                       assert(winF != rd3F);
                       assert(scndF != rd3F);
@@ -2353,7 +2373,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     }
                     break;
                   case 4: // A-C-EF
-                    rd3bits = 0x8UL << 30;
+                    rd3bits = 0x8UL << shift_30;
                     rd3E = team17;
                     assert(winE != rd3E);
                     assert(scndE != rd3E);
@@ -2367,7 +2387,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                   }
                   break;
                 case 3: // A--DEF
-                  rd3bits = 0x9UL << 30;
+                  rd3bits = 0x9UL << shift_30;
                   rd3D = team16;
                   assert(winD != rd3D);
                   assert(scndD != rd3D);
@@ -2399,13 +2419,13 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     assert(scndD != rd3D);
                     switch (trunk18) {
                     case 4: //-BCDE-
-                      rd3bits = 0xAUL << 30;
+                      rd3bits = 0xAUL << shift_30;
                       rd3E = team18;
                       assert(winE != rd3E);
                       assert(scndE != rd3E);
                       break;
                     case 5: //-BCD-F
-                      rd3bits = 0xBUL << 30;
+                      rd3bits = 0xBUL << shift_30;
                       rd3F = team18;
                       assert(winF != rd3F);
                       assert(scndF != rd3F);
@@ -2416,7 +2436,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     }
                     break;
                   case 4: // -BC-EF
-                    rd3bits = 0xCUL << 30;
+                    rd3bits = 0xCUL << shift_30;
                     rd3E = team17;
                     assert(winE != rd3E);
                     assert(scndE != rd3E);
@@ -2430,7 +2450,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                   }
                   break;
                 case 3: // -B-DEF
-                  rd3bits = 0xDUL << 30;
+                  rd3bits = 0xDUL << shift_30;
                   rd3D = team16;
                   assert(winD != rd3D);
                   assert(scndD != rd3D);
@@ -2447,7 +2467,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                 }
                 break;
               case 2: // --CDEF
-                rd3bits = 0xEUL << 30;
+                rd3bits = 0xEUL << shift_30;
                 rd3C = team15;
                 assert(winC != rd3C);
                 assert(scndC != rd3C);
@@ -2467,39 +2487,39 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
               }
               // Recalculate the tables due to new 3rd
               tableA = tableFromTeam('A', winA, scndA, rd3A);
-              tableB = tableFromTeam('B', winB, scndB, rd3B) << 5;
-              tableC = tableFromTeam('C', winC, scndC, rd3C) << 10;
-              tableD = tableFromTeam('D', winD, scndD, rd3D) << 15;
-              tableE = tableFromTeam('E', winE, scndE, rd3E) << 20;
+              tableB = tableFromTeam('B', winB, scndB, rd3B) << shift_5;
+              tableC = tableFromTeam('C', winC, scndC, rd3C) << shift_10;
+              tableD = tableFromTeam('D', winD, scndD, rd3D) << shift_15;
+              tableE = tableFromTeam('E', winE, scndE, rd3E) << shift_20;
               const uint64_t tableF = tableFromTeam('F', winF, scndF, rd3F)
-                                      << 25;
-              *completeFactor = 1UL << 34;
-              *offsetStride *= 1UL << 34;
+                                      << shift_25;
+              *completeFactor = 1UL << shift_34;
+              *offsetStride *= 1UL << shift_34;
               *offsetStride +=
                   rd3bits + tableF + tableE + tableD + tableC + tableB + tableA;
             } else {
-              *completeFactor = 1UL << 25;
-              *offsetStride *= 1UL << 25;
+              *completeFactor = 1UL << shift_25;
+              *offsetStride *= 1UL << shift_25;
               *offsetStride += tableE + tableD + tableC + tableB + tableA;
             }
           } else {
-            *completeFactor = 1UL << 20;
-            *offsetStride *= 1UL << 20;
+            *completeFactor = 1UL << shift_20;
+            *offsetStride *= 1UL << shift_20;
             *offsetStride += tableD + tableC + tableB + tableA;
           }
         } else {
-          *completeFactor = 1UL << 15;
-          *offsetStride *= 1UL << 15;
+          *completeFactor = 1UL << shift_15;
+          *offsetStride *= 1UL << shift_15;
           *offsetStride += tableC + tableB + tableA;
         }
       } else {
-        *completeFactor = 1UL << 10;
-        *offsetStride *= 1UL << 10;
+        *completeFactor = 1UL << shift_10;
+        *offsetStride *= 1UL << shift_10;
         *offsetStride += tableB + tableA;
       }
     } else {
-      *completeFactor = 1UL << 5;
-      *offsetStride *= 1UL << 5;
+      *completeFactor = 1UL << shift_5;
+      *offsetStride *= 1UL << shift_5;
       *offsetStride += tableA;
     }
   }
