@@ -651,33 +651,34 @@ void showGrundSpel(char grp, uint64_t table) {
   assert(win != secnd);
   assert(win != third);
   assert(secnd != third);
-  std::cout << static_cast<e_team>(win + offset) << ','
-            << static_cast<e_team>(secnd + offset) << ','
-            << static_cast<e_team>(third + offset) << ' ';
+  const auto teamWin = static_cast<e_team>(win + offset);
+  const auto team2nd = static_cast<e_team>(secnd + offset);
+  const auto team3rd = static_cast<e_team>(third + offset);
+  std::cout << teamWin << ',' << team2nd << ',' << team3rd << ' ';
   switch (grp) {
   case 'A':
-    game[m37][0] = static_cast<e_team>(win + offset);
-    game[m38][0] = static_cast<e_team>(secnd + offset);
+    game[m37][0] = teamWin;
+    game[m38][0] = team2nd;
     break;
   case 'B':
-    game[m39][0] = static_cast<e_team>(win + offset);
-    game[m38][1] = static_cast<e_team>(secnd + offset);
+    game[m39][0] = teamWin;
+    game[m38][1] = team2nd;
     break;
   case 'C':
-    game[m40][0] = static_cast<e_team>(win + offset);
-    game[m37][1] = static_cast<e_team>(secnd + offset);
+    game[m40][0] = teamWin;
+    game[m37][1] = team2nd;
     break;
   case 'D':
-    game[m44][0] = static_cast<e_team>(win + offset);
-    game[m42][0] = static_cast<e_team>(secnd + offset);
+    game[m44][0] = teamWin;
+    game[m42][0] = team2nd;
     break;
   case 'E':
-    game[m43][0] = static_cast<e_team>(win + offset);
-    game[m42][1] = static_cast<e_team>(secnd + offset);
+    game[m43][0] = teamWin;
+    game[m42][1] = team2nd;
     break;
   case 'F':
-    game[m41][0] = static_cast<e_team>(win + offset);
-    game[m44][1] = static_cast<e_team>(secnd + offset);
+    game[m41][0] = teamWin;
+    game[m44][1] = team2nd;
     break;
   default:
     cerr << __FILE__ << __LINE__ << '\n';
@@ -796,18 +797,14 @@ void calcGrundSpel(char grp, uint64_t table) {
     abort();
   }
   for (auto &saabare : saab) {
-    if (static_cast<e_team>(win + offset) ==
-        saabare.grupp_placering[saabOffset][0]) {
+    if (teamWin == saabare.grupp_placering[saabOffset][0]) {
       saabare.poang += poangGroupWinner;
-    } else if (static_cast<e_team>(win + offset) ==
-               saabare.grupp_placering[saabOffset][1]) {
+    } else if (teamWin == saabare.grupp_placering[saabOffset][1]) {
       saabare.poang += poangSwapWinner;
     }
-    if (static_cast<e_team>(secnd + offset) ==
-        saabare.grupp_placering[saabOffset][1]) {
+    if (team2nd == saabare.grupp_placering[saabOffset][1]) {
       saabare.poang += poangGroupSecond;
-    } else if (static_cast<e_team>(secnd + offset) ==
-               saabare.grupp_placering[saabOffset][0]) {
+    } else if (team2nd == saabare.grupp_placering[saabOffset][0]) {
       saabare.poang += poangSwapSecond;
     }
   }
