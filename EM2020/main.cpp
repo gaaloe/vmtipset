@@ -113,7 +113,8 @@ enum e_grp {
   _3102,
   _3120,
   _3201,
-  _3210
+  _3210,
+  group_table_size = 24
 };
 enum e_gruppTreor {
   ABCD,
@@ -1617,27 +1618,27 @@ int main(int argc, char *argv[]) {
   for (uint64_t iteration = offsetStride; iteration < upperlimit;
        iteration += (ettPrimtal * completeFactor)) {
     // Group A
-    if ((iteration & mask_1FUL) >= 24UL) {
+    if ((iteration & mask_1FUL) >= group_table_size) {
       continue;
     }
     // Group B
-    if (((iteration & (mask_1FUL << shift_5)) >> shift_5) >= 24UL) {
+    if (((iteration & (mask_1FUL << shift_5)) >> shift_5) >= group_table_size) {
       continue;
     }
     // Group C
-    if (((iteration & (mask_1FUL << shift_10)) >> shift_10) >= 24UL) {
+    if (((iteration & (mask_1FUL << shift_10)) >> shift_10) >= group_table_size) {
       continue;
     }
     // Group D
-    if (((iteration & (mask_1FUL << shift_15)) >> shift_15) >= 24UL) {
+    if (((iteration & (mask_1FUL << shift_15)) >> shift_15) >= group_table_size) {
       continue;
     }
     // Group E
-    if (((iteration & (mask_1FUL << shift_20)) >> shift_20) >= 24UL) {
+    if (((iteration & (mask_1FUL << shift_20)) >> shift_20) >= group_table_size) {
       continue;
     }
     // Group F
-    if (((iteration & (mask_1FUL << shift_25)) >> shift_25) >= 24UL) {
+    if (((iteration & (mask_1FUL << shift_25)) >> shift_25) >= group_table_size) {
       continue;
     }
     // One of 15 ways to pick the best 3rd place set:
