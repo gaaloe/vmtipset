@@ -2293,19 +2293,19 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     assert(scndC != rd3C);
                     switch (static_cast<char>(trunk18) + 'A') {
                     case 'D': // ABCD--
-                      rd3bits = 0x0UL << shift_30;
+                      rd3bits = static_cast<uint64_t>(ABCD) << shift_30;
                       rd3D = team18;
                       assert(winD != rd3D);
                       assert(scndD != rd3D);
                       break;
                     case 'E': // ABC-E-
-                      rd3bits = 0x1UL << shift_30;
+                      rd3bits = static_cast<uint64_t>(ABCE) << shift_30;
                       rd3E = team18;
                       assert(winE != rd3E);
                       assert(scndE != rd3E);
                       break;
                     case 'F': // ABC--F
-                      rd3bits = 0x2UL << shift_30;
+                      rd3bits = static_cast<uint64_t>(ABCF) << shift_30;
                       rd3F = team18;
                       assert(winF != rd3F);
                       assert(scndF != rd3F);
@@ -2321,13 +2321,13 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     assert(scndD != rd3D);
                     switch (static_cast<char>(trunk18) + 'A') {
                     case 'E': // AB-DE-
-                      rd3bits = 0x3UL << shift_30;
+                      rd3bits = static_cast<uint64_t>(ABDE) << shift_30;
                       rd3E = team18;
                       assert(winE != rd3E);
                       assert(scndE != rd3E);
                       break;
                     case 'F': // AB-D-F
-                      rd3bits = 0x4UL << shift_30;
+                      rd3bits = static_cast<uint64_t>(ABDF) << shift_30;
                       rd3F = team18;
                       assert(winF != rd3F);
                       assert(scndF != rd3F);
@@ -2338,7 +2338,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     }
                     break;
                   case 'E': // AB--EF
-                    rd3bits = 0x5UL << shift_30;
+                    rd3bits = static_cast<uint64_t>(ABEF) << shift_30;
                     rd3E = team17;
                     assert(winE != rd3E);
                     assert(scndE != rd3E);
@@ -2362,13 +2362,13 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     assert(scndD != rd3D);
                     switch (static_cast<char>(trunk18) + 'A') {
                     case 'E': // A-CDE-
-                      rd3bits = 0x6UL << shift_30;
+                      rd3bits = static_cast<uint64_t>(ACDE) << shift_30;
                       rd3E = team18;
                       assert(winE != rd3E);
                       assert(scndE != rd3E);
                       break;
                     case 'F': // A-CD-F
-                      rd3bits = 0x7UL << shift_30;
+                      rd3bits = static_cast<uint64_t>(ACDF) << shift_30;
                       rd3F = team18;
                       assert(winF != rd3F);
                       assert(scndF != rd3F);
@@ -2379,7 +2379,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     }
                     break;
                   case 'E': // A-C-EF
-                    rd3bits = 0x8UL << shift_30;
+                    rd3bits = static_cast<uint64_t>(ACEF) << shift_30;
                     rd3E = team17;
                     assert(winE != rd3E);
                     assert(scndE != rd3E);
@@ -2393,7 +2393,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                   }
                   break;
                 case 'D': // A--DEF
-                  rd3bits = 0x9UL << shift_30;
+                  rd3bits = static_cast<uint64_t>(ADEF) << shift_30;
                   rd3D = team16;
                   assert(winD != rd3D);
                   assert(scndD != rd3D);
@@ -2425,13 +2425,13 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     assert(scndD != rd3D);
                     switch (static_cast<char>(trunk18) + 'A') {
                     case 'E': //-BCDE-
-                      rd3bits = 0xAUL << shift_30;
+                      rd3bits = static_cast<uint64_t>(BCDE) << shift_30;
                       rd3E = team18;
                       assert(winE != rd3E);
                       assert(scndE != rd3E);
                       break;
                     case 'F': //-BCD-F
-                      rd3bits = 0xBUL << shift_30;
+                      rd3bits = static_cast<uint64_t>(BCDF) << shift_30;
                       rd3F = team18;
                       assert(winF != rd3F);
                       assert(scndF != rd3F);
@@ -2442,7 +2442,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     }
                     break;
                   case 'E': // -BC-EF
-                    rd3bits = 0xCUL << shift_30;
+                    rd3bits = static_cast<uint64_t>(BCEF) << shift_30;
                     rd3E = team17;
                     assert(winE != rd3E);
                     assert(scndE != rd3E);
@@ -2456,7 +2456,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                   }
                   break;
                 case 'D': // -B-DEF
-                  rd3bits = 0xDUL << shift_30;
+                  rd3bits = static_cast<uint64_t>(BDEF) << shift_30;
                   rd3D = team16;
                   assert(winD != rd3D);
                   assert(scndD != rd3D);
@@ -2473,7 +2473,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                 }
                 break;
               case 'C': // --CDEF
-                rd3bits = 0xEUL << shift_30;
+                rd3bits = static_cast<uint64_t>(CDEF) << shift_30;
                 rd3C = team15;
                 assert(winC != rd3C);
                 assert(scndC != rd3C);
@@ -2531,7 +2531,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
   }
 }
 void elaborateNames() {
-  for (e_team team15 = tur; team15 < static_cast<e_team>(24); ++team15) {
+  for (e_team team15 = tur; team15 < num_teams; ++team15) {
     std::ostringstream stream;
     stream.rdbuf()->pubsetbuf(names[team15], 4);
     stream << team15;
