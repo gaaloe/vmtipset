@@ -139,8 +139,8 @@ const int shift_20 = 20;
 const int shift_25 = 25;
 const int shift_30 = 30;
 const int shift_34 = 34; // Shift of beginning of everything non-group play
-const unsigned long mask_1FUL = 0x1FUL; // Five time bit one, for & operator
-const unsigned long mask_FUL = 0xFUL;
+const uint64_t mask_1FUL = 0x1FUL; // Five time bit one, for & operator
+const uint64_t mask_FUL = 0xFUL;
 uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
   const int offset =
       grp == 'A'
