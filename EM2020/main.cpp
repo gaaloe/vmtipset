@@ -131,7 +131,8 @@ enum e_gruppTreor {
   BCDF,
   BCEF,
   BDEF,
-  CDEF
+  CDEF,
+  treor_size = 15
 };
 const int shift_5 = 5;   // Table B bits position within entire bitfield
 const int shift_10 = 10;
@@ -1643,7 +1644,7 @@ int main(int argc, char *argv[]) {
     }
     // One of 15 ways to pick the best 3rd place set:
     // See table on https://en.wikipedia.org/wiki/UEFA_Euro_2020#Knockout_phase
-    if (((iteration & (mask_FUL << shift_30)) >> shift_30) >= 15UL) {
+    if (((iteration & (mask_FUL << shift_30)) >> shift_30) >= treor_size) {
       continue;
     }
     const uint64_t tableA = iteration & mask_1FUL;
@@ -2276,8 +2277,8 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                 rd3A = team15;
                 assert(winA != rd3A);
                 assert(scndA != rd3A);
-                switch (trunk16) {
-                case 1: // AB????
+                switch (static_cast<char>(trunk16) + 'A') {
+                case 'B': // AB????
                   rd3B = team16;
                   assert(winB != rd3B);
                   assert(scndB != rd3B);
@@ -2346,7 +2347,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     abort();
                   }
                   break;
-                case 2: // A-C???
+                case 'C': // A-C???
                   rd3C = team16;
                   assert(winC != rd3C);
                   assert(scndC != rd3C);
@@ -2387,7 +2388,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     abort();
                   }
                   break;
-                case 3: // A--DEF
+                case 'D': // A--DEF
                   rd3bits = 0x9UL << shift_30;
                   rd3D = team16;
                   assert(winD != rd3D);
@@ -2408,8 +2409,8 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                 rd3B = team15;
                 assert(winB != rd3B);
                 assert(scndB != rd3B);
-                switch (trunk16) {
-                case 2: //-BC???
+                switch (static_cast<char>(trunk16) + 'A') {
+                case 'C': //-BC???
                   rd3C = team16;
                   assert(winC != rd3C);
                   assert(scndC != rd3C);
@@ -2450,7 +2451,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     abort();
                   }
                   break;
-                case 3: // -B-DEF
+                case 'D': // -B-DEF
                   rd3bits = 0xDUL << shift_30;
                   rd3D = team16;
                   assert(winD != rd3D);
