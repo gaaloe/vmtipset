@@ -1,3 +1,4 @@
+#include "allege.h"
 #include <algorithm> //std::find_if
 #include <cassert>
 #include <cinttypes>
@@ -1561,7 +1562,7 @@ const enum e_team operator++(enum e_team &that, int) {
 }
 void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                uint64_t *offsetStride, uint64_t *ettPrimtal) {
-  //TODO(henrik) Alla assert() i argumentkontrollen måste föregås av en koll
+  // TODO(henrik) Alla assert() i argumentkontrollen måste föregås av en koll
   // som är aktiv även med NDEBUG definierad, t.ex. optimerad kod.
   const int base = 10;
   char *endptr;
@@ -1615,7 +1616,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
     assert(winA != (e_team)-1);
     assert(scndA != (e_team)-1);
     assert(rd3A != (e_team)-1);
-    assert(winA != scndA);
+    allege(winA != scndA);
     assert(winA != rd3A);
     assert(scndA != rd3A);
     uint64_t tableA = tableFromTeam('A', winA, scndA, rd3A);
