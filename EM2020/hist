@@ -1,5 +1,6 @@
 #!/bin/bash
 clang-tidy \
+-header-filter=.*/EM2020/.* \
 --quiet \
 --checks=*,\
 -hicpp-no-array-decay,\

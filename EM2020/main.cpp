@@ -1616,7 +1616,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
     assert(winA != (e_team)-1);
     assert(scndA != (e_team)-1);
     assert(rd3A != (e_team)-1);
-    allege(winA != scndA);
+    DEBUG_allege(winA != scndA);
     assert(winA != rd3A);
     assert(scndA != rd3A);
     uint64_t tableA = tableFromTeam('A', winA, scndA, rd3A);
