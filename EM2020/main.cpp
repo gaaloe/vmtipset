@@ -1589,6 +1589,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
   }
   if (argc > 3) {
     // 2 teams group A follows
+    DEBUG_allege(argc > 4);
     char *const arg3 = span_argv[3];
     char *const arg4 = span_argv[4];
     const e_team winA = strcmp("tur", arg3) == 0
@@ -1621,6 +1622,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
     uint64_t tableA = tableFromTeam('A', winA, scndA, rd3A);
     if (argc > 5) {
       // Group B win,2nd,3rd
+      DEBUG_allege(argc > 6);
       char *const arg5 = span_argv[5];
       char *const arg6 = span_argv[6];
       const e_team winB = strcmp("den", arg5) == 0
@@ -1652,6 +1654,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
       DEBUG_allege(scndB != rd3B);
       uint64_t tableB = tableFromTeam('B', winB, scndB, rd3B) << shift_5;
       if (argc > 7) {
+        DEBUG_allege(argc > 8);
         // Group C win,2nd,3rd
         char *const arg7 = span_argv[7];
         char *const arg8 = span_argv[8];
@@ -1685,6 +1688,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
         uint64_t tableC = tableFromTeam('C', winC, scndC, rd3C) << shift_10;
         if (argc > 9) {
           // Group D win,2nd,3rd
+          DEBUG_allege(argc > 10);
           char *const arg9 = span_argv[9];
           char *const arg10 = span_argv[10];
           const e_team winD = strcmp("eng", arg9) == 0
@@ -1717,6 +1721,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
           uint64_t tableD = tableFromTeam('D', winD, scndD, rd3D) << shift_15;
           if (argc > 11) {
             // Group E win,2nd,3rd
+            DEBUG_allege(argc > 12);
             char *const arg11 = span_argv[11];
             char *const arg12 = span_argv[12];
             const e_team winE = strcmp("esp", arg11) == 0
@@ -1750,6 +1755,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
             uint64_t tableE = tableFromTeam('E', winE, scndE, rd3E) << shift_20;
             if (argc > 13) {
               // Group F win,2nd
+              DEBUG_allege(argc == 19);
               char *const arg13 = span_argv[13];
               char *const arg14 = span_argv[14];
               const e_team winF =
