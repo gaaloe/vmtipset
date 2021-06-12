@@ -3,6 +3,7 @@
 #include <cassert>
 #include <cinttypes>
 #include <cstring>
+#define gsl_CONFIG_CONTRACT_VIOLATION_ASSERTS
 #include <gsl/gsl-lite.hpp>
 #include <iomanip>
 #include <iostream>
