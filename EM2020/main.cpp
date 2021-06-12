@@ -1562,8 +1562,6 @@ const enum e_team operator++(enum e_team &that, int) {
 }
 void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                uint64_t *offsetStride, uint64_t *ettPrimtal) {
-  // TODO(henrik) Alla assert() i argumentkontrollen måste föregås av en koll
-  // som är aktiv även med NDEBUG definierad, t.ex. optimerad kod.
   const int base = 10;
   char *endptr;
   errno = 0; /* To distinguish success/failure after call */
@@ -1613,12 +1611,12 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
     e_team rd3A = (winA != tur && scndA != tur)
                       ? tur
                       : (winA != ita && scndA != ita) ? ita : wal;
-    assert(winA != (e_team)-1);
-    assert(scndA != (e_team)-1);
-    assert(rd3A != (e_team)-1);
+    DEBUG_allege(winA != (e_team)-1);
+    DEBUG_allege(scndA != (e_team)-1);
+    DEBUG_allege(rd3A != (e_team)-1);
     DEBUG_allege(winA != scndA);
-    assert(winA != rd3A);
-    assert(scndA != rd3A);
+    DEBUG_allege(winA != rd3A);
+    DEBUG_allege(scndA != rd3A);
     uint64_t tableA = tableFromTeam('A', winA, scndA, rd3A);
     if (argc > 5) {
       // Group B win,2nd,3rd
@@ -1645,12 +1643,12 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
       e_team rd3B = (winB != den && scndB != den)
                         ? den
                         : (winB != fin && scndB != fin) ? fin : bel;
-      assert(winB != (e_team)-1);
-      assert(scndB != (e_team)-1);
-      assert(rd3B != (e_team)-1);
-      assert(winB != scndB);
-      assert(winB != rd3B);
-      assert(scndB != rd3B);
+      DEBUG_allege(winB != (e_team)-1);
+      DEBUG_allege(scndB != (e_team)-1);
+      DEBUG_allege(rd3B != (e_team)-1);
+      DEBUG_allege(winB != scndB);
+      DEBUG_allege(winB != rd3B);
+      DEBUG_allege(scndB != rd3B);
       uint64_t tableB = tableFromTeam('B', winB, scndB, rd3B) << shift_5;
       if (argc > 7) {
         // Group C win,2nd,3rd
@@ -1677,12 +1675,12 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
         e_team rd3C = (winC != ned && scndC != ned)
                           ? ned
                           : (winC != ukr && scndC != ukr) ? ukr : aut;
-        assert(winC != (e_team)-1);
-        assert(scndC != (e_team)-1);
-        assert(rd3C != (e_team)-1);
-        assert(winC != scndC);
-        assert(winC != rd3C);
-        assert(scndC != rd3C);
+        DEBUG_allege(winC != (e_team)-1);
+        DEBUG_allege(scndC != (e_team)-1);
+        DEBUG_allege(rd3C != (e_team)-1);
+        DEBUG_allege(winC != scndC);
+        DEBUG_allege(winC != rd3C);
+        DEBUG_allege(scndC != rd3C);
         uint64_t tableC = tableFromTeam('C', winC, scndC, rd3C) << shift_10;
         if (argc > 9) {
           // Group D win,2nd,3rd
@@ -1709,12 +1707,12 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
           e_team rd3D = (winD != eng && scndD != eng)
                             ? eng
                             : (winD != cro && scndD != cro) ? cro : sco;
-          assert(winD != (e_team)-1);
-          assert(scndD != (e_team)-1);
-          assert(rd3D != (e_team)-1);
-          assert(winD != scndD);
-          assert(winD != rd3D);
-          assert(scndD != rd3D);
+          DEBUG_allege(winD != (e_team)-1);
+          DEBUG_allege(scndD != (e_team)-1);
+          DEBUG_allege(rd3D != (e_team)-1);
+          DEBUG_allege(winD != scndD);
+          DEBUG_allege(winD != rd3D);
+          DEBUG_allege(scndD != rd3D);
           uint64_t tableD = tableFromTeam('D', winD, scndD, rd3D) << shift_15;
           if (argc > 11) {
             // Group E win,2nd,3rd
@@ -1742,12 +1740,12 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
             e_team rd3E = (winE != esp && scndE != esp)
                               ? esp
                               : (winE != swe && scndE != swe) ? swe : pol;
-            assert(winE != (e_team)-1);
-            assert(scndE != (e_team)-1);
-            assert(rd3E != (e_team)-1);
-            assert(winE != scndE);
-            assert(winE != rd3E);
-            assert(scndE != rd3E);
+            DEBUG_allege(winE != (e_team)-1);
+            DEBUG_allege(scndE != (e_team)-1);
+            DEBUG_allege(rd3E != (e_team)-1);
+            DEBUG_allege(winE != scndE);
+            DEBUG_allege(winE != rd3E);
+            DEBUG_allege(scndE != rd3E);
             uint64_t tableE = tableFromTeam('E', winE, scndE, rd3E) << shift_20;
             if (argc > 13) {
               // Group F win,2nd
@@ -1776,12 +1774,12 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
               e_team rd3F = (winF != hun && scndF != hun)
                                 ? hun
                                 : (winF != por && scndF != por) ? por : fra;
-              assert(winF != (e_team)-1);
-              assert(scndF != (e_team)-1);
-              assert(rd3F != (e_team)-1);
-              assert(winF != scndF);
-              assert(winF != rd3F);
-              assert(scndF != rd3F);
+              DEBUG_allege(winF != (e_team)-1);
+              DEBUG_allege(scndF != (e_team)-1);
+              DEBUG_allege(rd3F != (e_team)-1);
+              DEBUG_allege(winF != scndF);
+              DEBUG_allege(winF != rd3F);
+              DEBUG_allege(scndF != rd3F);
               uint64_t rd3bits = 0; // 4 bits describing the ABCD..CDEF
               // 4 av 6 grupptreor går vidare
               char *const arg15 = span_argv[15];
@@ -1797,78 +1795,78 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                   break;
                 }
               }
-              assert(strcmp(names[team15], arg15) == 0);
+              DEBUG_allege(strcmp(names[team15], arg15) == 0);
               for (team16 = tur; team16 < num_teams; ++team16) {
                 if (strcmp(names[team16], arg16) == 0) {
                   break;
                 }
               }
-              assert(strcmp(names[team16], arg16) == 0);
+              DEBUG_allege(strcmp(names[team16], arg16) == 0);
               for (team17 = tur; team17 < num_teams; ++team17) {
                 if (strcmp(names[team17], arg17) == 0) {
                   break;
                 }
               }
-              assert(strcmp(names[team17], arg17) == 0);
+              DEBUG_allege(strcmp(names[team17], arg17) == 0);
               for (team18 = tur; team18 < num_teams; ++team18) {
                 if (strcmp(names[team18], arg18) == 0) {
                   break;
                 }
               }
-              assert(strcmp(names[team18], arg18) == 0);
-              assert(team15 != team16);
-              assert(team15 != team17);
-              assert(team15 != team18);
-              assert(team16 != team17);
-              assert(team16 != team18);
-              assert(team17 != team18);
+              DEBUG_allege(strcmp(names[team18], arg18) == 0);
+              DEBUG_allege(team15 != team16);
+              DEBUG_allege(team15 != team17);
+              DEBUG_allege(team15 != team18);
+              DEBUG_allege(team16 != team17);
+              DEBUG_allege(team16 != team18);
+              DEBUG_allege(team17 != team18);
               // Kolla att de är från varsin grupp
               unsigned trunk15 = static_cast<unsigned>(team15) / 4U;
               unsigned trunk16 = static_cast<unsigned>(team16) / 4U;
               unsigned trunk17 = static_cast<unsigned>(team17) / 4U;
               unsigned trunk18 = static_cast<unsigned>(team18) / 4U;
-              assert(trunk15 != trunk16);
-              assert(trunk15 != trunk17);
-              assert(trunk15 != trunk18);
-              assert(trunk16 != trunk17);
-              assert(trunk16 != trunk18);
-              assert(trunk17 != trunk18);
-              assert(trunk15 < trunk16);
-              assert(trunk16 < trunk17);
-              assert(trunk17 < trunk18);
+              DEBUG_allege(trunk15 != trunk16);
+              DEBUG_allege(trunk15 != trunk17);
+              DEBUG_allege(trunk15 != trunk18);
+              DEBUG_allege(trunk16 != trunk17);
+              DEBUG_allege(trunk16 != trunk18);
+              DEBUG_allege(trunk17 != trunk18);
+              DEBUG_allege(trunk15 < trunk16);
+              DEBUG_allege(trunk16 < trunk17);
+              DEBUG_allege(trunk17 < trunk18);
               switch (static_cast<char>(trunk15) + 'A') {
               case 'A': // A?????
                 rd3A = team15;
-                assert(winA != rd3A);
-                assert(scndA != rd3A);
+                DEBUG_allege(winA != rd3A);
+                DEBUG_allege(scndA != rd3A);
                 switch (static_cast<char>(trunk16) + 'A') {
                 case 'B': // AB????
                   rd3B = team16;
-                  assert(winB != rd3B);
-                  assert(scndB != rd3B);
+                  DEBUG_allege(winB != rd3B);
+                  DEBUG_allege(scndB != rd3B);
                   switch (static_cast<char>(trunk17) + 'A') {
                   case 'C': // ABC???
                     rd3C = team17;
-                    assert(winC != rd3C);
-                    assert(scndC != rd3C);
+                    DEBUG_allege(winC != rd3C);
+                    DEBUG_allege(scndC != rd3C);
                     switch (static_cast<char>(trunk18) + 'A') {
                     case 'D': // ABCD--
                       rd3bits = static_cast<uint64_t>(ABCD) << shift_30;
                       rd3D = team18;
-                      assert(winD != rd3D);
-                      assert(scndD != rd3D);
+                      DEBUG_allege(winD != rd3D);
+                      DEBUG_allege(scndD != rd3D);
                       break;
                     case 'E': // ABC-E-
                       rd3bits = static_cast<uint64_t>(ABCE) << shift_30;
                       rd3E = team18;
-                      assert(winE != rd3E);
-                      assert(scndE != rd3E);
+                      DEBUG_allege(winE != rd3E);
+                      DEBUG_allege(scndE != rd3E);
                       break;
                     case 'F': // ABC--F
                       rd3bits = static_cast<uint64_t>(ABCF) << shift_30;
                       rd3F = team18;
-                      assert(winF != rd3F);
-                      assert(scndF != rd3F);
+                      DEBUG_allege(winF != rd3F);
+                      DEBUG_allege(scndF != rd3F);
                       break;
                     default:
                       std::cerr << __FILE__ << __LINE__ << '\n';
@@ -1877,20 +1875,20 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     break;
                   case 'D': // AB-D??
                     rd3D = team17;
-                    assert(winD != rd3D);
-                    assert(scndD != rd3D);
+                    DEBUG_allege(winD != rd3D);
+                    DEBUG_allege(scndD != rd3D);
                     switch (static_cast<char>(trunk18) + 'A') {
                     case 'E': // AB-DE-
                       rd3bits = static_cast<uint64_t>(ABDE) << shift_30;
                       rd3E = team18;
-                      assert(winE != rd3E);
-                      assert(scndE != rd3E);
+                      DEBUG_allege(winE != rd3E);
+                      DEBUG_allege(scndE != rd3E);
                       break;
                     case 'F': // AB-D-F
                       rd3bits = static_cast<uint64_t>(ABDF) << shift_30;
                       rd3F = team18;
-                      assert(winF != rd3F);
-                      assert(scndF != rd3F);
+                      DEBUG_allege(winF != rd3F);
+                      DEBUG_allege(scndF != rd3F);
                       break;
                     default:
                       std::cerr << __FILE__ << __LINE__ << '\n';
@@ -1900,11 +1898,11 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                   case 'E': // AB--EF
                     rd3bits = static_cast<uint64_t>(ABEF) << shift_30;
                     rd3E = team17;
-                    assert(winE != rd3E);
-                    assert(scndE != rd3E);
+                    DEBUG_allege(winE != rd3E);
+                    DEBUG_allege(scndE != rd3E);
                     rd3F = team18;
-                    assert(winF != rd3F);
-                    assert(scndF != rd3F);
+                    DEBUG_allege(winF != rd3F);
+                    DEBUG_allege(scndF != rd3F);
                     break;
                   default:
                     std::cerr << __FILE__ << __LINE__ << '\n';
@@ -1913,25 +1911,25 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                   break;
                 case 'C': // A-C???
                   rd3C = team16;
-                  assert(winC != rd3C);
-                  assert(scndC != rd3C);
+                  DEBUG_allege(winC != rd3C);
+                  DEBUG_allege(scndC != rd3C);
                   switch (static_cast<char>(trunk17) + 'A') {
                   case 'D': // A-CD??
                     rd3D = team17;
-                    assert(winD != rd3D);
-                    assert(scndD != rd3D);
+                    DEBUG_allege(winD != rd3D);
+                    DEBUG_allege(scndD != rd3D);
                     switch (static_cast<char>(trunk18) + 'A') {
                     case 'E': // A-CDE-
                       rd3bits = static_cast<uint64_t>(ACDE) << shift_30;
                       rd3E = team18;
-                      assert(winE != rd3E);
-                      assert(scndE != rd3E);
+                      DEBUG_allege(winE != rd3E);
+                      DEBUG_allege(scndE != rd3E);
                       break;
                     case 'F': // A-CD-F
                       rd3bits = static_cast<uint64_t>(ACDF) << shift_30;
                       rd3F = team18;
-                      assert(winF != rd3F);
-                      assert(scndF != rd3F);
+                      DEBUG_allege(winF != rd3F);
+                      DEBUG_allege(scndF != rd3F);
                       break;
                     default:
                       std::cerr << __FILE__ << __LINE__ << '\n';
@@ -1941,11 +1939,11 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                   case 'E': // A-C-EF
                     rd3bits = static_cast<uint64_t>(ACEF) << shift_30;
                     rd3E = team17;
-                    assert(winE != rd3E);
-                    assert(scndE != rd3E);
+                    DEBUG_allege(winE != rd3E);
+                    DEBUG_allege(scndE != rd3E);
                     rd3F = team18;
-                    assert(winF != rd3F);
-                    assert(scndF != rd3F);
+                    DEBUG_allege(winF != rd3F);
+                    DEBUG_allege(scndF != rd3F);
                     break;
                   default:
                     std::cerr << __FILE__ << __LINE__ << '\n';
@@ -1955,14 +1953,14 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                 case 'D': // A--DEF
                   rd3bits = static_cast<uint64_t>(ADEF) << shift_30;
                   rd3D = team16;
-                  assert(winD != rd3D);
-                  assert(scndD != rd3D);
+                  DEBUG_allege(winD != rd3D);
+                  DEBUG_allege(scndD != rd3D);
                   rd3E = team17;
-                  assert(winE != rd3E);
-                  assert(scndE != rd3E);
+                  DEBUG_allege(winE != rd3E);
+                  DEBUG_allege(scndE != rd3E);
                   rd3F = team18;
-                  assert(winF != rd3F);
-                  assert(scndF != rd3F);
+                  DEBUG_allege(winF != rd3F);
+                  DEBUG_allege(scndF != rd3F);
                   break;
                 default:
                   std::cerr << __FILE__ << __LINE__ << '\n';
@@ -1971,30 +1969,30 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                 break;
               case 'B': //-B????
                 rd3B = team15;
-                assert(winB != rd3B);
-                assert(scndB != rd3B);
+                DEBUG_allege(winB != rd3B);
+                DEBUG_allege(scndB != rd3B);
                 switch (static_cast<char>(trunk16) + 'A') {
                 case 'C': //-BC???
                   rd3C = team16;
-                  assert(winC != rd3C);
-                  assert(scndC != rd3C);
+                  DEBUG_allege(winC != rd3C);
+                  DEBUG_allege(scndC != rd3C);
                   switch (static_cast<char>(trunk17) + 'A') {
                   case 'D': //-BCD??
                     rd3D = team17;
-                    assert(winD != rd3D);
-                    assert(scndD != rd3D);
+                    DEBUG_allege(winD != rd3D);
+                    DEBUG_allege(scndD != rd3D);
                     switch (static_cast<char>(trunk18) + 'A') {
                     case 'E': //-BCDE-
                       rd3bits = static_cast<uint64_t>(BCDE) << shift_30;
                       rd3E = team18;
-                      assert(winE != rd3E);
-                      assert(scndE != rd3E);
+                      DEBUG_allege(winE != rd3E);
+                      DEBUG_allege(scndE != rd3E);
                       break;
                     case 'F': //-BCD-F
                       rd3bits = static_cast<uint64_t>(BCDF) << shift_30;
                       rd3F = team18;
-                      assert(winF != rd3F);
-                      assert(scndF != rd3F);
+                      DEBUG_allege(winF != rd3F);
+                      DEBUG_allege(scndF != rd3F);
                       break;
                     default:
                       std::cerr << __FILE__ << __LINE__ << '\n';
@@ -2004,11 +2002,11 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                   case 'E': // -BC-EF
                     rd3bits = static_cast<uint64_t>(BCEF) << shift_30;
                     rd3E = team17;
-                    assert(winE != rd3E);
-                    assert(scndE != rd3E);
+                    DEBUG_allege(winE != rd3E);
+                    DEBUG_allege(scndE != rd3E);
                     rd3F = team18;
-                    assert(winF != rd3F);
-                    assert(scndF != rd3F);
+                    DEBUG_allege(winF != rd3F);
+                    DEBUG_allege(scndF != rd3F);
                     break;
                   default:
                     std::cerr << __FILE__ << __LINE__ << '\n';
@@ -2018,14 +2016,14 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                 case 'D': // -B-DEF
                   rd3bits = static_cast<uint64_t>(BDEF) << shift_30;
                   rd3D = team16;
-                  assert(winD != rd3D);
-                  assert(scndD != rd3D);
+                  DEBUG_allege(winD != rd3D);
+                  DEBUG_allege(scndD != rd3D);
                   rd3E = team17;
-                  assert(winE != rd3E);
-                  assert(scndE != rd3E);
+                  DEBUG_allege(winE != rd3E);
+                  DEBUG_allege(scndE != rd3E);
                   rd3F = team18;
-                  assert(winF != rd3F);
-                  assert(scndF != rd3F);
+                  DEBUG_allege(winF != rd3F);
+                  DEBUG_allege(scndF != rd3F);
                   break;
                 default:
                   std::cerr << __FILE__ << __LINE__ << '\n';
@@ -2035,17 +2033,17 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
               case 'C': // --CDEF
                 rd3bits = static_cast<uint64_t>(CDEF) << shift_30;
                 rd3C = team15;
-                assert(winC != rd3C);
-                assert(scndC != rd3C);
+                DEBUG_allege(winC != rd3C);
+                DEBUG_allege(scndC != rd3C);
                 rd3D = team16;
-                assert(winD != rd3D);
-                assert(scndD != rd3D);
+                DEBUG_allege(winD != rd3D);
+                DEBUG_allege(scndD != rd3D);
                 rd3E = team17;
-                assert(winE != rd3E);
-                assert(scndE != rd3E);
+                DEBUG_allege(winE != rd3E);
+                DEBUG_allege(scndE != rd3E);
                 rd3F = team18;
-                assert(winF != rd3F);
-                assert(scndF != rd3F);
+                DEBUG_allege(winF != rd3F);
+                DEBUG_allege(scndF != rd3F);
                 break;
               default:
                 std::cerr << __FILE__ << __LINE__ << '\n';
