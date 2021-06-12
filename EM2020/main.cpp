@@ -16,16 +16,19 @@ using std::cerr;
 void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                uint64_t *offsetStride, uint64_t *ettPrimtal);
 const uint64_t upperlimit = 1UL << 49;
+const uint64_t ettPrimtal_1 = 1UL;
 const uint64_t ettPrimtal_16127 = 16127UL;
+const uint64_t ettPrimtal_19997 = 19997UL;
+const uint64_t ettPrimtal_131071 = 131071UL;
+const uint64_t ettPrimtal_524287 = 524287UL;
 uint64_t ettPrimtal = ettPrimtal_16127;
-// const uint64_t ettPrimtal = 131071UL;
-// const uint64_t ettPrimtal = 524287UL;
 uint64_t completeFactor = 1UL;
 static int maxSoFar = 0;
 static uint64_t maxIteration = 0;
 int totFifa;
 int maxFifa = 0;
 static uint64_t maxFifaIteration = 0;
+unsigned whosThird(uint64_t tableX);
 int rank20procent(int fifaRank) {
   // Really silly that clang-tidy can not shut up sometimes:
   const int _20 = 20;
@@ -861,6 +864,7 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     std::cerr << __FILE__ << __LINE__ << '\n';
     abort();
   }
+  assert(thirdA == whosThird(tableA));
   switch (tableB) {
   case _1203:
   case _1302:
@@ -1834,8 +1838,7 @@ int main(int argc, char *argv[]) {
       init.copyfmt(std::cout);
       std::cout << std::hex;
       std::cout.width(13);
-      std::cout << iteration << ' ';
-      std::cout << upperlimit << '\n';
+      std::cout << iteration << '\n';
       std::cout.copyfmt(init); // restore default formatting
       showGrundSpel('A', tableA);
       showGrundSpel('B', tableB);
@@ -2528,10 +2531,51 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
   }
 }
 void elaborateNames() {
-  for (e_team team15 = tur; team15 < num_teams; ++team15) {
+  for (e_team teamX = tur; teamX < num_teams; ++teamX) {
     std::ostringstream stream;
-    stream.rdbuf()->pubsetbuf(names[team15], 4);
-    stream << team15;
+    stream.rdbuf()->pubsetbuf(names[teamX], 4);
+    stream << teamX;
     stream << std::ends << std::flush;
   }
+}
+unsigned whosThird(uint64_t tableX) {
+  unsigned thirdX;
+  switch (tableX) {
+  case _1203:
+  case _1302:
+  case _2103:
+  case _2301:
+  case _3102:
+  case _3201:
+    thirdX = 0;
+    break;
+  case _0213:
+  case _0312:
+  case _2013:
+  case _2310:
+  case _3012:
+  case _3210:
+    thirdX = 1;
+    break;
+  case _0123:
+  case _0321:
+  case _1320:
+  case _1023:
+  case _3021:
+  case _3120:
+    thirdX = 2;
+    break;
+  case _0132:
+  case _0231:
+  case _1032:
+  case _1230:
+  case _2031:
+  case _2130:
+    thirdX = 3;
+    break;
+  default:
+    std::cerr << __FILE__ << __LINE__ << '\n';
+    abort();
+  }
+  return thirdX;
 }
