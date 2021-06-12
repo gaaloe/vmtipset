@@ -10,9 +10,11 @@ using std::cerr;
 // g++ -I ~/gsl-lite/include main.cpp
 // clang-format -i main.cpp
 // ./a.out
+// ./a.out 0 1 tur ita den fin ned ukr eng cro esp swe
+// ./a.out 0 1 tur ita den fin ned ukr eng cro esp swe hun por wal bel aut sco
 // seq -w 0 3 | parallel -u ./a.out {} 524287
 // seq -w 0 15 | parallel -u ./a.out {} 16127
-// seq -w 0 15 | parallel -u ./a.out {} 16127 tur ita wal
+// seq -w 0 15 | parallel -u ./a.out {} 16127 tur ita
 void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                uint64_t *offsetStride, uint64_t *ettPrimtal);
 const uint64_t upperlimit = 1UL << 49;
@@ -864,7 +866,6 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     std::cerr << __FILE__ << __LINE__ << '\n';
     abort();
   }
-  assert(thirdA == whosThird(tableA));
   switch (tableB) {
   case _1203:
   case _1302:
@@ -1050,6 +1051,12 @@ void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     std::cerr << __FILE__ << __LINE__ << '\n';
     abort();
   }
+  assert(thirdA == whosThird(tableA));
+  assert(thirdB == whosThird(tableB));
+  assert(thirdC == whosThird(tableC));
+  assert(thirdD == whosThird(tableD));
+  assert(thirdE == whosThird(tableE));
+  assert(thirdF == whosThird(tableF));
   const auto teamA = static_cast<e_team>(thirdA + 0);
   const auto teamB = static_cast<e_team>(thirdB + 4);
   const auto teamC = static_cast<e_team>(thirdC + 8);
@@ -1425,6 +1432,12 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
     std::cerr << __FILE__ << __LINE__ << '\n';
     abort();
   }
+  assert(thirdA == whosThird(tableA));
+  assert(thirdB == whosThird(tableB));
+  assert(thirdC == whosThird(tableC));
+  assert(thirdD == whosThird(tableD));
+  assert(thirdE == whosThird(tableE));
+  assert(thirdF == whosThird(tableF));
   const auto teamA = static_cast<e_team>(thirdA + 0);
   const auto teamB = static_cast<e_team>(thirdB + 4);
   const auto teamC = static_cast<e_team>(thirdC + 8);
