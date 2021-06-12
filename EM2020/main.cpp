@@ -1561,6 +1561,8 @@ const enum e_team operator++(enum e_team &that, int) {
 }
 void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                uint64_t *offsetStride, uint64_t *ettPrimtal) {
+  //TODO(henrik) Alla assert() i argumentkontrollen måste föregås av en koll
+  // som är aktiv även med NDEBUG definierad, t.ex. optimerad kod.
   const int base = 10;
   char *endptr;
   errno = 0; /* To distinguish success/failure after call */
