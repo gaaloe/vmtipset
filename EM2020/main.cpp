@@ -2148,7 +2148,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                                                      : static_cast<e_team>(-1);
           e_team rd3D = (winD != eng && scndD != eng)
                             ? eng
-                            : (winD != cro && scndD != cro) ? cro : cze;
+                            : (winD != cro && scndD != cro) ? cro : sco;
           assert(winD != (e_team)-1);
           assert(scndD != (e_team)-1);
           assert(rd3D != (e_team)-1);
