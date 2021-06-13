@@ -14,6 +14,8 @@ using std::cerr;
 // ./a.out
 // ./a.out 0 1 tur ita den fin ned ukr eng cro esp swe
 // ./a.out 0 1 tur ita den fin ned ukr eng cro esp swe hun por wal bel aut sco
+// ./a.out 0 1 tur ita den fin ned ukr eng cro esp swe hun por wal bel aut sco tur ita
+// ./a.out 0 1 tur ita den fin ned ukr eng cro esp swe hun por wal bel aut sco tur ita den ned
 // seq -w 0 3 | parallel -u ./a.out {} 524287
 // seq -w 0 15 | parallel -u ./a.out {} 16127
 // seq -w 0 15 | parallel -u ./a.out {} 16127 tur ita
