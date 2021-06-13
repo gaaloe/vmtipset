@@ -25,7 +25,7 @@ const uint64_t ettPrimtal_16127 = 16127UL;
 const uint64_t ettPrimtal_19997 = 19997UL;
 const uint64_t ettPrimtal_131071 = 131071UL;
 const uint64_t ettPrimtal_524287 = 524287UL;
-uint64_t ettPrimtal = ettPrimtal_16127;
+uint64_t ettPrimtal = ettPrimtal_1;
 uint64_t completeFactor = 1UL;
 static int maxSoFar = 0;
 static uint64_t maxIteration = 0;
@@ -150,6 +150,14 @@ const int shift_30 = 30;
 const int shift_34 = 34; // Shift of beginning of everything non-group play
 const uint64_t mask_1FUL = 0x1FUL; // Five time bit one, for & operator
 const uint64_t mask_FUL = 0xFUL;
+void groupFand3rd(int argc, gsl::span<char *> span_argv, e_team winA,
+                  e_team winB, e_team winC, e_team winD, e_team winE,
+                  e_team scndA, e_team scndB, e_team scndC, e_team scndD,
+                  e_team scndE, e_team &winF, e_team &scndF, e_team &rd3A,
+                  e_team &rd3B, e_team &rd3C, e_team &rd3D, e_team &rd3E,
+                  e_team &rd3F, uint64_t &rd3bits, uint64_t &tableA,
+                  uint64_t &tableB, uint64_t &tableC, uint64_t &tableD,
+                  uint64_t &tableE, uint64_t &tableF);
 uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
   const int offset =
       grp == 'A'
@@ -1754,320 +1762,23 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
             DEBUG_allege(scndE != rd3E);
             uint64_t tableE = tableFromTeam('E', winE, scndE, rd3E) << shift_20;
             if (argc > 13) {
-              // Group F win,2nd
-              DEBUG_allege(argc == 19);
-              char *const arg13 = span_argv[13];
-              char *const arg14 = span_argv[14];
-              const e_team winF =
-                  strcmp("hun", arg13) == 0
-                      ? hun
-                      : strcmp("por", arg13) == 0
-                            ? por
-                            : strcmp("fra", arg13) == 0
-                                  ? fra
-                                  : strcmp("ger", arg13) == 0
-                                        ? ger
-                                        : static_cast<e_team>(-1);
-              const e_team scndF =
-                  strcmp("hun", arg14) == 0
-                      ? hun
-                      : strcmp("por", arg14) == 0
-                            ? por
-                            : strcmp("fra", arg14) == 0
-                                  ? fra
-                                  : strcmp("ger", arg14) == 0
-                                        ? ger
-                                        : static_cast<e_team>(-1);
-              e_team rd3F = (winF != hun && scndF != hun)
-                                ? hun
-                                : (winF != por && scndF != por) ? por : fra;
-              DEBUG_allege(winF != (e_team)-1);
-              DEBUG_allege(scndF != (e_team)-1);
-              DEBUG_allege(rd3F != (e_team)-1);
-              DEBUG_allege(winF != scndF);
-              DEBUG_allege(winF != rd3F);
-              DEBUG_allege(scndF != rd3F);
+              e_team winF;
+              e_team scndF;
+              e_team rd3F;
+              uint64_t tableF;
               uint64_t rd3bits = 0; // 4 bits describing the ABCD..CDEF
-              // 4 av 6 grupptreor går vidare
-              char *const arg15 = span_argv[15];
-              char *const arg16 = span_argv[16];
-              char *const arg17 = span_argv[17];
-              char *const arg18 = span_argv[18];
-              e_team team15;
-              e_team team16;
-              e_team team17;
-              e_team team18;
-              for (team15 = tur; team15 < num_teams; ++team15) {
-                if (strcmp(names[team15], arg15) == 0) {
-                  break;
-                }
+              groupFand3rd(argc, span_argv, winA, winB, winC, winD, winE, scndA,
+                           scndB, scndC, scndD, scndE, winF, scndF, rd3A, rd3B,
+                           rd3C, rd3D, rd3E, rd3F, rd3bits, tableA, tableB,
+                           tableC, tableD, tableE, tableF);
+              if (argc > 19) {
+                // Grundspel, tredjeplats, två sextondelsmatcher
+              } else {
+                *completeFactor = 1UL << shift_34;
+                *offsetStride *= 1UL << shift_34;
+                *offsetStride += rd3bits + tableF + tableE + tableD + tableC +
+                                 tableB + tableA;
               }
-              DEBUG_allege(strcmp(names[team15], arg15) == 0);
-              for (team16 = tur; team16 < num_teams; ++team16) {
-                if (strcmp(names[team16], arg16) == 0) {
-                  break;
-                }
-              }
-              DEBUG_allege(strcmp(names[team16], arg16) == 0);
-              for (team17 = tur; team17 < num_teams; ++team17) {
-                if (strcmp(names[team17], arg17) == 0) {
-                  break;
-                }
-              }
-              DEBUG_allege(strcmp(names[team17], arg17) == 0);
-              for (team18 = tur; team18 < num_teams; ++team18) {
-                if (strcmp(names[team18], arg18) == 0) {
-                  break;
-                }
-              }
-              DEBUG_allege(strcmp(names[team18], arg18) == 0);
-              DEBUG_allege(team15 != team16);
-              DEBUG_allege(team15 != team17);
-              DEBUG_allege(team15 != team18);
-              DEBUG_allege(team16 != team17);
-              DEBUG_allege(team16 != team18);
-              DEBUG_allege(team17 != team18);
-              // Kolla att de är från varsin grupp
-              unsigned trunk15 = static_cast<unsigned>(team15) / 4U;
-              unsigned trunk16 = static_cast<unsigned>(team16) / 4U;
-              unsigned trunk17 = static_cast<unsigned>(team17) / 4U;
-              unsigned trunk18 = static_cast<unsigned>(team18) / 4U;
-              DEBUG_allege(trunk15 != trunk16);
-              DEBUG_allege(trunk15 != trunk17);
-              DEBUG_allege(trunk15 != trunk18);
-              DEBUG_allege(trunk16 != trunk17);
-              DEBUG_allege(trunk16 != trunk18);
-              DEBUG_allege(trunk17 != trunk18);
-              DEBUG_allege(trunk15 < trunk16);
-              DEBUG_allege(trunk16 < trunk17);
-              DEBUG_allege(trunk17 < trunk18);
-              switch (static_cast<char>(trunk15) + 'A') {
-              case 'A': // A?????
-                rd3A = team15;
-                DEBUG_allege(winA != rd3A);
-                DEBUG_allege(scndA != rd3A);
-                switch (static_cast<char>(trunk16) + 'A') {
-                case 'B': // AB????
-                  rd3B = team16;
-                  DEBUG_allege(winB != rd3B);
-                  DEBUG_allege(scndB != rd3B);
-                  switch (static_cast<char>(trunk17) + 'A') {
-                  case 'C': // ABC???
-                    rd3C = team17;
-                    DEBUG_allege(winC != rd3C);
-                    DEBUG_allege(scndC != rd3C);
-                    switch (static_cast<char>(trunk18) + 'A') {
-                    case 'D': // ABCD--
-                      rd3bits = static_cast<uint64_t>(ABCD) << shift_30;
-                      rd3D = team18;
-                      DEBUG_allege(winD != rd3D);
-                      DEBUG_allege(scndD != rd3D);
-                      break;
-                    case 'E': // ABC-E-
-                      rd3bits = static_cast<uint64_t>(ABCE) << shift_30;
-                      rd3E = team18;
-                      DEBUG_allege(winE != rd3E);
-                      DEBUG_allege(scndE != rd3E);
-                      break;
-                    case 'F': // ABC--F
-                      rd3bits = static_cast<uint64_t>(ABCF) << shift_30;
-                      rd3F = team18;
-                      DEBUG_allege(winF != rd3F);
-                      DEBUG_allege(scndF != rd3F);
-                      break;
-                    default:
-                      std::cerr << __FILE__ << __LINE__ << '\n';
-                      abort();
-                    }
-                    break;
-                  case 'D': // AB-D??
-                    rd3D = team17;
-                    DEBUG_allege(winD != rd3D);
-                    DEBUG_allege(scndD != rd3D);
-                    switch (static_cast<char>(trunk18) + 'A') {
-                    case 'E': // AB-DE-
-                      rd3bits = static_cast<uint64_t>(ABDE) << shift_30;
-                      rd3E = team18;
-                      DEBUG_allege(winE != rd3E);
-                      DEBUG_allege(scndE != rd3E);
-                      break;
-                    case 'F': // AB-D-F
-                      rd3bits = static_cast<uint64_t>(ABDF) << shift_30;
-                      rd3F = team18;
-                      DEBUG_allege(winF != rd3F);
-                      DEBUG_allege(scndF != rd3F);
-                      break;
-                    default:
-                      std::cerr << __FILE__ << __LINE__ << '\n';
-                      abort();
-                    }
-                    break;
-                  case 'E': // AB--EF
-                    rd3bits = static_cast<uint64_t>(ABEF) << shift_30;
-                    rd3E = team17;
-                    DEBUG_allege(winE != rd3E);
-                    DEBUG_allege(scndE != rd3E);
-                    rd3F = team18;
-                    DEBUG_allege(winF != rd3F);
-                    DEBUG_allege(scndF != rd3F);
-                    break;
-                  default:
-                    std::cerr << __FILE__ << __LINE__ << '\n';
-                    abort();
-                  }
-                  break;
-                case 'C': // A-C???
-                  rd3C = team16;
-                  DEBUG_allege(winC != rd3C);
-                  DEBUG_allege(scndC != rd3C);
-                  switch (static_cast<char>(trunk17) + 'A') {
-                  case 'D': // A-CD??
-                    rd3D = team17;
-                    DEBUG_allege(winD != rd3D);
-                    DEBUG_allege(scndD != rd3D);
-                    switch (static_cast<char>(trunk18) + 'A') {
-                    case 'E': // A-CDE-
-                      rd3bits = static_cast<uint64_t>(ACDE) << shift_30;
-                      rd3E = team18;
-                      DEBUG_allege(winE != rd3E);
-                      DEBUG_allege(scndE != rd3E);
-                      break;
-                    case 'F': // A-CD-F
-                      rd3bits = static_cast<uint64_t>(ACDF) << shift_30;
-                      rd3F = team18;
-                      DEBUG_allege(winF != rd3F);
-                      DEBUG_allege(scndF != rd3F);
-                      break;
-                    default:
-                      std::cerr << __FILE__ << __LINE__ << '\n';
-                      abort();
-                    }
-                    break;
-                  case 'E': // A-C-EF
-                    rd3bits = static_cast<uint64_t>(ACEF) << shift_30;
-                    rd3E = team17;
-                    DEBUG_allege(winE != rd3E);
-                    DEBUG_allege(scndE != rd3E);
-                    rd3F = team18;
-                    DEBUG_allege(winF != rd3F);
-                    DEBUG_allege(scndF != rd3F);
-                    break;
-                  default:
-                    std::cerr << __FILE__ << __LINE__ << '\n';
-                    abort();
-                  }
-                  break;
-                case 'D': // A--DEF
-                  rd3bits = static_cast<uint64_t>(ADEF) << shift_30;
-                  rd3D = team16;
-                  DEBUG_allege(winD != rd3D);
-                  DEBUG_allege(scndD != rd3D);
-                  rd3E = team17;
-                  DEBUG_allege(winE != rd3E);
-                  DEBUG_allege(scndE != rd3E);
-                  rd3F = team18;
-                  DEBUG_allege(winF != rd3F);
-                  DEBUG_allege(scndF != rd3F);
-                  break;
-                default:
-                  std::cerr << __FILE__ << __LINE__ << '\n';
-                  abort();
-                }
-                break;
-              case 'B': //-B????
-                rd3B = team15;
-                DEBUG_allege(winB != rd3B);
-                DEBUG_allege(scndB != rd3B);
-                switch (static_cast<char>(trunk16) + 'A') {
-                case 'C': //-BC???
-                  rd3C = team16;
-                  DEBUG_allege(winC != rd3C);
-                  DEBUG_allege(scndC != rd3C);
-                  switch (static_cast<char>(trunk17) + 'A') {
-                  case 'D': //-BCD??
-                    rd3D = team17;
-                    DEBUG_allege(winD != rd3D);
-                    DEBUG_allege(scndD != rd3D);
-                    switch (static_cast<char>(trunk18) + 'A') {
-                    case 'E': //-BCDE-
-                      rd3bits = static_cast<uint64_t>(BCDE) << shift_30;
-                      rd3E = team18;
-                      DEBUG_allege(winE != rd3E);
-                      DEBUG_allege(scndE != rd3E);
-                      break;
-                    case 'F': //-BCD-F
-                      rd3bits = static_cast<uint64_t>(BCDF) << shift_30;
-                      rd3F = team18;
-                      DEBUG_allege(winF != rd3F);
-                      DEBUG_allege(scndF != rd3F);
-                      break;
-                    default:
-                      std::cerr << __FILE__ << __LINE__ << '\n';
-                      abort();
-                    }
-                    break;
-                  case 'E': // -BC-EF
-                    rd3bits = static_cast<uint64_t>(BCEF) << shift_30;
-                    rd3E = team17;
-                    DEBUG_allege(winE != rd3E);
-                    DEBUG_allege(scndE != rd3E);
-                    rd3F = team18;
-                    DEBUG_allege(winF != rd3F);
-                    DEBUG_allege(scndF != rd3F);
-                    break;
-                  default:
-                    std::cerr << __FILE__ << __LINE__ << '\n';
-                    abort();
-                  }
-                  break;
-                case 'D': // -B-DEF
-                  rd3bits = static_cast<uint64_t>(BDEF) << shift_30;
-                  rd3D = team16;
-                  DEBUG_allege(winD != rd3D);
-                  DEBUG_allege(scndD != rd3D);
-                  rd3E = team17;
-                  DEBUG_allege(winE != rd3E);
-                  DEBUG_allege(scndE != rd3E);
-                  rd3F = team18;
-                  DEBUG_allege(winF != rd3F);
-                  DEBUG_allege(scndF != rd3F);
-                  break;
-                default:
-                  std::cerr << __FILE__ << __LINE__ << '\n';
-                  abort();
-                }
-                break;
-              case 'C': // --CDEF
-                rd3bits = static_cast<uint64_t>(CDEF) << shift_30;
-                rd3C = team15;
-                DEBUG_allege(winC != rd3C);
-                DEBUG_allege(scndC != rd3C);
-                rd3D = team16;
-                DEBUG_allege(winD != rd3D);
-                DEBUG_allege(scndD != rd3D);
-                rd3E = team17;
-                DEBUG_allege(winE != rd3E);
-                DEBUG_allege(scndE != rd3E);
-                rd3F = team18;
-                DEBUG_allege(winF != rd3F);
-                DEBUG_allege(scndF != rd3F);
-                break;
-              default:
-                std::cerr << __FILE__ << __LINE__ << '\n';
-                abort();
-              }
-              // Recalculate the tables due to new 3rd
-              tableA = tableFromTeam('A', winA, scndA, rd3A);
-              tableB = tableFromTeam('B', winB, scndB, rd3B) << shift_5;
-              tableC = tableFromTeam('C', winC, scndC, rd3C) << shift_10;
-              tableD = tableFromTeam('D', winD, scndD, rd3D) << shift_15;
-              tableE = tableFromTeam('E', winE, scndE, rd3E) << shift_20;
-              const uint64_t tableF = tableFromTeam('F', winF, scndF, rd3F)
-                                      << shift_25;
-              *completeFactor = 1UL << shift_34;
-              *offsetStride *= 1UL << shift_34;
-              *offsetStride +=
-                  rd3bits + tableF + tableE + tableD + tableC + tableB + tableA;
             } else {
               *completeFactor = 1UL << shift_25;
               *offsetStride *= 1UL << shift_25;
@@ -2143,4 +1854,317 @@ unsigned whosThird(uint64_t tableX) {
     abort();
   }
   return thirdX;
+}
+void groupFand3rd(int argc, gsl::span<char *> span_argv, e_team winA,
+                  e_team winB, e_team winC, e_team winD, e_team winE,
+                  e_team scndA, e_team scndB, e_team scndC, e_team scndD,
+                  e_team scndE, e_team &winF, e_team &scndF, e_team &rd3A,
+                  e_team &rd3B, e_team &rd3C, e_team &rd3D, e_team &rd3E,
+                  e_team &rd3F, uint64_t &rd3bits, uint64_t &tableA,
+                  uint64_t &tableB, uint64_t &tableC, uint64_t &tableD,
+                  uint64_t &tableE, uint64_t &tableF) {
+  // Group F win,2nd
+  DEBUG_allege(argc > 18);
+  char *const arg13 = span_argv[13];
+  char *const arg14 = span_argv[14];
+  winF = strcmp("hun", arg13) == 0
+             ? hun
+             : strcmp("por", arg13) == 0
+                   ? por
+                   : strcmp("fra", arg13) == 0
+                         ? fra
+                         : strcmp("ger", arg13) == 0 ? ger
+                                                     : static_cast<e_team>(-1);
+  scndF = strcmp("hun", arg14) == 0
+              ? hun
+              : strcmp("por", arg14) == 0
+                    ? por
+                    : strcmp("fra", arg14) == 0
+                          ? fra
+                          : strcmp("ger", arg14) == 0 ? ger
+                                                      : static_cast<e_team>(-1);
+  rd3F = (winF != hun && scndF != hun)
+             ? hun
+             : (winF != por && scndF != por) ? por : fra;
+  DEBUG_allege(winF != (e_team)-1);
+  DEBUG_allege(scndF != (e_team)-1);
+  DEBUG_allege(rd3F != (e_team)-1);
+  DEBUG_allege(winF != scndF);
+  DEBUG_allege(winF != rd3F);
+  DEBUG_allege(scndF != rd3F);
+  // 4 av 6 grupptreor går vidare
+  char *const arg15 = span_argv[15];
+  char *const arg16 = span_argv[16];
+  char *const arg17 = span_argv[17];
+  char *const arg18 = span_argv[18];
+  e_team team15;
+  e_team team16;
+  e_team team17;
+  e_team team18;
+  for (team15 = tur; team15 < num_teams; ++team15) {
+    if (strcmp(names[team15], arg15) == 0) {
+      break;
+    }
+  }
+  DEBUG_allege(strcmp(names[team15], arg15) == 0);
+  for (team16 = tur; team16 < num_teams; ++team16) {
+    if (strcmp(names[team16], arg16) == 0) {
+      break;
+    }
+  }
+  DEBUG_allege(strcmp(names[team16], arg16) == 0);
+  for (team17 = tur; team17 < num_teams; ++team17) {
+    if (strcmp(names[team17], arg17) == 0) {
+      break;
+    }
+  }
+  DEBUG_allege(strcmp(names[team17], arg17) == 0);
+  for (team18 = tur; team18 < num_teams; ++team18) {
+    if (strcmp(names[team18], arg18) == 0) {
+      break;
+    }
+  }
+  DEBUG_allege(strcmp(names[team18], arg18) == 0);
+  DEBUG_allege(team15 != team16);
+  DEBUG_allege(team15 != team17);
+  DEBUG_allege(team15 != team18);
+  DEBUG_allege(team16 != team17);
+  DEBUG_allege(team16 != team18);
+  DEBUG_allege(team17 != team18);
+  // Kolla att de är från varsin grupp
+  unsigned trunk15 = static_cast<unsigned>(team15) / 4U;
+  unsigned trunk16 = static_cast<unsigned>(team16) / 4U;
+  unsigned trunk17 = static_cast<unsigned>(team17) / 4U;
+  unsigned trunk18 = static_cast<unsigned>(team18) / 4U;
+  DEBUG_allege(trunk15 != trunk16);
+  DEBUG_allege(trunk15 != trunk17);
+  DEBUG_allege(trunk15 != trunk18);
+  DEBUG_allege(trunk16 != trunk17);
+  DEBUG_allege(trunk16 != trunk18);
+  DEBUG_allege(trunk17 != trunk18);
+  DEBUG_allege(trunk15 < trunk16);
+  DEBUG_allege(trunk16 < trunk17);
+  DEBUG_allege(trunk17 < trunk18);
+  switch (static_cast<char>(trunk15) + 'A') {
+  case 'A': // A?????
+    rd3A = team15;
+    DEBUG_allege(winA != rd3A);
+    DEBUG_allege(scndA != rd3A);
+    switch (static_cast<char>(trunk16) + 'A') {
+    case 'B': // AB????
+      rd3B = team16;
+      DEBUG_allege(winB != rd3B);
+      DEBUG_allege(scndB != rd3B);
+      switch (static_cast<char>(trunk17) + 'A') {
+      case 'C': // ABC???
+        rd3C = team17;
+        DEBUG_allege(winC != rd3C);
+        DEBUG_allege(scndC != rd3C);
+        switch (static_cast<char>(trunk18) + 'A') {
+        case 'D': // ABCD--
+          rd3bits = static_cast<uint64_t>(ABCD) << shift_30;
+          rd3D = team18;
+          DEBUG_allege(winD != rd3D);
+          DEBUG_allege(scndD != rd3D);
+          break;
+        case 'E': // ABC-E-
+          rd3bits = static_cast<uint64_t>(ABCE) << shift_30;
+          rd3E = team18;
+          DEBUG_allege(winE != rd3E);
+          DEBUG_allege(scndE != rd3E);
+          break;
+        case 'F': // ABC--F
+          rd3bits = static_cast<uint64_t>(ABCF) << shift_30;
+          rd3F = team18;
+          DEBUG_allege(winF != rd3F);
+          DEBUG_allege(scndF != rd3F);
+          break;
+        default:
+          std::cerr << __FILE__ << __LINE__ << '\n';
+          abort();
+        }
+        break;
+      case 'D': // AB-D??
+        rd3D = team17;
+        DEBUG_allege(winD != rd3D);
+        DEBUG_allege(scndD != rd3D);
+        switch (static_cast<char>(trunk18) + 'A') {
+        case 'E': // AB-DE-
+          rd3bits = static_cast<uint64_t>(ABDE) << shift_30;
+          rd3E = team18;
+          DEBUG_allege(winE != rd3E);
+          DEBUG_allege(scndE != rd3E);
+          break;
+        case 'F': // AB-D-F
+          rd3bits = static_cast<uint64_t>(ABDF) << shift_30;
+          rd3F = team18;
+          DEBUG_allege(winF != rd3F);
+          DEBUG_allege(scndF != rd3F);
+          break;
+        default:
+          std::cerr << __FILE__ << __LINE__ << '\n';
+          abort();
+        }
+        break;
+      case 'E': // AB--EF
+        rd3bits = static_cast<uint64_t>(ABEF) << shift_30;
+        rd3E = team17;
+        DEBUG_allege(winE != rd3E);
+        DEBUG_allege(scndE != rd3E);
+        rd3F = team18;
+        DEBUG_allege(winF != rd3F);
+        DEBUG_allege(scndF != rd3F);
+        break;
+      default:
+        std::cerr << __FILE__ << __LINE__ << '\n';
+        abort();
+      }
+      break;
+    case 'C': // A-C???
+      rd3C = team16;
+      DEBUG_allege(winC != rd3C);
+      DEBUG_allege(scndC != rd3C);
+      switch (static_cast<char>(trunk17) + 'A') {
+      case 'D': // A-CD??
+        rd3D = team17;
+        DEBUG_allege(winD != rd3D);
+        DEBUG_allege(scndD != rd3D);
+        switch (static_cast<char>(trunk18) + 'A') {
+        case 'E': // A-CDE-
+          rd3bits = static_cast<uint64_t>(ACDE) << shift_30;
+          rd3E = team18;
+          DEBUG_allege(winE != rd3E);
+          DEBUG_allege(scndE != rd3E);
+          break;
+        case 'F': // A-CD-F
+          rd3bits = static_cast<uint64_t>(ACDF) << shift_30;
+          rd3F = team18;
+          DEBUG_allege(winF != rd3F);
+          DEBUG_allege(scndF != rd3F);
+          break;
+        default:
+          std::cerr << __FILE__ << __LINE__ << '\n';
+          abort();
+        }
+        break;
+      case 'E': // A-C-EF
+        rd3bits = static_cast<uint64_t>(ACEF) << shift_30;
+        rd3E = team17;
+        DEBUG_allege(winE != rd3E);
+        DEBUG_allege(scndE != rd3E);
+        rd3F = team18;
+        DEBUG_allege(winF != rd3F);
+        DEBUG_allege(scndF != rd3F);
+        break;
+      default:
+        std::cerr << __FILE__ << __LINE__ << '\n';
+        abort();
+      }
+      break;
+    case 'D': // A--DEF
+      rd3bits = static_cast<uint64_t>(ADEF) << shift_30;
+      rd3D = team16;
+      DEBUG_allege(winD != rd3D);
+      DEBUG_allege(scndD != rd3D);
+      rd3E = team17;
+      DEBUG_allege(winE != rd3E);
+      DEBUG_allege(scndE != rd3E);
+      rd3F = team18;
+      DEBUG_allege(winF != rd3F);
+      DEBUG_allege(scndF != rd3F);
+      break;
+    default:
+      std::cerr << __FILE__ << __LINE__ << '\n';
+      abort();
+    }
+    break;
+  case 'B': //-B????
+    rd3B = team15;
+    DEBUG_allege(winB != rd3B);
+    DEBUG_allege(scndB != rd3B);
+    switch (static_cast<char>(trunk16) + 'A') {
+    case 'C': //-BC???
+      rd3C = team16;
+      DEBUG_allege(winC != rd3C);
+      DEBUG_allege(scndC != rd3C);
+      switch (static_cast<char>(trunk17) + 'A') {
+      case 'D': //-BCD??
+        rd3D = team17;
+        DEBUG_allege(winD != rd3D);
+        DEBUG_allege(scndD != rd3D);
+        switch (static_cast<char>(trunk18) + 'A') {
+        case 'E': //-BCDE-
+          rd3bits = static_cast<uint64_t>(BCDE) << shift_30;
+          rd3E = team18;
+          DEBUG_allege(winE != rd3E);
+          DEBUG_allege(scndE != rd3E);
+          break;
+        case 'F': //-BCD-F
+          rd3bits = static_cast<uint64_t>(BCDF) << shift_30;
+          rd3F = team18;
+          DEBUG_allege(winF != rd3F);
+          DEBUG_allege(scndF != rd3F);
+          break;
+        default:
+          std::cerr << __FILE__ << __LINE__ << '\n';
+          abort();
+        }
+        break;
+      case 'E': // -BC-EF
+        rd3bits = static_cast<uint64_t>(BCEF) << shift_30;
+        rd3E = team17;
+        DEBUG_allege(winE != rd3E);
+        DEBUG_allege(scndE != rd3E);
+        rd3F = team18;
+        DEBUG_allege(winF != rd3F);
+        DEBUG_allege(scndF != rd3F);
+        break;
+      default:
+        std::cerr << __FILE__ << __LINE__ << '\n';
+        abort();
+      }
+      break;
+    case 'D': // -B-DEF
+      rd3bits = static_cast<uint64_t>(BDEF) << shift_30;
+      rd3D = team16;
+      DEBUG_allege(winD != rd3D);
+      DEBUG_allege(scndD != rd3D);
+      rd3E = team17;
+      DEBUG_allege(winE != rd3E);
+      DEBUG_allege(scndE != rd3E);
+      rd3F = team18;
+      DEBUG_allege(winF != rd3F);
+      DEBUG_allege(scndF != rd3F);
+      break;
+    default:
+      std::cerr << __FILE__ << __LINE__ << '\n';
+      abort();
+    }
+    break;
+  case 'C': // --CDEF
+    rd3bits = static_cast<uint64_t>(CDEF) << shift_30;
+    rd3C = team15;
+    DEBUG_allege(winC != rd3C);
+    DEBUG_allege(scndC != rd3C);
+    rd3D = team16;
+    DEBUG_allege(winD != rd3D);
+    DEBUG_allege(scndD != rd3D);
+    rd3E = team17;
+    DEBUG_allege(winE != rd3E);
+    DEBUG_allege(scndE != rd3E);
+    rd3F = team18;
+    DEBUG_allege(winF != rd3F);
+    DEBUG_allege(scndF != rd3F);
+    break;
+  default:
+    std::cerr << __FILE__ << __LINE__ << '\n';
+    abort();
+  }
+  // Recalculate the tables due to new 3rd
+  tableA = tableFromTeam('A', winA, scndA, rd3A);
+  tableB = tableFromTeam('B', winB, scndB, rd3B) << shift_5;
+  tableC = tableFromTeam('C', winC, scndC, rd3C) << shift_10;
+  tableD = tableFromTeam('D', winD, scndD, rd3D) << shift_15;
+  tableE = tableFromTeam('E', winE, scndE, rd3E) << shift_20;
+  tableF = tableFromTeam('F', winF, scndF, rd3F) << shift_25;
 }
