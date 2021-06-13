@@ -12,16 +12,10 @@ using std::cerr;
 // g++ -I ~/gsl-lite/include main.cpp
 // clang-format -i main.cpp
 // ./a.out
-// ./a.out 0 1 tur ita den fin ned ukr eng cro esp swe
-// ./a.out 0 1 tur ita den fin ned ukr eng cro esp swe hun por wal bel aut sco
 //
-// Gruppspel, treor, m37..m40
+// Gruppspel, treor, m37..m44
 // ./a.out 0 1 tur ita den fin ned ukr eng cro esp swe hun por wal bel aut sco
-// tur ita den ned hun cro
-//
-// Gruppspel, treor, m37..m42
-// ./a.out 0 1 tur ita den fin ned ukr eng cro esp swe hun por wal bel aut sco
-// tur ita den ned hun cro
+// tur ita den ned hun cro esp eng
 //
 // seq -w 0 3 | parallel -u ./a.out {} 524287
 // seq -w 0 15 | parallel -u ./a.out {} 16127
@@ -1771,8 +1765,6 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                     // m41: Winner Group F eller 3rd Group A/B/C
                     // m42: Runner-up Group D eller Runner-up Group E
                     DEBUG_allege(argc > 24);
-                    // m41: Winner Group F eller 3rd Group A/B/C
-                    // m42: Runner-up Group D eller Runner-up Group E
                     char *const arg23 = span_argv[23];
                     DEBUG_allege((strcmp(names[winF], arg23) == 0) ||
                                  (strcmp(names[game[m41][1]], arg23) == 0));
@@ -1781,6 +1773,15 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                                  (strcmp(names[scndE], arg24) == 0));
                     if (argc > 25) {
                       DEBUG_allege(argc > 26);
+                      // m43: Winner Group E eller 3rd Group A/B/C/D
+                      // m44: Winner Group D eller Runner-up Group F
+                      char *const arg25 = span_argv[25];
+                      DEBUG_allege((strcmp(names[winE], arg25) == 0) ||
+                                   (strcmp(names[game[m43][1]], arg25) == 0));
+                      char *const arg26 = span_argv[26];
+                      DEBUG_allege((strcmp(names[winD], arg26) == 0) ||
+                                   (strcmp(names[scndF], arg26) == 0));
+                      //TODO fortsätt här
                     } else {
                       *completeFactor = 1UL << shift_40;
                       *offsetStride *= 1UL << shift_40;
