@@ -155,9 +155,9 @@ void groupFand3rd(int argc, gsl::span<char *> span_argv, e_team winA,
                   e_team scndA, e_team scndB, e_team scndC, e_team scndD,
                   e_team scndE, e_team *winF, e_team *scndF, e_team *rd3A,
                   e_team *rd3B, e_team *rd3C, e_team *rd3D, e_team *rd3E,
-                  e_team *rd3F, uint64_t* rd3bits, uint64_t &tableA,
-                  uint64_t &tableB, uint64_t &tableC, uint64_t &tableD,
-                  uint64_t &tableE, uint64_t &tableF);
+                  e_team *rd3F, uint64_t *rd3bits, uint64_t *tableA,
+                  uint64_t *tableB, uint64_t *tableC, uint64_t *tableD,
+                  uint64_t *tableE, uint64_t *tableF);
 uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
   const int offset =
       grp == 'A'
@@ -1769,8 +1769,8 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
               uint64_t rd3bits = 0; // 4 bits describing the ABCD..CDEF
               groupFand3rd(argc, span_argv, winA, winB, winC, winD, winE, scndA,
                            scndB, scndC, scndD, scndE, &winF, &scndF, &rd3A,
-                           &rd3B, &rd3C, &rd3D, &rd3E, &rd3F, &rd3bits, tableA,
-                           tableB, tableC, tableD, tableE, tableF);
+                           &rd3B, &rd3C, &rd3D, &rd3E, &rd3F, &rd3bits, &tableA,
+                           &tableB, &tableC, &tableD, &tableE, &tableF);
               if (argc > 19) {
                 // Grundspel, tredjeplats, två sextondelsmatcher
               } else {
@@ -1860,9 +1860,9 @@ void groupFand3rd(int argc, gsl::span<char *> span_argv, e_team winA,
                   e_team scndA, e_team scndB, e_team scndC, e_team scndD,
                   e_team scndE, e_team *winF, e_team *scndF, e_team *rd3A,
                   e_team *rd3B, e_team *rd3C, e_team *rd3D, e_team *rd3E,
-                  e_team *rd3F, uint64_t *rd3bits, uint64_t &tableA,
-                  uint64_t &tableB, uint64_t &tableC, uint64_t &tableD,
-                  uint64_t &tableE, uint64_t &tableF) {
+                  e_team *rd3F, uint64_t *rd3bits, uint64_t *tableA,
+                  uint64_t *tableB, uint64_t *tableC, uint64_t *tableD,
+                  uint64_t *tableE, uint64_t *tableF) {
   // Group F win,2nd
   DEBUG_allege(argc > 18);
   char *const arg13 = span_argv[13];
@@ -2162,10 +2162,10 @@ void groupFand3rd(int argc, gsl::span<char *> span_argv, e_team winA,
     abort();
   }
   // Recalculate the tables due to new 3rd
-  tableA = tableFromTeam('A', winA, scndA, *rd3A);
-  tableB = tableFromTeam('B', winB, scndB, *rd3B) << shift_5;
-  tableC = tableFromTeam('C', winC, scndC, *rd3C) << shift_10;
-  tableD = tableFromTeam('D', winD, scndD, *rd3D) << shift_15;
-  tableE = tableFromTeam('E', winE, scndE, *rd3E) << shift_20;
-  tableF = tableFromTeam('F', *winF, *scndF, *rd3F) << shift_25;
+  *tableA = tableFromTeam('A', winA, scndA, *rd3A);
+  *tableB = tableFromTeam('B', winB, scndB, *rd3B) << shift_5;
+  *tableC = tableFromTeam('C', winC, scndC, *rd3C) << shift_10;
+  *tableD = tableFromTeam('D', winD, scndD, *rd3D) << shift_15;
+  *tableE = tableFromTeam('E', winE, scndE, *rd3E) << shift_20;
+  *tableF = tableFromTeam('F', *winF, *scndF, *rd3F) << shift_25;
 }
