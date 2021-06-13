@@ -148,6 +148,7 @@ const int shift_20 = 20;
 const int shift_25 = 25;
 const int shift_30 = 30;
 const int shift_34 = 34; // Shift of beginning of everything non-group play
+const int shift_36 = 36;
 const uint64_t mask_1FUL = 0x1FUL; // Five time bit one, for & operator
 const uint64_t mask_FUL = 0xFUL;
 void groupFand3rd(int argc, gsl::span<char *> span_argv, e_team winA,
@@ -1772,7 +1773,25 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                            &rd3B, &rd3C, &rd3D, &rd3E, &rd3F, &rd3bits, &tableA,
                            &tableB, &tableC, &tableD, &tableE, &tableF);
               if (argc > 19) {
-                // Grundspel, tredjeplats, två sextondelsmatcher
+                // Grundspel, tredjeplats, två sextondelsmatcher:
+                // m37: Winner Group A eller Runner-up Group C?
+                // m38: Runner-up Group A eller Runner-up Group B?
+                char *const arg19 = span_argv[19];
+                DEBUG_allege((strcmp(names[winA], arg19) == 0) ||
+                             (strcmp(names[scndC], arg19) == 0));
+                char *const arg20 = span_argv[20];
+                DEBUG_allege((strcmp(names[scndA], arg20) == 0) ||
+                             (strcmp(names[scndB], arg20) == 0));
+                *completeFactor = 1UL << shift_36;
+                *offsetStride *= 1UL << shift_36;
+                if (!strcmp(names[scndC], arg19)) {
+                  *offsetStride += 1UL << shift_34;
+                }
+                if (!strcmp(names[scndB], arg20)) {
+                  *offsetStride += 1UL << (shift_34 + 1);
+                }
+                *offsetStride += rd3bits + tableF + tableE + tableD + tableC +
+                                 tableB + tableA;
               } else {
                 *completeFactor = 1UL << shift_34;
                 *offsetStride *= 1UL << shift_34;
