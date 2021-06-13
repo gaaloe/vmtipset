@@ -166,6 +166,8 @@ void groupFand3rd(int argc, gsl::span<char *> span_argv, e_team winA,
                   e_team *rd3F, uint64_t *rd3bits, uint64_t *tableA,
                   uint64_t *tableB, uint64_t *tableC, uint64_t *tableD,
                   uint64_t *tableE, uint64_t *tableF);
+void setup_45_48(uint64_t iteration);
+
 uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
   const int offset =
       grp == 'A'
@@ -1261,40 +1263,15 @@ int main(int argc, char *argv[]) {
     }
 #endif
     // Avgör match 37 till 44, fyll i match 45 till 48
-    uint64_t result;
-    e_team matchWinner;
-    result = ((iteration >> (m37 - 3)) & 0x1);
-    matchWinner = game[m37][result];
-    game[m46][1] = matchWinner;
-    totFifa += rank[matchWinner];
-    result = ((iteration >> (m38 - 3)) & 0x1);
-    matchWinner = game[m38][result];
-    game[m47][1] = matchWinner;
-    totFifa += rank[matchWinner];
-    result = ((iteration >> (m39 - 3)) & 0x1);
-    matchWinner = game[m39][result];
-    game[m46][0] = matchWinner;
-    totFifa += rank[matchWinner];
-    result = ((iteration >> (m40 - 3)) & 0x1);
-    matchWinner = game[m40][result];
-    game[m47][0] = matchWinner;
-    totFifa += rank[matchWinner];
-    result = ((iteration >> (m41 - 3)) & 0x1);
-    matchWinner = game[m41][result];
-    game[m45][0] = matchWinner;
-    totFifa += rank[matchWinner];
-    result = ((iteration >> (m42 - 3)) & 0x1);
-    matchWinner = game[m42][result];
-    game[m45][1] = matchWinner;
-    totFifa += rank[matchWinner];
-    result = ((iteration >> (m43 - 3)) & 0x1);
-    matchWinner = game[m43][result];
-    game[m48][0] = matchWinner;
-    totFifa += rank[matchWinner];
-    result = ((iteration >> (m44 - 3)) & 0x1);
-    matchWinner = game[m44][result];
-    game[m48][1] = matchWinner;
-    totFifa += rank[matchWinner];
+    setup_45_48(iteration);
+    totFifa += rank[game[m46][1]];
+    totFifa += rank[game[m47][1]];
+    totFifa += rank[game[m46][0]];
+    totFifa += rank[game[m47][0]];
+    totFifa += rank[game[m45][0]];
+    totFifa += rank[game[m45][1]];
+    totFifa += rank[game[m48][0]];
+    totFifa += rank[game[m48][1]];
 #ifndef NDEBUG
     // Kontrollera att alla fält match 45-48 är olika
     for (int match = m45; match <= m48; ++match) {
@@ -1327,8 +1304,8 @@ int main(int argc, char *argv[]) {
       }
     }
     // Avgör match 45 till 48, fyll i match 49 och 50
-    result = ((iteration >> (m45 - 3)) & 0x1);
-    matchWinner = game[m45][result];
+    uint64_t result = ((iteration >> (m45 - 3)) & 0x1);
+    e_team matchWinner = game[m45][result];
     game[m49][1] = matchWinner;
     totFifa += rank[matchWinner];
     result = ((iteration >> (m46 - 3)) & 0x1);
@@ -1494,23 +1471,7 @@ int main(int argc, char *argv[]) {
     showTredjeTab(thirdTable, tableA, tableB, tableC, tableD, tableE, tableF);
     std::cout << '\n';
     // Avgör match 37 till 44, fyll i match 45 till 48
-    uint64_t result;
-    result = ((maxIteration >> (m37 - 3)) & 0x1);
-    game[m46][1] = game[m37][result];
-    result = ((maxIteration >> (m38 - 3)) & 0x1);
-    game[m47][1] = game[m38][result];
-    result = ((maxIteration >> (m39 - 3)) & 0x1);
-    game[m46][0] = game[m39][result];
-    result = ((maxIteration >> (m40 - 3)) & 0x1);
-    game[m47][0] = game[m40][result];
-    result = ((maxIteration >> (m41 - 3)) & 0x1);
-    game[m45][0] = game[m41][result];
-    result = ((maxIteration >> (m42 - 3)) & 0x1);
-    game[m45][1] = game[m42][result];
-    result = ((maxIteration >> (m43 - 3)) & 0x1);
-    game[m48][0] = game[m43][result];
-    result = ((maxIteration >> (m44 - 3)) & 0x1);
-    game[m48][1] = game[m44][result];
+    setup_45_48(maxIteration);
     for (int match = m45; match <= m48; ++match) {
       for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
         const e_team tt = game[match][hemmaBorta];
@@ -1523,7 +1484,7 @@ int main(int argc, char *argv[]) {
       }
     }
     // Avgör match 45 till 48, fyll i match 49 och 50
-    result = ((maxIteration >> (m45 - 3)) & 0x1);
+    uint64_t result = ((maxIteration >> (m45 - 3)) & 0x1);
     game[m49][1] = game[m45][result];
     result = ((maxIteration >> (m46 - 3)) & 0x1);
     game[m49][0] = game[m46][result];
@@ -2229,4 +2190,24 @@ void groupFand3rd(int argc, gsl::span<char *> span_argv, e_team winA,
   *tableD = tableFromTeam('D', winD, scndD, *rd3D) << shift_15;
   *tableE = tableFromTeam('E', winE, scndE, *rd3E) << shift_20;
   *tableF = tableFromTeam('F', *winF, *scndF, *rd3F) << shift_25;
+}
+void setup_45_48(uint64_t iteration)
+{
+    uint64_t result;
+    result = ((iteration >> (m37 - 3)) & 0x1);
+    game[m46][1] = game[m37][result];
+    result = ((iteration >> (m38 - 3)) & 0x1);
+    game[m47][1] = game[m38][result];
+    result = ((iteration >> (m39 - 3)) & 0x1);
+    game[m46][0] = game[m39][result];
+    result = ((iteration >> (m40 - 3)) & 0x1);
+    game[m47][0] = game[m40][result];
+    result = ((iteration >> (m41 - 3)) & 0x1);
+    game[m45][0] = game[m41][result];
+    result = ((iteration >> (m42 - 3)) & 0x1);
+    game[m45][1] = game[m42][result];
+    result = ((iteration >> (m43 - 3)) & 0x1);
+    game[m48][0] = game[m43][result];
+    result = ((iteration >> (m44 - 3)) & 0x1);
+    game[m48][1] = game[m44][result];
 }
