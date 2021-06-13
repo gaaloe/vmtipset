@@ -17,8 +17,13 @@ using std::cerr;
 // ./a.out 0 1 tur ita den fin ned ukr eng cro esp swe hun por wal bel aut sco
 // tur ita
 //
+// Gruppspel, treor, m37..m40
 // ./a.out 0 1 tur ita den fin ned ukr eng cro esp swe hun por wal bel aut sco
 // tur ita den ned
+//
+// Gruppspel, treor, m37..m42
+// ./a.out 0 1 tur ita den fin ned ukr eng cro esp swe hun por wal bel aut sco
+// tur ita den ned hun cro
 //
 // seq -w 0 3 | parallel -u ./a.out {} 524287
 // seq -w 0 15 | parallel -u ./a.out {} 16127
@@ -156,6 +161,7 @@ const int shift_30 = 30;
 const int shift_34 = 34; // Shift of beginning of everything non-group play
 const int shift_36 = 36;
 const int shift_38 = 38;
+const int shift_40 = 40;
 const uint64_t mask_1FUL = 0x1FUL; // Five time bit one, for & operator
 const uint64_t mask_FUL = 0xFUL;
 void groupFand3rd(int argc, gsl::span<char *> span_argv, e_team winA,
@@ -1804,19 +1810,53 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                                (strcmp(names[game[m40][1]], arg22) == 0));
                   if (argc > 23) {
                     DEBUG_allege(argc > 24);
+                    // m41: Winner Group F eller 3rd Group A/B/C
+                    // m42: Runner-up Group D eller Runner-up Group E
+                    char *const arg23 = span_argv[23];
+                    DEBUG_allege((strcmp(names[winF], arg23) == 0) ||
+                                 (strcmp(names[game[m41][1]], arg23) == 0));
+                    char *const arg24 = span_argv[24];
+                    DEBUG_allege((strcmp(names[scndD], arg24) == 0) ||
+                                 (strcmp(names[scndE], arg24) == 0));
+                    if (argc > 25) {
+                      DEBUG_allege(argc > 26);
+                    } else {
+                      *completeFactor = 1UL << shift_40;
+                      *offsetStride *= 1UL << shift_40;
+                      if (strcmp(names[scndC], arg19) == 0) {
+                        *offsetStride += 1UL << shift_34;
+                      }
+                      if (strcmp(names[scndB], arg20) == 0) {
+                        *offsetStride += 1UL << (shift_34 + 1);
+                      }
+                      if (strcmp(names[game[m39][1]], arg21) == 0) {
+                        *offsetStride += 1UL << shift_36;
+                      }
+                      if (strcmp(names[game[m40][1]], arg22) == 0) {
+                        *offsetStride += 1UL << (shift_36 + 1);
+                      }
+                      if (strcmp(names[game[m41][1]], arg23) == 0) {
+                        *offsetStride += 1UL << shift_38;
+                      }
+                      if (strcmp(names[scndE], arg24) == 0) {
+                        *offsetStride += 1UL << (shift_38 + 1);
+                      }
+                      *offsetStride += rd3bits + tableF + tableE + tableD +
+                                       tableC + tableB + tableA;
+                    }
                   } else {
                     *completeFactor = 1UL << shift_38;
                     *offsetStride *= 1UL << shift_38;
-                    if (!strcmp(names[scndC], arg19)) {
+                    if (strcmp(names[scndC], arg19) == 0) {
                       *offsetStride += 1UL << shift_34;
                     }
-                    if (!strcmp(names[scndB], arg20)) {
+                    if (strcmp(names[scndB], arg20) == 0) {
                       *offsetStride += 1UL << (shift_34 + 1);
                     }
-                    if (!strcmp(names[game[m39][1]], arg21)) {
+                    if (strcmp(names[game[m39][1]], arg21) == 0) {
                       *offsetStride += 1UL << shift_36;
                     }
-                    if (!strcmp(names[game[m40][1]], arg22)) {
+                    if (strcmp(names[game[m40][1]], arg22) == 0) {
                       *offsetStride += 1UL << (shift_36 + 1);
                     }
                     *offsetStride += rd3bits + tableF + tableE + tableD +
@@ -1825,10 +1865,10 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                 } else {
                   *completeFactor = 1UL << shift_36;
                   *offsetStride *= 1UL << shift_36;
-                  if (!strcmp(names[scndC], arg19)) {
+                  if (strcmp(names[scndC], arg19) == 0) {
                     *offsetStride += 1UL << shift_34;
                   }
-                  if (!strcmp(names[scndB], arg20)) {
+                  if (strcmp(names[scndB], arg20) == 0) {
                     *offsetStride += 1UL << (shift_34 + 1);
                   }
                   *offsetStride += rd3bits + tableF + tableE + tableD + tableC +
