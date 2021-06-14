@@ -154,6 +154,7 @@ const int shift_34 = 34; // Shift of beginning of everything non-group play
 const int shift_36 = 36;
 const int shift_38 = 38;
 const int shift_40 = 40;
+const int shift_42 = 42;
 const uint64_t mask_1FUL = 0x1FUL; // Five time bit one, for & operator
 const uint64_t mask_FUL = 0xFUL;
 void groupFand3rd(int argc, gsl::span<char *> span_argv, e_team winA,
@@ -1781,7 +1782,39 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                       char *const arg26 = span_argv[26];
                       DEBUG_allege((strcmp(names[winD], arg26) == 0) ||
                                    (strcmp(names[scndF], arg26) == 0));
-                      //TODO fortsätt här
+                      if (argc > 27) {
+                        DEBUG_allege(argc > 28);
+                        // TODO(henrik) fortsätt här
+                      } else {
+                        *completeFactor = 1UL << shift_42;
+                        *offsetStride *= 1UL << shift_42;
+                        if (strcmp(names[scndC], arg19) == 0) {
+                          *offsetStride += 1UL << shift_34;
+                        }
+                        if (strcmp(names[scndB], arg20) == 0) {
+                          *offsetStride += 1UL << (shift_34 + 1);
+                        }
+                        if (strcmp(names[game[m39][1]], arg21) == 0) {
+                          *offsetStride += 1UL << shift_36;
+                        }
+                        if (strcmp(names[game[m40][1]], arg22) == 0) {
+                          *offsetStride += 1UL << (shift_36 + 1);
+                        }
+                        if (strcmp(names[game[m41][1]], arg23) == 0) {
+                          *offsetStride += 1UL << shift_38;
+                        }
+                        if (strcmp(names[scndE], arg24) == 0) {
+                          *offsetStride += 1UL << (shift_38 + 1);
+                        }
+                        if (strcmp(names[game[m43][1]], arg25) == 0) {
+                          *offsetStride += 1UL << shift_40;
+                        }
+                        if (strcmp(names[scndF], arg26) == 0) {
+                          *offsetStride += 1UL << (shift_40 + 1);
+                        }
+                        *offsetStride += rd3bits + tableF + tableE + tableD +
+                                         tableC + tableB + tableA;
+                      }
                     } else {
                       *completeFactor = 1UL << shift_40;
                       *offsetStride *= 1UL << shift_40;
