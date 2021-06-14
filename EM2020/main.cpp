@@ -1839,28 +1839,6 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                       *offsetStride += rd3bits + tableF + tableE + tableD +
                                        tableC + tableB + tableA;
                     }
-                    *completeFactor = 1UL << shift_40;
-                    *offsetStride *= 1UL << shift_40;
-                    if (strcmp(names[scndC], arg19) == 0) {
-                      *offsetStride += 1UL << shift_34;
-                    }
-                    if (strcmp(names[scndB], arg20) == 0) {
-                      *offsetStride += 1UL << (shift_34 + 1);
-                    }
-                    if (strcmp(names[game[m39][1]], arg21) == 0) {
-                      *offsetStride += 1UL << shift_36;
-                    }
-                    if (strcmp(names[game[m40][1]], arg22) == 0) {
-                      *offsetStride += 1UL << (shift_36 + 1);
-                    }
-                    if (strcmp(names[game[m41][1]], arg23) == 0) {
-                      *offsetStride += 1UL << shift_38;
-                    }
-                    if (strcmp(names[scndE], arg24) == 0) {
-                      *offsetStride += 1UL << (shift_38 + 1);
-                    }
-                    *offsetStride += rd3bits + tableF + tableE + tableD +
-                                     tableC + tableB + tableA;
                   } else {
                     *completeFactor = 1UL << shift_38;
                     *offsetStride *= 1UL << shift_38;
