@@ -437,31 +437,41 @@ struct s_saabare {
   e_team vinnare[1];
   int poang;
 } saab[] = {
-{"ANNY",
-{{ita,	sui	},
-{bel,	den	},
-{ned,	ukr	},
-{eng,	cro	},
-{esp,	swe	},
-{fra,	ger	}},
-	
-{ita	, bel	, ned	, eng	, cro	, esp	, fra	, ger	},
-	
-{ita	, bel	, fra	, ger	},
-	
-{bel	, fra	},
-	
-{bel	},
-0
-},
-
-    {"Test",
-     {{tur, ita}, {den, fin}, {aut, mkd}, {eng, cro}, {pol, svk}, {hun, por}},
-     {tur, den, aut, eng, pol, hun, ita, cro},
-     {tur, aut, pol, ita},
-     {tur, pol},
-     {tur},
-     0}
+    {"ANNY",
+     {{ita, sui}, {bel, den}, {ned, ukr}, {eng, cro}, {esp, swe}, {fra, ger}},
+     {ita, bel, ned, eng, cro, esp, fra, ger},
+     {ita, bel, fra, ger},
+     {bel, fra},
+     {bel},
+     0},
+    {"ANSE",
+     {{ita, sui}, {den, bel}, {ned, ukr}, {eng, cro}, {esp, swe}, {fra, por}},
+     {ita, den, bel, eng, esp, fra, por, ger},
+     {bel, eng, fra, por},
+     {bel, fra},
+     {bel},
+     0},
+    {"STROEL",
+     {{ita, sui}, {bel, den}, {ned, aut}, {eng, cro}, {esp, swe}, {fra, ger}},
+     {ita, bel, ned, eng, esp, fra, ger, por},
+     {bel, fra, eng, ger},
+     {fra, bel},
+     {fra},
+     0},
+    {"STJAVE",
+     {{ita, tur}, {bel, rus}, {ned, aut}, {eng, cro}, {esp, swe}, {por, ger}},
+     {rus, cro, por, ita, ger, esp, bel, fra},
+     {por, ger, fra, ita},
+     {por, ger},
+     {por},
+     0},
+    {"ADER",
+     {{sui, ita}, {bel, rus}, {ned, aut}, {eng, cro}, {esp, pol}, {por, fra}},
+     {ita, sui, swe, bel, cro, por, fra, esp},
+     {por, bel, swe, esp},
+     {por, esp},
+     {por},
+     0},
 };
 const int poangGroupWinner = 10;
 const int poangGroupSecond = 10;
