@@ -1453,8 +1453,7 @@ int main(int argc, char *argv[]) {
     const uint64_t tableF = (maxIteration >> shift_25) & mask_1FUL;
     const uint64_t thirdTable = (maxIteration >> shift_30) & mask_FUL;
     // Skriv ut
-    std::cout << __FILE__ << __LINE__ << ' ' << span_argv[1] << ' '
-              << offsetStride << ' ';
+    std::cout << __FILE__ << __LINE__ << ' ' << span_argv[1] << ' ';
     std::ios init(nullptr);
     init.copyfmt(std::cout);
     std::cout << std::hex;
