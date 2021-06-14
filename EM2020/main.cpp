@@ -436,14 +436,33 @@ struct s_saabare {
   e_team finallag[2];
   e_team vinnare[1];
   int poang;
-} saab[1] = {
+} saab[] = {
+{"ANNY",
+{{ita,	sui	},
+{bel,	den	},
+{ned,	ukr	},
+{eng,	cro	},
+{esp,	swe	},
+{fra,	ger	}},
+	
+{ita	, bel	, ned	, eng	, cro	, esp	, fra	, ger	},
+	
+{ita	, bel	, fra	, ger	},
+	
+{bel	, fra	},
+	
+{bel	},
+0
+},
+
     {"Test",
      {{tur, ita}, {den, fin}, {aut, mkd}, {eng, cro}, {pol, svk}, {hun, por}},
      {tur, den, aut, eng, pol, hun, ita, cro},
      {tur, aut, pol, ita},
      {tur, pol},
      {tur},
-     0}};
+     0}
+};
 const int poangGroupWinner = 10;
 const int poangGroupSecond = 10;
 const int poangSwapWinner = 7;
