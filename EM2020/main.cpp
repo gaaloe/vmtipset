@@ -556,6 +556,20 @@ struct s_saabare {
      {ger, fra},
      {fra},
      0},
+    {"HANO",
+     {{ita, sui}, {bel, den}, {ned, aut}, {eng, cro}, {esp, swe}, {ger, fra}},
+     {ita, bel, ned, eng, cro, esp, fra, ger},
+     {eng, ned, ger, fra},
+     {ger, eng},
+     {eng},
+     0},
+    {"JOMA",
+     {{ita, tur}, {bel, rus}, {ned, ukr}, {eng, cro}, {esp, pol}, {fra, ger}},
+     {bel, ita, fra, cro, esp, ger, ned, tur},
+     {bel, fra, esp, ned},
+     {fra, esp},
+     {fra},
+     0},
 };
 const int poangGroupWinner = 10;
 const int poangGroupSecond = 10;
