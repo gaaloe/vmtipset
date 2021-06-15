@@ -472,7 +472,20 @@ struct s_saabare {
      {por, esp},
      {por},
      0},
-};
+    {"STJOEL",
+     {{sui, ita}, {bel, rus}, {aut, ned}, {eng, cro}, {esp, pol}, {fra, ger}},
+     {ita, ned, por, bel, pol, fra, eng, den},
+     {bel, eng, pol, den},
+     {eng, bel},
+     {eng},
+     0},
+    {"STHRJO",
+     {{sui, ita}, {bel, den}, {ned, ukr}, {cro, eng}, {esp, swe}, {por, ger}},
+     {por, eng, bel, sui, fra, ita, esp, ger},
+     {bel, eng, ger, fra},
+     {bel, fra},
+     {bel},
+     0}};
 const int poangGroupWinner = 10;
 const int poangGroupSecond = 10;
 const int poangSwapWinner = 7;
