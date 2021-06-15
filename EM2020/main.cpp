@@ -1467,7 +1467,9 @@ int main(int argc, char *argv[]) {
     const uint64_t tableE = (iteration >> shift_20) & mask_1FUL;
     const uint64_t tableF = (iteration >> shift_25) & mask_1FUL;
     const uint64_t thirdTable = (iteration >> shift_30) & mask_FUL;
-    saab[0].poang = 0;
+    for (auto &saabare : saab) {
+      saabare.poang = 0;
+    }
     totFifa = 0;
     calcGrundSpel('A', tableA);
     calcGrundSpel('B', tableB);
@@ -1520,8 +1522,8 @@ int main(int argc, char *argv[]) {
       }
     }
 #endif
-    {
-      gsl::span<e_team> span_quarts(saab[0].kvartsfinallag, 8);
+    for (auto &saabare : saab) {
+      gsl::span<e_team> span_quarts(saabare.kvartsfinallag, 8);
       for (int match = m45; match <= m48; ++match) {
         for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
           const e_team tt = game[match][hemmaBorta];
@@ -1529,7 +1531,7 @@ int main(int argc, char *argv[]) {
               std::find_if(span_quarts.cbegin(), span_quarts.cend(),
                            [tt](const e_team tm) { return tt == tm; });
           if (f != span_quarts.cend()) {
-            saab[0].poang += poangKvarts;
+            saabare.poang += poangKvarts;
           }
         }
       }
@@ -1568,8 +1570,8 @@ int main(int argc, char *argv[]) {
       }
     }
 #endif
-    {
-      gsl::span<e_team> span_semi(saab[0].semifinallag, 4);
+    for (auto &saabare : saab) {
+      gsl::span<e_team> span_semi(saabare.semifinallag, 4);
       for (int match = m49; match <= m50; ++match) {
         for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
           const e_team tt = game[match][hemmaBorta];
@@ -1577,7 +1579,7 @@ int main(int argc, char *argv[]) {
               std::find_if(span_semi.cbegin(), span_semi.cend(),
                            [tt](const e_team tm) { return tt == tm; });
           if (f != span_semi.cend()) {
-            saab[0].poang += poangSemi;
+            saabare.poang += poangSemi;
           }
         }
       }
@@ -1591,15 +1593,15 @@ int main(int argc, char *argv[]) {
     matchWinner = game[m50][result];
     game[finalMatchNumber][1] = matchWinner;
     totFifa += rank[matchWinner];
-    {
-      gsl::span<e_team> span_final(saab[0].finallag, 2);
+    for (auto &saabare : saab) {
+      gsl::span<e_team> span_final(saabare.finallag, 2);
       for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
         const e_team tt = game[finalMatchNumber][hemmaBorta];
         const auto *f =
             std::find_if(span_final.cbegin(), span_final.cend(),
                          [tt](const e_team tm) { return tt == tm; });
         if (f != span_final.cend()) {
-          saab[0].poang += poangFinal;
+          saabare.poang += poangFinal;
         }
       }
     }
@@ -1608,13 +1610,14 @@ int main(int argc, char *argv[]) {
     matchWinner = game[finalMatchNumber][result];
     game[0][0] = matchWinner;
     totFifa += rank[matchWinner];
-    if (game[0][0] == saab[0].vinnare[0]) {
-      saab[0].poang += poangVinnare;
+    for (auto &saabare : saab) {
+      if (game[0][0] == saabare.vinnare[0]) {
+        saabare.poang += poangVinnare;
+      }
     }
     if (totFifa > maxFifa) {
       maxFifa = totFifa;
       maxFifaIteration = iteration;
-#define FIFARANK
 #ifdef FIFARANK
       // Skriv ut
       std::ios init(nullptr);
@@ -1666,10 +1669,60 @@ int main(int argc, char *argv[]) {
       std::cout << '\n';
 #endif
     }
-    if (maxSoFar < saab[0].poang) {
-      // Utskrift när max ökas
-      maxSoFar = saab[0].poang;
-      maxIteration = iteration;
+    for (auto &saabare : saab) {
+      if (maxSoFar < saabare.poang) {
+        // Utskrift när max ökas
+        maxSoFar = saabare.poang;
+        maxIteration = iteration;
+        // Skriv ut
+        std::ios init(nullptr);
+        init.copyfmt(std::cout);
+        std::cout << std::hex;
+        std::cout.width(13);
+        std::cout << iteration << '\n';
+        std::cout.copyfmt(init); // restore default formatting
+        showGrundSpel('A', tableA);
+        showGrundSpel('B', tableB);
+        showGrundSpel('C', tableC);
+        showGrundSpel('D', tableD);
+        showGrundSpel('E', tableE);
+        showGrundSpel('F', tableF);
+        std::cout << '\n';
+        for (int match = m45; match <= m48; ++match) {
+          for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+            const e_team tt = game[match][hemmaBorta];
+            std::cout << tt;
+            if (match != m48 || hemmaBorta != 1) {
+              std::cout << ',';
+            } else {
+              std::cout << ' ';
+            }
+          }
+        }
+        for (int match = m49; match <= m50; ++match) {
+          for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+            const e_team tt = game[match][hemmaBorta];
+            std::cout << tt;
+            if (match != m50 || hemmaBorta != 1) {
+              std::cout << ',';
+            } else {
+              std::cout << ' ';
+            }
+          }
+        }
+        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+          const e_team tt = game[finalMatchNumber][hemmaBorta];
+          std::cout << tt;
+          if (hemmaBorta != 1) {
+            std::cout << ',';
+          } else {
+            std::cout << ' ';
+          }
+        }
+        std::cout << game[0][0]; // Vinnaren!
+        std::cout << ' ' << maxSoFar;
+        std::cout << '\n';
+      }
     }
   }
   {
