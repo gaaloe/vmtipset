@@ -633,6 +633,28 @@ struct s_saabare {
      {fra, esp},
      {fra},
      0},
+    {"STJOFR1",
+     {{ita, sui}, {bel, rus}, {ned, aut}, {eng, cro}, {pol, swe}, {fra, por}},
+     {sui, ita, ned, ger, swe, fra, eng, den},
+     {ita, ned, fra, eng},
+     {ned, fra},
+     {ned},
+     0},
+    {"STJASH",
+     {{ita, sui}, {bel, den}, {ned, aut}, {eng, cze}, {esp, swe}, {fra, ger}},
+     {fra, bel, esp, ita, eng, swe, ger, den},
+     {bel, fra, eng, ger},
+     {bel, eng},
+     {eng},
+     0},
+    {"STLILA",
+     {{ita, tur}, {bel, den}, {ned, ukr}, {eng, cro}, {esp, swe}, {fra, ger}},
+     {tur, ita, por, bel, cro, fra, ger, esp},
+     {bel, ita, ger, fra},
+     {bel, ger},
+     {bel},
+     0},
+
 };
 const int poangGroupWinner = 10;
 const int poangGroupSecond = 10;
