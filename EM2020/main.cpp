@@ -676,6 +676,7 @@ struct s_saabare {
      {fra},
      0},
 };
+s_saabare* maxSaabare = nullptr;
 const int poangGroupWinner = 10;
 const int poangGroupSecond = 10;
 const int poangSwapWinner = 7;
@@ -1673,6 +1674,7 @@ int main(int argc, char *argv[]) {
       if (maxSoFar < saabare.poang) {
         // Utskrift när max ökas
         maxSoFar = saabare.poang;
+        maxSaabare = &saabare;
         maxIteration = iteration;
         // Skriv ut
         std::ios init(nullptr);
@@ -1721,6 +1723,7 @@ int main(int argc, char *argv[]) {
         }
         std::cout << game[0][0]; // Vinnaren!
         std::cout << ' ' << maxSoFar;
+        std::cout << ' ' << maxSaabare->namnkod;
         std::cout << '\n';
       }
     }
