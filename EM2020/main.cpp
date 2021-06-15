@@ -429,7 +429,7 @@ e_team game[1 + finalMatchNumber][2] = {
     {} /*43-44, 48*/,  {} /*46-45, 49*/,  {} /*48-47, 50*/, {} /*49-50, 51*/
 };
 struct s_saabare {
-  char namnkod[7];
+  const char *namnkod;
   e_team grupp_placering[6][2];
   e_team kvartsfinallag[8];
   e_team semifinallag[4];
@@ -568,6 +568,27 @@ struct s_saabare {
      {bel, ita, fra, cro, esp, ger, ned, tur},
      {bel, fra, esp, ned},
      {fra, esp},
+     {fra},
+     0},
+    {"SELI",
+     {{ita, tur}, {bel, den}, {ned, aut}, {eng, cro}, {esp, swe}, {fra, por}},
+     {ita, bel, ned, eng, esp, fra, por, swe},
+     {bel, eng, fra, por},
+     {eng, fra},
+     {fra},
+     0},
+    {"SINI",
+     {{ita, sui}, {bel, rus}, {ned, aut}, {cro, eng}, {esp, swe}, {ger, por}},
+     {ita, bel, ned, eng, swe, por, fra, esp},
+     {ita, swe, esp, ned},
+     {ita, esp},
+     {ita},
+     0},
+    {"STBJJO1",
+     {{ita, sui}, {bel, rus}, {ned, ukr}, {eng, cze}, {esp, swe}, {fra, ger}},
+     {ita, bel, rus, ned, swe, eng, esp, fra},
+     {bel, ned, eng, fra},
+     {fra, bel},
      {fra},
      0},
 };
