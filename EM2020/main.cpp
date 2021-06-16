@@ -37,6 +37,27 @@ int totFifa;
 int maxFifa = 0;
 static uint64_t maxFifaIteration = 0;
 unsigned whosThird(uint64_t tableX);
+constexpr unsigned int str2int(const char *str, int h) {
+  // Detta nya C++-uttryck gör att man kan switch/casea på strängar!
+  // See
+  // "https://stackoverflow.com/questions/16388510/evaluate-a-string-with-a-switch-in-c"
+  return str[h] == 0 ? 5381 : (str2int(str, h + 1) * 33) ^ str[h];
+}
+constexpr unsigned int str2int(const char *str) {
+  // Detta nya C++-uttryck gör att man kan switch/casea på strängar!
+  // See
+  // "https://stackoverflow.com/questions/16388510/evaluate-a-string-with-a-switch-in-c"
+  return str[0] == 0 ? 5381 : (str2int(str, 1) * 33) ^ str[0];
+}
+bool streq(const char *str1, const char *str2) {
+  for (; *str1 == *str2; str1++, str2++) {
+    if (*str1 == '\0') {
+      return *str2 == '\0';
+    }
+  }
+  return false;
+}
+
 int rank20procent(int fifaRank) {
   // Really silly that clang-tidy can not shut up sometimes:
   const int _20 = 20;
@@ -1450,13 +1471,23 @@ int main(int argc, char *argv[]) {
   assert(tableFromTeam('F', ger, fra, por) == _3210);
   if (argc == 1) {
     for (auto &saabare : saab) {
-      std::cout << saabare.namnkod << '\n';
-      std::cout << "./a.out 0 1 ";
-      for (char grp = 'A'; grp <= 'F'; ++grp) {
-        std::cout << saabare.grupp_placering[grp - 'A'][0] << ' '
-                  << saabare.grupp_placering[grp - 'A'][1] << ' ';
+      switch (str2int(saabare.namnkod)) {
+      case str2int("STHRJO"):
+      case str2int("STPEDAL"):
+      case str2int("ADER"):
+      case str2int("ULPE"):
+        // Dessa har 460 p i bästa fall
+        break;
+      default:
+        std::cout << saabare.namnkod << '\n';
+        std::cout << "./a.out 0 1 ";
+        for (char grp = 'A'; grp <= 'F'; ++grp) {
+          std::cout << saabare.grupp_placering[grp - 'A'][0] << ' '
+                    << saabare.grupp_placering[grp - 'A'][1] << ' ';
+        }
+        std::cout << '\n';
+        break;
       }
-      std::cout << '\n';
     }
     for (auto &saabare : saab) {
       for (auto kv : saabare.kvartsfinallag) {
@@ -1736,7 +1767,8 @@ int main(int argc, char *argv[]) {
     }
 #ifndef FIFARANK
     for (auto &saabare : saab) {
-      if (maxSoFar < saabare.poang) {
+      if (maxSoFar < saabare.poang ||
+          (maxSoFar == saabare.poang && maxSaabare != &saabare)) {
         // Utskrift när max ökas
         maxSoFar = saabare.poang;
         maxSaabare = &saabare;
@@ -1921,7 +1953,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
     DEBUG_allege(argc > 4);
     char *const arg3 = span_argv[3];
     char *const arg4 = span_argv[4];
-    const e_team winA = strcmp("tur", arg3) == 0
+    const e_team winA = streq("tur", arg3)
                             ? tur
                             : strcmp("ita", arg3) == 0
                                   ? ita
