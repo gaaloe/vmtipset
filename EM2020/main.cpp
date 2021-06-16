@@ -800,6 +800,13 @@ struct s_saabare {
      {ita, ger},
      {ger},
      0},
+    {"MALO",
+     {{ita, tur}, {rus, den}, {ukr, ned}, {eng, cro}, {esp, swe}, {por, ger}},
+     {ita, den, fra, ukr, esp, por, swe, ger},
+     {fra, ger, /*eps*/ esp, por},
+     {por, ger},
+     {por},
+     0},
 
 };
 s_saabare *maxSaabare = nullptr;
