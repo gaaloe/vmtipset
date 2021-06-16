@@ -462,6 +462,7 @@ struct s_saabare {
 } saab[] = {
     {"ANNY",
      {{ita, sui}, {bel, den}, {ned, ukr}, {eng, cro}, {esp, swe}, {fra, ger}},
+     /*m44 blir eng-ger, men ingen av dom till m48?*/
      {ita, bel, ned, eng, cro, esp, fra, ger},
      {ita, bel, fra, ger},
      {bel, fra},
@@ -1543,6 +1544,10 @@ int main(int argc, char *argv[]) {
       case str2int("ULPE"):
       case str2int("SFDA"):
         // Dessa har 460 p i bästa fall
+        break;
+      case str2int("ANNY"):
+      case str2int("STULJO"):
+        // Dessa har kommenterade inkonsekvenser
         break;
       default:
         std::cout << saabare.namnkod << '\n';
