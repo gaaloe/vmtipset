@@ -2060,59 +2060,90 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
               uint64_t tableF;
               uint64_t rd3bits = 0; // 4 bits describing the ABCD..CDEF
               groupF(argc, span_argv, &winF, &scndF, &rd3F, &tableF);
-              group3rd(argc, span_argv, winA, winB, winC, winD, winE, winF,
-                       scndA, scndB, scndC, scndD, scndE, scndF, &rd3A, &rd3B,
-                       &rd3C, &rd3D, &rd3E, &rd3F, &rd3bits, &tableA, &tableB,
-                       &tableC, &tableD, &tableE, &tableF);
-              if (argc > 19) {
-                DEBUG_allege(argc > 20);
-                // Grundspel, tredjeplats, två sextondelsmatcher:
-                // m37: Winner Group A eller Runner-up Group C?
-                // m38: Runner-up Group A eller Runner-up Group B?
-                char *const arg19 = span_argv[19];
-                DEBUG_allege((strcmp(names[winA], arg19) == 0) ||
-                             (strcmp(names[scndC], arg19) == 0));
-                char *const arg20 = span_argv[20];
-                DEBUG_allege((strcmp(names[scndA], arg20) == 0) ||
-                             (strcmp(names[scndB], arg20) == 0));
-                if (argc > 21) {
-                  DEBUG_allege(argc > 22);
-                  // m39: Winner Group B eller 3rd Group A/D/E/F?
-                  // m40: Winner Group C eller 3rd Group D/E/F
-                  // OBS att game[m{39,40,41,43}][1] satts av group3rd()
-                  // ovan
-                  char *const arg21 = span_argv[21];
-                  DEBUG_allege((strcmp(names[winB], arg21) == 0) ||
-                               (strcmp(names[game[m39][1]], arg21) == 0));
-                  char *const arg22 = span_argv[22];
-                  DEBUG_allege((strcmp(names[winC], arg22) == 0) ||
-                               (strcmp(names[game[m40][1]], arg22) == 0));
-                  if (argc > 23) {
-                    // m41: Winner Group F eller 3rd Group A/B/C
-                    // m42: Runner-up Group D eller Runner-up Group E
-                    DEBUG_allege(argc > 24);
-                    char *const arg23 = span_argv[23];
-                    DEBUG_allege((strcmp(names[winF], arg23) == 0) ||
-                                 (strcmp(names[game[m41][1]], arg23) == 0));
-                    char *const arg24 = span_argv[24];
-                    DEBUG_allege((strcmp(names[scndD], arg24) == 0) ||
-                                 (strcmp(names[scndE], arg24) == 0));
-                    if (argc > 25) {
-                      DEBUG_allege(argc > 26);
-                      // m43: Winner Group E eller 3rd Group A/B/C/D
-                      // m44: Winner Group D eller Runner-up Group F
-                      char *const arg25 = span_argv[25];
-                      DEBUG_allege((strcmp(names[winE], arg25) == 0) ||
-                                   (strcmp(names[game[m43][1]], arg25) == 0));
-                      char *const arg26 = span_argv[26];
-                      DEBUG_allege((strcmp(names[winD], arg26) == 0) ||
-                                   (strcmp(names[scndF], arg26) == 0));
-                      if (argc > 27) {
-                        DEBUG_allege(argc > 28);
-                        // TODO(henrik) fortsätt här
+              if (argc > 15) {
+                group3rd(argc, span_argv, winA, winB, winC, winD, winE, winF,
+                         scndA, scndB, scndC, scndD, scndE, scndF, &rd3A, &rd3B,
+                         &rd3C, &rd3D, &rd3E, &rd3F, &rd3bits, &tableA, &tableB,
+                         &tableC, &tableD, &tableE, &tableF);
+                if (argc > 19) {
+                  DEBUG_allege(argc > 20);
+                  // Grundspel, tredjeplats, två sextondelsmatcher:
+                  // m37: Winner Group A eller Runner-up Group C?
+                  // m38: Runner-up Group A eller Runner-up Group B?
+                  char *const arg19 = span_argv[19];
+                  DEBUG_allege((strcmp(names[winA], arg19) == 0) ||
+                               (strcmp(names[scndC], arg19) == 0));
+                  char *const arg20 = span_argv[20];
+                  DEBUG_allege((strcmp(names[scndA], arg20) == 0) ||
+                               (strcmp(names[scndB], arg20) == 0));
+                  if (argc > 21) {
+                    DEBUG_allege(argc > 22);
+                    // m39: Winner Group B eller 3rd Group A/D/E/F?
+                    // m40: Winner Group C eller 3rd Group D/E/F
+                    // OBS att game[m{39,40,41,43}][1] satts av group3rd()
+                    // ovan
+                    char *const arg21 = span_argv[21];
+                    DEBUG_allege((strcmp(names[winB], arg21) == 0) ||
+                                 (strcmp(names[game[m39][1]], arg21) == 0));
+                    char *const arg22 = span_argv[22];
+                    DEBUG_allege((strcmp(names[winC], arg22) == 0) ||
+                                 (strcmp(names[game[m40][1]], arg22) == 0));
+                    if (argc > 23) {
+                      // m41: Winner Group F eller 3rd Group A/B/C
+                      // m42: Runner-up Group D eller Runner-up Group E
+                      DEBUG_allege(argc > 24);
+                      char *const arg23 = span_argv[23];
+                      DEBUG_allege((strcmp(names[winF], arg23) == 0) ||
+                                   (strcmp(names[game[m41][1]], arg23) == 0));
+                      char *const arg24 = span_argv[24];
+                      DEBUG_allege((strcmp(names[scndD], arg24) == 0) ||
+                                   (strcmp(names[scndE], arg24) == 0));
+                      if (argc > 25) {
+                        DEBUG_allege(argc > 26);
+                        // m43: Winner Group E eller 3rd Group A/B/C/D
+                        // m44: Winner Group D eller Runner-up Group F
+                        char *const arg25 = span_argv[25];
+                        DEBUG_allege((strcmp(names[winE], arg25) == 0) ||
+                                     (strcmp(names[game[m43][1]], arg25) == 0));
+                        char *const arg26 = span_argv[26];
+                        DEBUG_allege((strcmp(names[winD], arg26) == 0) ||
+                                     (strcmp(names[scndF], arg26) == 0));
+                        if (argc > 27) {
+                          DEBUG_allege(argc > 28);
+                          // TODO(henrik) fortsätt här
+                        } else {
+                          *completeFactor = 1UL << shift_42;
+                          *offsetStride *= 1UL << shift_42;
+                          if (strcmp(names[scndC], arg19) == 0) {
+                            *offsetStride += 1UL << shift_34;
+                          }
+                          if (strcmp(names[scndB], arg20) == 0) {
+                            *offsetStride += 1UL << (shift_34 + 1);
+                          }
+                          if (strcmp(names[game[m39][1]], arg21) == 0) {
+                            *offsetStride += 1UL << shift_36;
+                          }
+                          if (strcmp(names[game[m40][1]], arg22) == 0) {
+                            *offsetStride += 1UL << (shift_36 + 1);
+                          }
+                          if (strcmp(names[game[m41][1]], arg23) == 0) {
+                            *offsetStride += 1UL << shift_38;
+                          }
+                          if (strcmp(names[scndE], arg24) == 0) {
+                            *offsetStride += 1UL << (shift_38 + 1);
+                          }
+                          if (strcmp(names[game[m43][1]], arg25) == 0) {
+                            *offsetStride += 1UL << shift_40;
+                          }
+                          if (strcmp(names[scndF], arg26) == 0) {
+                            *offsetStride += 1UL << (shift_40 + 1);
+                          }
+                          *offsetStride += rd3bits + tableF + tableE + tableD +
+                                           tableC + tableB + tableA;
+                        }
                       } else {
-                        *completeFactor = 1UL << shift_42;
-                        *offsetStride *= 1UL << shift_42;
+                        *completeFactor = 1UL << shift_40;
+                        *offsetStride *= 1UL << shift_40;
                         if (strcmp(names[scndC], arg19) == 0) {
                           *offsetStride += 1UL << shift_34;
                         }
@@ -2131,18 +2162,12 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                         if (strcmp(names[scndE], arg24) == 0) {
                           *offsetStride += 1UL << (shift_38 + 1);
                         }
-                        if (strcmp(names[game[m43][1]], arg25) == 0) {
-                          *offsetStride += 1UL << shift_40;
-                        }
-                        if (strcmp(names[scndF], arg26) == 0) {
-                          *offsetStride += 1UL << (shift_40 + 1);
-                        }
                         *offsetStride += rd3bits + tableF + tableE + tableD +
                                          tableC + tableB + tableA;
                       }
                     } else {
-                      *completeFactor = 1UL << shift_40;
-                      *offsetStride *= 1UL << shift_40;
+                      *completeFactor = 1UL << shift_38;
+                      *offsetStride *= 1UL << shift_38;
                       if (strcmp(names[scndC], arg19) == 0) {
                         *offsetStride += 1UL << shift_34;
                       }
@@ -2155,50 +2180,32 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                       if (strcmp(names[game[m40][1]], arg22) == 0) {
                         *offsetStride += 1UL << (shift_36 + 1);
                       }
-                      if (strcmp(names[game[m41][1]], arg23) == 0) {
-                        *offsetStride += 1UL << shift_38;
-                      }
-                      if (strcmp(names[scndE], arg24) == 0) {
-                        *offsetStride += 1UL << (shift_38 + 1);
-                      }
                       *offsetStride += rd3bits + tableF + tableE + tableD +
                                        tableC + tableB + tableA;
                     }
                   } else {
-                    *completeFactor = 1UL << shift_38;
-                    *offsetStride *= 1UL << shift_38;
+                    *completeFactor = 1UL << shift_36;
+                    *offsetStride *= 1UL << shift_36;
                     if (strcmp(names[scndC], arg19) == 0) {
                       *offsetStride += 1UL << shift_34;
                     }
                     if (strcmp(names[scndB], arg20) == 0) {
                       *offsetStride += 1UL << (shift_34 + 1);
                     }
-                    if (strcmp(names[game[m39][1]], arg21) == 0) {
-                      *offsetStride += 1UL << shift_36;
-                    }
-                    if (strcmp(names[game[m40][1]], arg22) == 0) {
-                      *offsetStride += 1UL << (shift_36 + 1);
-                    }
                     *offsetStride += rd3bits + tableF + tableE + tableD +
                                      tableC + tableB + tableA;
                   }
                 } else {
-                  *completeFactor = 1UL << shift_36;
-                  *offsetStride *= 1UL << shift_36;
-                  if (strcmp(names[scndC], arg19) == 0) {
-                    *offsetStride += 1UL << shift_34;
-                  }
-                  if (strcmp(names[scndB], arg20) == 0) {
-                    *offsetStride += 1UL << (shift_34 + 1);
-                  }
+                  *completeFactor = 1UL << shift_34;
+                  *offsetStride *= 1UL << shift_34;
                   *offsetStride += rd3bits + tableF + tableE + tableD + tableC +
                                    tableB + tableA;
                 }
               } else {
-                *completeFactor = 1UL << shift_34;
-                *offsetStride *= 1UL << shift_34;
-                *offsetStride += rd3bits + tableF + tableE + tableD + tableC +
-                                 tableB + tableA;
+                *completeFactor = 1UL << shift_30;
+                *offsetStride *= 1UL << shift_30;
+                *offsetStride +=
+                    tableF + tableE + tableD + tableC + tableB + tableA;
               }
             } else {
               *completeFactor = 1UL << shift_25;
