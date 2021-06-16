@@ -776,6 +776,13 @@ struct s_saabare {
      {fra, bel},
      {fra},
      0},
+    {"STERMA1",
+     {{ita, tur}, {bel, den}, {ned, aut}, {cro, eng}, {esp, swe}, {ger, fra}},
+     {ger, cro, eng, esp, fra, bel, swe, ita},
+     {ger, cro, fra, esp},
+     {ger, fra},
+     {ger},
+     0},
 
 };
 s_saabare *maxSaabare = nullptr;
