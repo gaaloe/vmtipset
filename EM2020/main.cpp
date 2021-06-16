@@ -1459,8 +1459,7 @@ int main(int argc, char *argv[]) {
       std::cout << '\n';
     }
     for (auto &saabare : saab) {
-      for (int ii = 0; ii < 8; ++ii) {
-        e_team kv = saabare.kvartsfinallag[ii];
+      for (auto kv : saabare.kvartsfinallag) {
         bool foundIt = false;
         for (char grp = 'A'; grp <= 'F'; ++grp) {
           if (kv == saabare.grupp_placering[grp - 'A'][0] ||
