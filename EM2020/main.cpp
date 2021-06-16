@@ -1448,23 +1448,35 @@ int main(int argc, char *argv[]) {
   elaborateNames();
   assert(tableFromTeam('A', tur, ita, wal) == _0123); // En liten unittest
   assert(tableFromTeam('F', ger, fra, por) == _3210);
-  for (auto &saabare : saab) {
-    for (int ii = 0; ii < 8; ++ii) {
-      e_team kv = saabare.kvartsfinallag[ii];
-      bool foundIt = false;
+  if (argc == 1) {
+    for (auto &saabare : saab) {
+      std::cout << saabare.namnkod << '\n';
+      std::cout << "./a.out 0 1 ";
       for (char grp = 'A'; grp <= 'F'; ++grp) {
-        if (kv == saabare.grupp_placering[grp - 'A'][0] ||
-            kv == saabare.grupp_placering[grp - 'A'][1]) {
-          foundIt = true;
-          break;
+        std::cout << saabare.grupp_placering[grp - 'A'][0] << ' '
+                  << saabare.grupp_placering[grp - 'A'][1] << ' ';
+      }
+      std::cout << '\n';
+    }
+    for (auto &saabare : saab) {
+      for (int ii = 0; ii < 8; ++ii) {
+        e_team kv = saabare.kvartsfinallag[ii];
+        bool foundIt = false;
+        for (char grp = 'A'; grp <= 'F'; ++grp) {
+          if (kv == saabare.grupp_placering[grp - 'A'][0] ||
+              kv == saabare.grupp_placering[grp - 'A'][1]) {
+            foundIt = true;
+            break;
+          }
+        }
+        if (!foundIt && (kv != fra) && (kv != ger) && (kv != por) &&
+            (kv != swe) && (kv != den) && (kv != bel)) {
+          std::cout << saabare.namnkod << ' ' << kv << '\n';
+          exit(0);
         }
       }
-      if (!foundIt && (kv != fra) && (kv != ger) && (kv != por) &&
-          (kv != swe) && (kv != den) && (kv != bel)) {
-        std::cout << saabare.namnkod << ' ' << kv << '\n';
-        exit(0);
-      }
     }
+    exit(0);
   }
   uint64_t offsetStride = 0;
   gsl::span<char *> span_argv(argv, argc);
