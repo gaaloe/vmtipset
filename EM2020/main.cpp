@@ -165,6 +165,20 @@ void groupFand3rd(int argc, gsl::span<char *> span_argv, e_team winA,
                   e_team *rd3F, uint64_t *rd3bits, uint64_t *tableA,
                   uint64_t *tableB, uint64_t *tableC, uint64_t *tableD,
                   uint64_t *tableE, uint64_t *tableF);
+void groupF(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
+            e_team winC, e_team winD, e_team winE, e_team scndA, e_team scndB,
+            e_team scndC, e_team scndD, e_team scndE, e_team *winF,
+            e_team *scndF, e_team *rd3A, e_team *rd3B, e_team *rd3C,
+            e_team *rd3D, e_team *rd3E, e_team *rd3F, uint64_t *rd3bits,
+            uint64_t *tableA, uint64_t *tableB, uint64_t *tableC,
+            uint64_t *tableD, uint64_t *tableE, uint64_t *tableF);
+void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
+              e_team winC, e_team winD, e_team winE, e_team scndA, e_team scndB,
+              e_team scndC, e_team scndD, e_team scndE, e_team *winF,
+              e_team *scndF, e_team *rd3A, e_team *rd3B, e_team *rd3C,
+              e_team *rd3D, e_team *rd3E, e_team *rd3F, uint64_t *rd3bits,
+              uint64_t *tableA, uint64_t *tableB, uint64_t *tableC,
+              uint64_t *tableD, uint64_t *tableE, uint64_t *tableF);
 void setup_45_48(uint64_t iteration);
 
 uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
@@ -1074,6 +1088,8 @@ void calcGrundSpel(char grp, uint64_t table) {
     cerr << __FILE__ << __LINE__ << '\n';
     abort();
   }
+#define FIFARANK
+#ifndef FIFARANK
   for (auto &saabare : saab) {
     if (teamWin == saabare.grupp_placering[saabOffset][0]) {
       saabare.poang += poangGroupWinner;
@@ -1086,6 +1102,7 @@ void calcGrundSpel(char grp, uint64_t table) {
       saabare.poang += poangSwapSecond;
     }
   }
+#endif
 }
 void showTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
                    uint64_t tableC, uint64_t tableD, uint64_t tableE,
@@ -1544,6 +1561,7 @@ int main(int argc, char *argv[]) {
       }
     }
 #endif
+#ifndef FIFARANK
     for (auto &saabare : saab) {
       gsl::span<e_team> span_quarts(saabare.kvartsfinallag, 8);
       for (int match = m45; match <= m48; ++match) {
@@ -1558,6 +1576,7 @@ int main(int argc, char *argv[]) {
         }
       }
     }
+#endif
     // Avgör match 45 till 48, fyll i match 49 och 50
     uint64_t result = ((iteration >> (m45 - 3)) & 0x1);
     e_team matchWinner = game[m45][result];
@@ -1592,6 +1611,7 @@ int main(int argc, char *argv[]) {
       }
     }
 #endif
+#ifndef FIFARANK
     for (auto &saabare : saab) {
       gsl::span<e_team> span_semi(saabare.semifinallag, 4);
       for (int match = m49; match <= m50; ++match) {
@@ -1606,6 +1626,7 @@ int main(int argc, char *argv[]) {
         }
       }
     }
+#endif
     // Avgör match 49 och 50
     result = ((iteration >> (m49 - 3)) & 0x1);
     matchWinner = game[m49][result];
@@ -1615,6 +1636,7 @@ int main(int argc, char *argv[]) {
     matchWinner = game[m50][result];
     game[finalMatchNumber][1] = matchWinner;
     totFifa += rank[matchWinner];
+#ifndef FIFARANK
     for (auto &saabare : saab) {
       gsl::span<e_team> span_final(saabare.finallag, 2);
       for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
@@ -1627,16 +1649,19 @@ int main(int argc, char *argv[]) {
         }
       }
     }
+#endif
     // Avgör finalen, match 51
     result = ((iteration >> (finalMatchNumber - 3)) & 0x1);
     matchWinner = game[finalMatchNumber][result];
     game[0][0] = matchWinner;
     totFifa += rank[matchWinner];
+#ifndef FIFARANK
     for (auto &saabare : saab) {
       if (game[0][0] == saabare.vinnare[0]) {
         saabare.poang += poangVinnare;
       }
     }
+#endif
     if (totFifa > maxFifa) {
       maxFifa = totFifa;
       maxFifaIteration = iteration;
@@ -1691,6 +1716,7 @@ int main(int argc, char *argv[]) {
       std::cout << '\n';
 #endif
     }
+#ifndef FIFARANK
     for (auto &saabare : saab) {
       if (maxSoFar < saabare.poang) {
         // Utskrift när max ökas
@@ -1748,6 +1774,7 @@ int main(int argc, char *argv[]) {
         std::cout << '\n';
       }
     }
+#endif
   }
   {
     // Utskrift på slutet:
@@ -2043,10 +2070,14 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
               e_team rd3F;
               uint64_t tableF;
               uint64_t rd3bits = 0; // 4 bits describing the ABCD..CDEF
-              groupFand3rd(argc, span_argv, winA, winB, winC, winD, winE, scndA,
-                           scndB, scndC, scndD, scndE, &winF, &scndF, &rd3A,
-                           &rd3B, &rd3C, &rd3D, &rd3E, &rd3F, &rd3bits, &tableA,
-                           &tableB, &tableC, &tableD, &tableE, &tableF);
+              groupF(argc, span_argv, winA, winB, winC, winD, winE, scndA,
+                     scndB, scndC, scndD, scndE, &winF, &scndF, &rd3A, &rd3B,
+                     &rd3C, &rd3D, &rd3E, &rd3F, &rd3bits, &tableA, &tableB,
+                     &tableC, &tableD, &tableE, &tableF);
+              group3rd(argc, span_argv, winA, winB, winC, winD, winE, scndA,
+                       scndB, scndC, scndD, scndE, &winF, &scndF, &rd3A, &rd3B,
+                       &rd3C, &rd3D, &rd3E, &rd3F, &rd3bits, &tableA, &tableB,
+                       &tableC, &tableD, &tableE, &tableF);
               if (argc > 19) {
                 DEBUG_allege(argc > 20);
                 // Grundspel, tredjeplats, två sextondelsmatcher:
@@ -2259,16 +2290,15 @@ unsigned whosThird(uint64_t tableX) {
   }
   return thirdX;
 }
-void groupFand3rd(int argc, gsl::span<char *> span_argv, e_team winA,
-                  e_team winB, e_team winC, e_team winD, e_team winE,
-                  e_team scndA, e_team scndB, e_team scndC, e_team scndD,
-                  e_team scndE, e_team *winF, e_team *scndF, e_team *rd3A,
-                  e_team *rd3B, e_team *rd3C, e_team *rd3D, e_team *rd3E,
-                  e_team *rd3F, uint64_t *rd3bits, uint64_t *tableA,
-                  uint64_t *tableB, uint64_t *tableC, uint64_t *tableD,
-                  uint64_t *tableE, uint64_t *tableF) {
+void groupF(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
+            e_team winC, e_team winD, e_team winE, e_team scndA, e_team scndB,
+            e_team scndC, e_team scndD, e_team scndE, e_team *winF,
+            e_team *scndF, e_team *rd3A, e_team *rd3B, e_team *rd3C,
+            e_team *rd3D, e_team *rd3E, e_team *rd3F, uint64_t *rd3bits,
+            uint64_t *tableA, uint64_t *tableB, uint64_t *tableC,
+            uint64_t *tableD, uint64_t *tableE, uint64_t *tableF) {
   // Group F win,2nd
-  DEBUG_allege(argc > 18);
+  DEBUG_allege(argc > 14);
   char *const arg13 = span_argv[13];
   char *const arg14 = span_argv[14];
   *winF = strcmp("hun", arg13) == 0
@@ -2297,6 +2327,15 @@ void groupFand3rd(int argc, gsl::span<char *> span_argv, e_team winA,
   DEBUG_allege(*winF != *scndF);
   DEBUG_allege(*winF != *rd3F);
   DEBUG_allege(*scndF != *rd3F);
+}
+void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
+              e_team winC, e_team winD, e_team winE, e_team scndA, e_team scndB,
+              e_team scndC, e_team scndD, e_team scndE, e_team *winF,
+              e_team *scndF, e_team *rd3A, e_team *rd3B, e_team *rd3C,
+              e_team *rd3D, e_team *rd3E, e_team *rd3F, uint64_t *rd3bits,
+              uint64_t *tableA, uint64_t *tableB, uint64_t *tableC,
+              uint64_t *tableD, uint64_t *tableE, uint64_t *tableF) {
+  DEBUG_allege(argc > 18);
   // 4 av 6 grupptreor går vidare
   char *const arg15 = span_argv[15];
   char *const arg16 = span_argv[16];
