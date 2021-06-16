@@ -821,6 +821,13 @@ struct s_saabare {
      {fra, ned},
      {ned},
      0},
+    {"STJLDQ",
+     {{sui, ita}, {bel, fin}, {ned, aut}, {eng, cro}, {pol, esp}, {fra, por}},
+     {ita, sui, swe, ger, cro, fra, eng, pol},
+     {sui, swe, fra, eng},
+     {sui, eng},
+     {eng},
+     0},
 
 };
 s_saabare *maxSaabare = nullptr;
@@ -1580,6 +1587,7 @@ int main(int argc, char *argv[]) {
       case str2int("ADER"):
       case str2int("ULPE"):
       case str2int("SFDA"):
+      case str2int("STJLDQ"):
         // Dessa har 460 p i bästa fall
         break;
       case str2int("ANNY"):
