@@ -9,7 +9,7 @@
 #include <iostream>
 #include <sstream>
 using std::cerr;
-#define FIFARANK
+#undef FIFARANK
 // g++ -I ~/gsl-lite/include main.cpp
 // clang-format -i main.cpp
 // ./a.out
@@ -439,6 +439,7 @@ struct s_saabare {
   e_team vinnare[1];
   int poang;
 } saab[] = {
+#if 0
     {"ANNY",
      {{ita, sui}, {bel, den}, {ned, ukr}, {eng, cro}, {esp, swe}, {fra, ger}},
      {ita, bel, ned, eng, cro, esp, fra, ger},
@@ -481,6 +482,7 @@ struct s_saabare {
      {eng, bel},
      {eng},
      0},
+#endif
     {"STHRJO",
      {{sui, ita}, {bel, den}, {ned, ukr}, {cro, eng}, {esp, swe}, {por, ger}},
      {por, eng, bel, sui, fra, ita, esp, ger},
@@ -488,6 +490,7 @@ struct s_saabare {
      {bel, fra},
      {bel},
      0},
+#if 0
     {"MXRE",
      {{ita, tur}, {bel, den}, {ned, ukr}, {eng, cze}, {esp, pol}, {ger, fra}},
      {bel, ita, ger, cze, fra, esp, ned, den},
@@ -698,6 +701,7 @@ struct s_saabare {
      {bel, fra},
      {bel},
      0},
+#endif
 };
 s_saabare *maxSaabare = nullptr;
 const int poangGroupWinner = 10;
