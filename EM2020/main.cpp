@@ -439,7 +439,6 @@ struct s_saabare {
   e_team vinnare[1];
   int poang;
 } saab[] = {
-#if 0
     {"ANNY",
      {{ita, sui}, {bel, den}, {ned, ukr}, {eng, cro}, {esp, swe}, {fra, ger}},
      {ita, bel, ned, eng, cro, esp, fra, ger},
@@ -482,7 +481,6 @@ struct s_saabare {
      {eng, bel},
      {eng},
      0},
-#endif
     {"STHRJO",
      {{sui, ita}, {bel, den}, {ned, ukr}, {cro, eng}, {esp, swe}, {por, ger}},
      {por, eng, bel, sui, fra, ita, esp, ger},
@@ -490,7 +488,6 @@ struct s_saabare {
      {bel, fra},
      {bel},
      0},
-#if 0
     {"MXRE",
      {{ita, tur}, {bel, den}, {ned, ukr}, {eng, cze}, {esp, pol}, {ger, fra}},
      {bel, ita, ger, cze, fra, esp, ned, den},
@@ -701,7 +698,6 @@ struct s_saabare {
      {bel, fra},
      {bel},
      0},
-#endif
 };
 s_saabare *maxSaabare = nullptr;
 const int poangGroupWinner = 10;
@@ -1452,6 +1448,24 @@ int main(int argc, char *argv[]) {
   elaborateNames();
   assert(tableFromTeam('A', tur, ita, wal) == _0123); // En liten unittest
   assert(tableFromTeam('F', ger, fra, por) == _3210);
+  for (auto &saabare : saab) {
+    for (int ii = 0; ii < 8; ++ii) {
+      e_team kv = saabare.kvartsfinallag[ii];
+      bool foundIt = false;
+      for (char grp = 'A'; grp <= 'F'; ++grp) {
+        if (kv == saabare.grupp_placering[grp - 'A'][0] ||
+            kv == saabare.grupp_placering[grp - 'A'][1]) {
+          foundIt = true;
+          break;
+        }
+      }
+      if (!foundIt && (kv != fra) && (kv != ger) && (kv != por) &&
+          (kv != swe) && (kv != den) && (kv != bel)) {
+        std::cout << saabare.namnkod << ' ' << kv << '\n';
+        exit(0);
+      }
+    }
+  }
   uint64_t offsetStride = 0;
   gsl::span<char *> span_argv(argv, argc);
   if (argc > 1) {
@@ -1949,7 +1963,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                                                  : static_cast<e_team>(-1);
       e_team rd3B = (winB != den && scndB != den)
                         ? den
-                        : (winB != fin && scndB != fin) ? fin : bel;
+                        : (winB != bel && scndB != bel) ? bel : fin;
       DEBUG_allege(winB != (e_team)-1);
       DEBUG_allege(scndB != (e_team)-1);
       DEBUG_allege(rd3B != (e_team)-1);
@@ -2310,9 +2324,9 @@ void groupF(int argc, gsl::span<char *> span_argv, e_team *winF, e_team *scndF,
                            : strcmp("ger", arg14) == 0
                                  ? ger
                                  : static_cast<e_team>(-1);
-  *rd3F = (*winF != hun && *scndF != hun)
-              ? hun
-              : (*winF != por && *scndF != por) ? por : fra;
+  *rd3F = (*winF != fra && *scndF != fra)
+              ? fra
+              : (*winF != ger && *scndF != ger) ? ger : por;
   DEBUG_allege(*winF != (e_team)-1);
   DEBUG_allege(*scndF != (e_team)-1);
   DEBUG_allege(*rd3F != (e_team)-1);
