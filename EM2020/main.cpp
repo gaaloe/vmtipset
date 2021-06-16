@@ -740,6 +740,20 @@ struct s_saabare {
      {fra, por},
      {fra},
      0},
+    {"IDHHO",
+     {{ita, tur}, {bel, den}, {ned, ukr}, {cro, eng}, {swe, esp}, {por, fra}},
+     {por, fra, swe, ita, eng, ned, cro, bel},
+     {por, fra, eng, ita},
+     {por, eng},
+     {por},
+     0},
+    {"STJOKX",
+     {{tur, ita}, {bel, den}, {ned, aut}, {eng, cro}, {esp, swe}, {fra, ger}},
+     {den, tur, swe, fra, por, bel, eng, esp},
+     {den, fra, eng, por},
+     {fra, eng},
+     {fra},
+     0},
 
 };
 s_saabare *maxSaabare = nullptr;
