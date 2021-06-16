@@ -828,6 +828,18 @@ struct s_saabare {
      {sui, eng},
      {eng},
      0},
+    {"PEGI",
+     {{ita, tur},
+      {bel, den},
+      {ned, ukr},
+      {eng, cro},
+      {/*spa*/ esp, swe},
+      {fra, por}},
+     {fra, bel, den, cro, eng, por, esp, swe},
+     {fra, eng, bel, den},
+     {fra, bel},
+     {bel},
+     0},
 
 };
 s_saabare *maxSaabare = nullptr;
