@@ -771,7 +771,8 @@ struct s_saabare {
     {"STUFJO",
      {{ita, wal}, {bel, rus}, {ned, ukr}, {eng, cro}, {esp, swe}, {ger, por}},
      {ita, wal, bel, ned, eng, fra, esp, swe},
-     {fra, ger, bel, ita},
+     {fra, ger, bel, ita}, /*C1:ned goes to 47[0], A2:wal goes to 47[1], but
+                              none of them appear in 50[1]? */
      {fra, bel},
      {fra},
      0},
