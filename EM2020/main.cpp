@@ -470,7 +470,9 @@ struct s_saabare {
      0},
     {"ANSE",
      {{ita, sui}, {den, bel}, {ned, ukr}, {eng, cro}, {esp, swe}, {fra, por}},
-     {ita, den, bel, eng, esp, fra, por, ger},
+     {ita, den, bel, eng, esp, fra, por,
+      ger}, /*m44 eng-por, men bägge till kvarten? m42 cro-swe,men ingen till
+               kvarten?*/
      {bel, eng, fra, por},
      {bel, fra},
      {bel},
@@ -782,6 +784,20 @@ struct s_saabare {
      {ger, cro, eng, esp, fra, bel, swe, ita},
      {ger, cro, fra, esp},
      {ger, fra},
+     {ger},
+     0},
+    {"STWU",
+     {{ita, wal}, {bel, den}, {aut, ukr}, {eng, cro}, {swe, esp}, {ger, fra}},
+     {ita, bel, ukr, eng, cro, swe, ger, fra},
+     {ger, bel, swe, fra},
+     {ger, bel},
+     {bel},
+     0},
+    {"STERIAB",
+     {{ita, wal}, {rus, den}, {ned, aut}, {eng, cro}, {esp, swe}, {ger, fra}},
+     {ita, den, ger, fra, eng, ned, swe, cro},
+     {ita, eng, fra, ger},
+     {ita, ger},
      {ger},
      0},
 
@@ -1546,6 +1562,7 @@ int main(int argc, char *argv[]) {
         // Dessa har 460 p i bästa fall
         break;
       case str2int("ANNY"):
+      case str2int("ANSE"):
       case str2int("STULJO"):
         // Dessa har kommenterade inkonsekvenser
         break;
