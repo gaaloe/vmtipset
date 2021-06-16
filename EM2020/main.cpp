@@ -159,7 +159,7 @@ const int shift_42 = 42;
 const uint64_t mask_1FUL = 0x1FUL; // Five time bit one, for & operator
 const uint64_t mask_FUL = 0xFUL;
 void groupF(int argc, gsl::span<char *> span_argv, e_team *winF, e_team *scndF,
-            e_team *rd3F);
+            e_team *rd3F, uint64_t *tableF);
 void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
               e_team winC, e_team winD, e_team winE, e_team winF, e_team scndA,
               e_team scndB, e_team scndC, e_team scndD, e_team scndE,
@@ -2059,7 +2059,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
               e_team rd3F;
               uint64_t tableF;
               uint64_t rd3bits = 0; // 4 bits describing the ABCD..CDEF
-              groupF(argc, span_argv, &winF, &scndF, &rd3F);
+              groupF(argc, span_argv, &winF, &scndF, &rd3F, &tableF);
               group3rd(argc, span_argv, winA, winB, winC, winD, winE, winF,
                        scndA, scndB, scndC, scndD, scndE, scndF, &rd3A, &rd3B,
                        &rd3C, &rd3D, &rd3E, &rd3F, &rd3bits, &tableA, &tableB,
@@ -2277,7 +2277,7 @@ unsigned whosThird(uint64_t tableX) {
   return thirdX;
 }
 void groupF(int argc, gsl::span<char *> span_argv, e_team *winF, e_team *scndF,
-            e_team *rd3F) {
+            e_team *rd3F, uint64_t *tableF) {
   // Group F win,2nd
   DEBUG_allege(argc > 14);
   char *const arg13 = span_argv[13];
@@ -2308,6 +2308,7 @@ void groupF(int argc, gsl::span<char *> span_argv, e_team *winF, e_team *scndF,
   DEBUG_allege(*winF != *scndF);
   DEBUG_allege(*winF != *rd3F);
   DEBUG_allege(*scndF != *rd3F);
+  *tableF = tableFromTeam('F', *winF, *scndF, *rd3F) << shift_25;
 }
 void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
               e_team winC, e_team winD, e_team winE, e_team winF, e_team scndA,
