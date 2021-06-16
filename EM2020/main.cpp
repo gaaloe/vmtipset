@@ -675,8 +675,29 @@ struct s_saabare {
      {ita, fra},
      {fra},
      0},
+    {"STKJSV",
+     {{ita, tur}, {bel, den}, {ned, aut}, {eng, cro}, {esp, swe}, {por, ger}},
+     {ita, bel, ned, eng, esp, por, swe, fra},
+     {ita, ned, esp, por},
+     {ned, por},
+     {ned},
+     0},
+    {"STMIWE1",
+     {{sui, tur}, {den, bel}, {ned, ukr}, {cro, cze}, {swe, esp}, {fra, por}},
+     {bel, sui, ned, den, esp, fra, por, swe},
+     {sui, den, por, swe},
+     {den, swe},
+     {swe},
+     0},
+    {"STADSU",
+     {{ita, sui}, {bel, den}, {ned, aut}, {eng, cro}, {esp, svk}, {por, fra}},
+     {ita, bel, den, eng, esp, por, fra, cro},
+     {fra, ita, bel, esp},
+     {bel, fra},
+     {bel},
+     0},
 };
-s_saabare* maxSaabare = nullptr;
+s_saabare *maxSaabare = nullptr;
 const int poangGroupWinner = 10;
 const int poangGroupSecond = 10;
 const int poangSwapWinner = 7;
