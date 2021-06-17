@@ -1604,6 +1604,8 @@ int main(int argc, char *argv[]) {
       case str2int("MXRE"):
       case str2int("STMIBO"):
       case str2int("JOMA"):
+      case str2int("ERSK"):
+      case str2int("STMYSJ"):
         // Dessa har 460 p i bästa fall
         break;
       case str2int("ANNY"):
