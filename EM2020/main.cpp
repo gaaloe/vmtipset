@@ -50,12 +50,7 @@ constexpr unsigned int str2int(const char *str) {
   return str[0] == 0 ? 5381 : (str2int(str, 1) * 33) ^ str[0];
 }
 bool streq(const char *str1, const char *str2) {
-  for (; *str1 == *str2; str1++, str2++) {
-    if (*str1 == '\0') {
-      return *str2 == '\0';
-    }
-  }
-  return false;
+  return strcmp(str1, str2) == 0;
 }
 
 int rank20procent(int fifaRank) {
@@ -1606,12 +1601,12 @@ int main(int argc, char *argv[]) {
       case str2int("JOMA"):
       case str2int("ERSK"):
       case str2int("STMYSJ"):
-        // Dessa har 460 p i bästa fall
-        break;
+        // --- De ovan har 460 p i bästa fall -----
       case str2int("ANNY"):
       case str2int("ANSE"):
       case str2int("STULJO"):
-        // Dessa har kommenterade inkonsekvenser
+        // Dessa har kommenterade inkonsekvenser, typ möts i 16:del bägge vidare
+        // till 8:del
         break;
       default:
         std::cout << saabare.namnkod << '\n';
