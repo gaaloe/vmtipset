@@ -38,7 +38,10 @@ int totFifa;
 int maxFifa = 0;
 static uint64_t maxFifaIteration = 0;
 #endif
+int maxCollective = 0;
+static uint64_t maxCollectiveIteration = 0;
 unsigned whosThird(uint64_t tableX);
+void paaSlutet(uint64_t maxIteration);
 constexpr unsigned int str2int(const char *str, int h) {
   // Detta nya C++-uttryck gör att man kan switch/casea på strängar!
   // See
@@ -1891,6 +1894,14 @@ int main(int argc, char *argv[]) {
       maxFifaIteration = iteration;
     }
 #endif
+    int sum = 0;
+    for (auto &saabare : saab) {
+      sum += saabare.poang;
+    }
+    if (maxCollective < sum) {
+      maxCollective = sum;
+      maxCollectiveIteration = iteration;
+    }
     for (auto &saabare : saab) {
       if (maxSoFar < saabare.poang ||
           (maxSoFar == saabare.poang && maxSaabare != &saabare)) {
@@ -1950,85 +1961,13 @@ int main(int argc, char *argv[]) {
       }
     }
   }
-  {
-    // Utskrift på slutet:
-    const uint64_t tableA = maxIteration & mask_1FUL;
-    const uint64_t tableB = (maxIteration >> shift_5) & mask_1FUL;
-    const uint64_t tableC = (maxIteration >> shift_10) & mask_1FUL;
-    const uint64_t tableD = (maxIteration >> shift_15) & mask_1FUL;
-    const uint64_t tableE = (maxIteration >> shift_20) & mask_1FUL;
-    const uint64_t tableF = (maxIteration >> shift_25) & mask_1FUL;
-    const uint64_t thirdTable = (maxIteration >> shift_30) & mask_FUL;
-    // Skriv ut
-    std::cout << __FILE__ << __LINE__ << ' ' << span_argv[1] << ' ';
-    std::ios init(nullptr);
-    init.copyfmt(std::cout);
-    std::cout << std::hex;
-    std::cout.width(13);
-    std::cout << maxIteration << '\n';
-    std::cout.copyfmt(init); // restore default formatting
-    showGrundSpel('A', tableA);
-    showGrundSpel('B', tableB);
-    showGrundSpel('C', tableC);
-    showGrundSpel('D', tableD);
-    showGrundSpel('E', tableE);
-    showGrundSpel('F', tableF);
-    showTredjeTab(thirdTable, tableA, tableB, tableC, tableD, tableE, tableF);
-    std::cout << '\n';
-    // Avgör match 37 till 44, fyll i match 45 till 48
-    setup_45_48(maxIteration);
-    for (int match = m45; match <= m48; ++match) {
-      for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-        const e_team tt = game[match][hemmaBorta];
-        std::cout << tt;
-        if (match != m48 || hemmaBorta != 1) {
-          std::cout << ',';
-        } else {
-          std::cout << ' ';
-        }
-      }
-    }
-    // Avgör match 45 till 48, fyll i match 49 och 50
-    uint64_t result = ((maxIteration >> (m45 - 3)) & 0x1);
-    game[m49][1] = game[m45][result];
-    result = ((maxIteration >> (m46 - 3)) & 0x1);
-    game[m49][0] = game[m46][result];
-    result = ((maxIteration >> (m47 - 3)) & 0x1);
-    game[m50][1] = game[m47][result];
-    result = ((maxIteration >> (m48 - 3)) & 0x1);
-    game[m50][0] = game[m48][result];
-    for (int match = m49; match <= m50; ++match) {
-      for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-        const e_team tt = game[match][hemmaBorta];
-        std::cout << tt;
-        if (match != m50 || hemmaBorta != 1) {
-          std::cout << ',';
-        } else {
-          std::cout << ' ';
-        }
-      }
-    }
-    // Avgör match 49 och 50
-    result = ((maxIteration >> (m49 - 3)) & 0x1);
-    game[finalMatchNumber][0] = game[m49][result];
-    result = ((maxIteration >> (m50 - 3)) & 0x1);
-    game[finalMatchNumber][1] = game[m50][result];
-    for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-      const e_team tt = game[finalMatchNumber][hemmaBorta];
-      std::cout << tt;
-      if (hemmaBorta != 1) {
-        std::cout << ',';
-      } else {
-        std::cout << ' ';
-      }
-    }
-    // Avgör finalen, match 51
-    result = ((maxIteration >> (finalMatchNumber - 3)) & 0x1);
-    game[0][0] = game[finalMatchNumber][result];
-    std::cout << game[0][0];
-    std::cout << ' ' << maxSoFar;
-    std::cout << '\n';
-  }
+#if 0
+  std::cout << __FILE__ << __LINE__ << ' ' << span_argv[1] << ' ';
+  paaSlutet(maxIteration);
+#else
+  std::cout << __FILE__ << __LINE__ << ' ' << maxCollective << ' ';
+  paaSlutet(maxCollectiveIteration);
+#endif
 }
 enum e_team operator++(enum e_team &that) {
   that = static_cast<enum e_team>(static_cast<int>(that) + 1);
@@ -2797,4 +2736,82 @@ void setup_45_48(uint64_t iteration) {
   game[m48][0] = game[m43][result];
   result = ((iteration >> (m44 - 3)) & 0x1);
   game[m48][1] = game[m44][result];
+}
+void paaSlutet(uint64_t maxIteration) {
+  // Utskrift på slutet:
+  const uint64_t tableA = maxIteration & mask_1FUL;
+  const uint64_t tableB = (maxIteration >> shift_5) & mask_1FUL;
+  const uint64_t tableC = (maxIteration >> shift_10) & mask_1FUL;
+  const uint64_t tableD = (maxIteration >> shift_15) & mask_1FUL;
+  const uint64_t tableE = (maxIteration >> shift_20) & mask_1FUL;
+  const uint64_t tableF = (maxIteration >> shift_25) & mask_1FUL;
+  const uint64_t thirdTable = (maxIteration >> shift_30) & mask_FUL;
+  // Skriv ut
+  std::ios init(nullptr);
+  init.copyfmt(std::cout);
+  std::cout << std::hex;
+  std::cout.width(13);
+  std::cout << maxIteration << '\n';
+  std::cout.copyfmt(init); // restore default formatting
+  showGrundSpel('A', tableA);
+  showGrundSpel('B', tableB);
+  showGrundSpel('C', tableC);
+  showGrundSpel('D', tableD);
+  showGrundSpel('E', tableE);
+  showGrundSpel('F', tableF);
+  showTredjeTab(thirdTable, tableA, tableB, tableC, tableD, tableE, tableF);
+  std::cout << '\n';
+  // Avgör match 37 till 44, fyll i match 45 till 48
+  setup_45_48(maxIteration);
+  for (int match = m45; match <= m48; ++match) {
+    for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+      const e_team tt = game[match][hemmaBorta];
+      std::cout << tt;
+      if (match != m48 || hemmaBorta != 1) {
+        std::cout << ',';
+      } else {
+        std::cout << ' ';
+      }
+    }
+  }
+  // Avgör match 45 till 48, fyll i match 49 och 50
+  uint64_t result = ((maxIteration >> (m45 - 3)) & 0x1);
+  game[m49][1] = game[m45][result];
+  result = ((maxIteration >> (m46 - 3)) & 0x1);
+  game[m49][0] = game[m46][result];
+  result = ((maxIteration >> (m47 - 3)) & 0x1);
+  game[m50][1] = game[m47][result];
+  result = ((maxIteration >> (m48 - 3)) & 0x1);
+  game[m50][0] = game[m48][result];
+  for (int match = m49; match <= m50; ++match) {
+    for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+      const e_team tt = game[match][hemmaBorta];
+      std::cout << tt;
+      if (match != m50 || hemmaBorta != 1) {
+        std::cout << ',';
+      } else {
+        std::cout << ' ';
+      }
+    }
+  }
+  // Avgör match 49 och 50
+  result = ((maxIteration >> (m49 - 3)) & 0x1);
+  game[finalMatchNumber][0] = game[m49][result];
+  result = ((maxIteration >> (m50 - 3)) & 0x1);
+  game[finalMatchNumber][1] = game[m50][result];
+  for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+    const e_team tt = game[finalMatchNumber][hemmaBorta];
+    std::cout << tt;
+    if (hemmaBorta != 1) {
+      std::cout << ',';
+    } else {
+      std::cout << ' ';
+    }
+  }
+  // Avgör finalen, match 51
+  result = ((maxIteration >> (finalMatchNumber - 3)) & 0x1);
+  game[0][0] = game[finalMatchNumber][result];
+  std::cout << game[0][0];
+  std::cout << ' ' << maxSoFar;
+  std::cout << '\n';
 }
