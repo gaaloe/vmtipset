@@ -2169,6 +2169,9 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                          scndA, scndB, scndC, scndD, scndE, scndF, &rd3A, &rd3B,
                          &rd3C, &rd3D, &rd3E, &rd3F, &rd3bits, &tableA, &tableB,
                          &tableC, &tableD, &tableE, &tableF, &gruppTreor);
+                calcTredjeTab(gruppTreor, tableA, tableB >> shift_5,
+                              tableC >> shift_10, tableD >> shift_15,
+                              tableE >> shift_20, tableF >> shift_25);
                 if (argc > 19) {
                   DEBUG_allege(argc > 20);
                   // m37: Winner Group A eller Runner-up Group C?
@@ -2704,12 +2707,14 @@ void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
           DEBUG_allege(scndD != *rd3D);
           break;
         case 'E': // ABC-E-
+          *gruppTreor = ABCE;
           *rd3bits = static_cast<uint64_t>(ABCE) << shift_30;
           *rd3E = team18;
           DEBUG_allege(winE != *rd3E);
           DEBUG_allege(scndE != *rd3E);
           break;
         case 'F': // ABC--F
+          *gruppTreor = ABCF;
           *rd3bits = static_cast<uint64_t>(ABCF) << shift_30;
           *rd3F = team18;
           DEBUG_allege(winF != *rd3F);
@@ -2726,12 +2731,14 @@ void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
         DEBUG_allege(scndD != *rd3D);
         switch (static_cast<char>(trunk18) + 'A') {
         case 'E': // AB-DE-
+          *gruppTreor = ABDE;
           *rd3bits = static_cast<uint64_t>(ABDE) << shift_30;
           *rd3E = team18;
           DEBUG_allege(winE != *rd3E);
           DEBUG_allege(scndE != *rd3E);
           break;
         case 'F': // AB-D-F
+          *gruppTreor = ABDF;
           *rd3bits = static_cast<uint64_t>(ABDF) << shift_30;
           *rd3F = team18;
           DEBUG_allege(winF != *rd3F);
@@ -2743,6 +2750,7 @@ void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
         }
         break;
       case 'E': // AB--EF
+        *gruppTreor = ABEF;
         *rd3bits = static_cast<uint64_t>(ABEF) << shift_30;
         *rd3E = team17;
         DEBUG_allege(winE != *rd3E);
@@ -2767,12 +2775,14 @@ void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
         DEBUG_allege(scndD != *rd3D);
         switch (static_cast<char>(trunk18) + 'A') {
         case 'E': // A-CDE-
+          *gruppTreor = ACDE;
           *rd3bits = static_cast<uint64_t>(ACDE) << shift_30;
           *rd3E = team18;
           DEBUG_allege(winE != *rd3E);
           DEBUG_allege(scndE != *rd3E);
           break;
         case 'F': // A-CD-F
+          *gruppTreor = ACDF;
           *rd3bits = static_cast<uint64_t>(ACDF) << shift_30;
           *rd3F = team18;
           DEBUG_allege(winF != *rd3F);
@@ -2784,6 +2794,7 @@ void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
         }
         break;
       case 'E': // A-C-EF
+        *gruppTreor = ACEF;
         *rd3bits = static_cast<uint64_t>(ACEF) << shift_30;
         *rd3E = team17;
         DEBUG_allege(winE != *rd3E);
@@ -2798,6 +2809,7 @@ void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
       }
       break;
     case 'D': // A--DEF
+      *gruppTreor = ADEF;
       *rd3bits = static_cast<uint64_t>(ADEF) << shift_30;
       *rd3D = team16;
       DEBUG_allege(winD != *rd3D);
@@ -2830,12 +2842,14 @@ void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
         DEBUG_allege(scndD != *rd3D);
         switch (static_cast<char>(trunk18) + 'A') {
         case 'E': //-BCDE-
+          *gruppTreor = BCDE;
           *rd3bits = static_cast<uint64_t>(BCDE) << shift_30;
           *rd3E = team18;
           DEBUG_allege(winE != *rd3E);
           DEBUG_allege(scndE != *rd3E);
           break;
         case 'F': //-BCD-F
+          *gruppTreor = BCDF;
           *rd3bits = static_cast<uint64_t>(BCDF) << shift_30;
           *rd3F = team18;
           DEBUG_allege(winF != *rd3F);
@@ -2847,6 +2861,7 @@ void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
         }
         break;
       case 'E': // -BC-EF
+        *gruppTreor = BCEF;
         *rd3bits = static_cast<uint64_t>(BCEF) << shift_30;
         *rd3E = team17;
         DEBUG_allege(winE != *rd3E);
@@ -2861,6 +2876,7 @@ void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
       }
       break;
     case 'D': // -B-DEF
+      *gruppTreor = BDEF;
       *rd3bits = static_cast<uint64_t>(BDEF) << shift_30;
       *rd3D = team16;
       DEBUG_allege(winD != *rd3D);
@@ -2878,6 +2894,7 @@ void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
     }
     break;
   case 'C': // --CDEF
+    *gruppTreor = CDEF;
     *rd3bits = static_cast<uint64_t>(CDEF) << shift_30;
     *rd3C = team15;
     DEBUG_allege(winC != *rd3C);
@@ -2903,7 +2920,6 @@ void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
   *tableD = tableFromTeam('D', winD, scndD, *rd3D) << shift_15;
   *tableE = tableFromTeam('E', winE, scndE, *rd3E) << shift_20;
   *tableF = tableFromTeam('F', winF, scndF, *rd3F) << shift_25;
-  // TODO(henrik) sätt också game[m39,m40,m41,m43][1] till rätt värden
 }
 void show_37_44(uint64_t iteration) {
   uint64_t result;
