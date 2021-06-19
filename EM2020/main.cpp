@@ -10,6 +10,7 @@
 #include <sstream>
 using std::cerr;
 #undef FIFARANK
+#define MAXCOLLECTIVE
 // g++ -I ~/gsl-lite/include main.cpp
 // clang-format -i main.cpp
 // ./a.out
@@ -1901,6 +1902,13 @@ int main(int argc, char *argv[]) {
     if (maxCollective < sum) {
       maxCollective = sum;
       maxCollectiveIteration = iteration;
+#ifdef MAXCOLLECTIVE
+        // Skriv ut
+        std::cout << __FILE__ << __LINE__ << ' ';
+        paaSlutet(maxCollectiveIteration);
+        std::cout << ' ' << maxCollective;
+        std::cout << '\n';
+#endif
     }
     for (auto &saabare : saab) {
       if (maxSoFar < saabare.poang ||
@@ -1909,64 +1917,24 @@ int main(int argc, char *argv[]) {
         maxSoFar = saabare.poang;
         maxSaabare = &saabare;
         maxIteration = iteration;
+#ifndef MAXCOLLECTIVE
         // Skriv ut
-        std::ios init(nullptr);
-        init.copyfmt(std::cout);
-        std::cout << std::hex;
-        std::cout.width(13);
-        std::cout << iteration << '\n';
-        std::cout.copyfmt(init); // restore default formatting
-        showGrundSpel('A', tableA);
-        showGrundSpel('B', tableB);
-        showGrundSpel('C', tableC);
-        showGrundSpel('D', tableD);
-        showGrundSpel('E', tableE);
-        showGrundSpel('F', tableF);
-        std::cout << '\n';
-        for (int match = m45; match <= m48; ++match) {
-          for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-            const e_team tt = game[match][hemmaBorta];
-            std::cout << tt;
-            if (match != m48 || hemmaBorta != 1) {
-              std::cout << ',';
-            } else {
-              std::cout << ' ';
-            }
-          }
-        }
-        for (int match = m49; match <= m50; ++match) {
-          for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-            const e_team tt = game[match][hemmaBorta];
-            std::cout << tt;
-            if (match != m50 || hemmaBorta != 1) {
-              std::cout << ',';
-            } else {
-              std::cout << ' ';
-            }
-          }
-        }
-        for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-          const e_team tt = game[finalMatchNumber][hemmaBorta];
-          std::cout << tt;
-          if (hemmaBorta != 1) {
-            std::cout << ',';
-          } else {
-            std::cout << ' ';
-          }
-        }
-        std::cout << game[0][0]; // Vinnaren!
-        std::cout << ' ' << maxSoFar;
-        std::cout << ' ' << maxSaabare->namnkod;
-        std::cout << '\n';
+        std::cout << __FILE__ << __LINE__ << ' ';
+        paaSlutet(maxIteration);
+        std::cout << ' ' << maxSoFar << ' ' << maxSaabare->namnkod << '\n';
+#endif
       }
     }
   }
-#if 0
+#ifndef MAXCOLLECTIVE
   std::cout << __FILE__ << __LINE__ << ' ' << span_argv[1] << ' ';
   paaSlutet(maxIteration);
+  std::cout << maxSoFar << ' ' << maxSaabare->namnkod << '\n';
 #else
-  std::cout << __FILE__ << __LINE__ << ' ' << maxCollective << ' ';
+  std::cout << __FILE__ << __LINE__ << ' ' << span_argv[1] << ' ';
   paaSlutet(maxCollectiveIteration);
+  std::cout << maxCollective;
+  std::cout << '\n';
 #endif
 }
 enum e_team operator++(enum e_team &that) {
@@ -2812,6 +2780,5 @@ void paaSlutet(uint64_t maxIteration) {
   result = ((maxIteration >> (finalMatchNumber - 3)) & 0x1);
   game[0][0] = game[finalMatchNumber][result];
   std::cout << game[0][0];
-  std::cout << ' ' << maxSoFar;
-  std::cout << '\n';
+  std::cout << ' ';
 }
