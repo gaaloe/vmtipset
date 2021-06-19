@@ -16,9 +16,13 @@ using std::cerr;
 // ./a.out
 //
 // Gruppspel, treor, m37..m44
+// m37..m44
+// m45..m48
+// m49,m50
 // ./a.out 0 1 tur ita den fin ned ukr eng cro esp swe hun por wal bel aut sco
 // tur ita den ned hun cro esp eng
-// hun tur
+// hun tur ita esp
+// tur esp
 //
 // seq -w 0 3 | parallel -u ./a.out {} 524287
 // seq -w 0 15 | parallel -u ./a.out {} 16127
@@ -188,6 +192,7 @@ const int shift_40 = 40;
 const int shift_42 = 42;
 const int shift_44 = 44;
 const int shift_46 = 46;
+const int shift_48 = 48;
 const uint64_t mask_1FUL = 0x1FUL; // Five time bit one, for & operator
 const uint64_t mask_FUL = 0xFUL;
 void groupF(int argc, gsl::span<char *> span_argv, e_team *winF, e_team *scndF,
@@ -2214,7 +2219,62 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                             char *const w48 = span_argv[30];
                             DEBUG_allege(streq(w43, w48) || streq(w44, w48));
                             if (argc > 31) {
-                              // TODO(henrik) fortsätt här
+                              DEBUG_allege(argc > 32);
+                              char *const w49 = span_argv[31];
+                              DEBUG_allege(streq(w46, w49) || streq(w45, w49));
+                              char *const w50 = span_argv[32];
+                              DEBUG_allege(streq(w48, w50) || streq(w47, w50));
+                              if (argc > 33) {
+                                // TODO(henrik) fortsätt här
+                              } else {
+                                *completeFactor = 1UL << shift_48;
+                                *offsetStride *= 1UL << shift_48;
+                                if (strcmp(names[scndC], w37) == 0) {
+                                  *offsetStride += 1UL << shift_34;
+                                }
+                                if (strcmp(names[scndB], w38) == 0) {
+                                  *offsetStride += 1UL << (shift_34 + 1);
+                                }
+                                if (strcmp(names[game[m39][1]], w39) == 0) {
+                                  *offsetStride += 1UL << shift_36;
+                                }
+                                if (strcmp(names[game[m40][1]], w40) == 0) {
+                                  *offsetStride += 1UL << (shift_36 + 1);
+                                }
+                                if (strcmp(names[game[m41][1]], w41) == 0) {
+                                  *offsetStride += 1UL << shift_38;
+                                }
+                                if (strcmp(names[scndE], w42) == 0) {
+                                  *offsetStride += 1UL << (shift_38 + 1);
+                                }
+                                if (strcmp(names[game[m43][1]], w43) == 0) {
+                                  *offsetStride += 1UL << shift_40;
+                                }
+                                if (strcmp(names[scndF], w44) == 0) {
+                                  *offsetStride += 1UL << (shift_40 + 1);
+                                }
+                                if (streq(w42, w45)) {
+                                  *offsetStride += 1UL << shift_42;
+                                }
+                                if (streq(w37, w46)) {
+                                  *offsetStride += 1UL << (shift_42 + 1);
+                                }
+                                if (streq(w38, w47)) {
+                                  *offsetStride += 1UL << shift_44;
+                                }
+                                if (streq(w44, w48)) {
+                                  *offsetStride += 1UL << (shift_44 + 1);
+                                }
+                                if (streq(w45, w49)) {
+                                  *offsetStride += 1UL << shift_46;
+                                }
+                                if (streq(w47, w50)) {
+                                  *offsetStride += 1UL << (shift_46 + 1);
+                                }
+                                *offsetStride += rd3bits + tableF + tableE +
+                                                 tableD + tableC + tableB +
+                                                 tableA;
+                              }
                             } else {
                               *completeFactor = 1UL << shift_46;
                               *offsetStride *= 1UL << shift_46;
@@ -2823,13 +2883,13 @@ void setup_45_48(uint64_t iteration) {
   game[m48][1] = game[m44][result];
 }
 void show_45_48(uint64_t iteration) {
-  uint64_t result = ((maxIteration >> (m45 - 3)) & 0x1);
+  uint64_t result = ((iteration >> (m45 - 3)) & 0x1);
   std::cout << game[m45][result] << ',';
-  result = ((maxIteration >> (m46 - 3)) & 0x1);
+  result = ((iteration >> (m46 - 3)) & 0x1);
   std::cout << game[m46][result] << ',';
-  result = ((maxIteration >> (m47 - 3)) & 0x1);
+  result = ((iteration >> (m47 - 3)) & 0x1);
   std::cout << game[m47][result] << ',';
-  result = ((maxIteration >> (m48 - 3)) & 0x1);
+  result = ((iteration >> (m48 - 3)) & 0x1);
   std::cout << game[m48][result] << ' ';
 }
 void paaSlutet(uint64_t maxIteration) {
