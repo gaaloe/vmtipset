@@ -200,6 +200,7 @@ void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
               uint64_t *tableA, uint64_t *tableB, uint64_t *tableC,
               uint64_t *tableD, uint64_t *tableE, uint64_t *tableF);
 void show_37_44(uint64_t iteration);
+void show_45_48(uint64_t iteration);
 void setup_45_48(uint64_t iteration);
 
 uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
@@ -2821,6 +2822,16 @@ void setup_45_48(uint64_t iteration) {
   result = ((iteration >> (m44 - 3)) & 0x1);
   game[m48][1] = game[m44][result];
 }
+void show_45_48(uint64_t iteration) {
+  uint64_t result = ((maxIteration >> (m45 - 3)) & 0x1);
+  std::cout << game[m45][result] << ',';
+  result = ((maxIteration >> (m46 - 3)) & 0x1);
+  std::cout << game[m46][result] << ',';
+  result = ((maxIteration >> (m47 - 3)) & 0x1);
+  std::cout << game[m47][result] << ',';
+  result = ((maxIteration >> (m48 - 3)) & 0x1);
+  std::cout << game[m48][result] << ' ';
+}
 void paaSlutet(uint64_t maxIteration) {
   // Utskrift på slutet:
   const uint64_t tableA = maxIteration & mask_1FUL;
@@ -2848,19 +2859,8 @@ void paaSlutet(uint64_t maxIteration) {
   // Avgör match 37 till 44, fyll i match 45 till 48
   show_37_44(maxIteration);
   setup_45_48(maxIteration);
-#if 0
-  for (int match = m45; match <= m48; ++match) {
-    for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-      const e_team tt = game[match][hemmaBorta];
-      std::cout << tt;
-      if (match != m48 || hemmaBorta != 1) {
-        std::cout << ',';
-      } else {
-        std::cout << ' ';
-      }
-    }
-  }
-#endif
+  // Avgör match 45 till 48
+  show_45_48(maxIteration);
   // Avgör match 45 till 48, fyll i match 49 och 50
   uint64_t result = ((maxIteration >> (m45 - 3)) & 0x1);
   game[m49][1] = game[m45][result];
@@ -2870,17 +2870,6 @@ void paaSlutet(uint64_t maxIteration) {
   game[m50][1] = game[m47][result];
   result = ((maxIteration >> (m48 - 3)) & 0x1);
   game[m50][0] = game[m48][result];
-  for (int match = m49; match <= m50; ++match) {
-    for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
-      const e_team tt = game[match][hemmaBorta];
-      std::cout << tt;
-      if (match != m50 || hemmaBorta != 1) {
-        std::cout << ',';
-      } else {
-        std::cout << ' ';
-      }
-    }
-  }
   // Avgör match 49 och 50
   result = ((maxIteration >> (m49 - 3)) & 0x1);
   game[finalMatchNumber][0] = game[m49][result];
