@@ -181,6 +181,14 @@ enum e_gruppTreor {
   CDEF,
   treor_size = 15
 };
+void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
+              e_team winC, e_team winD, e_team winE, e_team winF, e_team scndA,
+              e_team scndB, e_team scndC, e_team scndD, e_team scndE,
+              e_team scndF, e_team *rd3A, e_team *rd3B, e_team *rd3C,
+              e_team *rd3D, e_team *rd3E, e_team *rd3F, uint64_t *rd3bits,
+              uint64_t *tableA, uint64_t *tableB, uint64_t *tableC,
+              uint64_t *tableD, uint64_t *tableE, uint64_t *tableF,
+              enum e_gruppTreor *gruppTreor);
 const int shift_5 = 5; // Table B bits position within entire bitfield
 const int shift_10 = 10;
 const int shift_15 = 15;
@@ -200,13 +208,6 @@ const uint64_t mask_1FUL = 0x1FUL; // Five time bit one, for & operator
 const uint64_t mask_FUL = 0xFUL;
 void groupF(int argc, gsl::span<char *> span_argv, e_team *winF, e_team *scndF,
             e_team *rd3F, uint64_t *tableF);
-void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
-              e_team winC, e_team winD, e_team winE, e_team winF, e_team scndA,
-              e_team scndB, e_team scndC, e_team scndD, e_team scndE,
-              e_team scndF, e_team *rd3A, e_team *rd3B, e_team *rd3C,
-              e_team *rd3D, e_team *rd3E, e_team *rd3F, uint64_t *rd3bits,
-              uint64_t *tableA, uint64_t *tableB, uint64_t *tableC,
-              uint64_t *tableD, uint64_t *tableE, uint64_t *tableF);
 void show_37_44(uint64_t iteration);
 void show_45_48(uint64_t iteration);
 void setup_45_48(uint64_t iteration);
@@ -2163,10 +2164,11 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
               groupF(argc, span_argv, &winF, &scndF, &rd3F, &tableF);
               if (argc > 15) {
                 // Grundspel, tredjeplats
+                enum e_gruppTreor gruppTreor;
                 group3rd(argc, span_argv, winA, winB, winC, winD, winE, winF,
                          scndA, scndB, scndC, scndD, scndE, scndF, &rd3A, &rd3B,
                          &rd3C, &rd3D, &rd3E, &rd3F, &rd3bits, &tableA, &tableB,
-                         &tableC, &tableD, &tableE, &tableF);
+                         &tableC, &tableD, &tableE, &tableF, &gruppTreor);
                 if (argc > 19) {
                   DEBUG_allege(argc > 20);
                   // m37: Winner Group A eller Runner-up Group C?
@@ -2622,7 +2624,8 @@ void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
               e_team scndF, e_team *rd3A, e_team *rd3B, e_team *rd3C,
               e_team *rd3D, e_team *rd3E, e_team *rd3F, uint64_t *rd3bits,
               uint64_t *tableA, uint64_t *tableB, uint64_t *tableC,
-              uint64_t *tableD, uint64_t *tableE, uint64_t *tableF) {
+              uint64_t *tableD, uint64_t *tableE, uint64_t *tableF,
+              enum e_gruppTreor *gruppTreor) {
   DEBUG_allege(argc > 18);
   // 4 av 6 grupptreor går vidare
   char *const arg15 = span_argv[15];
@@ -2694,6 +2697,7 @@ void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
         DEBUG_allege(scndC != *rd3C);
         switch (static_cast<char>(trunk18) + 'A') {
         case 'D': // ABCD--
+          *gruppTreor = ABCD;
           *rd3bits = static_cast<uint64_t>(ABCD) << shift_30;
           *rd3D = team18;
           DEBUG_allege(winD != *rd3D);
@@ -2899,6 +2903,7 @@ void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
   *tableD = tableFromTeam('D', winD, scndD, *rd3D) << shift_15;
   *tableE = tableFromTeam('E', winE, scndE, *rd3E) << shift_20;
   *tableF = tableFromTeam('F', winF, scndF, *rd3F) << shift_25;
+  // TODO(henrik) sätt också game[m39,m40,m41,m43][1] till rätt värden
 }
 void show_37_44(uint64_t iteration) {
   uint64_t result;
