@@ -7,3 +7,4 @@ por,swe,fra,ita,ned,bel,esp,ger fra,por,ger,bel fra,bel fra 14397
 main.cpp1934 13  b29b96000866
 A:ita,tur,wal B:den,bel,rus C:ned,aut,ukr D:eng,cro,sco E:esp,swe,pol F:por,ger,fra --CDEF
 por,swe,fra,ita,ned,bel,esp,ger fra,por,ger,bel fra,bel fra 14397
+./a.out 0 1 ita tur den bel ned aut eng cro esp swe por ger  ukr sco pol fra
