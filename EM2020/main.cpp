@@ -199,6 +199,7 @@ void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
               e_team *rd3D, e_team *rd3E, e_team *rd3F, uint64_t *rd3bits,
               uint64_t *tableA, uint64_t *tableB, uint64_t *tableC,
               uint64_t *tableD, uint64_t *tableE, uint64_t *tableF);
+void show_37_44(uint64_t iteration);
 void setup_45_48(uint64_t iteration);
 
 uint64_t tableFromTeam(char grp, e_team win, e_team secnd, e_team third) {
@@ -2782,6 +2783,25 @@ void group3rd(int argc, gsl::span<char *> span_argv, e_team winA, e_team winB,
   *tableE = tableFromTeam('E', winE, scndE, *rd3E) << shift_20;
   *tableF = tableFromTeam('F', winF, scndF, *rd3F) << shift_25;
 }
+void show_37_44(uint64_t iteration) {
+  uint64_t result;
+  result = ((iteration >> (m37 - 3)) & 0x1);
+  std::cout << game[m37][result] << ',';
+  result = ((iteration >> (m38 - 3)) & 0x1);
+  std::cout << game[m38][result] << ',';
+  result = ((iteration >> (m39 - 3)) & 0x1);
+  std::cout << game[m39][result] << ',';
+  result = ((iteration >> (m40 - 3)) & 0x1);
+  std::cout << game[m40][result] << ',';
+  result = ((iteration >> (m41 - 3)) & 0x1);
+  std::cout << game[m41][result] << ',';
+  result = ((iteration >> (m42 - 3)) & 0x1);
+  std::cout << game[m42][result] << ',';
+  result = ((iteration >> (m43 - 3)) & 0x1);
+  std::cout << game[m43][result] << ',';
+  result = ((iteration >> (m44 - 3)) & 0x1);
+  std::cout << game[m44][result] << ' ';
+}
 void setup_45_48(uint64_t iteration) {
   uint64_t result;
   result = ((iteration >> (m37 - 3)) & 0x1);
@@ -2826,7 +2846,9 @@ void paaSlutet(uint64_t maxIteration) {
   showTredjeTab(thirdTable, tableA, tableB, tableC, tableD, tableE, tableF);
   std::cout << '\n';
   // Avgör match 37 till 44, fyll i match 45 till 48
+  show_37_44(maxIteration);
   setup_45_48(maxIteration);
+#if 0
   for (int match = m45; match <= m48; ++match) {
     for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
       const e_team tt = game[match][hemmaBorta];
@@ -2838,6 +2860,7 @@ void paaSlutet(uint64_t maxIteration) {
       }
     }
   }
+#endif
   // Avgör match 45 till 48, fyll i match 49 och 50
   uint64_t result = ((maxIteration >> (m45 - 3)) & 0x1);
   game[m49][1] = game[m45][result];
