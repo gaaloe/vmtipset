@@ -43,17 +43,20 @@ int maxCollective = 0;
 static uint64_t maxCollectiveIteration = 0;
 unsigned whosThird(uint64_t tableX);
 void paaSlutet(uint64_t maxIteration);
-constexpr unsigned int str2int(const char *str, int h) {
+constexpr unsigned int str2int(gsl::span<const char> span_str, int h) {
   // Detta nya C++-uttryck gör att man kan switch/casea på strängar!
   // See
   // "https://stackoverflow.com/questions/16388510/evaluate-a-string-with-a-switch-in-c"
-  return str[h] == 0 ? 5381 : (str2int(str, h + 1) * 33) ^ str[h];
+  return span_str[h] == 0 ? 5381
+                          : (str2int(span_str, h + 1) * 33) ^ span_str[h];
 }
 constexpr unsigned int str2int(const char *str) {
   // Detta nya C++-uttryck gör att man kan switch/casea på strängar!
   // See
   // "https://stackoverflow.com/questions/16388510/evaluate-a-string-with-a-switch-in-c"
-  return *str == 0 ? 5381 : (str2int(str, 1) * 33) ^ *str;
+  gsl::span<const char> span_str(str,
+                                 std::char_traits<const char>::length(str) + 1);
+  return *str == 0 ? 5381 : (str2int(span_str, 1) * 33) ^ *str;
 }
 bool streq(const char *str1, const char *str2) {
   return strcmp(str1, str2) == 0;
@@ -1903,11 +1906,11 @@ int main(int argc, char *argv[]) {
       maxCollective = sum;
       maxCollectiveIteration = iteration;
 #ifdef MAXCOLLECTIVE
-        // Skriv ut
-        std::cout << __FILE__ << __LINE__ << ' ';
-        paaSlutet(maxCollectiveIteration);
-        std::cout << ' ' << maxCollective;
-        std::cout << '\n';
+      // Skriv ut
+      std::cout << __FILE__ << __LINE__ << ' ';
+      paaSlutet(maxCollectiveIteration);
+      std::cout << ' ' << maxCollective;
+      std::cout << '\n';
 #endif
     }
     for (auto &saabare : saab) {
