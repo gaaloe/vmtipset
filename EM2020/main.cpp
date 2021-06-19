@@ -15,14 +15,16 @@ using std::cerr;
 // clang-format -i main.cpp
 // ./a.out
 //
-// Gruppspel, treor, m37..m44
-// m37..m44
-// m45..m48
-// m49,m50
+// Gruppspel, treor, w37..w44
+// w37..w44
+// w45..w48
+// w49,w50
+// w51
 // ./a.out 0 1 tur ita den fin ned ukr eng cro esp swe hun por wal bel aut sco
 // tur ita den ned hun cro esp eng
 // hun tur ita esp
 // tur esp
+// esp
 //
 // seq -w 0 3 | parallel -u ./a.out {} 524287
 // seq -w 0 15 | parallel -u ./a.out {} 16127
@@ -193,6 +195,7 @@ const int shift_42 = 42;
 const int shift_44 = 44;
 const int shift_46 = 46;
 const int shift_48 = 48;
+const int shift_50 = 50;
 const uint64_t mask_1FUL = 0x1FUL; // Five time bit one, for & operator
 const uint64_t mask_FUL = 0xFUL;
 void groupF(int argc, gsl::span<char *> span_argv, e_team *winF, e_team *scndF,
@@ -2225,7 +2228,60 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                               char *const w50 = span_argv[32];
                               DEBUG_allege(streq(w48, w50) || streq(w47, w50));
                               if (argc > 33) {
-                                // TODO(henrik) fortsätt här
+                                DEBUG_allege(argc == 34);
+                                char *const w51 = span_argv[33];
+                                DEBUG_allege(streq(w49, w51) ||
+                                             streq(w50, w51));
+                                *completeFactor = 1UL << shift_50;
+                                *offsetStride *= 1UL << shift_50;
+                                if (strcmp(names[scndC], w37) == 0) {
+                                  *offsetStride += 1UL << shift_34;
+                                }
+                                if (strcmp(names[scndB], w38) == 0) {
+                                  *offsetStride += 1UL << (shift_34 + 1);
+                                }
+                                if (strcmp(names[game[m39][1]], w39) == 0) {
+                                  *offsetStride += 1UL << shift_36;
+                                }
+                                if (strcmp(names[game[m40][1]], w40) == 0) {
+                                  *offsetStride += 1UL << (shift_36 + 1);
+                                }
+                                if (strcmp(names[game[m41][1]], w41) == 0) {
+                                  *offsetStride += 1UL << shift_38;
+                                }
+                                if (strcmp(names[scndE], w42) == 0) {
+                                  *offsetStride += 1UL << (shift_38 + 1);
+                                }
+                                if (strcmp(names[game[m43][1]], w43) == 0) {
+                                  *offsetStride += 1UL << shift_40;
+                                }
+                                if (strcmp(names[scndF], w44) == 0) {
+                                  *offsetStride += 1UL << (shift_40 + 1);
+                                }
+                                if (streq(w42, w45)) {
+                                  *offsetStride += 1UL << shift_42;
+                                }
+                                if (streq(w37, w46)) {
+                                  *offsetStride += 1UL << (shift_42 + 1);
+                                }
+                                if (streq(w38, w47)) {
+                                  *offsetStride += 1UL << shift_44;
+                                }
+                                if (streq(w44, w48)) {
+                                  *offsetStride += 1UL << (shift_44 + 1);
+                                }
+                                if (streq(w45, w49)) {
+                                  *offsetStride += 1UL << shift_46;
+                                }
+                                if (streq(w47, w50)) {
+                                  *offsetStride += 1UL << (shift_46 + 1);
+                                }
+                                if (streq(w50, w51)) {
+                                  *offsetStride += 1UL << shift_48;
+                                }
+                                *offsetStride += rd3bits + tableF + tableE +
+                                                 tableD + tableC + tableB +
+                                                 tableA;
                               } else {
                                 *completeFactor = 1UL << shift_48;
                                 *offsetStride *= 1UL << shift_48;
