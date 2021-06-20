@@ -10,7 +10,7 @@
 #include <sstream>
 using std::cerr;
 #undef FIFARANK
-#define MAXCOLLECTIVE
+#undef MAXCOLLECTIVE
 // g++ -I ~/gsl-lite/include main.cpp
 // clang-format -i main.cpp
 // ./a.out
@@ -2012,8 +2012,8 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                                          : strcmp("sui", arg4) == 0
                                                ? sui
                                                : static_cast<e_team>(-1);
-    e_team rd3A = (winA != tur && scndA != tur)
-                      ? tur
+    e_team rd3A = (winA != sui && scndA != sui)
+                      ? sui
                       : (winA != ita && scndA != ita) ? ita : wal;
     DEBUG_allege(winA != (e_team)-1);
     DEBUG_allege(scndA != (e_team)-1);
