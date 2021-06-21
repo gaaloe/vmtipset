@@ -1,5 +1,5 @@
 #include "allege.h"
-#include <algorithm> //std::find_if
+#include <algorithm> //std::find_if, std::sort
 #include <cassert>
 #include <cinttypes>
 #include <cstring>
@@ -820,8 +820,13 @@ struct s_saabare {
 };
 const int nrRader = sizeof(saab) / sizeof(saab[0]);
 struct s_vinster {
+  int person;
   double nrVinster;
-} vinster[nrRader] = {{0.0}};
+} vinster[nrRader] = {{0, 0.0}};
+static bool sortPointerToVinster(const s_vinster left, const s_vinster right) {
+  return (left.nrVinster != right.nrVinster) ? left.nrVinster > right.nrVinster
+                                             : left.person < right.person;
+}
 s_saabare *maxSaabare = nullptr;
 const int poangGroupWinner = 10;
 const int poangGroupSecond = 10;
@@ -1770,6 +1775,7 @@ int main(int argc, char *argv[]) {
   std::cout << __FILE__ << __LINE__ << ' ' << span_argv[1] << ' ';
   paaSlutet(maxIteration);
   std::cout << maxSoFar << ' ' << maxSaabare->namnkod << '\n';
+  std::sort(&vinster[0], &vinster[nrRader], sortPointerToVinster);
   for (int ii = 0; ii < nrRader; ++ii) {
     std::cout << vinster[ii].nrVinster << '\n';
   }
