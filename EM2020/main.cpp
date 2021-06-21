@@ -1780,10 +1780,13 @@ int main(int argc, char *argv[]) {
   paaSlutet(maxIteration);
   std::cout << maxSoFar << ' ' << maxSaabare->namnkod << '\n';
   std::sort(&vinster[0], &vinster[nrRader], sortPointerToVinster);
-  for (int ii = 0; ii < nrRader; ++ii) {
-    std::cout << vinster[ii].person << ' ';
-    std::cout << vinster[ii].nrVinster << '\n';
+  double kontrollSumma = 0.0;
+  for (auto &jj : vinster) {
+    std::cout << saab[jj.person].namnkod << ' ';
+    std::cout << jj.nrVinster << '\n';
+    kontrollSumma += jj.nrVinster;
   }
+  std::cout << kontrollSumma << '\n';
 }
 enum e_team operator++(enum e_team &that) {
   that = static_cast<enum e_team>(static_cast<int>(that) + 1);
