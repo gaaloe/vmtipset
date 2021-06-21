@@ -864,7 +864,9 @@ struct s_saabare {
      0},
 };
 const int nrRader = sizeof(saab) / sizeof(saab[0]);
-double nrVinster[nrRader] = {0.0};
+struct s_vinster {
+  double nrVinster;
+} vinster[nrRader] = {{0.0}};
 s_saabare *maxSaabare = nullptr;
 const int poangGroupWinner = 10;
 const int poangGroupSecond = 10;
@@ -1945,8 +1947,8 @@ int main(int argc, char *argv[]) {
 #endif
       }
     }
-    //TODO(henrik) Vem var bäst i denna iteration av alla saabare?
-    // Addera 1, eller en fraktion av 1/N, till hans/deras nrVinster[]
+    // TODO(henrik) Vem var bäst i denna iteration av alla saabare?
+    // Addera 1, eller en fraktion av 1/N, till hans/deras vinster[].nrVinster
     maxSoFar = 0;
     int maxCnt = 0;
     for (auto &saabare : saab) {
@@ -1958,12 +1960,12 @@ int main(int argc, char *argv[]) {
       }
     }
     for (int ii = 0; ii < nrRader; ++ii) {
-      const s_saabare& saabare = saab[ii];
+      const s_saabare &saabare = saab[ii];
       if (saabare.poang == maxSoFar) {
         if (maxCnt == 1) {
-           ++nrVinster[ii];
+          vinster[ii].nrVinster++;
         } else {
-           nrVinster[ii] += 1.0/maxCnt;
+          vinster[ii].nrVinster += 1.0 / maxCnt;
         }
       }
     }
@@ -1978,6 +1980,9 @@ int main(int argc, char *argv[]) {
   std::cout << maxCollective;
   std::cout << '\n';
 #endif
+  for (int ii = 0; ii < nrRader; ++ii) {
+    std::cout << vinster[ii].nrVinster << '\n';
+  }
 }
 enum e_team operator++(enum e_team &that) {
   that = static_cast<enum e_team>(static_cast<int>(that) + 1);
