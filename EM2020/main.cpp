@@ -1782,6 +1782,9 @@ int main(int argc, char *argv[]) {
   std::sort(&vinster[0], &vinster[nrRader], sortPointerToVinster);
   double kontrollSumma = 0.0;
   for (auto &jj : vinster) {
+    if (jj.nrVinster == 0.0) {
+      break;
+    }
     std::cout << saab[jj.person].namnkod << ' ';
     std::cout << jj.nrVinster << '\n';
     kontrollSumma += jj.nrVinster;
