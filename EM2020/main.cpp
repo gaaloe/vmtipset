@@ -1507,6 +1507,10 @@ void calcTredjeTab(uint64_t tabell, uint64_t tableA, uint64_t tableB,
 }
 int main(int argc, char *argv[]) {
   elaborateNames();
+  for (int ii = 0; ii < nrRader; ++ii) {
+    vinster[ii].person = ii;
+    vinster[ii].nrVinster = 0.0;
+  }
   assert(tableFromTeam('A', tur, ita, wal) == _0123); // En liten unittest
   assert(tableFromTeam('F', ger, fra, por) == _3210);
   if (argc == 1) {
@@ -1777,6 +1781,7 @@ int main(int argc, char *argv[]) {
   std::cout << maxSoFar << ' ' << maxSaabare->namnkod << '\n';
   std::sort(&vinster[0], &vinster[nrRader], sortPointerToVinster);
   for (int ii = 0; ii < nrRader; ++ii) {
+    std::cout << vinster[ii].person << ' ';
     std::cout << vinster[ii].nrVinster << '\n';
   }
 }
