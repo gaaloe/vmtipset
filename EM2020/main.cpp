@@ -862,8 +862,9 @@ struct s_saabare {
      {fra, bel},
      {bel},
      0},
-
 };
+const int nrRader = sizeof(saab) / sizeof(saab[0]);
+double nrVinster[nrRader] = {0.0};
 s_saabare *maxSaabare = nullptr;
 const int poangGroupWinner = 10;
 const int poangGroupSecond = 10;
@@ -1912,6 +1913,7 @@ int main(int argc, char *argv[]) {
       maxFifaIteration = iteration;
     }
 #endif
+#ifdef MAXCOLLECTIVE
     int sum = 0;
     for (auto &saabare : saab) {
       sum += saabare.poang;
@@ -1919,14 +1921,13 @@ int main(int argc, char *argv[]) {
     if (maxCollective < sum) {
       maxCollective = sum;
       maxCollectiveIteration = iteration;
-#ifdef MAXCOLLECTIVE
       // Skriv ut
       std::cout << __FILE__ << __LINE__ << ' ';
       paaSlutet(maxCollectiveIteration);
       std::cout << ' ' << maxCollective;
       std::cout << '\n';
-#endif
     }
+#endif
     for (auto &saabare : saab) {
       if (maxSoFar < saabare.poang ||
           (maxSoFar == saabare.poang && maxSaabare != &saabare)) {
@@ -1934,12 +1935,36 @@ int main(int argc, char *argv[]) {
         maxSoFar = saabare.poang;
         maxSaabare = &saabare;
         maxIteration = iteration;
+#if 0
 #ifndef MAXCOLLECTIVE
         // Skriv ut
         std::cout << __FILE__ << __LINE__ << ' ';
         paaSlutet(maxIteration);
         std::cout << ' ' << maxSoFar << ' ' << maxSaabare->namnkod << '\n';
 #endif
+#endif
+      }
+    }
+    //TODO(henrik) Vem var bäst i denna iteration av alla saabare?
+    // Addera 1, eller en fraktion av 1/N, till hans/deras nrVinster[]
+    maxSoFar = 0;
+    int maxCnt = 0;
+    for (auto &saabare : saab) {
+      if (saabare.poang > maxSoFar) {
+        maxSoFar = saabare.poang;
+        maxCnt = 1;
+      } else if (saabare.poang == maxSoFar) {
+        ++maxCnt;
+      }
+    }
+    for (int ii = 0; ii < nrRader; ++ii) {
+      const s_saabare& saabare = saab[ii];
+      if (saabare.poang == maxSoFar) {
+        if (maxCnt == 1) {
+           ++nrVinster[ii];
+        } else {
+           nrVinster[ii] += 1.0/maxCnt;
+        }
       }
     }
   }
