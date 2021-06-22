@@ -1790,6 +1790,9 @@ int main(int argc, char *argv[]) {
     if (jj.nrVinster == 0.0) {
       break;
     }
+    if ((jj.nrVinster*100.0)/kontrollSumma < 5.0) {
+      break;
+    }
     std::cout << saab[jj.person].namnkod << ' ';
     std::cout << jj.nrVinster << ' ';
     std::cout << (jj.nrVinster*100.0)/kontrollSumma << '%' << '\n';
