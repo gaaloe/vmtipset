@@ -1957,7 +1957,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                                                      : static_cast<e_team>(-1);
           e_team rd3D = (winD != eng && scndD != eng)
                             ? eng
-                            : (winD != cro && scndD != cro) ? cro : sco;
+                            : (winD != cro && scndD != cro) ? cro : cze;
           DEBUG_allege(winD != (e_team)-1);
           DEBUG_allege(scndD != (e_team)-1);
           DEBUG_allege(rd3D != (e_team)-1);
