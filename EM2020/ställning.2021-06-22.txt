@@ -1,0 +1,26 @@
+henrik@PrinceRyzen:~/vmtipset/EM2020$ time ./a.out 0 1 ita wal bel den ned aut eng cro
+main.cpp1780 0 1ffffaf708989
+A:ita,wal,sui B:bel,den,fin C:ned,aut,ukr D:eng,cro,cze E:svk,pol,swe F:ger,fra,por --CDEF
+aut,den,por,swe,ukr,pol,cze,fra pol,aut,den,fra pol,den den 354 STJOKX
+2.83116e+08
+STJOFR1 3.33209e+07 11.7694%
+STJASH 2.56365e+07 9.05513%
+HÅSJ 2.47601e+07 8.74558%
+STUFJO 2.34978e+07 8.29974%
+STERMA1 1.45183e+07 5.12806%
+SINI 1.38079e+07 4.87713%
+STROEL 1.11374e+07 3.93389%
+STJOEL 1.10397e+07 3.89937%
+SFDA 1.06832e+07 3.77345%
+HEGR 1.05372e+07 3.72187%
+STMIWN 1.01691e+07 3.59185%
+STKJSV 8.05012e+06 2.8434%
+MTHA 8.03138e+06 2.83679%
+PATSI 6.3292e+06 2.23555%
+JUDU 6.25148e+06 2.2081%
+GUAS 6.04229e+06 2.13421%
+ANNY 5.99619e+06 2.11793%
+
+real	14m5,482s
+user	14m5,184s
+sys	0m0,000s
