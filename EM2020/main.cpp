@@ -1991,7 +1991,7 @@ void parseArgs(int argc, gsl::span<char *> span_argv, uint64_t *completeFactor,
                                       : static_cast<e_team>(-1);
             e_team rd3E = (winE != esp && scndE != esp)
                               ? esp
-                              : (winE != swe && scndE != swe) ? swe : pol;
+                              : (winE != swe && scndE != swe) ? swe : svk;
             DEBUG_allege(winE != (e_team)-1);
             DEBUG_allege(scndE != (e_team)-1);
             DEBUG_allege(rd3E != (e_team)-1);
