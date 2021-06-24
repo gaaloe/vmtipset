@@ -1,9 +1,6 @@
 henrik@Adler:~/vmtipset/EM2020$ g++ -I ~/gsl-lite/include main.cpp
 henrik@Adler:~/vmtipset/EM2020$ time ./a.out 0 1 ita wal bel den ned aut eng cro swe esp fra ger sui ukr cze por
-main.cpp1815 0 1fff9e2708989
-A:ita,wal,sui B:bel,den,fin C:ned,aut,ukr D:eng,cro,cze E:swe,esp,svk F:fra,ger,por A-CD-F
-ita,den,por,cze,sui,esp,ukr,ger esp,ita,den,ger esp,den den 408 MXRE
-32768
+main.cpp1815 0 32768
 HÅSJ 5637.25 17.2035%
 ita,den,bel,ned,fra,cro,swe,eng fra,bel,den,swe fra,den fra 
 STJASH 3731 11.3861%
@@ -34,8 +31,72 @@ SFDA 845 2.57874%
 ita,den,bel,cze,fra,cro,swe,eng fra,bel,den,swe fra,den fra 
 STMIWE1 709.5 2.16522%
 ita,den,por,ned,sui,cro,swe,eng sui,por,den,swe por,den den 
+STMIWN 626.167 1.91091%
+aut,wal,por,ned,fra,cro,swe,eng cro,por,ned,eng cro,eng cro 
+STERIAB 508 1.55029%
+ita,den,por,ned,fra,cro,swe,ger fra,ita,ned,ger fra,ger ger 
+STUFJO 484 1.47705%
+ita,wal,bel,ned,fra,cro,swe,eng fra,bel,ned,swe fra,ned fra 
+HEGR 483 1.474%
+aut,den,por,ned,sui,esp,swe,eng esp,por,den,eng por,eng eng 
+STMISA 456.667 1.39364%
+aut,wal,bel,ned,fra,cro,swe,ger fra,bel,ned,ger fra,ger fra 
+STPEDAL 380 1.15967%
+ita,den,bel,ned,fra,esp,swe,ger esp,bel,ned,ger bel,ger ger 
+IDHHO 354 1.08032%
+ita,wal,por,ned,fra,cro,swe,eng fra,por,ned,eng por,eng por 
+SELI 348.5 1.06354%
+ita,wal,bel,ned,fra,cro,swe,eng fra,bel,ned,eng fra,eng fra 
+PATSI 345 1.05286%
+ita,den,bel,ned,sui,esp,swe,eng sui,bel,den,swe bel,den bel 
+STASEK 283 0.863647%
+ita,wal,bel,ned,sui,cro,swe,ger sui,bel,ned,ger bel,ger ger 
+STWU 272 0.830078%
+ita,den,bel,cze,fra,cro,swe,ger fra,bel,den,swe bel,den bel 
+STOSGR 269 0.820923%
+ita,wal,por,cze,fra,cro,swe,ger fra,por,wal,swe fra,wal fra 
+MXRE 237 0.723267%
+ita,den,bel,ned,fra,esp,ukr,ger esp,bel,ned,ger bel,ger ger 
+ULPE 233 0.71106%
+ita,den,por,ned,fra,cro,ukr,ger fra,por,den,ukr por,den den 
+PESD 147 0.448608%
+ita,wal,por,cze,fra,cro,ukr,eng fra,ita,cze,eng ita,eng ita 
+PEGI 141 0.430298%
+aut,den,bel,ned,fra,cro,swe,eng fra,bel,den,eng bel,eng bel 
+STMYSJ 140 0.427246%
+ita,wal,bel,ned,fra,cro,ukr,eng fra,bel,ned,eng bel,eng bel 
+STHESO 90 0.274658%
+ita,den,por,cze,fra,cro,ukr,eng fra,por,den,ukr por,den den 
+HANO 58 0.177002%
+ita,wal,bel,ned,fra,cro,ukr,eng fra,ita,ned,eng fra,eng eng 
+STLILA 34 0.10376%
+ita,wal,bel,cze,fra,esp,swe,ger fra,bel,cze,ger bel,ger bel 
+STJOEL 24 0.0732422%
+ita,den,por,ned,sui,cro,ukr,eng sui,por,den,eng por,eng eng 
+ERSK 22 0.0671387%
+ita,wal,por,cze,fra,cro,swe,ger fra,por,cze,ger fra,ger fra 
+JOMA 19 0.0579834%
+ita,wal,bel,ned,fra,esp,ukr,ger esp,bel,ned,ukr esp,ned esp 
+ADER 16 0.0488281%
+ita,wal,por,cze,sui,cro,swe,ger sui,por,wal,swe por,wal por 
+STJLDQ 12 0.0366211%
+aut,wal,por,cze,sui,cro,swe,eng sui,aut,wal,swe sui,wal sui 
+STADSU 10 0.0305176%
+ita,den,bel,cze,fra,esp,ukr,eng esp,bel,den,ukr bel,den bel 
+ANSE 0 0%
+STJAVE 0 0%
+STHRJO 0 0%
+STESEN 0 0%
+JUDU 0 0%
+STMIBO 0 0%
+STLNAL 0 0%
+STBJJO1 0 0%
+STOSPE 0 0%
+STDASH 0 0%
+STALJO1 0 0%
+STKRBU 0 0%
 
-real	0m3,461s
-user	0m3,460s
-sys	0m0,001s
+real	0m3,454s
+user	0m3,449s
+sys	0m0,004s
 

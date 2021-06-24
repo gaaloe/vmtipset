@@ -848,10 +848,10 @@ struct s_saabare {
 const int nrRader = sizeof(saab) / sizeof(saab[0]);
 struct s_vinster {
   int person;
-  double nrVinster;
-  uint64_t troligastRad;
   int fifasum;
-} vinster[nrRader] = {{0, 0.0, 0UL, 0}};
+  uint64_t troligastRad;
+  double nrVinster;
+} vinster[nrRader] = {{0, 0, 0UL, 0.0}};
 static bool sortPointerToVinster(const s_vinster left, const s_vinster right) {
   return (left.nrVinster != right.nrVinster) ? left.nrVinster > right.nrVinster
                                              : left.person < right.person;
@@ -1813,8 +1813,6 @@ int main(int argc, char *argv[]) {
     }
   }
   std::cout << __FILE__ << __LINE__ << ' ' << span_argv[1] << ' ';
-  paaSlutet(maxIteration);
-  std::cout << maxSoFar << ' ' << maxSaabare->namnkod << '\n';
   std::sort(&vinster[0], &vinster[nrRader], sortPointerToVinster);
   double kontrollSumma = 0.0;
   for (auto &jj : vinster) {
@@ -1822,18 +1820,14 @@ int main(int argc, char *argv[]) {
   }
   std::cout << kontrollSumma << '\n';
   for (auto &jj : vinster) {
-    if (jj.nrVinster == 0.0) {
-      break;
-    }
-    if ((jj.nrVinster * 100.0) / kontrollSumma < 2.0) {
-      break;
-    }
     std::cout << saab[jj.person].namnkod << ' ';
     std::cout << jj.nrVinster << ' ';
     std::cout << (jj.nrVinster * 100.0) / kontrollSumma << '%' << '\n';
-    // TODO(henrik) Skriv ut hans högsta vinnande FIFA-rank-kombo
-    kvartsTillFinal(jj.troligastRad);
-    std::cout << '\n';
+    if (jj.nrVinster > 0) {
+      // TODO(henrik) Skriv ut hans högsta vinnande FIFA-rank-kombo
+      kvartsTillFinal(jj.troligastRad);
+      std::cout << '\n';
+    }
   }
 }
 enum e_team operator++(enum e_team &that) {
@@ -2910,14 +2904,6 @@ void paaSlutet(uint64_t maxIteration) {
   std::cout << ' ';
 }
 void kvartsTillFinal(uint64_t maxIteration) {
-  // Utskrift på slutet:
-  const uint64_t tableA = maxIteration & mask_1FUL;
-  const uint64_t tableB = (maxIteration >> shift_5) & mask_1FUL;
-  const uint64_t tableC = (maxIteration >> shift_10) & mask_1FUL;
-  const uint64_t tableD = (maxIteration >> shift_15) & mask_1FUL;
-  const uint64_t tableE = (maxIteration >> shift_20) & mask_1FUL;
-  const uint64_t tableF = (maxIteration >> shift_25) & mask_1FUL;
-  const uint64_t thirdTable = (maxIteration >> shift_30) & mask_FUL;
   // Skriv ut
   // Avgör match 37 till 44, fyll i match 45 till 48
   show_37_44(maxIteration);
