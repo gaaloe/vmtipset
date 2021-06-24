@@ -1,25 +1,41 @@
-henrik@Adler:~/vmtipset/EM2020$ g++ -O1 -DNDEBUG -I ~/gsl-lite/include main.cpp
+henrik@Adler:~/vmtipset/EM2020$ g++ -I ~/gsl-lite/include main.cpp
 henrik@Adler:~/vmtipset/EM2020$ time ./a.out 0 1 ita wal bel den ned aut eng cro swe esp fra ger sui ukr cze por
-main.cpp1780 0 1fff9e2708989
+main.cpp1815 0 1fff9e2708989
 A:ita,wal,sui B:bel,den,fin C:ned,aut,ukr D:eng,cro,cze E:swe,esp,svk F:fra,ger,por A-CD-F
 ita,den,por,cze,sui,esp,ukr,ger esp,ita,den,ger esp,den den 408 MXRE
 32768
 HÅSJ 5637.25 17.2035%
+ita,den,bel,ned,fra,cro,swe,eng fra,bel,den,swe fra,den fra 
 STJASH 3731 11.3861%
+ita,wal,bel,ned,fra,cro,swe,eng fra,bel,ned,eng bel,eng bel 
 STROEL 3022.25 9.22318%
+ita,wal,bel,ned,fra,esp,swe,eng fra,bel,ned,eng bel,ned bel 
 STJOFR1 2190.33 6.68437%
+ita,den,bel,ned,fra,cro,swe,eng fra,ita,ned,eng fra,ned fra 
 STJOKX 1744.83 5.32481%
+aut,den,por,ned,fra,cro,swe,eng fra,por,ned,eng fra,eng fra 
 SINI 1550.83 4.73277%
+ita,wal,bel,ned,fra,cro,swe,eng fra,ita,ned,eng ita,eng ita 
 MTHA 1459 4.45251%
+ita,wal,por,ned,fra,esp,swe,eng esp,por,ned,eng por,eng por 
 STERMA1 1137 3.46985%
+ita,wal,bel,ned,fra,cro,swe,ger fra,bel,ned,ger bel,ger ger 
 ANNY 1025 3.12805%
+ita,den,bel,ned,fra,cro,swe,eng fra,bel,den,swe bel,den bel 
 STKJSV 997 3.0426%
+ita,wal,bel,ned,fra,esp,swe,eng esp,bel,ned,swe bel,ned ned 
 STLUL 981.083 2.99403%
+aut,den,por,ned,fra,esp,swe,eng esp,por,ned,eng esp,eng esp 
 GUAS 898.583 2.74226%
+ita,den,por,ned,sui,esp,swe,eng esp,por,ned,eng esp,eng esp 
 MALO 847 2.58484%
+ita,den,por,cze,fra,cro,ukr,ger fra,por,den,ukr por,den por 
 SFDA 845 2.57874%
+ita,den,bel,cze,fra,cro,swe,eng fra,bel,den,swe fra,den fra 
 STMIWE1 709.5 2.16522%
+ita,den,por,ned,sui,cro,swe,eng sui,por,den,swe por,den den 
 
-real	0m0,332s
-user	0m0,328s
-sys	0m0,004s
+real	0m3,461s
+user	0m3,460s
+sys	0m0,001s
+

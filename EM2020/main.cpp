@@ -45,6 +45,7 @@ int maxCollective = 0;
 static uint64_t maxCollectiveIteration = 0;
 unsigned whosThird(uint64_t tableX);
 void paaSlutet(uint64_t maxIteration);
+void kvartsTillFinal(uint64_t maxIteration);
 int rank[24] = {
     /*tur*/ 1505,
     /*ita*/ 1642,
@@ -1781,7 +1782,7 @@ int main(int argc, char *argv[]) {
         maxIteration = iteration;
       }
     }
-    // TODO(henrik) Vem var bäst i denna iteration av alla saabare?
+    // Vem var bäst i denna iteration av alla saabare?
     // Addera 1, eller en fraktion av 1/N, till hans/deras vinster[].nrVinster
     maxSoFar = 0;
     int maxCnt = 0;
@@ -1801,10 +1802,12 @@ int main(int argc, char *argv[]) {
         } else {
           vinster[ii].nrVinster += 1.0 / maxCnt;
         }
-        // TODO(henrik) Kolla om denna rad är hans högsta FIFA-rank-kombo?
-        if (rank[game[0][0]] > vinster[ii].fifasum) {
+        // Kolla om denna rad är hans högsta FIFA-rank-kombo?
+        const int fifasum = rank[game[finalMatchNumber][0]] +
+                            rank[game[finalMatchNumber][1]] + rank[game[0][0]];
+        if (fifasum > vinster[ii].fifasum) {
           vinster[ii].troligastRad = iteration;
-          vinster[ii].fifasum = rank[game[0][0]];
+          vinster[ii].fifasum = fifasum;
         }
       }
     }
@@ -1829,7 +1832,7 @@ int main(int argc, char *argv[]) {
     std::cout << jj.nrVinster << ' ';
     std::cout << (jj.nrVinster * 100.0) / kontrollSumma << '%' << '\n';
     // TODO(henrik) Skriv ut hans högsta vinnande FIFA-rank-kombo
-    paaSlutet(jj.troligastRad);
+    kvartsTillFinal(jj.troligastRad);
     std::cout << '\n';
   }
 }
@@ -2872,6 +2875,50 @@ void paaSlutet(uint64_t maxIteration) {
   showGrundSpel('F', tableF);
   showTredjeTab(thirdTable, tableA, tableB, tableC, tableD, tableE, tableF);
   std::cout << '\n';
+  // Avgör match 37 till 44, fyll i match 45 till 48
+  show_37_44(maxIteration);
+  setup_45_48(maxIteration);
+  // Avgör match 45 till 48
+  show_45_48(maxIteration);
+  // Avgör match 45 till 48, fyll i match 49 och 50
+  uint64_t result = ((maxIteration >> (m45 - 3)) & 0x1);
+  game[m49][1] = game[m45][result];
+  result = ((maxIteration >> (m46 - 3)) & 0x1);
+  game[m49][0] = game[m46][result];
+  result = ((maxIteration >> (m47 - 3)) & 0x1);
+  game[m50][1] = game[m47][result];
+  result = ((maxIteration >> (m48 - 3)) & 0x1);
+  game[m50][0] = game[m48][result];
+  // Avgör match 49 och 50
+  result = ((maxIteration >> (m49 - 3)) & 0x1);
+  game[finalMatchNumber][0] = game[m49][result];
+  result = ((maxIteration >> (m50 - 3)) & 0x1);
+  game[finalMatchNumber][1] = game[m50][result];
+  for (int hemmaBorta = 0; hemmaBorta < 2; ++hemmaBorta) {
+    const e_team tt = game[finalMatchNumber][hemmaBorta];
+    std::cout << tt;
+    if (hemmaBorta != 1) {
+      std::cout << ',';
+    } else {
+      std::cout << ' ';
+    }
+  }
+  // Avgör finalen, match 51
+  result = ((maxIteration >> (finalMatchNumber - 3)) & 0x1);
+  game[0][0] = game[finalMatchNumber][result];
+  std::cout << game[0][0];
+  std::cout << ' ';
+}
+void kvartsTillFinal(uint64_t maxIteration) {
+  // Utskrift på slutet:
+  const uint64_t tableA = maxIteration & mask_1FUL;
+  const uint64_t tableB = (maxIteration >> shift_5) & mask_1FUL;
+  const uint64_t tableC = (maxIteration >> shift_10) & mask_1FUL;
+  const uint64_t tableD = (maxIteration >> shift_15) & mask_1FUL;
+  const uint64_t tableE = (maxIteration >> shift_20) & mask_1FUL;
+  const uint64_t tableF = (maxIteration >> shift_25) & mask_1FUL;
+  const uint64_t thirdTable = (maxIteration >> shift_30) & mask_FUL;
+  // Skriv ut
   // Avgör match 37 till 44, fyll i match 45 till 48
   show_37_44(maxIteration);
   setup_45_48(maxIteration);
