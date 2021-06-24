@@ -1,0 +1,25 @@
+henrik@Adler:~/vmtipset/EM2020$ g++ -O1 -DNDEBUG -I ~/gsl-lite/include main.cpp
+henrik@Adler:~/vmtipset/EM2020$ time ./a.out 0 1 ita wal bel den ned aut eng cro swe esp fra ger sui ukr cze por
+main.cpp1780 0 1fff9e2708989
+A:ita,wal,sui B:bel,den,fin C:ned,aut,ukr D:eng,cro,cze E:swe,esp,svk F:fra,ger,por A-CD-F
+ita,den,por,cze,sui,esp,ukr,ger esp,ita,den,ger esp,den den 408 MXRE
+32768
+HÅSJ 5637.25 17.2035%
+STJASH 3731 11.3861%
+STROEL 3022.25 9.22318%
+STJOFR1 2190.33 6.68437%
+STJOKX 1744.83 5.32481%
+SINI 1550.83 4.73277%
+MTHA 1459 4.45251%
+STERMA1 1137 3.46985%
+ANNY 1025 3.12805%
+STKJSV 997 3.0426%
+STLUL 981.083 2.99403%
+GUAS 898.583 2.74226%
+MALO 847 2.58484%
+SFDA 845 2.57874%
+STMIWE1 709.5 2.16522%
+
+real	0m0,332s
+user	0m0,328s
+sys	0m0,004s
