@@ -45,6 +45,31 @@ int maxCollective = 0;
 static uint64_t maxCollectiveIteration = 0;
 unsigned whosThird(uint64_t tableX);
 void paaSlutet(uint64_t maxIteration);
+int rank[24] = {
+    /*tur*/ 1505,
+    /*ita*/ 1642,
+    /*wal*/ 1570,
+    /*sui*/ 1606,
+    /*den*/ 1631,
+    /*fin*/ 1410,
+    /*bel*/ 1783,
+    /*rus*/ 1462,
+    /*ned*/ 1598,
+    /*ukr*/ 1515,
+    /*aut*/ 1523,
+    /*mkd*/ 1374,
+    /*eng*/ 1686,
+    /*cro*/ 1605,
+    /*sco*/ 1441,
+    /*cze*/ 1458,
+    /*esp*/ 1648,
+    /*swe*/ 1569,
+    /*pol*/ 1549,
+    /*svk*/ 1475,
+    /*hun*/ 1468,
+    /*por*/ 1666,
+    /*fra*/ 1757,
+    /*ger*/ 1609};
 constexpr unsigned int str2int(gsl::span<const char> span_str, int h) {
   // Detta nya C++-uttryck gör att man kan switch/casea på strängar!
   // See
@@ -823,7 +848,9 @@ const int nrRader = sizeof(saab) / sizeof(saab[0]);
 struct s_vinster {
   int person;
   double nrVinster;
-} vinster[nrRader] = {{0, 0.0}};
+  uint64_t troligastRad;
+  int fifasum;
+} vinster[nrRader] = {{0, 0.0, 0UL, 0}};
 static bool sortPointerToVinster(const s_vinster left, const s_vinster right) {
   return (left.nrVinster != right.nrVinster) ? left.nrVinster > right.nrVinster
                                              : left.person < right.person;
@@ -1774,6 +1801,11 @@ int main(int argc, char *argv[]) {
         } else {
           vinster[ii].nrVinster += 1.0 / maxCnt;
         }
+        // TODO(henrik) Kolla om denna rad är hans högsta FIFA-rank-kombo?
+        if (rank[game[0][0]] > vinster[ii].fifasum) {
+          vinster[ii].troligastRad = iteration;
+          vinster[ii].fifasum = rank[game[0][0]];
+        }
       }
     }
   }
@@ -1790,12 +1822,15 @@ int main(int argc, char *argv[]) {
     if (jj.nrVinster == 0.0) {
       break;
     }
-    if ((jj.nrVinster*100.0)/kontrollSumma < 2.0) {
+    if ((jj.nrVinster * 100.0) / kontrollSumma < 2.0) {
       break;
     }
     std::cout << saab[jj.person].namnkod << ' ';
     std::cout << jj.nrVinster << ' ';
-    std::cout << (jj.nrVinster*100.0)/kontrollSumma << '%' << '\n';
+    std::cout << (jj.nrVinster * 100.0) / kontrollSumma << '%' << '\n';
+    // TODO(henrik) Skriv ut hans högsta vinnande FIFA-rank-kombo
+    paaSlutet(jj.troligastRad);
+    std::cout << '\n';
   }
 }
 enum e_team operator++(enum e_team &that) {
