@@ -1,0 +1,78 @@
+./a.out 0 1 ita wal bel den ned aut eng cro swe esp fra ger sui ukr cze por ita den bel cze
+main.cpp1815 0 2048
+HÅSJ 785 38.3301%
+ita,den,bel,cze,fra,esp,swe,eng fra,bel,den,swe fra,den fra 
+STJASH 563 27.4902%
+ita,den,bel,cze,fra,cro,swe,eng fra,bel,cze,eng bel,eng bel 
+SFDA 150 7.32422%
+ita,den,bel,cze,fra,cro,swe,eng fra,bel,den,swe fra,den fra 
+PATSI 70 3.41797%
+ita,den,bel,cze,sui,esp,swe,eng sui,bel,den,swe bel,den bel 
+SINI 69 3.36914%
+ita,den,bel,cze,fra,esp,swe,eng esp,ita,cze,eng ita,eng ita 
+GUAS 57 2.7832%
+ita,den,bel,cze,sui,esp,ukr,eng esp,ita,cze,eng esp,eng esp 
+ANNY 56 2.73438%
+ita,den,bel,cze,fra,cro,ukr,eng fra,bel,den,ukr bel,den bel 
+STWU 48 2.34375%
+ita,den,bel,cze,fra,cro,swe,ger fra,bel,den,swe bel,den bel 
+STERMA1 46 2.24609%
+ita,den,bel,cze,fra,cro,swe,ger cro,bel,cze,ger bel,ger ger 
+MXRE 30 1.46484%
+ita,den,bel,cze,fra,esp,ukr,ger esp,bel,cze,ger bel,ger ger 
+STERIAB 28 1.36719%
+ita,den,bel,cze,fra,cro,swe,ger fra,ita,cze,ger ita,ger ger 
+STROEL 24 1.17188%
+ita,den,bel,cze,fra,esp,ukr,eng fra,bel,den,ukr fra,den fra 
+STJOKX 20 0.976562%
+ita,den,bel,cze,fra,cro,swe,eng fra,ita,cze,eng fra,eng fra 
+PEGI 20 0.976562%
+ita,den,bel,cze,fra,cro,swe,eng fra,bel,den,swe bel,den bel 
+STASEK 16 0.78125%
+ita,den,bel,cze,sui,cro,swe,ger sui,bel,cze,ger bel,ger ger 
+STPEDAL 16 0.78125%
+ita,den,bel,cze,sui,esp,swe,ger esp,ita,den,ger esp,den den 
+STJOFR1 16 0.78125%
+ita,den,bel,cze,sui,cro,swe,eng sui,ita,den,eng sui,den den 
+STMIWE1 11 0.537109%
+ita,den,bel,cze,sui,cro,swe,eng sui,ita,cze,swe sui,swe swe 
+STLILA 8 0.390625%
+ita,den,bel,cze,fra,esp,swe,ger fra,bel,cze,ger bel,ger bel 
+STADSU 6 0.292969%
+ita,den,bel,cze,fra,esp,ukr,eng esp,bel,den,ukr bel,den bel 
+SELI 4 0.195312%
+ita,den,bel,cze,fra,cro,swe,eng fra,bel,cze,eng fra,eng fra 
+MTHA 4 0.195312%
+ita,den,bel,cze,fra,esp,ukr,eng esp,ita,cze,ukr esp,ukr ukr 
+HEGR 1 0.0488281%
+ita,den,bel,cze,sui,esp,swe,eng esp,ita,den,eng esp,eng esp 
+ANSE 0 0%
+STJAVE 0 0%
+ADER 0 0%
+STJOEL 0 0%
+STHRJO 0 0%
+STESEN 0 0%
+JUDU 0 0%
+ULPE 0 0%
+STMIBO 0 0%
+STLNAL 0 0%
+STMISA 0 0%
+HANO 0 0%
+JOMA 0 0%
+STBJJO1 0 0%
+STLUL 0 0%
+ERSK 0 0%
+STMYSJ 0 0%
+STOSGR 0 0%
+STOSPE 0 0%
+STMIWN 0 0%
+STKJSV 0 0%
+STDASH 0 0%
+STALJO1 0 0%
+STHESO 0 0%
+IDHHO 0 0%
+STUFJO 0 0%
+MALO 0 0%
+PESD 0 0%
+STKRBU 0 0%
+STJLDQ 0 0%
