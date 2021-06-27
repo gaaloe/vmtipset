@@ -1,0 +1,92 @@
+./a.out 0 1 ita wal bel den ned aut eng cro swe esp fra ger sui ukr cze por ita den
+main.cpp1815 0 8192
+HÅSJ 2319 28.3081%
+ita,den,bel,ned,fra,cro,swe,eng fra,bel,den,swe fra,den fra 
+STJASH 1045 12.7563%
+ita,den,bel,ned,fra,cro,swe,eng fra,bel,ned,eng bel,eng bel 
+STJOFR1 663 8.09326%
+ita,den,bel,ned,fra,cro,swe,eng fra,ita,ned,eng fra,ned fra 
+SINI 501 6.11572%
+ita,den,por,ned,fra,cro,swe,eng fra,ita,ned,eng ita,eng ita 
+MTHA 455.5 5.5603%
+ita,den,por,ned,fra,esp,swe,eng esp,por,ned,eng por,eng por 
+STJOKX 360 4.39453%
+ita,den,por,cze,fra,cro,swe,eng fra,por,cze,eng fra,eng fra 
+GUAS 291.5 3.55835%
+ita,den,por,ned,sui,esp,swe,eng esp,por,ned,eng esp,eng esp 
+STERIAB 238 2.90527%
+ita,den,por,ned,fra,cro,swe,ger fra,ita,ned,ger fra,ger ger 
+SFDA 233 2.84424%
+ita,den,bel,cze,fra,cro,swe,eng fra,bel,den,swe fra,den fra 
+MALO 227 2.771%
+ita,den,por,cze,fra,cro,ukr,ger fra,por,den,ukr por,den por 
+ANNY 218 2.66113%
+ita,den,bel,ned,fra,cro,swe,eng fra,bel,den,swe bel,den bel 
+STROEL 185 2.2583%
+ita,den,bel,ned,fra,cro,ukr,eng fra,bel,den,ukr fra,den fra 
+STKJSV 152 1.85547%
+ita,den,bel,ned,fra,esp,swe,eng esp,bel,ned,swe bel,ned ned 
+STLUL 144.5 1.76392%
+ita,den,por,cze,fra,esp,swe,eng esp,por,cze,eng esp,eng esp 
+STMIWE1 141.5 1.72729%
+ita,den,por,ned,sui,cro,swe,eng sui,por,den,swe por,den den 
+PATSI 134 1.63574%
+ita,den,bel,ned,sui,esp,swe,eng sui,bel,den,swe bel,den bel 
+STERMA1 128 1.5625%
+ita,den,bel,ned,fra,cro,swe,ger cro,bel,ned,ger bel,ger ger 
+STPEDAL 115 1.40381%
+ita,den,bel,ned,fra,esp,swe,ger esp,bel,ned,ger bel,ger ger 
+IDHHO 76 0.927734%
+ita,den,por,ned,fra,cro,swe,eng fra,por,ned,eng por,eng por 
+MXRE 67 0.817871%
+ita,den,bel,ned,fra,esp,ukr,ger esp,bel,ned,ger bel,ger ger 
+STWU 64 0.78125%
+ita,den,bel,cze,fra,cro,swe,ger fra,bel,den,swe bel,den bel 
+STOSGR 54 0.65918%
+ita,den,por,ned,fra,cro,swe,ger cro,por,den,swe cro,den den 
+STMYSJ 51 0.622559%
+ita,den,bel,ned,fra,cro,ukr,eng fra,bel,ned,eng bel,eng bel 
+STASEK 45 0.549316%
+ita,den,bel,ned,sui,cro,swe,ger sui,bel,ned,ger bel,ger ger 
+STHESO 42 0.512695%
+ita,den,por,cze,fra,cro,ukr,eng fra,por,den,ukr por,den den 
+ULPE 41.5 0.506592%
+ita,den,por,ned,fra,cro,ukr,ger fra,por,den,ukr por,den den 
+SELI 39.5 0.482178%
+ita,den,bel,ned,fra,cro,swe,eng fra,bel,ned,eng fra,eng fra 
+HEGR 37 0.45166%
+ita,den,por,ned,sui,esp,swe,eng esp,por,den,eng esp,eng esp 
+PEGI 28 0.341797%
+ita,den,bel,cze,fra,cro,swe,eng fra,bel,den,swe bel,den bel 
+PESD 27 0.32959%
+ita,den,por,ned,fra,cro,ukr,eng fra,ita,den,ukr ita,den ita 
+STMISA 19 0.231934%
+ita,den,por,ned,fra,cro,swe,ger fra,por,ned,ger fra,ger fra 
+STMIWN 13 0.158691%
+ita,den,bel,ned,fra,cro,swe,eng cro,ita,den,eng cro,den cro 
+STJOEL 12 0.146484%
+ita,den,por,ned,sui,cro,ukr,eng sui,por,den,eng por,eng eng 
+ERSK 8 0.0976562%
+ita,den,por,cze,fra,cro,swe,ger fra,por,cze,ger fra,ger fra 
+STLILA 8 0.0976562%
+ita,den,bel,cze,fra,esp,swe,ger fra,bel,cze,ger bel,ger bel 
+STADSU 6 0.0732422%
+ita,den,bel,cze,fra,esp,ukr,eng esp,bel,den,ukr bel,den bel 
+JOMA 3 0.0366211%
+ita,den,bel,ned,fra,esp,ukr,eng esp,bel,ned,ukr esp,ukr ukr 
+ANSE 0 0%
+STJAVE 0 0%
+ADER 0 0%
+STHRJO 0 0%
+STESEN 0 0%
+JUDU 0 0%
+STMIBO 0 0%
+STLNAL 0 0%
+HANO 0 0%
+STBJJO1 0 0%
+STOSPE 0 0%
+STDASH 0 0%
+STALJO1 0 0%
+STUFJO 0 0%
+STKRBU 0 0%
+STJLDQ 0 0%
