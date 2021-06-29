@@ -1,0 +1,71 @@
+henrik@Adler:~/vmtipset/EM2020$ ./a.out 0 1 ita wal bel den ned aut eng cro swe esp fra ger sui ukr cze por \
+ita den bel cze sui esp 
+main.cpp1815 0 512
+HÅSJ 152 29.6875%
+ita,den,bel,cze,sui,esp,ukr,eng sui,ita,den,ukr ita,den ita 
+STJASH 144 28.125%
+ita,den,bel,cze,sui,esp,swe,eng sui,bel,cze,eng bel,eng bel 
+SFDA 51 9.96094%
+ita,den,bel,cze,sui,esp,swe,eng esp,bel,den,swe esp,den esp 
+PATSI 40 7.8125%
+ita,den,bel,cze,sui,esp,swe,eng sui,bel,den,swe bel,den bel 
+GUAS 35 6.83594%
+ita,den,bel,cze,sui,esp,ukr,eng esp,ita,cze,eng esp,eng esp 
+SINI 28 5.46875%
+ita,den,bel,cze,sui,esp,swe,eng esp,ita,cze,eng ita,eng ita 
+STPEDAL 16 3.125%
+ita,den,bel,cze,sui,esp,swe,ger esp,ita,den,ger esp,den den 
+MXRE 12 2.34375%
+ita,den,bel,cze,sui,esp,ukr,ger esp,ita,den,ger esp,den den 
+STASEK 12 2.34375%
+ita,den,bel,cze,sui,esp,swe,ger sui,bel,cze,ger bel,ger ger 
+STMIWE1 5 0.976562%
+ita,den,bel,cze,sui,esp,swe,eng sui,ita,cze,swe sui,swe swe 
+ANNY 4 0.78125%
+ita,den,bel,cze,sui,esp,ukr,ger sui,bel,den,ger bel,den bel 
+STLILA 4 0.78125%
+ita,den,bel,cze,sui,esp,swe,ger sui,bel,cze,ger bel,ger bel 
+STWU 4 0.78125%
+ita,den,bel,cze,sui,esp,swe,ger sui,bel,cze,ger bel,ger bel 
+STERIAB 4 0.78125%
+ita,den,bel,cze,sui,esp,swe,ger sui,ita,cze,ger ita,ger ger 
+HEGR 1 0.195312%
+ita,den,bel,cze,sui,esp,swe,eng esp,ita,den,eng esp,eng esp 
+ANSE 0 0%
+STROEL 0 0%
+STJAVE 0 0%
+ADER 0 0%
+STJOEL 0 0%
+STHRJO 0 0%
+STESEN 0 0%
+JUDU 0 0%
+ULPE 0 0%
+STMIBO 0 0%
+STLNAL 0 0%
+STMISA 0 0%
+HANO 0 0%
+JOMA 0 0%
+SELI 0 0%
+STBJJO1 0 0%
+STLUL 0 0%
+ERSK 0 0%
+STMYSJ 0 0%
+STOSGR 0 0%
+STJOFR1 0 0%
+STOSPE 0 0%
+STMIWN 0 0%
+STKJSV 0 0%
+STADSU 0 0%
+STDASH 0 0%
+STALJO1 0 0%
+STHESO 0 0%
+IDHHO 0 0%
+STJOKX 0 0%
+MTHA 0 0%
+STUFJO 0 0%
+STERMA1 0 0%
+MALO 0 0%
+PESD 0 0%
+STKRBU 0 0%
+STJLDQ 0 0%
+PEGI 0 0%
