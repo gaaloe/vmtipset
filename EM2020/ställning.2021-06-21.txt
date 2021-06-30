@@ -1,0 +1,7 @@
+henrik@PrinceRyzen:~/vmtipset/EM2020$ time ./a.out 0 1 ita wal bel den ned aut
+Cirka en miljard kombinationer, 16 CPU fulloptimering 55 minuter
+STJASH
+STJOFR1
+HÅSJ
+SFDA
+SINI
