@@ -1,0 +1,59 @@
+./a.out 0 1 ita wal bel den ned aut eng cro swe esp fra ger sui ukr cze por \
+ita den bel cze sui esp ukr eng \
+esp ita den eng
+main.cpp1815 0 8
+
+GUAS   2 25% esp,eng esp 
+SINI   2 25% ita,eng ita 
+STJASH 2 25% esp,eng eng 
+HÅSJ   1 12.5% ita,den den 
+SFDA   1 12.5% esp,den den 
+
+ANNY 0 0%
+ANSE 0 0%
+STROEL 0 0%
+STJAVE 0 0%
+ADER 0 0%
+STJOEL 0 0%
+STHRJO 0 0%
+MXRE 0 0%
+STESEN 0 0%
+JUDU 0 0%
+HEGR 0 0%
+ULPE 0 0%
+STASEK 0 0%
+STMIBO 0 0%
+STLNAL 0 0%
+STMISA 0 0%
+HANO 0 0%
+JOMA 0 0%
+SELI 0 0%
+STBJJO1 0 0%
+PATSI 0 0%
+STLUL 0 0%
+STPEDAL 0 0%
+ERSK 0 0%
+STMYSJ 0 0%
+STOSGR 0 0%
+STJOFR1 0 0%
+STLILA 0 0%
+STOSPE 0 0%
+STMIWN 0 0%
+STKJSV 0 0%
+STMIWE1 0 0%
+STADSU 0 0%
+STDASH 0 0%
+STALJO1 0 0%
+STHESO 0 0%
+IDHHO 0 0%
+STJOKX 0 0%
+MTHA 0 0%
+STUFJO 0 0%
+STERMA1 0 0%
+STWU 0 0%
+STERIAB 0 0%
+MALO 0 0%
+PESD 0 0%
+STKRBU 0 0%
+STJLDQ 0 0%
+PEGI 0 0%
