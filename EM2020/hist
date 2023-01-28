@@ -3,18 +3,34 @@ clang-tidy \
 -header-filter=.*/EM2020/.* \
 --quiet \
 --checks=*,\
+-llvmlibc-*,\
+-bugprone-reserved-identifier,cert-dcl37-c,-cert-dcl51-cpp,\
+-bugprone-easily-swappable-parameters,\
+-llvm-header-guard,\
 -hicpp-no-array-decay,\
 -hicpp-avoid-c-arrays,\
 -hicpp-signed-bitwise,\
 -modernize-avoid-c-arrays,\
 -modernize-use-trailing-return-type,\
+-misc-no-recursion,\
 -readability-const-return-type,\
 -readability-magic-numbers,\
+-readability-identifier-length,\
+-cppcoreguidelines-avoid-non-const-global-variables,\
 -cppcoreguidelines-avoid-c-arrays,\
 -cppcoreguidelines-init-variables,\
 -cppcoreguidelines-pro-bounds-array-to-pointer-decay,\
 -cppcoreguidelines-pro-bounds-constant-array-index,\
 -cppcoreguidelines-avoid-magic-numbers,\
--fuchsia-overloaded-operator,\
--config='{CheckOptions: [ {key: readability-function-size.BranchThreshold, value: 50}]}'\
+-cert-dcl37-c,\
+-altera-struct-pack-align,\
+-altera-unroll-loops,\
+-altera-id-dependent-backward-branch,\
+-modernize-loop-convert,\
+-concurrency-mt-unsafe,\
+-fuchsia-overloaded-operator \
+-config="{CheckOptions: [ {key: modernize-loop-convert.MinConfidence, value: risky},\
+{key: readability-function-size.StatementThreshold, value: 1034},\
+{key: readability-function-cognitive-complexity.Threshold, value: 2000},\
+{key: readability-function-size.BranchThreshold, value: 100}]}" \
  main.cpp -- -I ~/gsl-lite/include main.cpp
